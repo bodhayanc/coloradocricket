@@ -212,7 +212,7 @@ function search_documents($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
 
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";

@@ -83,7 +83,7 @@ $db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamA
         $pln = htmlentities(stripslashes($db->data['PlayerLName']));
         $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
         $pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
-        $ptn = htmlentities(stripslashes($db->data[TeamName]));
+        $ptn = htmlentities(stripslashes($db->data['teamname']));
 
     
     if($r % 2) {

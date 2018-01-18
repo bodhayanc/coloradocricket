@@ -148,7 +148,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $cco = $db->data[ClubColour];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tab = $db->data['TeamAbbrev'];
     $tco = $db->data[TeamColour];
 
@@ -409,7 +409,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $cco = $db->data[ClubColour];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tab = $db->data['TeamAbbrev'];
     $tco = $db->data[TeamColour];
     $pic = $db->data['picture'];
@@ -449,7 +449,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $cco = $db->data[ClubColour];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tab = $db->data['TeamAbbrev'];
     $tco = $db->data[TeamColour];
 
@@ -478,7 +478,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
             $au = $db->data['author'];
             $id = $db->data['id'];
             $pr = $db->data['id'];
-            $date = sqldate_to_string($db->data[added]);
+            $date = sqldate_to_string($db->data['added']);
 
         if($i % 2) {
           echo "<tr class=\"trrow1\">\n";

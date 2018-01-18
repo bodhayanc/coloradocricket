@@ -192,13 +192,13 @@ function show_cougarsplayers_season($db,$id,$cougar,$season,$sename)
             $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-            $tna = htmlentities(stripslashes($db->data[TeamName]));
+            $tna = htmlentities(stripslashes($db->data['teamname']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             $det = htmlentities(stripslashes($db->data[CougarDetail]));
             $id = htmlentities(stripslashes($db->data[CougarID]));
             $sn = htmlentities(stripslashes($db->data['SeasonName']));
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
 
             if($x % 2) {
               echo "<tr class=\"trrow2\">\n";
@@ -287,7 +287,7 @@ function show_cougarsplayers_listinga($db,$s,$id,$pr)
         $pic = $db->data['picture'];
         $pid = $db->data['PlayerID'];
 
-        $tna = $db->data[TeamName];
+        $tna = $db->data['teamname'];
         $tab = $db->data['TeamAbbrev'];
 
         $det = $db->data[CougarDetail];
@@ -354,7 +354,7 @@ function show_cougarsplayers($db,$s,$id,$pr)
         $pic = $db->data['picture'];
         $pid = $db->data['PlayerID'];
 
-        $tna = $db->data[TeamName];
+        $tna = $db->data['teamname'];
         $tab = $db->data['TeamAbbrev'];
 
         $det = $db->data[CougarDetail];

@@ -66,7 +66,7 @@ function show_top20_news_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $t = htmlentities(stripslashes($db->data['title']));
         $pr = htmlentities(stripslashes($db->data['id']));
-        $a = sqldate_to_string($db->data[added]);
+        $a = sqldate_to_string($db->data['added']);
         $id = $db->data['id'];
 
         // output article
@@ -200,7 +200,7 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
         $db->GetRow($i);
         $t = htmlentities(stripslashes($db->data['title']));
         $pr = htmlentities(stripslashes($db->data['id']));
-        $a = sqldate_to_string($db->data[added]);
+        $a = sqldate_to_string($db->data['added']);
         $id = $db->data['id'];
 
         // output article
@@ -428,7 +428,7 @@ function show_full_news_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $t = htmlentities(stripslashes($db->data['title']));
         $pr = htmlentities(stripslashes($db->data['id']));
-        $a = sqldate_to_string($db->data[added]);
+        $a = sqldate_to_string($db->data['added']);
         $id = $db->data['id'];
 
         // output article
@@ -470,11 +470,11 @@ function show_full_news($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM news WHERE id=$pr");
     $db->BagAndTag();
 
-    $a = sqldate_to_string($db->data[added]);
+    $a = sqldate_to_string($db->data['added']);
     $t = $db->data['title'];
-    $di = $db->data[DiscussID];
+    $di = $db->data['DiscussID'];
     $pd = $db->data[picdesc];
-    $vw = $db->data[views];
+    $vw = $db->data['views'];
 
     $db->Update("UPDATE news SET views=$vw+1 WHERE id=$pr");
 
@@ -556,7 +556,7 @@ function show_full_news($db,$s,$id,$pr)
             $au = $db->data['author'];
             $id = $db->data['id'];
             $pr = $db->data['id'];
-            $date = sqldate_to_string($db->data[added]);
+            $date = sqldate_to_string($db->data['added']);
 
         //if($i % 2) {
         //  echo "<tr class=\"trrow1\">\n";
@@ -660,7 +660,7 @@ function search_news($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
 
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";

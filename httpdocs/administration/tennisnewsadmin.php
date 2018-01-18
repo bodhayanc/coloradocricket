@@ -312,7 +312,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
             $t = htmlentities(stripslashes($db->data['title']));
             $id = htmlentities(stripslashes($db->data['id']));
             $fe = $db->data[IsFeature];

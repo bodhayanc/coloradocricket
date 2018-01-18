@@ -106,7 +106,7 @@ function show_players_listing($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -221,7 +221,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -1145,7 +1145,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $au = $db->data['author'];
             $id = $db->data['id'];
             $pr = $db->data['id'];
-            $date = sqldate_to_string($db->data[added]);
+            $date = sqldate_to_string($db->data['added']);
 
         //if($i % 2) {
         //  echo "<tr class=\"trrow1\">\n";
@@ -1281,14 +1281,14 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-            $tna = htmlentities(stripslashes($db->data[TeamName]));
+            $tna = htmlentities(stripslashes($db->data['teamname']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             $det = htmlentities(stripslashes($db->data[AwardDetail]));
             $awn = htmlentities(stripslashes($db->data[AwardName]));
             $id = htmlentities(stripslashes($db->data[plaward]));
             $sn = htmlentities(stripslashes($db->data['SeasonName']));
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
 
         //if($i % 2) {
         //  echo "<tr class=\"trrow1\">\n";
@@ -1341,11 +1341,11 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-            $tna = htmlentities(stripslashes($db->data[TeamName]));
+            $tna = htmlentities(stripslashes($db->data['teamname']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             $sn = htmlentities(stripslashes($db->data['SeasonName']));
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
             
             $cpid = htmlentities(stripslashes($db->data[CougarID]));
 
@@ -1397,13 +1397,13 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
             $pid = htmlentities(stripslashes($db->data[FeaturedPlayer]));
 
-            $tna = htmlentities(stripslashes($db->data[TeamName]));
+            $tna = htmlentities(stripslashes($db->data['teamname']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             $det = htmlentities(stripslashes($db->data[FeaturedDetail]));
             $id = htmlentities(stripslashes($db->data[FeaturedID]));
             $sn = htmlentities(stripslashes($db->data['SeasonName']));
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
 
         //if($i % 2) {
         //  echo "<tr class=\"trrow1\">\n";
@@ -1597,7 +1597,7 @@ function search_players($db,$search="")
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -1657,7 +1657,7 @@ function search_players($db,$search="")
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article

@@ -71,9 +71,9 @@ function show_top10_articles_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $t = htmlentities(stripslashes($db->data['title']));
         $pr = htmlentities(stripslashes($db->data['id']));
-        $a = sqldate_to_string($db->data[added]);
+        $a = sqldate_to_string($db->data['added']);
         $id = $db->data['id'];
-        $vw = $db->data[views];
+        $vw = $db->data['views'];
 
         // output article
 
@@ -171,9 +171,9 @@ function show_full_articles_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $t = htmlentities(stripslashes($db->data['title']));
         $pr = htmlentities(stripslashes($db->data['id']));
-        $a = sqldate_to_string($db->data[added]);
+        $a = sqldate_to_string($db->data['added']);
         $id = $db->data['id'];
-        $vw = $db->data[views];
+        $vw = $db->data['views'];
 
         // output article
 
@@ -215,9 +215,9 @@ function show_full_articles($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM news WHERE id=$pr AND IsFeature != 0");
     $db->BagAndTag();
 
-    $a = sqldate_to_string($db->data[added]);
+    $a = sqldate_to_string($db->data['added']);
     $t = $db->data['title'];
-    $di = $db->data[DiscussID];
+    $di = $db->data['DiscussID'];
     $pd = $db->data[picdesc];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -353,10 +353,10 @@ function search_articles($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
             $t = $db->data['title'];
             $pr = $db->data['id'];
-            $vw = $db->data[views];
+            $vw = $db->data['views'];
 
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";

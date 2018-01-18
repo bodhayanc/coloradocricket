@@ -59,7 +59,7 @@ function show_teams_listing($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
         $ts = htmlentities(stripslashes($db->data[TeamActive]));
@@ -113,7 +113,7 @@ function show_full_teams($db,$s,$id,$pr)
     $db->BagAndTag();
 
     $id = $db->data[TeamID];
-    $na = $db->data[TeamName];
+    $na = $db->data['teamname'];
     $ca = $db->data['TeamAbbrev'];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];
@@ -190,7 +190,7 @@ function show_full_teams($db,$s,$id,$pr)
 //    for ($i=0; $i<$db->rows; $i++) {
 //        $db->GetRow($i);
 //
-//    $tna = $db->data[TeamName];
+//    $tna = $db->data['teamname'];
 //    $tab = $db->data['TeamAbbrev'];
 //    $sn = $db->data['SeasonName'];
 //
@@ -237,7 +237,7 @@ function show_full_teams($db,$s,$id,$pr)
             $t = $db->data['title'];
             $au = $db->data['author'];
             $newsid = $db->data['id'];
-            $date = sqldate_to_string($db->data[added]);
+            $date = sqldate_to_string($db->data['added']);
 
         if($n % 2) {
           echo "<tr class=\"trrow1\">\n";
@@ -509,7 +509,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $db->BagAndTag();
 
     $id = $db->data[TeamID];
-    $na = $db->data[TeamName];
+    $na = $db->data['teamname'];
     $ca = $db->data['TeamAbbrev'];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];

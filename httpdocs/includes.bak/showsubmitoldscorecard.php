@@ -603,9 +603,9 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	// Update the results table for the home team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$hometeam");
-		$homepla = $db->data[played];
-		$homewon = $db->data[won];
-		$homelos = $db->data[lost];
+		$homepla = $db->data['played'];
+		$homewon = $db->data['won'];
+		$homelos = $db->data['lost'];
 	
 	$db->update("UPDATE results SET played = $homepla + 1 WHERE team_id = $hometeam");
 	if($hometeam == $result_won_id) {
@@ -617,9 +617,9 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	// Update the results table for the away team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$awayteam");
-		$awaypla = $db->data[played];
-		$awaywon = $db->data[won];
-		$awaylos = $db->data[lost];
+		$awaypla = $db->data['played'];
+		$awaywon = $db->data['won'];
+		$awaylos = $db->data['lost'];
 	
 	$db->update("UPDATE results SET played = $awaypla + 1 WHERE team_id = $awayteam");
 	if($awayteam == $result_won_id) {
@@ -667,7 +667,7 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$hometeam");
 		$homenr = $db->data[nr];
-		$homepl = $db->data[played];
+		$homepl = $db->data['played'];
 	
 	$db->update("UPDATE results SET nr = $homenr + 1, played = $homepl + 1 WHERE team_id = $hometeam");
 
@@ -675,7 +675,7 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$awayteam");
 		$awaynr = $db->data[nr];
-		$awaypl = $db->data[played];
+		$awaypl = $db->data['played'];
 
 	$db->update("UPDATE results SET nr = $awaynr + 1, played = $awaypl +1 WHERE team_id = $awayteam");
 		
@@ -727,16 +727,16 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	// Update the results table for the home team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$hometeam");
-		$homepla = $db->data[played];
-		$hometie = $db->data[tied];
+		$homepla = $db->data['played'];
+		$hometie = $db->data['tied'];
 	
 	$db->update("UPDATE results SET played = $homepla + 1, tied = $hometie + 1 WHERE team_id = $hometeam");
 	
 	// Update the results table for the away team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$awayteam");
-		$awaypla = $db->data[played];
-		$awaytie = $db->data[tied];
+		$awaypla = $db->data['played'];
+		$awaytie = $db->data['tied'];
 	
 	$db->update("UPDATE results SET played = $awaypla + 1, tied = $awaytie + 1 WHERE team_id = $awayteam");
 
@@ -789,7 +789,7 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	// Update the results table for the home team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$hometeam");
-		$homepla = $db->data[played];
+		$homepla = $db->data['played'];
 		$homecap = $db->data[nr];
 	
 	$db->update("UPDATE results SET played = $homepla + 1, nr = $homecap + 1 WHERE team_id = $hometeam");
@@ -797,7 +797,7 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	// Update the results table for the away team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$awayteam");
-		$awaypla = $db->data[played];
+		$awaypla = $db->data['played'];
 		$awaycap = $db->data[nr];
 	
 	$db->update("UPDATE results SET played = $awaypla + 1, nr = $awaycap + 1 WHERE team_id = $awayteam");
@@ -852,9 +852,9 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	// Update the results table for the home team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$hometeam");
-		$homepla = $db->data[played];
-		$homewon = $db->data[won];
-		$homelos = $db->data[lost];
+		$homepla = $db->data['played'];
+		$homewon = $db->data['won'];
+		$homelos = $db->data['lost'];
 	
 	$db->update("UPDATE results SET played = $homepla + 1 WHERE team_id = $hometeam");
 	if($hometeam == $result_won_id) {
@@ -866,9 +866,9 @@ function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam,$hometeam
 	// Update the results table for the away team
 	
 	$db->QueryRow("SELECT * FROM results WHERE team_id=$awayteam");
-		$awaypla = $db->data[played];
-		$awaywon = $db->data[won];
-		$awaylos = $db->data[lost];
+		$awaypla = $db->data['played'];
+		$awaywon = $db->data['won'];
+		$awaylos = $db->data['lost'];
 	
 	$db->update("UPDATE results SET played = $awaypla + 1 WHERE team_id = $awayteam");
 	if($awayteam == $result_won_id) {

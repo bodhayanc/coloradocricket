@@ -179,7 +179,7 @@ function search_site($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
             $t = sqldate_to_string($db->data['title']);
             $id = sqldate_to_string($db->data['id']);
 
@@ -245,7 +245,7 @@ function search_site($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
             $t = sqldate_to_string($db->data['title']);
             $id = sqldate_to_string($db->data['id']);
 

@@ -65,7 +65,7 @@ function show_main_menu($db)
 			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-			$tna = htmlentities(stripslashes($db->data[TeamName]));
+			$tna = htmlentities(stripslashes($db->data['teamname']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
 			if($x % 2) {

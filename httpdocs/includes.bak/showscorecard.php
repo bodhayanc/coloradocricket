@@ -770,7 +770,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
 	    $gr = $db->data[GroundName];
 	    $gi = $db->data[GroundID];
 	    $re = $db->data[result];
-	    $po = $db->data[points];
+	    $po = $db->data['points'];
 	    $tt = '';
 	    $mm  = '';
 	    $u1  = '';
@@ -859,7 +859,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $gr = $db->data[GroundName];
     $gi = $db->data[GroundID];
     $re = $db->data[result];
-    $po = $db->data[points];
+    $po = $db->data['points'];
 	$ttid = $db->data[WonTossID];   // 8-June-2015 11:04pm
     $tt = $db->data[WonTossName];
     $mm  = $db->data[mom];

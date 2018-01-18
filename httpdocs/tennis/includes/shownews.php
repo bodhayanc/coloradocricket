@@ -61,8 +61,8 @@ function show_short_news($db,$s=0,$limit=3,$len=300)
             $au = $db->data['author'];
             $id = $db->data['id'];
             $pr = $db->data['id'];
-            $di = $db->data[DiscussID];
-            $date = sqldate_to_string($db->data[added]);
+            $di = $db->data['DiscussID'];
+            $date = sqldate_to_string($db->data['added']);
 
             if ($db->data['picture'] != "") echo "<a href=\"news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"http://www.coloradocricket.org/uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
 

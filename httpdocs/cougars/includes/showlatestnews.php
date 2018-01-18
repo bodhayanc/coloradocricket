@@ -47,7 +47,7 @@ function show_latest($db,$s=0,$minlimit=4,$maxlimit=5,$len=300)
 			$au = $db->data['author'];
 			$id = $db->data['id'];
 			$pr = $db->data['id'];
-			$date = sqldate_to_string($db->data[added]);
+			$date = sqldate_to_string($db->data['added']);
 
 		//if($i % 2) {
 		//  echo "<tr class=\"trrow1\">\n";

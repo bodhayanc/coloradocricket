@@ -47,8 +47,8 @@ function show_popular($db,$s=0,$minlimit=3,$maxlimit=5,$len=300)
 			$au = $db->data['author'];
 			$id = $db->data['id'];
 			$pr = $db->data['id'];
-			$vw = $db->data[views];
-			$date = sqldate_to_string($db->data[added]);
+			$vw = $db->data['views'];
+			$date = sqldate_to_string($db->data['added']);
 
 		if($i % 2) {
 		  echo "<tr class=\"trrow1\">\n";

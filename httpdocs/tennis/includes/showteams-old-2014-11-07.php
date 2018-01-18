@@ -66,7 +66,7 @@ function show_teams_listing($db,$s,$id,$pr)
 	    for ($x=0; $x<$db->rows; $x++) {
 	        $db->GetRow($x);
 	        $id = htmlentities(stripslashes($db->data[TeamID]));
-	        $na = htmlentities(stripslashes($db->data[TeamName]));
+	        $na = htmlentities(stripslashes($db->data['teamname']));
 //	        $di = htmlentities(stripslashes($db->data[TeamDirections]));  commented 29-Jul-2014 12:09am
 	        $di = htmlentities(stripslashes($db->data[TeamDesc]));
 	        $co = htmlentities(stripslashes($db->data[TeamColour]));
@@ -127,7 +127,7 @@ function show_full_teams($db,$s,$id,$pr)
     $db->BagAndTag();
 
     $id = $db->data[TeamID];
-    $na = $db->data[TeamName];
+    $na = $db->data['teamname'];
     $ca = $db->data['TeamAbbrev'];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];
@@ -332,7 +332,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $db->BagAndTag();
 
     $id = $db->data[TeamID];
-    $na = $db->data[TeamName];
+    $na = $db->data['teamname'];
     $ca = $db->data['TeamAbbrev'];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];

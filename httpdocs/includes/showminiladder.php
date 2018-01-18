@@ -65,14 +65,14 @@ function show_miniladder($db,$s,$id,$pr,$ladder)
 			for ($x=0; $x<$db->rows; $x++) {
 				$db->GetRow($x);
 
-					$tid = $db->data[tid];
-					$te = htmlentities(stripslashes($db->data[teamname]));
-					$pl = htmlentities(stripslashes($db->data[played]));
-					$wo = htmlentities(stripslashes($db->data[won]));
-					$lo = htmlentities(stripslashes($db->data[lost]));
-					$ti = htmlentities(stripslashes($db->data[tied]));
-					$nr = htmlentities(stripslashes($db->data[nrr]));
-					$pt = htmlentities(stripslashes($db->data[points]));
+					$tid = $db->data['tid'];
+					$te = htmlentities(stripslashes($db->data['teamname']));
+					$pl = htmlentities(stripslashes($db->data['played']));
+					$wo = htmlentities(stripslashes($db->data['won']));
+					$lo = htmlentities(stripslashes($db->data['lost']));
+					$ti = htmlentities(stripslashes($db->data['tied']));
+					$nr = htmlentities(stripslashes($db->data['nrr']));
+					$pt = htmlentities(stripslashes($db->data['points']));
 					$pe = htmlentities(stripslashes($db->data[penalty]));
 					$tp = htmlentities(stripslashes($db->data[totalpoints]));
 

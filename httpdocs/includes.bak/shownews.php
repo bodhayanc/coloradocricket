@@ -70,16 +70,16 @@ function show_short_news($db,$s=0,$limit=5,$len=100)
             $au = $db->data['author'];
             $id = $db->data['id'];
             $pr = $db->data['id'];
-            $di = $db->data[DiscussID];
-            $date = sqldate_to_string($db->data[added]);
-            $vw = $db->data[views];
+            $di = $db->data['DiscussID'];
+            $date = sqldate_to_string($db->data['added']);
+            $vw = $db->data['views'];
 			
    // 6-May-2015 11:12pm         
    //         $sid = $db->data[SubID];
    //         $smi = $db->data[MasterID];
   //          $sst = $db->data[SubTitle];
             
-            $nty = $db->data[newstype];
+            $nty = $db->data['newstype'];
              if( $nty == 1) {
              	$prefix_subdomain = "";
              }

@@ -84,7 +84,7 @@ function show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamName];
+                $ab = $db->data['teamname'];
 
         //echo "<li><a href=\"$PHP_SELF?statistics=&team=$id&ccl_mode=2\">Career Team Averages: $ab</a></li>\n";
         }
@@ -235,7 +235,7 @@ function show_statistics_byseason($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamName];
+                $ab = $db->data['teamname'];
 
         //echo "<li><a href=\"$PHP_SELF?statistics=$statistics&team=$id&ccl_mode=2\">Team Averages: $ab</a></li>\n";
         }

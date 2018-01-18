@@ -151,7 +151,7 @@ function show_main_menu_season($db,$season,$sename)
 					$t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
 					$t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
 					$um = htmlentities(stripslashes($teams[$db->data[umpires]]));
-					$tn = htmlentities(stripslashes($db->data[TeamName]));
+					$tn = htmlentities(stripslashes($db->data['teamname']));
 					$da = htmlentities(stripslashes($db->data[formatted_date]));
 					$ve = htmlentities(stripslashes($db->data[ground]));
 					$u1 = htmlentities(stripslashes($db->data[Ump1Abbrev]));
@@ -224,7 +224,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -237,7 +237,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 		echo "</select></p>\n";
@@ -388,7 +388,7 @@ function edit_category_form($db,$id)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
         $db->BagAndTag();
-		$teams[$db->data[TeamID]] = $db->data[TeamName];
+		$teams[$db->data[TeamID]] = $db->data['teamname'];
 		$teams2 = $teams;
 		//$umpires = $teams;
 	}
@@ -466,7 +466,7 @@ function edit_category_form($db,$id)
 			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 			for ($i=0; $i<$db->rows; $i++) {
 				$db->GetRow($i);
-				echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+				echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 			}
 		}
 
@@ -482,7 +482,7 @@ function edit_category_form($db,$id)
 			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 			for ($i=0; $i<$db->rows; $i++) {
 				$db->GetRow($i);
-				echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+				echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 			}
 		}
 

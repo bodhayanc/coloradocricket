@@ -335,7 +335,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
                         $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
-                        $teamname[$db->data[TeamID]] = $db->data[TeamName];
+                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
                         $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
                         $teamaway = $teams;
                         $teamhome = $teams;

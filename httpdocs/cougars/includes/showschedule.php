@@ -173,7 +173,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 $t1id = $db->data[homeid];
                 $t2id = $db->data[awayid];
                 $umid = $db->data[umpireid];
-                $t = htmlentities(stripslashes($db->data[TeamName]));
+                $t = htmlentities(stripslashes($db->data['teamname']));
                 $d = sqldate_to_string($db->data[date]);
                 $v = htmlentities(stripslashes($db->data[ground]));
                 $vl = htmlentities(stripslashes($db->data[venue]));

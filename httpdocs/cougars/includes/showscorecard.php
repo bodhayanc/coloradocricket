@@ -770,7 +770,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $gr = $db->data[GroundName];
     $gi = $db->data[GroundID];
     $re = $db->data[result];
-    $po = $db->data[points];
+    $po = $db->data['points'];
     $tt = $db->data[WonTossName];
     $mm  = $db->data[mom];
     $u1  = $db->data[umpire1];

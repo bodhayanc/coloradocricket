@@ -19,7 +19,7 @@ function show_printable_article($db,$s,$id,$pr)
 	$t = $db->data['title'];
 	$id = $db->data['id'];
 	$pr = $db->data['id'];
-	$ad = sqldate_to_string($db->data[added]);
+	$ad = sqldate_to_string($db->data['added']);
 	$au = $db->data['author'];
 
 	// output story
@@ -34,7 +34,7 @@ function show_printable_article($db,$s,$id,$pr)
 	// only show author and added if they were input
 
 	if ($db->data['author'] != "") echo "<p><b>Author:</b> $au<br>\n";
-	if ($db->data[added] != "") echo "<b>Submitted:</b> $ad</p>\n";
+	if ($db->data['added'] != "") echo "<b>Submitted:</b> $ad</p>\n";
 	if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\">\n";
 	echo "<p>" . $db->data['article'] . "</p>\n";
 

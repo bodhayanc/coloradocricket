@@ -130,10 +130,10 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                     $db->GetRow($x);
                     $db->BagAndTag();
                     $id = $db->data[TeamID];
-                    $ab = $db->data[TeamName];
+                    $ab = $db->data['teamname'];
                     // output article
 
-                echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data[TeamName] . "</option>\n";
+                echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['teamname'] . "</option>\n";
                 //echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
                 }
         }
@@ -358,10 +358,10 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                     $db->GetRow($x);
                     $db->BagAndTag();
                     $id = $db->data[TeamID];
-                    $ab = $db->data[TeamName];
+                    $ab = $db->data['teamname'];
                     // output article
 
-                echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data[TeamName] . "</option>\n";
+                echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['teamname'] . "</option>\n";
                 //echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
                 }
         }
@@ -592,10 +592,10 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                     $db->GetRow($x);
                     $db->BagAndTag();
                     $id = $db->data[TeamID];
-                    $ab = $db->data[TeamName];
+                    $ab = $db->data['teamname'];
                     // output article
 
-                echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data[TeamName] . "</option>\n";
+                echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['teamname'] . "</option>\n";
                 //echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
                 }
         }
@@ -811,7 +811,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $gr = $db->data[GroundName];
     $gi = $db->data[GroundID];
     $re = $db->data[result];
-    $po = $db->data[points];
+    $po = $db->data['points'];
     $tt = $db->data[WonTossAbbrev];
 
     $da = sqldate_to_string($db->data['game_date']);

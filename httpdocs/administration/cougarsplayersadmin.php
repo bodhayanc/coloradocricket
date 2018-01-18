@@ -121,7 +121,7 @@ function show_main_menu_season($db,$season)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data[TeamID]));
-		$na = htmlentities(stripslashes($db->data[TeamName]));
+		$na = htmlentities(stripslashes($db->data['teamname']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 		$di = htmlentities(stripslashes($db->data[TeamDirections]));
 
@@ -253,7 +253,7 @@ function show_byteam_menu($db,$season,$sename,$team,$teamname)
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 			$ncp = htmlentities(stripslashes($db->data[NotCougarPlayer]));
 
-			$tna = htmlentities(stripslashes($db->data[TeamName]));
+			$tna = htmlentities(stripslashes($db->data['teamname']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
 			$det = htmlentities(stripslashes($db->data[CougarDetail]));
@@ -337,7 +337,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 	echo "</select></p>\n";		
@@ -409,7 +409,7 @@ function edit_category_form($db,$id,$team)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
         $db->BagAndTag();
-		$teams[$db->data[TeamID]] = $db->data[TeamName];
+		$teams[$db->data[TeamID]] = $db->data['teamname'];
 	}
 
 

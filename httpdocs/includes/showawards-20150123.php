@@ -173,7 +173,7 @@ function show_awards_season($db,$id,$aw,$season,$sename)
         $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
         $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-        $tna = htmlentities(stripslashes($db->data[TeamName]));
+        $tna = htmlentities(stripslashes($db->data['teamname']));
         $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
         $det = htmlentities(stripslashes($db->data[AwardDetail]));
@@ -182,7 +182,7 @@ function show_awards_season($db,$id,$aw,$season,$sename)
         $sn = htmlentities(stripslashes($db->data['SeasonName']));
         $ad = htmlentities(stripslashes($db->data[AwardDetail]));
         $pc = htmlentities(stripslashes($db->data['picture']));
-        $a = sqldate_to_string($db->data[added]);
+        $a = sqldate_to_string($db->data['added']);
 
         if($x % 2) {
           echo "<tr class=\"trrow1\">\n";
@@ -248,7 +248,7 @@ function show_awards($db,$s,$id,$aw,$season,$sename)
         $pic = $db->data['picture'];
         $pid = $db->data['PlayerID'];
 
-        $tna = $db->data[TeamName];
+        $tna = $db->data['teamname'];
         $tab = $db->data['TeamAbbrev'];
 
         $det = $db->data[AwardDetail];

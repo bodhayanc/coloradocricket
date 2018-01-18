@@ -105,7 +105,7 @@ function show_players_listing($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -214,7 +214,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $pic = $db->data['picture'];
     $pic1 = $db->data[picture1];
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -618,7 +618,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $au = $db->data['author'];
             $id = $db->data['id'];
             $pr = $db->data['id'];
-            $date = sqldate_to_string($db->data[added]);
+            $date = sqldate_to_string($db->data['added']);
 
         if($i % 2) {
           echo "<tr class=\"trrow1\">\n";
@@ -813,7 +813,7 @@ function search_players($db,$search="")
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -873,7 +873,7 @@ function search_players($db,$search="")
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article

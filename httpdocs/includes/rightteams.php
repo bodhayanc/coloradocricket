@@ -95,7 +95,7 @@
 		$re = $db->data[result];
 		$id = $db->data['game_id'];
 		$wk = $db->data[week];
-		$ti = $db->data[tied];
+		$ti = $db->data['tied'];
 		$fo = $db->data[forfeit];
 		$ca = $db->data[cancelled];
 		$cp = $db->data[cancelledplay];
@@ -180,7 +180,7 @@
 		$re = $db->data[result];
 		$id = $db->data['game_id'];
 		$wk = $db->data[week];
-		$ti = $db->data[tied];
+		$ti = $db->data['tied'];
 		$fo = $db->data[forfeit];
 		$ca = $db->data[cancelled];
 		$cp = $db->data[cancelledplay];
@@ -277,7 +277,7 @@
 		$re = $db->data[result];
 		$id = $db->data['game_id'];
 		$wk = $db->data[week];
-		$ti = $db->data[tied];
+		$ti = $db->data['tied'];
 		$fo = $db->data[forfeit];
 		$ca = $db->data[cancelled];
 		$cp = $db->data[cancelledplay];
@@ -359,7 +359,7 @@
 		$re = $db->data[result];
 		$id = $db->data['game_id'];
 		$wk = $db->data[week];
-		$ti = $db->data[tied];
+		$ti = $db->data['tied'];
 		$fo = $db->data[forfeit];
 		$ca = $db->data[cancelled];
 		$cp = $db->data[cancelledplay];
@@ -446,14 +446,14 @@
         	for ($l = 0; $l < $db->rows; $l++) {
                 $db->GetRow($l);
                 
-		$tid = $db->data[tid];
-		$te = htmlentities(stripslashes($db->data[teamname]));
-		$pl = htmlentities(stripslashes($db->data[played]));
-		$wo = htmlentities(stripslashes($db->data[won]));
-		$lo = htmlentities(stripslashes($db->data[lost]));
-		$ti = htmlentities(stripslashes($db->data[tied]));
-		$nr = htmlentities(stripslashes($db->data[nrr]));
-		$pt = htmlentities(stripslashes($db->data[points]));
+		$tid = $db->data['tid'];
+		$te = htmlentities(stripslashes($db->data['teamname']));
+		$pl = htmlentities(stripslashes($db->data['played']));
+		$wo = htmlentities(stripslashes($db->data['won']));
+		$lo = htmlentities(stripslashes($db->data['lost']));
+		$ti = htmlentities(stripslashes($db->data['tied']));
+		$nr = htmlentities(stripslashes($db->data['nrr']));
+		$pt = htmlentities(stripslashes($db->data['points']));
 		$pe = htmlentities(stripslashes($db->data[penalty]));
 		$tp = htmlentities(stripslashes($db->data[totalpoints]));
 		
@@ -531,14 +531,14 @@
         	for ($l = 0; $l < $db->rows; $l++) {
                 $db->GetRow($l);
                 
-		$tid = $db->data[tid];
-		$te = htmlentities(stripslashes($db->data[teamname]));
-		$pl = htmlentities(stripslashes($db->data[played]));
-		$wo = htmlentities(stripslashes($db->data[won]));
-		$lo = htmlentities(stripslashes($db->data[lost]));
-		$ti = htmlentities(stripslashes($db->data[tied]));
-		$nr = htmlentities(stripslashes($db->data[nrr]));
-		$pt = htmlentities(stripslashes($db->data[points]));
+		$tid = $db->data['tid'];
+		$te = htmlentities(stripslashes($db->data['teamname']));
+		$pl = htmlentities(stripslashes($db->data['played']));
+		$wo = htmlentities(stripslashes($db->data['won']));
+		$lo = htmlentities(stripslashes($db->data['lost']));
+		$ti = htmlentities(stripslashes($db->data['tied']));
+		$nr = htmlentities(stripslashes($db->data['nrr']));
+		$pt = htmlentities(stripslashes($db->data['points']));
 		$pe = htmlentities(stripslashes($db->data[penalty]));
 		$tp = htmlentities(stripslashes($db->data[totalpoints]));
 		

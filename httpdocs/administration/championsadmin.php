@@ -92,7 +92,7 @@ function show_main_menu($db)
 			// setup variables
 
 
-			$tna = htmlentities(stripslashes($db->data[TeamName]));
+			$tna = htmlentities(stripslashes($db->data['teamname']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
                         // 6-Jan-2010
@@ -181,7 +181,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -199,7 +199,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -217,7 +217,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -283,7 +283,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$teams[$db->data[TeamID]] = $db->data[TeamName];
+		$teams[$db->data[TeamID]] = $db->data['teamname'];
 	}	
 
 	// query database
@@ -310,7 +310,7 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$se = htmlentities(stripslashes($db->data['SeasonName']));
-	$te = htmlentities(stripslashes($db->data[TeamName]));
+	$te = htmlentities(stripslashes($db->data['teamname']));
 
 // 6-Jan-2010
 $te2 = htmlentities(stripslashes($db->data[TeamName2]));

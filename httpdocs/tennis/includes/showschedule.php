@@ -253,7 +253,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 $t1id = $db->data[homeid];
                 $t2id = $db->data[awayid];
                 $umid = $db->data[umpireid];
-                $t = htmlentities(stripslashes($db->data[TeamName]));
+                $t = htmlentities(stripslashes($db->data['teamname']));
                 $d = sqldate_to_string($db->data[date]);
                 $ti = $db->data[thetime];
                 $v = htmlentities(stripslashes($db->data[ground]));
@@ -318,7 +318,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
                         $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
-                        $teamname[$db->data[TeamID]] = $db->data[TeamName];
+                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
                         $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
                         $teamaway = $teams;
                         $teamhome = $teams;
@@ -476,7 +476,7 @@ INNER JOIN
                 $t2id = $db->data[awayid];
                 $umid = $db->data[umpireid];
                 $ti = $db->data[thetime];
-                $t = htmlentities(stripslashes($db->data[TeamName]));
+                $t = htmlentities(stripslashes($db->data['teamname']));
                 $d = sqldate_to_string($db->data[date]);
                 $v = htmlentities(stripslashes($db->data[ground]));
                 $vl = htmlentities(stripslashes($db->data[venue]));
@@ -545,7 +545,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
                         $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
-                        $teamname[$db->data[TeamID]] = $db->data[TeamName];
+                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
                         $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
                         $teamaway = $teams;
                         $teamhome = $teams;
@@ -700,7 +700,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 $t2id = $db->data[awayid];
                 $umid = $db->data[umpireid];
                 $ti = $db->data[thetime];
-                $t = htmlentities(stripslashes($db->data[TeamName]));
+                $t = htmlentities(stripslashes($db->data['teamname']));
                 $dt = sqldate_to_string($db->data[date]);
                 $v = htmlentities(stripslashes($db->data[ground]));
                 $vl = htmlentities(stripslashes($db->data[venue]));

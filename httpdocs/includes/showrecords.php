@@ -96,7 +96,7 @@ function show_statistics_main($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamName];
+                $ab = $db->data['teamname'];
 
         echo "<li><a href=\"$PHP_SELF?statistics=$statistics&team=$id&ccl_mode=2\">$ab</a></li>\n";
         }
@@ -284,10 +284,10 @@ function show_teamresults($db,$statistics,$id,$pr,$team,$week,$game_id)
 
             $tid = $db->data[TeamID];
             $tea = $db->data['TeamAbbrev'];
-            $pla = $db->data[played];
-            $won = $db->data[won];
-            $los = $db->data[lost];
-            $tie = $db->data[tied];
+            $pla = $db->data['played'];
+            $won = $db->data['won'];
+            $los = $db->data['lost'];
+            $tie = $db->data['tied'];
             $nor = $db->data[nr];
             $per = Round($db->data[perc]*100,0);
         
@@ -402,10 +402,10 @@ function show_highestwinmargins($db,$statistics,$id,$pr,$team,$week,$game_id)
 
             $tid = $db->data[TeamID];
             $tea = $db->data['TeamAbbrev'];
-            $pla = $db->data[played];
-            $won = $db->data[won];
-            $los = $db->data[lost];
-            $tie = $db->data[tied];
+            $pla = $db->data['played'];
+            $won = $db->data['won'];
+            $los = $db->data['lost'];
+            $tie = $db->data['tied'];
             $nor = $db->data[nr];
             $per = Round($db->data[perc]*100,0);
         

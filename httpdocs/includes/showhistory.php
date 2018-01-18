@@ -70,7 +70,7 @@ function show_history_listing($db,$s,$id,$pr)
     $t = htmlentities(stripslashes($db->data['title']));
     $pr = htmlentities(stripslashes($db->data['id']));
     $fi = $db->data['picture'];
-    $a = $db->data[added];
+    $a = $db->data['added'];
     $id = $db->data['id'];
 
     // output article
@@ -219,7 +219,7 @@ function search_history($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
             $t = $db->data['title'];
             $id = $db->data['id'];
 

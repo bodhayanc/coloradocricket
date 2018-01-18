@@ -49,7 +49,7 @@ function show_tennis($db,$s=0,$limit=5,$len=300)
 			$au = $db->data['author'];
 			$id = $db->data['id'];
 			$pr = $db->data['id'];
-			$date = sqldate_to_string($db->data[added]);
+			$date = sqldate_to_string($db->data['added']);
 
 		//if($i % 2) {
 		//  echo "<tr class=\"trrow1\">\n";

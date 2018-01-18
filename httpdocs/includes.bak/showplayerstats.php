@@ -40,7 +40,7 @@ function show_full_players_stats($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -228,7 +228,7 @@ function show_breakdown_year($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -655,7 +655,7 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -1118,7 +1118,7 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -1580,7 +1580,7 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -2010,7 +2010,7 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -2444,7 +2444,7 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -2886,7 +2886,7 @@ function show_breakdown_bowlprogress($db,$s,$id,$pr,$tid)
     $pic1 = $db->data[picture1];
 
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];

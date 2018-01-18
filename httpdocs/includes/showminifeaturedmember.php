@@ -52,7 +52,7 @@ function show_minifeaturedmember($db,$len=100)
 		$pfn = $db->data['PlayerFName'];
 		$pln = $db->data['PlayerLName'];
 		$pic = $db->data['picture'];
-		$tna = $db->data[TeamName];
+		$tna = $db->data['teamname'];
 		$tab = $db->data['TeamAbbrev'];
 		$fid = $db->data[FeaturedID];
 

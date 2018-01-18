@@ -42,7 +42,7 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$tn = htmlentities(stripslashes($db->data[TeamName]));
+			$tn = htmlentities(stripslashes($db->data['teamname']));
 			$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 			$tc = htmlentities(stripslashes($db->data[TeamActive]));
 
@@ -229,7 +229,7 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$tn = htmlentities(stripslashes($db->data[TeamName]));
+	$tn = htmlentities(stripslashes($db->data['teamname']));
 	$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 	$ur = htmlentities(stripslashes($db->data[TeamURL]));
 	$tc = htmlentities(stripslashes($db->data[TeamColour]));

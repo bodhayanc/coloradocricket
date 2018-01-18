@@ -129,12 +129,12 @@ function show_main_menu_season($db,$season,$sename)
                     $db->GetRow($x);
 
                     $te = htmlentities(stripslashes($db->data[team]));
-                    $pl = htmlentities(stripslashes($db->data[played]));
-                    $wo = htmlentities(stripslashes($db->data[won]));
-                    $lo = htmlentities(stripslashes($db->data[lost]));
-                    $ti = htmlentities(stripslashes($db->data[tied]));
-                    $nr = htmlentities(stripslashes($db->data[nrr]));
-                    $pt = htmlentities(stripslashes($db->data[points]));
+                    $pl = htmlentities(stripslashes($db->data['played']));
+                    $wo = htmlentities(stripslashes($db->data['won']));
+                    $lo = htmlentities(stripslashes($db->data['lost']));
+                    $ti = htmlentities(stripslashes($db->data['tied']));
+                    $nr = htmlentities(stripslashes($db->data['nrr']));
+                    $pt = htmlentities(stripslashes($db->data['points']));
                     $pe = htmlentities(stripslashes($db->data[penalty]));
                     $tp = htmlentities(stripslashes($db->data[totalpoints]));
                     $rs = htmlentities(stripslashes($db->data[rank_sort]));
@@ -208,7 +208,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM teams ORDER BY TeamName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+            echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
         }
     }
 
@@ -336,7 +336,7 @@ function edit_category_form($db,$id)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $db->BagAndTag();
-        $teams[$db->data[TeamID]] = $db->data[TeamName];
+        $teams[$db->data[TeamID]] = $db->data['teamname'];
         $teams2 = $teams;
         $umpires = $teams;
     }
@@ -353,12 +353,12 @@ function edit_category_form($db,$id)
     $db->QueryRow("SELECT * FROM ladder WHERE id=$id");
 
     $te = htmlentities(stripslashes($db->data[team]));
-    $pl = htmlentities(stripslashes($db->data[played]));
-    $wo = htmlentities(stripslashes($db->data[won]));
-    $lo = htmlentities(stripslashes($db->data[lost]));
-    $ti = htmlentities(stripslashes($db->data[tied]));
-    $nr = htmlentities(stripslashes($db->data[nrr]));
-    $pt = htmlentities(stripslashes($db->data[points]));
+    $pl = htmlentities(stripslashes($db->data['played']));
+    $wo = htmlentities(stripslashes($db->data['won']));
+    $lo = htmlentities(stripslashes($db->data['lost']));
+    $ti = htmlentities(stripslashes($db->data['tied']));
+    $nr = htmlentities(stripslashes($db->data['nrr']));
+    $pt = htmlentities(stripslashes($db->data['points']));
     $pe = htmlentities(stripslashes($db->data[penalty]));
     $tp = htmlentities(stripslashes($db->data[totalpoints]));
     $rs = htmlentities(stripslashes($db->data[rank_sort]));

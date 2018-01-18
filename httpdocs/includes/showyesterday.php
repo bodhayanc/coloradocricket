@@ -72,9 +72,9 @@ function show_today_yesterday_news($db,$date,$len=250)
       $au = $db->data['author'];
       $id = $db->data['id'];
       $pr = $db->data['id'];
-      $di = $db->data[DiscussID];
-      $date = sqldate_to_string($db->data[added]);
-      $vw = $db->data[views];
+      $di = $db->data['DiscussID'];
+      $date = sqldate_to_string($db->data['added']);
+      $vw = $db->data['views'];
 
       if ($db->data['picture'] != "") echo "<a href=\"news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
       echo "  <span class=\"newstitle\">$t</span><br>\n";
@@ -325,9 +325,9 @@ function show_other_yesterday_news($db,$date,$len=250)
       $au = $db->data['author'];
       $id = $db->data['id'];
       $pr = $db->data['id'];
-      $di = $db->data[DiscussID];
-      $date = sqldate_to_string($db->data[added]);
-      $vw = $db->data[views];
+      $di = $db->data['DiscussID'];
+      $date = sqldate_to_string($db->data['added']);
+      $vw = $db->data['views'];
 
 
       if ($db->data['picture'] != "") echo "<a href=\"news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";

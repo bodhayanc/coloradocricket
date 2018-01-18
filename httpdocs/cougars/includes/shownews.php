@@ -62,15 +62,15 @@ function show_short_news($db,$s=0,$limit=4,$len=250)
             $au = $db->data['author'];
             $id = $db->data['id'];
             $pr = $db->data['id'];
-            $di = $db->data[DiscussID];
-            $date = sqldate_to_string($db->data[added]);
-            $vw = $db->data[views];
+            $di = $db->data['DiscussID'];
+            $date = sqldate_to_string($db->data['added']);
+            $vw = $db->data['views'];
             
             $sid = $db->data[SubID];
             $smi = $db->data[MasterID];
             $sst = $db->data[SubTitle];
             
-            $nty = $db->data[newstype];
+            $nty = $db->data['newstype'];
             
             if ($db->data['picture'] != "") echo "<img width=\"80\" src=\"http://www.coloradocricket.org/uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\">\n";
 
