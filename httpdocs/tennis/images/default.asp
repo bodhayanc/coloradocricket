@@ -1,0 +1,3 @@
+<%
+response.redirect("index.php")
+%>

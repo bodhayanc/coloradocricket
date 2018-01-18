@@ -1,0 +1,3 @@
+ErrorDocument 404 /404.shtml
+PHP_FLAG output_buffering on
+php_flag register_globals on
