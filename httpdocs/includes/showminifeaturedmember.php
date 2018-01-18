@@ -49,11 +49,11 @@ function show_minifeaturedmember($db,$len=100)
 			
 		// setup variables
 
-		$pfn = $db->data['PlayerFName'];
-		$pln = $db->data['PlayerLName'];
-		$pic = $db->data['picture'];
+		$pfn = $db->data[PlayerFName];
+		$pln = $db->data[PlayerLName];
+		$pic = $db->data[picture];
 		$tna = $db->data[TeamName];
-		$tab = $db->data['TeamAbbrev'];
+		$tab = $db->data[TeamAbbrev];
 		$fid = $db->data[FeaturedID];
 
 		// output story, show the image, if no image show the title
@@ -77,8 +77,8 @@ function show_minifeaturedmember($db,$len=100)
 		}
 }
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 show_minifeaturedmember($db);
 

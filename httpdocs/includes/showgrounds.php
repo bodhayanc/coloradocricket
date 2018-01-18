@@ -61,7 +61,7 @@ function show_grounds_listing($db,$s,$id,$pr)
         }
 
         echo "    <td width=\"75%\"><a href=\"$PHP_SELF?grounds=$id&ccl_mode=1\">$na - $gl</a>";  // Added $gl  10-Aug-2015 11:11pm
-        if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
+        if ($db->data[picture] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
         echo "    </td>\n";
         echo "  </tr>\n";
     }
@@ -105,7 +105,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $cs = $db->data[conveniencestore];
     $dw = $db->data[drinkingwater];
     $pt = $db->data[publictransport];
-    $pi = $db->data['picture'];
+    $pi = $db->data[picture];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -173,7 +173,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT gr.GroundID, ga.game_date as FirstGame, ga.game_id, ga.hometeam, ga.awayteam, t1.TeamAbbrev AS AwayTeam, t2.TeamAbbrev AS HomeTeam FROM scorecard_game_details ga LEFT JOIN grounds gr ON ga.ground_id = gr.GroundID LEFT JOIN teams t1 ON ga.awayteam = t1.TeamID LEFT JOIN teams t2 ON ga.hometeam = t2.TeamID WHERE GroundID=$pr ORDER BY FirstGame LIMIT 1");
     $db->BagAndTag();
     
-    $fid = $db->data['game_id'];
+    $fid = $db->data[game_id];
     $ffg = $db->data[FirstGame];
     $ft1 = $db->data[HomeTeam];
     $ft2 = $db->data[AwayTeam];
@@ -199,7 +199,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT gr.GroundID, ga.game_date as LastGame, ga.game_id, ga.hometeam, ga.awayteam, t1.TeamAbbrev AS AwayTeam, t2.TeamAbbrev AS HomeTeam FROM scorecard_game_details ga LEFT JOIN grounds gr ON ga.ground_id = gr.GroundID LEFT JOIN teams t1 ON ga.awayteam = t1.TeamID LEFT JOIN teams t2 ON ga.hometeam = t2.TeamID WHERE GroundID=$pr ORDER BY LastGame DESC LIMIT 1");
     $db->BagAndTag();
     
-    $fid = $db->data['game_id'];
+    $fid = $db->data[game_id];
     $flg = $db->data[LastGame];
     $ft1 = $db->data[HomeTeam];
     $ft2 = $db->data[AwayTeam];
@@ -247,12 +247,12 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT ga.ground_id, ga.game_id, ga.game_date, ba.runs, ba.notout, ba.player_id, pl.PlayerLName, pl.PlayerFName FROM scorecard_game_details ga INNER JOIN scorecard_batting_details ba ON ba.game_id = ga.game_id INNER JOIN players pl ON ba.player_id = pl.PlayerID WHERE ga.ground_id=$pr ORDER BY ba.runs DESC LIMIT 1");
     $db->BagAndTag();
     
-    $fid = $db->data['game_id'];
-    $run = $db->data['runs'];
-    $pfn = $db->data['PlayerFName'];
-    $pln = $db->data['PlayerLName'];
+    $fid = $db->data[game_id];
+    $run = $db->data[runs];
+    $pfn = $db->data[PlayerFName];
+    $pln = $db->data[PlayerLName];
     $not = $db->data[notout];
-    $dat = $db->data['game_date'];
+    $dat = $db->data[game_date];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\" align=\"left\"><b>Highest Individual Score</b></td>\n";
@@ -277,12 +277,12 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT g.game_id, g.ground_id, g.game_date, b.player_id, b.runs AS BRuns, b.wickets AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE g.ground_id=$pr ORDER BY Wickets DESC, Runs ASC LIMIT 1");
     $db->BagAndTag();
     
-    $fid = $db->data['game_id'];
+    $fid = $db->data[game_id];
     $run = $db->data[BRuns];
-    $pfn = $db->data['PlayerFName'];
-    $pln = $db->data['PlayerLName'];
-    $wic = $db->data['wickets'];
-    $dat = $db->data['game_date'];
+    $pfn = $db->data[PlayerFName];
+    $pln = $db->data[PlayerLName];
+    $wic = $db->data[Wickets];
+    $dat = $db->data[game_date];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\" align=\"left\"><b>Best Bowling</b></td>\n";
@@ -305,11 +305,11 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT ga.game_id, ga.ground_id, ga.game_date, tt.team, tt.total, tt.wickets, te.TeamAbbrev FROM scorecard_total_details tt INNER JOIN teams te ON tt.team=te.TeamID INNER JOIN scorecard_game_details ga ON ga.game_id=tt.game_id WHERE ga.ground_id=$pr ORDER BY tt.total DESC LIMIT 1");
     $db->BagAndTag();
     
-    $fid = $db->data['game_id'];
+    $fid = $db->data[game_id];
     $run = $db->data[total];
-    $tab = $db->data['TeamAbbrev'];
-    $wic = $db->data['wickets'];
-    $dat = $db->data['game_date'];
+    $tab = $db->data[TeamAbbrev];
+    $wic = $db->data[wickets];
+    $dat = $db->data[game_date];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\" align=\"left\"><b>Highest Team Score</b></td>\n";
@@ -332,11 +332,11 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT ga.game_id, ga.ground_id, ga.game_date, tt.team, tt.total, tt.wickets, te.TeamAbbrev FROM scorecard_total_details tt INNER JOIN teams te ON tt.team=te.TeamID INNER JOIN scorecard_game_details ga ON ga.game_id=tt.game_id WHERE ga.ground_id=$pr AND ga.forfeit=0 AND ga.cancelled=0 ORDER BY tt.total LIMIT 1");
     $db->BagAndTag();
     
-    $fid = $db->data['game_id'];
+    $fid = $db->data[game_id];
     $run = $db->data[total];
-    $tab = $db->data['TeamAbbrev'];
-    $wic = $db->data['wickets'];
-    $dat = $db->data['game_date'];
+    $tab = $db->data[TeamAbbrev];
+    $wic = $db->data[wickets];
+    $dat = $db->data[game_date];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\" align=\"left\"><b>Lowest Team Score</b></td>\n";
@@ -626,14 +626,14 @@ function show_grounds_games($db,$s,$id,$pr)
                 $t1id = $db->data[HomeID];
                 $t2id = $db->data[AwayID];
                 $umid = $db->data[UmpireID];
-                $d = sqldate_to_string($db->data['game_date']);
+                $d = sqldate_to_string($db->data[game_date]);
                 $sc =  $db->data[scorecard];
                 $re = $db->data[result];
-                $id = $db->data['game_id'];
+                $id = $db->data[game_id];
                 $wk = $db->data[week];
                 $fo = $db->data[forfeit];
                 $ca = $db->data[cancelled];
-                $sn = $db->data['SeasonName'];
+                $sn = $db->data[SeasonName];
                 $si = $db->data[season];
 
             if($x % 2) {
@@ -688,7 +688,7 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     $db->Query("SELECT * FROM teams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
     }
                     
     if(!$db->Exists("SELECT g.season, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id GROUP BY s.player_id")) {
@@ -770,20 +770,20 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-    $subdb->SelectDB($dbcfg['db']);
+    $subdb =& new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+    $subdb->SelectDB($dbcfg[db]);
 
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
     $playerid = $db->data[player_id];
     $init = $db->data[PlayerInitial];
-    $fname = $db->data['PlayerFName'];
-    $lname = $db->data['PlayerLName'];    
+    $fname = $db->data[PlayerFName];
+    $lname = $db->data[PlayerLName];    
     $scinn = $db->data[Matches];
-    $scrun = $db->data['runs'];
+    $scrun = $db->data[Runs];
     //$schig = $db->data[HS];   
-    $teama = $db->data['TeamAbbrev'];
+    $teama = $db->data[TeamAbbrev];
 
     $innings = $db->data[Innings];
 
@@ -921,12 +921,12 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     for ($x=0; $x<$db->rows; $x++) {
         $db->GetRow($x);
         $db->BagAndTag();
-        $id = $db->data['SeasonID'];
-        $seasonname = $db->data['SeasonName'];
+        $id = $db->data[SeasonID];
+        $seasonname = $db->data[SeasonName];
         // output article
 
-      if($sort == "Average") echo "<option value=\"$PHP_SELF?option=byseason&statistics=$seasonname&sort=Average&ccl_mode=3\">" . $db->data['SeasonName'] . "</option>\n";
-      if($sort == "Runs") echo "<option value=\"$PHP_SELF?option=byseason&statistics=$seasonname&sort=Runs&ccl_mode=3\">" . $db->data['SeasonName'] . "</option>\n";
+      if($sort == "Average") echo "<option value=\"$PHP_SELF?option=byseason&statistics=$seasonname&sort=Average&ccl_mode=3\">" . $db->data[SeasonName] . "</option>\n";
+      if($sort == "Runs") echo "<option value=\"$PHP_SELF?option=byseason&statistics=$seasonname&sort=Runs&ccl_mode=3\">" . $db->data[SeasonName] . "</option>\n";
 
     
     }
@@ -958,7 +958,7 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

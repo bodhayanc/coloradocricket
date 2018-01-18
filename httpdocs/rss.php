@@ -10,18 +10,18 @@
    	every RSS feed is different by by and large it should contain:
    	
    	Array {
-   		['title'] = feed title
+   		[TITLE] = feed title
    		[DESCRIPTION] = feed description
    		[LINK] = link to their website
    		
    		[IMAGE] = Array {
-   					['url'] = url of image
+   					[URL] = url of image
    					[DESCRIPTION] = alt text of image
    				}
    		
    		[ITEMS] = Array {
    					[0] = Array {
-   							['title'] = item title
+   							[TITLE] = item title
    							[DESCRIPTION] = item description
    							[LINK = a link to the story
    						}

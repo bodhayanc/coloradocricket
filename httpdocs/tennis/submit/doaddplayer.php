@@ -63,7 +63,7 @@ function do_add_category($db,$id,$PlayerLName,$PlayerFName,$PlayerTeam,$PlayerEm
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 do_add_category($db,$id,$PlayerLName,$PlayerFName,$PlayerTeam,$PlayerEmail,$shortprofile,$IsUmpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$picture,$picture1);
 

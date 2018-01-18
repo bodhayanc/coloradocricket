@@ -1,4 +1,4 @@
-<?php
+<?
 /*
 This is a PHP class definition for mysql database server connections.
 Last Modified on 4/24/01 5:38PM Justin Koivisto [Koivi Media]

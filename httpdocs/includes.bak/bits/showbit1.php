@@ -27,13 +27,13 @@ function show_bitbattingachievement($db)
 
         // setup variables
 
-        $pid = $db->data['PlayerID'];
-        $pfn = $db->data['PlayerFName'];
-        $pln = $db->data['PlayerLName'];  
-        $tna = $db->data['TeamAbbrev'];
-        $gid = $db->data['game_id'];
-        $gda = sqldate_to_string($db->data['game_date']);
-        $run = $db->data['runs'];
+        $pid = $db->data[PlayerID];
+        $pfn = $db->data[PlayerFName];
+        $pln = $db->data[PlayerLName];  
+        $tna = $db->data[TeamAbbrev];
+        $gid = $db->data[game_id];
+        $gda = sqldate_to_string($db->data[game_date]);
+        $run = $db->data[runs];
         $bal = $db->data[balls];
         $fou = $db->data[fours];
         $six = $db->data[sixes];
@@ -104,8 +104,8 @@ function show_bitbattingachievement($db)
                 
 }
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 show_bitbattingachievement($db);
 

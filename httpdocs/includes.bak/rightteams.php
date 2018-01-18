@@ -30,7 +30,7 @@
 		$db->Query("SELECT * FROM teams WHERE LeagueID=1 AND TeamActive=1 ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"teamdetails.php?teams=" . $db->data[TeamID] . "&ccl_mode=1\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"teamdetails.php?teams=" . $db->data[TeamID] . "&ccl_mode=1\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "</select></p>\n";
@@ -89,7 +89,7 @@
 		$d = $db->data[formatted_date];
 		$sc =  $db->data[scorecard];
 		$re = $db->data[result];
-		$id = $db->data['game_id'];
+		$id = $db->data[game_id];
 		$wk = $db->data[week];
 		$ti = $db->data[tied];
 		$fo = $db->data[forfeit];
@@ -212,7 +212,7 @@
 		$d = $db->data[formatted_date];
 		$sc =  $db->data[scorecard];
 		$re = $db->data[result];
-		$id = $db->data['game_id'];
+		$id = $db->data[game_id];
 		$wk = $db->data[week];
 		$ti = $db->data[tied];
 		$fo = $db->data[forfeit];
@@ -396,15 +396,15 @@
         
                 $db->GetRow($b);
                 
-		$playerid = $db->data['PlayerID'];
+		$playerid = $db->data[PlayerID];
 		$init = $db->data[PlayerInitial];
-		$fname = $db->data['PlayerFName'];
-		$lname = $db->data['PlayerLName'];
+		$fname = $db->data[PlayerFName];
+		$lname = $db->data[PlayerLName];
 		$labbr = $db->data[PlayerLAbbrev];
 		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
-		$pic   = $db->data['picture'];
-		$ss = explode(" ", $db->data['SeasonName']);
+		$scrun = $db->data[Runs];
+		$pic   = $db->data[picture];
+		$ss = explode(" ", $db->data[SeasonName]);
 		$ss2 = $ss[1];
 		echo $ss_final_text;
 		
@@ -469,11 +469,11 @@
                 
 		$playerid = $db->data[player_id];
 		$init = $db->data[PlayerInitial];
-		$fname = $db->data['PlayerFName'];
-		$lname = $db->data['PlayerLName'];
+		$fname = $db->data[PlayerFName];
+		$lname = $db->data[PlayerLName];
 		$labbr = $db->data[PlayerLAbbrev];
 		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
+		$scrun = $db->data[Runs];
 
 				if($b % 2) {
 				  echo "<tr class=\"trrow2\">\n";
@@ -548,15 +548,15 @@
         
                 $db->GetRow($o);
                 
-	  	$bplayerid = $db->data['PlayerID'];
+	  	$bplayerid = $db->data[PlayerID];
 	  	$binit = $db->data[PlayerInitial];
-	  	$bfname = $db->data['PlayerFName'];
-	  	$blname = $db->data['PlayerLName'];
+	  	$bfname = $db->data[PlayerFName];
+	  	$blname = $db->data[PlayerLName];
 	  	$blabbr = $db->data[PlayerLAbbrev];
 	  	$scmai = $db->data[Maidens];
 	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
-		$bpic   = $db->data['picture'];
+	  	$scwic = $db->data[Wickets];
+		$bpic   = $db->data[picture];
 		
 		if($bpic != "") {
 		echo "<img src=\"/uploadphotos/players/$bpic\" align=\"left\" border=\"1\" width=\"50\">\n";
@@ -618,12 +618,12 @@
                 
 	  	$playerid = $db->data[player_id];
 	  	$init = $db->data[PlayerInitial];
-	  	$fname = $db->data['PlayerFName'];
-	  	$lname = $db->data['PlayerLName'];
+	  	$fname = $db->data[PlayerFName];
+	  	$lname = $db->data[PlayerLName];
 	  	$labbr = $db->data[PlayerLAbbrev];
 	  	$scmai = $db->data[Maidens];
 	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
+	  	$scwic = $db->data[Wickets];
 
 				if($o % 2) {
 				  echo "<tr class=\"trrow2\">\n";
@@ -702,14 +702,14 @@
         $db->GetRow($b);
         
                 
-		$playerid = $db->data['PlayerID'];
+		$playerid = $db->data[PlayerID];
 		$init = $db->data[PlayerInitial];
-		$fname = $db->data['PlayerFName'];
-		$lname = $db->data['PlayerLName'];
+		$fname = $db->data[PlayerFName];
+		$lname = $db->data[PlayerLName];
 		$labbr = $db->data[PlayerLAbbrev];
 		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
-		$pic   = $db->data['picture'];
+		$scrun = $db->data[Runs];
+		$pic   = $db->data[picture];
 		
 		if($pic != "") {
 		echo "<img src=\"/uploadphotos/players/$pic\" align=\"left\" border=\"1\" width=\"50\">\n";
@@ -772,11 +772,11 @@
                 
 		$playerid = $db->data[player_id];
 		$init = $db->data[PlayerInitial];
-		$fname = $db->data['PlayerFName'];
-		$lname = $db->data['PlayerLName'];
+		$fname = $db->data[PlayerFName];
+		$lname = $db->data[PlayerLName];
 		$labbr = $db->data[PlayerLAbbrev];
 		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
+		$scrun = $db->data[Runs];
 
 				if($b % 2) {
 				  echo "<tr class=\"trrow2\">\n";
@@ -853,15 +853,15 @@
 		$o = 0;
         $db->GetRow($o);
                 
-	  	$bplayerid = $db->data['PlayerID'];
+	  	$bplayerid = $db->data[PlayerID];
 	  	$binit = $db->data[PlayerInitial];
-	  	$bfname = $db->data['PlayerFName'];
-	  	$blname = $db->data['PlayerLName'];
+	  	$bfname = $db->data[PlayerFName];
+	  	$blname = $db->data[PlayerLName];
 	  	$blabbr = $db->data[PlayerLAbbrev];
 	  	$scmai = $db->data[Maidens];
 	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
-		$bpic   = $db->data['picture'];
+	  	$scwic = $db->data[Wickets];
+		$bpic   = $db->data[picture];
 		
 		if($bpic != "") {
 		echo "<img src=\"/uploadphotos/players/$bpic\" align=\"left\" border=\"1\" width=\"50\">\n";
@@ -923,12 +923,12 @@
                 
 	  	$playerid = $db->data[player_id];
 	  	$init = $db->data[PlayerInitial];
-	  	$fname = $db->data['PlayerFName'];
-	  	$lname = $db->data['PlayerLName'];
+	  	$fname = $db->data[PlayerFName];
+	  	$lname = $db->data[PlayerLName];
 	  	$labbr = $db->data[PlayerLAbbrev];
 	  	$scmai = $db->data[Maidens];
 	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
+	  	$scwic = $db->data[Wickets];
 
 				if($o % 2) {
 				  echo "<tr class=\"trrow2\">\n";

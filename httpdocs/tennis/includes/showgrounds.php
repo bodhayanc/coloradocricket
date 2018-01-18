@@ -61,7 +61,7 @@ function show_grounds_listing($db,$s,$id,$pr)
         }
 
         echo "    <td width=\"75%\"><a href=\"$PHP_SELF?grounds=$id&ccl_mode=1\">$na</a>";
-        if ($db->data['picture'] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">";
+        if ($db->data[picture] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">";
         echo "    </td>\n";
         echo "  </tr>\n";
     }
@@ -138,12 +138,12 @@ function show_full_grounds($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
 
-        $pic = $db->data['picture'];
+        $pic = $db->data[picture];
 
 
     // output story
 
-        if ($db->data['picture'] != "" ) {
+        if ($db->data[picture] != "" ) {
 
         echo "<tr>\n";
         echo "    <td width=\"100%\" align=\"center\"><img src=\"http://www.coloradocricket.org/uploadphotos/grounds/$pic\"></td>\n";
@@ -364,7 +364,7 @@ function show_full_grounds($db,$s,$id,$pr)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

@@ -47,7 +47,7 @@ function show_ladder_listing($db,$s,$id,$pr)
         $db->GetRow($x);
         $db->BagAndTag();
 
-        $sen = $db->data['SeasonName'];
+        $sen = $db->data[SeasonName];
         $sid = $db->data[season];
         
         echo "    <option value=\"$PHP_SELF?ladder=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -99,7 +99,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
                 $db->Query("SELECT se.* FROM seasons se INNER JOIN ladder la ON la.season = se.SeasonID WHERE se.SeasonName NOT LIKE '%KO%' GROUP BY se.SeasonID ORDER BY se.SeasonName DESC");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
+                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
                 }
 
 
@@ -143,7 +143,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
         for ($x=0; $x<$db->rows; $x++) {
             $db->GetRow($x);
             $db->BagAndTag();
-            $sen = $db->data['SeasonName'];
+            $sen = $db->data[SeasonName];
             $sid = $db->data[season];
         
         echo "    <option value=\"$PHP_SELF?ladder=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -287,14 +287,14 @@ function show_ladder($db,$s,$id,$pr,$ladder)
             $db->BagAndTag();
 
         // instantiate new db class
-            $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-            $subdb->SelectDB($dbcfg['db']);
+            $subdb =& new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+            $subdb->SelectDB($dbcfg[db]);
 
             for ($r=0; $r<$db->rows; $r++) {
             $db->GetRow($r);
 
             $tid = $db->data[TeamID];
-            $te  = $db->data['TeamAbbrev'];
+            $te  = $db->data[TeamAbbrev];
             
         // Get Home Games
             if (!$subdb->Exists("SELECT hometeam, count(hometeam) AS Homegames FROM scorecard_game_details WHERE hometeam=$tid AND season=$ladder AND cancelledplay=0 AND cancelled=0 GROUP BY hometeam")) {
@@ -463,8 +463,8 @@ function show_ladder($db,$s,$id,$pr,$ladder)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 
 

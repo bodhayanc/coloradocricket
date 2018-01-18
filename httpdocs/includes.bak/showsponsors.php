@@ -34,12 +34,12 @@ function show_sponsors_listing($db)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data['title']));
-        $u = htmlentities(stripslashes($db->data['url']));
+        $t = htmlentities(stripslashes($db->data[title]));
+        $u = htmlentities(stripslashes($db->data[url]));
         $p = htmlentities(stripslashes($db->data[promised]));
-        $a = $db->data['article'];
-        $pr = htmlentities(stripslashes($db->data['id']));
-        $id = $db->data['id'];
+        $a = $db->data[article];
+        $pr = htmlentities(stripslashes($db->data[id]));
+        $id = $db->data[id];
 
 	if ($p == 1)
 	{
@@ -63,7 +63,7 @@ function show_sponsors_listing($db)
 
     echo "<br>\n";
 
-    if($db->data['picture'] != "") echo "<p align=\"center\"><a href=\"$u\" target=\"_new\"><img src=\"uploadphotos/sponsors/" . $db->data['picture'] . "\" style=\"border: 1 solid #393939\"></a></p>\n";
+    if($db->data[picture] != "") echo "<p align=\"center\"><a href=\"$u\" target=\"_new\"><img src=\"uploadphotos/sponsors/" . $db->data[picture] . "\" style=\"border: 1 solid #393939\"></a></p>\n";
     
     
     echo "<p>$a</p>\n";
@@ -98,7 +98,7 @@ function show_sponsors_listing($db)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 
 show_sponsors_listing($db);

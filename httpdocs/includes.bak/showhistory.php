@@ -67,11 +67,11 @@ function show_history_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
     $db->GetRow($i);
-    $t = htmlentities(stripslashes($db->data['title']));
-    $pr = htmlentities(stripslashes($db->data['id']));
-    $fi = $db->data['picture'];
+    $t = htmlentities(stripslashes($db->data[title]));
+    $pr = htmlentities(stripslashes($db->data[id]));
+    $fi = $db->data[picture];
     $a = $db->data[added];
-    $id = $db->data['id'];
+    $id = $db->data[id];
 
     // output article
 
@@ -83,7 +83,7 @@ function show_history_listing($db,$s,$id,$pr)
 
     echo "    <td><a href=\"$PHP_SELF?history=$pr&ccl_mode=1\">$t</a></td>\n";
     echo "    <td align=\"right\">";
-    if ($db->data['picture'] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
+    if ($db->data[picture] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
     echo "    </td>\n";
     echo "  </tr>\n";
     }
@@ -112,9 +112,9 @@ function show_history($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM history WHERE id=$pr");
     $db->BagAndTag();
 
-    $t = $db->data['title'];
-    $a = $db->data['article'];
-    $fi = $db->data['picture'];
+    $t = $db->data[title];
+    $a = $db->data[article];
+    $fi = $db->data[picture];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -130,7 +130,7 @@ function show_history($db,$s,$id,$pr)
     echo "</tr>\n";
     echo "</table>\n";
 
-    if ($db->data['picture'] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
+    if ($db->data[picture] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
 
     // output story
@@ -140,7 +140,7 @@ function show_history($db,$s,$id,$pr)
 
     // output link back
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
-    if ($db->data['picture'] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
+    if ($db->data[picture] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
     echo "<p>&laquo; <a href=\"$PHP_SELF\">back to history listing</a></p>\n";
 
     // finish off
@@ -220,8 +220,8 @@ function search_history($db,$search="")
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
             $a = sqldate_to_string($db->data[added]);
-            $t = $db->data['title'];
-            $id = $db->data['id'];
+            $t = $db->data[title];
+            $id = $db->data[id];
 
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";
@@ -230,7 +230,7 @@ function search_history($db,$search="")
             }
 
         echo "    <td><a href=\"$PHP_SELF?history=$id&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
+        if ($db->data[picture] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 
@@ -270,7 +270,7 @@ function search_history($db,$search="")
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

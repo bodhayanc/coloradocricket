@@ -57,8 +57,8 @@ function show_featuredmember_listing($db,$id,$fm)
 
             // setup variables
 
-            $sename = htmlentities(stripslashes($db->data['SeasonName']));
-            $season = htmlentities(stripslashes($db->data['SeasonID']));
+            $sename = htmlentities(stripslashes($db->data[SeasonName]));
+            $season = htmlentities(stripslashes($db->data[SeasonID]));
 
             if($x % 2) {
               echo "<tr class=\"trrow1\">\n";
@@ -188,15 +188,15 @@ function show_featuredmember_season($db,$id,$fm,$season,$sename)
 
             // setup variables
 
-            $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-            $pln = htmlentities(stripslashes($db->data['PlayerLName']));
+            $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
+            $pln = htmlentities(stripslashes($db->data[PlayerLName]));
 
             $tna = htmlentities(stripslashes($db->data[TeamName]));
-            $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
+            $tab = htmlentities(stripslashes($db->data[TeamAbbrev]));
 
             $det = htmlentities(stripslashes($db->data[FeaturedDetail]));
             $id = htmlentities(stripslashes($db->data[FeaturedID]));
-            $sn = htmlentities(stripslashes($db->data['SeasonName']));
+            $sn = htmlentities(stripslashes($db->data[SeasonName]));
             $a = sqldate_to_string($db->data[added]);
 
             if($x % 2) {
@@ -280,13 +280,13 @@ function show_featuredmember_listinga($db,$s,$id,$pr)
 
         // setup variables
 
-        $pfn = $db->data['PlayerFName'];
-        $pln = $db->data['PlayerLName'];
-        $pic = $db->data['picture'];
-        $pid = $db->data['PlayerID'];
+        $pfn = $db->data[PlayerFName];
+        $pln = $db->data[PlayerLName];
+        $pic = $db->data[picture];
+        $pid = $db->data[PlayerID];
 
         $tna = $db->data[TeamName];
-        $tab = $db->data['TeamAbbrev'];
+        $tab = $db->data[TeamAbbrev];
 
         $det = $db->data[FeaturedDetail];
         $id  = $db->data[FeaturedID];
@@ -347,13 +347,13 @@ function show_featuredmember($db,$s,$id,$pr)
 
         // setup variables
 
-        $pfn = $db->data['PlayerFName'];
-        $pln = $db->data['PlayerLName'];
-        $pic = $db->data['picture'];
-        $pid = $db->data['PlayerID'];
+        $pfn = $db->data[PlayerFName];
+        $pln = $db->data[PlayerLName];
+        $pic = $db->data[picture];
+        $pid = $db->data[PlayerID];
 
         $tna = $db->data[TeamName];
-        $tab = $db->data['TeamAbbrev'];
+        $tab = $db->data[TeamAbbrev];
 
         $det = $db->data[FeaturedDetail];
 
@@ -411,8 +411,8 @@ function show_featuredmember($db,$s,$id,$pr)
         }
 }
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 
 switch($ccl_mode) {

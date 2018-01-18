@@ -149,12 +149,12 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $tid = $db->data[TeamID];
     $tna = $db->data[TeamName];
-    $tab = $db->data['TeamAbbrev'];
+    $tab = $db->data[TeamAbbrev];
     $tco = $db->data[TeamColour];
 
-    $pid = $db->data['PlayerID'];
-    $pfn = $db->data['PlayerFName'];
-    $pln = $db->data['PlayerLName'];
+    $pid = $db->data[PlayerID];
+    $pfn = $db->data[PlayerFName];
+    $pln = $db->data[PlayerLName];
 
     $gri = $db->data[GroundID];
     $grn = $db->data[GroundName];
@@ -219,10 +219,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, pl.PlayerID, pl.IsPresident, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub FROM players pl INNER JOIN clubs cl ON pl.PlayerClub = cl.ClubID WHERE pl.PlayerClub = $pr AND pl.IsPresident = 1");
     $db->DeBagAndTag();
 
-    $fn = $db->data['PlayerFName'];
-    $ln = $db->data['PlayerLName'];
+    $fn = $db->data[PlayerFName];
+    $ln = $db->data[PlayerLName];
     $em = $db->data[PlayerEmail];
-    $pi = $db->data['PlayerID'];
+    $pi = $db->data[PlayerID];
 
     echo "<tr class=\"trrow1\">\n";
     echo "    <td width=\"30%\">President: </td>\n";
@@ -244,10 +244,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, pl.PlayerID, pl.IsPresident, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub FROM players pl INNER JOIN clubs cl ON pl.PlayerClub = cl.ClubID WHERE pl.PlayerClub = $pr AND pl.IsVicePresident = 1");
     $db->DeBagAndTag();
 
-    $fn = $db->data['PlayerFName'];
-    $ln = $db->data['PlayerLName'];
+    $fn = $db->data[PlayerFName];
+    $ln = $db->data[PlayerLName];
     $em = $db->data[PlayerEmail];
-    $pi = $db->data['PlayerID'];
+    $pi = $db->data[PlayerID];
 
     echo "<tr class=\"trrow2\">\n";
     echo "    <td width=\"30%\">Vice President: </td>\n";
@@ -269,10 +269,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, pl.PlayerID, pl.IsPresident, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub FROM players pl INNER JOIN clubs cl ON pl.PlayerClub = cl.ClubID WHERE pl.PlayerClub = $pr AND pl.IsSecretary = 1");
     $db->DeBagAndTag();
 
-    $fn = $db->data['PlayerFName'];
-    $ln = $db->data['PlayerLName'];
+    $fn = $db->data[PlayerFName];
+    $ln = $db->data[PlayerLName];
     $em = $db->data[PlayerEmail];
-    $pi = $db->data['PlayerID'];
+    $pi = $db->data[PlayerID];
 
     echo "<tr class=\"trrow1\">\n";
     echo "    <td width=\"30%\">Secretary: </td>\n";
@@ -294,10 +294,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, pl.PlayerID, pl.IsPresident, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub FROM players pl INNER JOIN clubs cl ON pl.PlayerClub = cl.ClubID WHERE pl.PlayerClub = $pr AND pl.IsTreasurer = 1");
     $db->DeBagAndTag();
 
-    $fn = $db->data['PlayerFName'];
-    $ln = $db->data['PlayerLName'];
+    $fn = $db->data[PlayerFName];
+    $ln = $db->data[PlayerLName];
     $em = $db->data[PlayerEmail];
-    $pi = $db->data['PlayerID'];
+    $pi = $db->data[PlayerID];
 
     echo "<tr class=\"trrow2\">\n";
     echo "    <td width=\"30%\">Treasurer: </td>\n";
@@ -319,10 +319,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, pl.PlayerID, pl.IsPresident, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub FROM players pl INNER JOIN clubs cl ON pl.PlayerClub = cl.ClubID WHERE pl.PlayerClub = $pr AND pl.IsCaptain = 1");
     $db->DeBagAndTag();
 
-    $fn = $db->data['PlayerFName'];
-    $ln = $db->data['PlayerLName'];
+    $fn = $db->data[PlayerFName];
+    $ln = $db->data[PlayerLName];
     $em = $db->data[PlayerEmail];
-    $pi = $db->data['PlayerID'];
+    $pi = $db->data[PlayerID];
 
     echo "<tr class=\"trrow1\">\n";
     echo "    <td width=\"30%\">Captain: </td>\n";
@@ -344,10 +344,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, pl.PlayerID, pl.IsPresident, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub FROM players pl INNER JOIN clubs cl ON pl.PlayerClub = cl.ClubID WHERE pl.PlayerClub = $pr AND pl.IsViceCaptain = 1");
     $db->DeBagAndTag();
 
-    $fn = $db->data['PlayerFName'];
-    $ln = $db->data['PlayerLName'];
+    $fn = $db->data[PlayerFName];
+    $ln = $db->data[PlayerLName];
     $em = $db->data[PlayerEmail];
-    $pi = $db->data['PlayerID'];
+    $pi = $db->data[PlayerID];
 
     echo "<tr class=\"trrow2\">\n";
     echo "    <td width=\"30%\">Vice Captain: </td>\n";
@@ -410,13 +410,13 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $tid = $db->data[TeamID];
     $tna = $db->data[TeamName];
-    $tab = $db->data['TeamAbbrev'];
+    $tab = $db->data[TeamAbbrev];
     $tco = $db->data[TeamColour];
-    $pic = $db->data['picture'];
+    $pic = $db->data[picture];
 
-    $pid = $db->data['PlayerID'];
-    $pfn = $db->data['PlayerFName'];
-    $pln = $db->data['PlayerLName'];
+    $pid = $db->data[PlayerID];
+    $pfn = $db->data[PlayerFName];
+    $pln = $db->data[PlayerLName];
 
     if($i % 2) {
       echo "<tr class=\"trrow2\">\n";
@@ -425,7 +425,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     }
 
     echo "    <td width=\"100%\"><a href=\"/teamdetails.php?teams=$tid&ccl_mode=1\">$tna</a> <i class=\"9px\">($tab)</i>&nbsp;";
-    if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">";
+    if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_picture.gif\">";
     echo "    </td>\n";
     echo "  </tr>\n";
 
@@ -450,12 +450,12 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $tid = $db->data[TeamID];
     $tna = $db->data[TeamName];
-    $tab = $db->data['TeamAbbrev'];
+    $tab = $db->data[TeamAbbrev];
     $tco = $db->data[TeamColour];
 
-    $pid = $db->data['PlayerID'];
-    $pfn = $db->data['PlayerFName'];
-    $pln = $db->data['PlayerLName'];
+    $pid = $db->data[PlayerID];
+    $pfn = $db->data[PlayerFName];
+    $pln = $db->data[PlayerLName];
 
     echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$cco\" align=\"center\">\n";
     echo "  <tr>\n";
@@ -474,10 +474,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
             $db->GetRow($i);
             $db->DeBagAndTag();
 
-            $t = $db->data['title'];
-            $au = $db->data['author'];
-            $id = $db->data['id'];
-            $pr = $db->data['id'];
+            $t = $db->data[title];
+            $au = $db->data[author];
+            $id = $db->data[id];
+            $pr = $db->data[id];
             $date = sqldate_to_string($db->data[added]);
 
         if($i % 2) {
@@ -487,7 +487,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
         }
 
         echo "    <td width=\"75%\"><a href=\"news.php?news=$pr&ccl_mode=1\">$t</a>\n";
-        if($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">\n";
+        if($db->data[picture] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"25%\" align=\"right\" class=\"9px\">$date</td>\n";
         echo "  </tr>\n";
@@ -520,7 +520,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

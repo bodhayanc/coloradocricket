@@ -1,4 +1,4 @@
-<?php
+<?
 
 //---------------------------------------------------------
 // Client Extranet © Andrew Collington amnuts@talker.com

@@ -18,7 +18,7 @@ session_start();
 // open a connection
 
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 $db->Update("UPDATE $tbcfg[admin] SET ison=0 WHERE email='" . $USER[email] . "'");
 
 // destroy the session and log them out

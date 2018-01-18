@@ -26,15 +26,15 @@ function show_bitbowlingachievement($db)
 
         // setup variables
 
-        $pid = $db->data['PlayerID'];
-        $pfn = $db->data['PlayerFName'];
-        $pln = $db->data['PlayerLName'];  
-        $tna = $db->data['TeamAbbrev'];
-        $gid = $db->data['game_id'];
-        $gda = sqldate_to_string($db->data['game_date']);
-        $run = $db->data['runs'];
-        $wic = $db->data['wickets'];
-        $ove = $db->data['overs'];
+        $pid = $db->data[PlayerID];
+        $pfn = $db->data[PlayerFName];
+        $pln = $db->data[PlayerLName];  
+        $tna = $db->data[TeamAbbrev];
+        $gid = $db->data[game_id];
+        $gda = sqldate_to_string($db->data[game_date]);
+        $run = $db->data[runs];
+        $wic = $db->data[wickets];
+        $ove = $db->data[overs];
         
         if($wic == "4" && $run < "20") {
           $bowldesc = "simply baffled the $tna batsmen, striking $wic times for only $run runs in $ove overs"; 
@@ -77,8 +77,8 @@ function show_bitbowlingachievement($db)
                 
 }
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 show_bitbowlingachievement($db);
 

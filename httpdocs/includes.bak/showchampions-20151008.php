@@ -76,8 +76,8 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
         // setup variables
 
         $tna = $db->data[TeamName];
-        $tab = $db->data['TeamAbbrev'];
-        $sn = $db->data['SeasonName'];
+        $tab = $db->data[TeamAbbrev];
+        $sn = $db->data[SeasonName];
         $tid = $db->data[TeamID];
         
         echo '<tr class="trrow', ($x % 2 ? '1' : '2'), '">';
@@ -137,8 +137,8 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
         // setup variables
 
         $tna = $db->data[TeamName];
-        $tab = $db->data['TeamAbbrev'];
-        $sn = $db->data['SeasonName'];
+        $tab = $db->data[TeamAbbrev];
+        $sn = $db->data[SeasonName];
         $tid = $db->data[TeamID];
         
         echo '<tr class="trrow', ($x % 2 ? '1' : '2'), '">';
@@ -164,8 +164,8 @@ echo "  <td align=\"left\" width=\"40%\">$sn</td>\n";
 }
 
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 
 show_champ($db,$s,$id,$aw,$season,$sename);

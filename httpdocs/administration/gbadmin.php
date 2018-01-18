@@ -46,7 +46,7 @@ function show_long_guestbook_listing($db)
 			echo "</tr>\n";
 			echo "<tr class=\"trtop\">\n";
 			echo "	<td align=\"left\" class=\"trtopfont\">posted on " . $db->data[date] . "</td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=del&id=" . $db->data['id'] . "\"><span class=\"trtopfont\">delete</span></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=del&id=" . $db->data[id] . "\"><span class=\"trtopfont\">delete</span></a></td>\n";
 			echo "</tr>\n";
 			echo "</table></p>\n";
 		}
@@ -102,7 +102,7 @@ function show_short_listing($db)
 
 			echo "	<td align=\"left\">$n</td>\n";
 			echo "	<td align=\"left\">$e</td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=edit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=del&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=edit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=del&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 			echo "</table></p>\n";

@@ -56,27 +56,27 @@ function show_today_yesterday_news($db,$date,$len=250)
       // get short version of the article
       $story = "";
       if ($story != "" && strlen($story)>$len) {
-        $story = substr($db->data['article'],0,$len);
+        $story = substr($db->data[article],0,$len);
       while($story[strlen($story)-1] != " ") {
       $story = substr($story,0,-1);
     }
         $story = substr($story,0,-1);
       } else {
-        $story = substr($db->data['article'],0,$len);
+        $story = substr($db->data[article],0,$len);
       }
 
       // Set the variables
       $story .= "...";
       $a = $story;
-      $t = $db->data['title'];
-      $au = $db->data['author'];
-      $id = $db->data['id'];
-      $pr = $db->data['id'];
+      $t = $db->data[title];
+      $au = $db->data[author];
+      $id = $db->data[id];
+      $pr = $db->data[id];
       $di = $db->data[DiscussID];
       $date = sqldate_to_string($db->data[added]);
       $vw = $db->data[views];
 
-      if ($db->data['picture'] != "") echo "<a href=\"news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
+      if ($db->data[picture] != "") echo "<a href=\"news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data[picture] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
       echo "  <span class=\"newstitle\">$t</span><br>\n";
       echo "  <span class=\"newsauthor\">by $au<br></span>";
       echo "  <span class=\"newsdate\">&raquo;$date (viewed $vw times)<br></span>";
@@ -206,10 +206,10 @@ function show_today_yesterday_news($db,$date,$len=250)
       $t1id = $db->data[HomeID];
       $t2id = $db->data[AwayID];
       $umid = $db->data[UmpireID];
-      $d = sqldate_to_string($db->data['game_date']);
+      $d = sqldate_to_string($db->data[game_date]);
       $sc =  $db->data[scorecard];
       $re = $db->data[result];
-      $id = $db->data['game_id'];
+      $id = $db->data[game_id];
       $wk = $db->data[week];
       $fo = $db->data[forfeit];
       $ca = $db->data[cancelled];
@@ -309,28 +309,28 @@ function show_other_yesterday_news($db,$date,$len=250)
       // get short version of the article
       $story = "";
       if ($story != "" && strlen($story)>$len) {
-        $story = substr($db->data['article'],0,$len);
+        $story = substr($db->data[article],0,$len);
       while($story[strlen($story)-1] != " ") {
       $story = substr($story,0,-1);
     }
         $story = substr($story,0,-1);
       } else {
-        $story = substr($db->data['article'],0,$len);
+        $story = substr($db->data[article],0,$len);
       }
 
       // Set the variables
       $story .= "...";
       $a = $story;
-      $t = $db->data['title'];
-      $au = $db->data['author'];
-      $id = $db->data['id'];
-      $pr = $db->data['id'];
+      $t = $db->data[title];
+      $au = $db->data[author];
+      $id = $db->data[id];
+      $pr = $db->data[id];
       $di = $db->data[DiscussID];
       $date = sqldate_to_string($db->data[added]);
       $vw = $db->data[views];
 
 
-      if ($db->data['picture'] != "") echo "<a href=\"news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
+      if ($db->data[picture] != "") echo "<a href=\"news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data[picture] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
       echo "  <span class=\"newstitle\">$t</span><br>\n";
       echo "  <span class=\"newsauthor\">by $au<br></span>";
       echo "  <span class=\"newsdate\">&raquo;$date (viewed $vw times)<br></span>";
@@ -456,10 +456,10 @@ function show_other_yesterday_news($db,$date,$len=250)
       $t1id = $db->data[HomeID];
       $t2id = $db->data[AwayID];
       $umid = $db->data[UmpireID];
-      $d = sqldate_to_string($db->data['game_date']);
+      $d = sqldate_to_string($db->data[game_date]);
       $sc =  $db->data[scorecard];
       $re = $db->data[result];
-      $id = $db->data['game_id'];
+      $id = $db->data[game_id];
       $wk = $db->data[week];
       $fo = $db->data[forfeit];
       $ca = $db->data[cancelled];
@@ -505,7 +505,7 @@ function show_other_yesterday_news($db,$date,$len=250)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

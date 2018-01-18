@@ -68,7 +68,7 @@ function show_mini_schedule($db, $season)
                 $l1  = $db->data['hometeam'];
                 $l2  = $db->data['awayteam'];
 		// 16-Apr-2017 Modified to get the season name to show in front of the scheduled game
-		$ss = explode(" ", $db->data['SeasonName']);
+		$ss = explode(" ", $db->data[SeasonName]);
 		$ss1 = substr($ss[0],4);
 		// 2017-04-21 - Bodha - Shortened Premier to P40 and Twenty20 to T20
                 if($ss[1] == 'Premier') {

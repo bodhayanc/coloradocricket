@@ -28,7 +28,7 @@ function show_photos_listing($db,$gallery,$id)
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$db->BagAndTag();
-			$id = $db->data['id'];
+			$id = $db->data[id];
 			$gallerycount = $db->QueryItem("SELECT COUNT(*) from demogallery");
 		}
 
@@ -61,11 +61,11 @@ function show_photos_listing($db,$gallery,$id)
 
 			// setup the variables
 
-			$t = htmlentities(stripslashes($db->data['title']));
-			$gallery = htmlentities(stripslashes($db->data['title']));
-			$pr = htmlentities(stripslashes($db->data['id']));
-			$id = $db->data['id'];
-			$yo = htmlentities(stripslashes($db->data['id']));
+			$t = htmlentities(stripslashes($db->data[title]));
+			$gallery = htmlentities(stripslashes($db->data[title]));
+			$pr = htmlentities(stripslashes($db->data[id]));
+			$id = $db->data[id];
+			$yo = htmlentities(stripslashes($db->data[id]));
 
 			echo "  <tr class=\"trbottom\">\n";
 			echo "    <td><a href=\"$PHP_SELF?gallery=$gallery&id=$pr&mode=1\">$t</a></td>\n";
@@ -106,8 +106,8 @@ function show_thumbs($db,$gallery,$id)
 			// setup the variables
 
 			$p = htmlentities(stripslashes($db->data[picture1]));
-			$t = htmlentities(stripslashes($db->data['title']));
-			$pr = htmlentities(stripslashes($db->data['id']));
+			$t = htmlentities(stripslashes($db->data[title]));
+			$pr = htmlentities(stripslashes($db->data[id]));
 			$da = htmlentities(stripslashes($db->data[date]));
 
 			if ($cnt==$across) {
@@ -155,8 +155,8 @@ function show_photos($db,$gallery,$id)
 
 		// setup the variables
 
-		$p = htmlentities(stripslashes($db->data['picture']));
-		$t = htmlentities(stripslashes($db->data['title']));
+		$p = htmlentities(stripslashes($db->data[picture]));
+		$t = htmlentities(stripslashes($db->data[title]));
 		$de = htmlentities(stripslashes($db->data[description]));
 		$l = htmlentities(stripslashes($db->data[location]));
 		$da = htmlentities(stripslashes($db->data[date]));
@@ -165,7 +165,7 @@ function show_photos($db,$gallery,$id)
 		// output photos
 
 		echo "  <tr>\n";
-		echo "    <td valign=\"top\"><p align=\"center\"><img border=\"2\" src=\"uploadphotos/" . $db->data['picture'] . "\" style=\"border: 2 solid #3c3c3c\"></a></p>\n";
+		echo "    <td valign=\"top\"><p align=\"center\"><img border=\"2\" src=\"uploadphotos/" . $db->data[picture] . "\" style=\"border: 2 solid #3c3c3c\"></a></p>\n";
 		echo "    <div align=\"center\"><span class=\"newsheader\">$t</span></div></td>\n";
 		echo "  </tr>\n";
 		echo "  <tr>\n";
@@ -188,8 +188,8 @@ function show_photos($db,$gallery,$id)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 //show_photos($db);
 

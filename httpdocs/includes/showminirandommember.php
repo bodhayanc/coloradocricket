@@ -35,13 +35,13 @@ function show_minirandommember($db)
 
 		// setup variables
 
-		$pid = $db->data['PlayerID'];
-		$pfn = $db->data['PlayerFName'];
-		$pln = $db->data['PlayerLName'];
-		$pic = $db->data['picture'];
+		$pid = $db->data[PlayerID];
+		$pfn = $db->data[PlayerFName];
+		$pln = $db->data[PlayerLName];
+		$pic = $db->data[picture];
 
 		$tna = $db->data[TeamName];
-		$tab = $db->data['TeamAbbrev'];
+		$tab = $db->data[TeamAbbrev];
 		
 		$bat = $db->data[BattingStyle];
 		$bow = $db->data[BowlingStyle];
@@ -69,8 +69,8 @@ function show_minirandommember($db)
 		}
 }
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 show_minirandommember($db);
 

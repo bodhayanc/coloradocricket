@@ -1,8 +1,8 @@
 <?php
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 $subdb =& new mysql_class($dbcfg['login'], $dbcfg['pword'], $dbcfg['server']);
 $subdb->SelectDB($dbcfg['db']);

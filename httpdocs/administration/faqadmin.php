@@ -30,7 +30,7 @@ function show_main_menu($db)
 
                         // setup variables
 
-                        $category[$db->data[cat]] = $db->data['title'];
+                        $category[$db->data[cat]] = $db->data[title];
                 }
 
                 // output header
@@ -59,7 +59,7 @@ function show_main_menu($db)
                                         $q = htmlentities($db->data[question]);
                                         echo "<tr class=\"trbottom\">\n";
                                         echo " <td align=\"left\">" . ($x+1) . ".   $q</td>\n";
-                                        echo " <td align=\"right\"><a href=\"$PHP_SELF?SID=$SID&action=faqadmin&do=editq&id=" . $db->data['id'] . "\">edit</a> | <a href=\"$PHP_SELF?SID=$SID&action=faqadmin&do=delq&id=" . $db->data['id'] . "\">delete</a></td>\n";
+                                        echo " <td align=\"right\"><a href=\"$PHP_SELF?SID=$SID&action=faqadmin&do=editq&id=" . $db->data[id] . "\">edit</a> | <a href=\"$PHP_SELF?SID=$SID&action=faqadmin&do=delq&id=" . $db->data[id] . "\">delete</a></td>\n";
                                         echo "</tr>\n";
 
                                 }
@@ -122,7 +122,7 @@ function edit_question_form($db,$id)
         $db->Query("SELECT * FROM _faq_category ORDER BY cat");
         for ($i=0; $i<$db->rows; $i++) {
                 $db->GetRow($i);
-                $category[$db->data[cat]] = $db->data['title'];
+                $category[$db->data[cat]] = $db->data[title];
         }
 
         // get selected question

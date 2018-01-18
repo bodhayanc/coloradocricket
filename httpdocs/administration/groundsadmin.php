@@ -58,7 +58,7 @@ function show_main_menu($db)
 			} else {
 			echo "	<td align=\"left\">$gn <b><font color=\"red\">(not active)</font></b>";
 			}
-			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
+			if ($db->data[picture] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
 			echo "  </td>\n";
 //			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[GroundID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[GroundID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
@@ -405,9 +405,9 @@ function edit_category_form($db,$id)
 
 	echo "<input type=\"checkbox\" name=\"GroundActive\" value=\"1\"" . ($ga==1?" checked":"") . "> is this ground active?</p>\n";
 
-	if ($db->data['picture']) {
+	if ($db->data[picture]) {
 		echo "<p>current ground photo</p>\n";
-		echo "<p><img src=\"../uploadphotos/grounds/" . $db->data['picture'] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/grounds/" . $db->data[picture] . "\"></p>\n";
 		echo "<p>upload a ground photo (if you want to change the current one)";
 	} else {
 		echo "<p>upload a ground photo";

@@ -426,7 +426,7 @@ EOT;
 						<table border="0" cellspacing="6" cellpadding="0" width="98%" align="center">
 							<tr>
 								<td width="50%" class="atomic">$lang_settings_data[lang_name] <b>:</b> $lang_info[name]</td>
-								<td width="50%" class="atomic">$lang_settings_data[lang_author_name] <b>:</b> $lang_info['author']</td>
+								<td width="50%" class="atomic">$lang_settings_data[lang_author_name] <b>:</b> $lang_info[author]</td>
 							</tr>
 							<tr>
 								<td width="50%" class="atomic">$lang_settings_data[lang_native_name] <b>:</b> $lang_info[nativename]</td>
@@ -489,7 +489,7 @@ EOT;
 								<td width="50%" class="atomic">$lang_settings_data[theme_date_made] <b>:</b> $theme_info[datemade]</td>
 							</tr>
 							<tr>
-								<td width="50%" class="atomic">$lang_settings_data[theme_author_name] <b>:</b> $theme_info['author']</td>
+								<td width="50%" class="atomic">$lang_settings_data[theme_author_name] <b>:</b> $theme_info[author]</td>
 							</tr>
 							<tr>
 								<td width="50%" class="atomic">$lang_settings_data[theme_author_email] <b>:</b> <a href="mailto:$theme_info[author_email]">$theme_info[author_email]</a></td>

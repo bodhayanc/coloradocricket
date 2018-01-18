@@ -42,8 +42,8 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$t = htmlentities(stripslashes($db->data['title']));
-			$id = htmlentities(stripslashes($db->data['id']));
+			$t = htmlentities(stripslashes($db->data[title]));
+			$id = htmlentities(stripslashes($db->data[id]));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -55,9 +55,9 @@ function show_main_menu($db)
 
 			echo "	<td align=\"left\">$id</td>\n";
 			echo "	<td align=\"left\">$t</td>\n";
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -185,9 +185,9 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$t  = stripslashes($db->data['title']);
-	$th = htmlentities(stripslashes($db->data['title']));
-	$a  = htmlentities(stripslashes($db->data['article']));
+	$t  = stripslashes($db->data[title]);
+	$th = htmlentities(stripslashes($db->data[title]));
+	$a  = htmlentities(stripslashes($db->data[article]));
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";
@@ -209,9 +209,9 @@ function edit_category_form($db,$id)
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	echo "<p>enter the article title<br><input type=\"text\" name=\"title\" size=\"50\"maxlength=\"255\" value=\"$th\"></p>\n";
 	echo "<p>enter the article information<br><textarea name=\"article\" cols=\"70\" rows=\"15\" wrap=\"virtual\">$a</textarea></p>\n";
-	if ($db->data['picture']) {
+	if ($db->data[picture]) {
 		echo "<p>current pdf</p>\n";
-		echo "<p><a href=\"../uploadphotos/history/" . $db->data['picture'] . "\"><img src=\"../images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp; " . $db->data['picture'] . "</a></p>\n";
+		echo "<p><a href=\"../uploadphotos/history/" . $db->data[picture] . "\"><img src=\"../images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp; " . $db->data[picture] . "</a></p>\n";
 		echo "<p>upload a pdf (if you want to change the current one)";
 	} else {
 		echo "<p>upload a pdf";

@@ -43,11 +43,11 @@ function show_main_menu($db)
             $db->BagAndTag();
 
             // output
-            $id = $db->data['SeasonID'];
-            $season = $db->data['SeasonID'];
-            $sename = $db->data['SeasonName'];
+            $id = $db->data[SeasonID];
+            $season = $db->data[SeasonID];
+            $sename = $db->data[SeasonName];
 
-            echo "    <option value=\"main.php?SID=$SID&action=$action&do=byseason&season=$season&sename=$sename\">" . $db->data['SeasonName'] . " season</option>\n";
+            echo "    <option value=\"main.php?SID=$SID&action=$action&do=byseason&season=$season&sename=$sename\">" . $db->data[SeasonName] . " season</option>\n";
 
         }
 
@@ -91,7 +91,7 @@ function show_main_menu_season($db,$season,$sename)
                 $db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName DESC");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
+                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
                 }
 
 
@@ -170,9 +170,9 @@ function show_main_menu_season($db,$season,$sename)
                     echo "  <td align=\"center\">$nr</td>\n";
                     echo "  <td align=\"center\">$pt</td>\n";
                     echo "  <td align=\"center\">$pe</td>\n";
-//                    echo "  <td align=\"right\"><a href=\"main.php?SID=$SID&action=tennisladderadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=tennisladderadmin&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" alt=\"Delete\" border=\"0\"></a></td>\n";
+//                    echo "  <td align=\"right\"><a href=\"main.php?SID=$SID&action=tennisladderadmin&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=tennisladderadmin&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" alt=\"Delete\" border=\"0\"></a></td>\n";
 
-                    echo "  <td align=\"right\"><a href=\"main.php?SID=$SID&action=tennisladderadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a></td>\n";
+                    echo "  <td align=\"right\"><a href=\"main.php?SID=$SID&action=tennisladderadmin&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a></td>\n";
 
                     
                     echo "</tr>\n";
@@ -210,7 +210,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data['SeasonID'] . "\">Season " . $db->data['SeasonName'] . "</option>\n";
+            echo "<option value=\"" . $db->data[SeasonID] . "\">Season " . $db->data[SeasonName] . "</option>\n";
         }
     }
 
@@ -297,7 +297,7 @@ function delete_category_check($db,$id)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
     }
 
     $db->Query("SELECT * FROM grounds ORDER BY GroundName");
@@ -342,7 +342,7 @@ function edit_category_form($db,$id)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $db->BagAndTag();
-        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
+        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
     }
     // get all teams
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");

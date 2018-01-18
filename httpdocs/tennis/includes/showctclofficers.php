@@ -76,11 +76,11 @@ function show_cclofficers_listing($db,$id,$offid)
         $id = $db->data[cclofficerID];
         $ti = $db->data[cclofficerTitle];
         $pid = $db->data[cclofficerPlayerID];
-        $fna = $db->data['PlayerFName'];
-        $lna = $db->data['PlayerLName'];
+        $fna = $db->data[PlayerFName];
+        $lna = $db->data[PlayerLName];
         $pem = $db->data[PlayerEmail];
-        $tab = $db->data['TeamAbbrev'];
-        $pc = $db->data['picture'];
+        $tab = $db->data[TeamAbbrev];
+        $pc = $db->data[picture];
         $detail = $db->data[cclofficerDetail];
         $cclofficerViews = $db->data[cclofficerViews];
 
@@ -148,10 +148,10 @@ function show_cclofficers_detail($db,$id,$offid)
         $ti = $db->data[cclofficerTitle];
         $de = $db->data[cclofficerDetail];
         $vi = $db->data[cclofficerViews];
-        $fna = $db->data['PlayerFName'];
-        $lna = $db->data['PlayerLName'];
+        $fna = $db->data[PlayerFName];
+        $lna = $db->data[PlayerLName];
         $pem = $db->data[PlayerEmail];
-        $pic = $db->data['picture'];
+        $pic = $db->data[picture];
 
     echo "<b class=\"16px\">$ti</b><br><br>\n";
 
@@ -227,11 +227,11 @@ function show_cclofficers_views($db,$id,$offid)
         $id = $db->data[cclofficerID];
         $ti = $db->data[cclofficerTitle];
         $vie = $db->data[cclofficerViews];
-        $pid = $db->data['PlayerID'];
-        $fna = $db->data['PlayerFName'];
-        $lna = $db->data['PlayerLName'];
+        $pid = $db->data[PlayerID];
+        $fna = $db->data[PlayerFName];
+        $lna = $db->data[PlayerLName];
         $pem = $db->data[PlayerEmail];
-        $pic = $db->data['picture'];
+        $pic = $db->data[picture];
 
 
     echo "<b class=\"16px\">$ti - $fna $lna</b><br><br>\n";
@@ -296,7 +296,7 @@ function show_cclofficers_views($db,$id,$offid)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

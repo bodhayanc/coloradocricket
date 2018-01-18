@@ -44,7 +44,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['SeasonID'] . "\">Season " . $db->data['SeasonName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[SeasonID] . "\">Season " . $db->data[SeasonName] . "</option>\n";
 		}
 	}
 	echo "  </select>\n";
@@ -69,7 +69,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "  </select>\n";
@@ -86,7 +86,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "  </select>\n";
@@ -103,7 +103,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -120,7 +120,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -137,7 +137,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -154,7 +154,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -171,7 +171,7 @@ function add_cougars_scorecard_step1($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamAbbrev] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -373,7 +373,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 
 	$db->BagAndTag();
 
-	$gid = $db->data['game_id'];
+	$gid = $db->data[game_id];
 	$gsc = $db->data[season];
 	
 	$ght = $db->data[HomeAbbrev];
@@ -385,7 +385,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 	$gre = $db->data[result];
 	$gtt = $db->data[WonTossAbbrev];
 
-	$gda = sqldate_to_string($db->data['game_date']);
+	$gda = sqldate_to_string($db->data[game_date]);
 
 	$bat1st   = $db->data[BatFirstAbbrev];
 	$bat1stid = $db->data[BatFirstID];
@@ -476,7 +476,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -510,7 +510,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -531,7 +531,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -570,7 +570,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -604,7 +604,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -625,7 +625,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -664,7 +664,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -698,7 +698,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -719,7 +719,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -758,7 +758,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -792,7 +792,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -813,7 +813,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -852,7 +852,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -886,7 +886,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -907,7 +907,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -946,7 +946,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -980,7 +980,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1001,7 +1001,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1040,7 +1040,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1074,7 +1074,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1095,7 +1095,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1134,7 +1134,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1168,7 +1168,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1189,7 +1189,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1228,7 +1228,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1262,7 +1262,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1283,7 +1283,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1322,7 +1322,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1356,7 +1356,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1377,7 +1377,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1416,7 +1416,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1450,7 +1450,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1471,7 +1471,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -1669,7 +1669,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -1714,7 +1714,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -1758,7 +1758,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -1803,7 +1803,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -1848,7 +1848,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -1893,7 +1893,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -1938,7 +1938,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -1983,7 +1983,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -2028,7 +2028,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -2072,7 +2072,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -2117,7 +2117,7 @@ function add_cougars_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -2554,7 +2554,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 
 	$db->BagAndTag();
 
-	$gid = $db->data['game_id'];
+	$gid = $db->data[game_id];
 	$gsc = $db->data[season];
 
 	$b1  = $db->data[batting_first_id];
@@ -2569,7 +2569,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 	$gre = $db->data[result];
 	$gtt = $db->data[WonTossAbbrev];
 
-	$gda = sqldate_to_string($db->data['game_date']);
+	$gda = sqldate_to_string($db->data[game_date]);
 
 	$bat1st = $db->data[BatFirstAbbrev];
 	$bat1stid = $db->data[BatFirstID];
@@ -2660,7 +2660,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2694,7 +2694,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2715,7 +2715,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2754,7 +2754,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2788,7 +2788,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2809,7 +2809,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2848,7 +2848,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2882,7 +2882,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2903,7 +2903,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2942,7 +2942,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2976,7 +2976,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -2997,7 +2997,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3036,7 +3036,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3070,7 +3070,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3091,7 +3091,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3130,7 +3130,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3164,7 +3164,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3185,7 +3185,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3224,7 +3224,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3258,7 +3258,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3279,7 +3279,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3318,7 +3318,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3352,7 +3352,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3373,7 +3373,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3412,7 +3412,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3446,7 +3446,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3467,7 +3467,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3506,7 +3506,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3540,7 +3540,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3561,7 +3561,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3600,7 +3600,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat2ndid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3634,7 +3634,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3655,7 +3655,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";		
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 	}
 	echo "</select>\n";
@@ -3852,7 +3852,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -3897,7 +3897,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -3941,7 +3941,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -3986,7 +3986,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4031,7 +4031,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4076,7 +4076,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4121,7 +4121,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4166,7 +4166,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4211,7 +4211,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4255,7 +4255,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4300,7 +4300,7 @@ function add_cougars_scorecard_step3($db,$game_id,$season)
 			if($bat1stid != "1") {
 			echo "<option value=\"" . $db->data[CougarID] . "\">" . $db->data[NotCougarPlayer] . "</option>\n";
 			} else {
-			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
+			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
 			}
 		}
 	echo "</select>\n";
@@ -4786,8 +4786,8 @@ function finished($db)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 
 

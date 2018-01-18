@@ -36,7 +36,7 @@ function show_category_list($db)
                 $db->Query("SELECT * FROM demo_faq_category ORDER BY cat");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $category[$db->data[cat]] = $db->data['title'];
+                        $category[$db->data[cat]] = $db->data[title];
                 }
 
                 for ($i=1; $i<=count($category); $i++) {
@@ -142,7 +142,7 @@ function search_category_list($db,$search)
                 $db->Query("SELECT * FROM demo_faq_category ORDER BY cat");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $category[$db->data[cat]] = $db->data['title'];
+                        $category[$db->data[cat]] = $db->data[title];
                 }
 
                 for ($i=1; $i<=count($category); $i++) {
@@ -169,8 +169,8 @@ function search_category_list($db,$search)
         echo "<p><a href=\"$PHP_SELF\"><b>Show all</b></a></p>\n";
 }
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 if (isset($search) && $search != "") search_category_list($db,$search);
 else {

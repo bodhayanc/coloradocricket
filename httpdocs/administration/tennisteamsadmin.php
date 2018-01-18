@@ -43,7 +43,7 @@ function show_main_menu($db)
             // setup variables
 
             $tn = htmlentities(stripslashes($db->data[TeamName]));
-            $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
+            $ta = htmlentities(stripslashes($db->data[TeamAbbrev]));
             $tc = htmlentities(stripslashes($db->data[TeamActive]));
             $tg = htmlentities(stripslashes($db->data[GroupName]));
 
@@ -61,7 +61,7 @@ function show_main_menu($db)
             } else {
             echo "  <td align=\"left\">$tn <b><font color=\"red\">(not active)</font></b>";
             }
-            if ($db->data['picture'] != "" ) echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">&nbsp;";
+            if ($db->data[picture] != "" ) echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">&nbsp;";
             echo "</td>\n";
 //            echo "  <td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[TeamID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[TeamID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
@@ -255,7 +255,7 @@ function edit_category_form($db,$id)
     // setup variables
 
     $tn = htmlentities(stripslashes($db->data[TeamName]));
-    $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
+    $ta = htmlentities(stripslashes($db->data[TeamAbbrev]));
     $ur = htmlentities(stripslashes($db->data[TeamURL]));
     $tc = htmlentities(stripslashes($db->data[TeamColour]));
     $tv = htmlentities(stripslashes($db->data[TeamActive]));
@@ -309,9 +309,9 @@ function edit_category_form($db,$id)
     echo "<p>enter the team color<br><input type=\"text\" name=\"TeamColour\" size=\"40\" maxlength=\"255\" value=\"$tc\"></p>\n";
     echo "<input type=\"checkbox\" name=\"TeamActive\" value=\"1\"" . ($tv==1?" checked":"") . "> is this team active?</p>\n";
     echo "<p>enter the team description<br><textarea name=\"TeamDesc\" cols=\"70\" rows=\"15\" wrap=\"virtual\">$td</textarea></p>\n";
-    if ($db->data['picture']) {
+    if ($db->data[picture]) {
         echo "<p>current team photo</p>\n";
-        echo "<p><img src=\"../uploadphotos/teams/" . $db->data['picture'] . "\"></p>\n";
+        echo "<p><img src=\"../uploadphotos/teams/" . $db->data[picture] . "\"></p>\n";
         echo "<p>upload a team photo (if you want to change the current one)";
     } else {
         echo "<p>upload a team photo";

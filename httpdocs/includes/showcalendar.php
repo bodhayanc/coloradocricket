@@ -46,8 +46,8 @@ function show_calendar_listing($db)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data['id']));
-        $na = htmlentities(stripslashes($db->data['title']));
+        $id = htmlentities(stripslashes($db->data[id]));
+        $na = htmlentities(stripslashes($db->data[title]));
         $sd = htmlentities(stripslashes($db->data[start_date]));
 
         // output article
@@ -116,13 +116,13 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-            $iid = $db->data['id'];
-            $itit = $db->data['title'];
-            $ipic = $db->data['picture'];
+            $iid = $db->data[id];
+            $itit = $db->data[title];
+            $ipic = $db->data[picture];
             $idet = $db->data[description];
 
             $ina = $db->data[contact];
-            $iurl= $db->data['url'];
+            $iurl= $db->data[url];
             $iem = $db->data[email];
             $isd = $db->data[start_date];
 	    $ied = $db->data[end_date];
@@ -163,7 +163,7 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

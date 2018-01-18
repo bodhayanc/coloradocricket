@@ -51,11 +51,11 @@ function show_featuredmember_listing($db,$id,$fm)
             $db->BagAndTag();
 
             // output
-            $id = $db->data['SeasonID'];
-            $season = $db->data['SeasonID'];
-            $sename = $db->data['SeasonName'];
+            $id = $db->data[SeasonID];
+            $season = $db->data[SeasonID];
+            $sename = $db->data[SeasonName];
 
-            echo "    <option value=\"$PHP_SELF?season=$season&sename=$sename&ccl_mode=2\">" . $db->data['SeasonName'] . " season</option>\n";
+            echo "    <option value=\"$PHP_SELF?season=$season&sename=$sename&ccl_mode=2\">" . $db->data[SeasonName] . " season</option>\n";
 
         }
 
@@ -129,7 +129,7 @@ function show_featuredmember_season($db,$id,$fm,$season,$sename)
     for ($x=0; $x<$db->rows; $x++) {
         $db->GetRow($x);
         $db->BagAndTag();
-        $sen = $db->data['SeasonName'];
+        $sen = $db->data[SeasonName];
         $sid = $db->data[season];
 
     echo "    <option value=\"$PHP_SELF?season=$sid&sename=$sen&ccl_mode=2\" class=\"10px\">$sen</option>\n";
@@ -173,15 +173,15 @@ function show_featuredmember_season($db,$id,$fm,$season,$sename)
 
         // setup variables
 
-        $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-        $pln = htmlentities(stripslashes($db->data['PlayerLName']));
+        $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
+        $pln = htmlentities(stripslashes($db->data[PlayerLName]));
 
         $tna = htmlentities(stripslashes($db->data[TeamName]));
-        $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
+        $tab = htmlentities(stripslashes($db->data[TeamAbbrev]));
 
         $det = htmlentities(stripslashes($db->data[FeaturedDetail]));
         $id = htmlentities(stripslashes($db->data[FeaturedID]));
-        $sn = htmlentities(stripslashes($db->data['SeasonName']));
+        $sn = htmlentities(stripslashes($db->data[SeasonName]));
         $a = sqldate_to_string($db->data[added]);
 
         if($x % 2) {
@@ -242,13 +242,13 @@ function show_featuredmember($db,$id,$fm,$season,$sename)
 
         // setup variables
 
-        $pfn = $db->data['PlayerFName'];
-        $pln = $db->data['PlayerLName'];
-        $pic = $db->data['picture'];
-        $pid = $db->data['PlayerID'];
+        $pfn = $db->data[PlayerFName];
+        $pln = $db->data[PlayerLName];
+        $pic = $db->data[picture];
+        $pid = $db->data[PlayerID];
 
         $tna = $db->data[TeamName];
-        $tab = $db->data['TeamAbbrev'];
+        $tab = $db->data[TeamAbbrev];
 
         $det = $db->data[FeaturedDetail];
         $a = sqldate_to_string($db->data[added]);
@@ -311,8 +311,8 @@ function show_featuredmember($db,$id,$fm,$season,$sename)
         }
 }
 
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 
 switch($ccl_mode) {

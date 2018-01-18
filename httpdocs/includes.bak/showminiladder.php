@@ -16,7 +16,7 @@ function show_miniladder($db,$s,$id,$pr,$ladder)
                $db->Query("SELECT * FROM seasons WHERE SeasonName LIKE '%2017%' ORDER BY SeasonName DESC");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
+                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
                 }
 
 		echo "  <table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
@@ -108,8 +108,8 @@ function show_miniladder($db,$s,$id,$pr,$ladder)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 
 show_miniladder($db,$s,$id,$pr,$ladder);

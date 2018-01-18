@@ -111,10 +111,10 @@ function search_site($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $id = htmlentities(stripslashes($db->data['PlayerID']));
-            $pln = htmlentities(stripslashes($db->data['PlayerLName']));
-            $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-            $pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
+            $id = htmlentities(stripslashes($db->data[PlayerID]));
+            $pln = htmlentities(stripslashes($db->data[PlayerLName]));
+            $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
+            $pte = htmlentities(stripslashes($db->data[TeamAbbrev]));
 
             if($i % 2) {
               echo "<tr class=\"trrow1\">\n";
@@ -123,7 +123,7 @@ function search_site($db,$search="")
             }
 
         echo "    <td width=\"100%\"><a href=\"http://www.coloradocricket.org/players.php?players=$id&ccl_mode=1\"><b>$pln, $pfn</b></a> <span class=\"9px\">($pte)</span>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         if ($db->data[picture1] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
@@ -180,8 +180,8 @@ function search_site($db,$search="")
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
             $a = sqldate_to_string($db->data[added]);
-            $t = sqldate_to_string($db->data['title']);
-            $id = sqldate_to_string($db->data['id']);
+            $t = sqldate_to_string($db->data[title]);
+            $id = sqldate_to_string($db->data[id]);
 
             if($i % 2) {
               echo "<tr class=\"trrow1\">\n";
@@ -190,7 +190,7 @@ function search_site($db,$search="")
             }
 
         echo "    <td width=\"80%\"><a href=\"news.php?news=$id&ccl_mode=1\"><b>$t</b></a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"20%\"><span class=\"9px\">$a</span></td>\n";
         echo "  </tr>\n";
@@ -246,8 +246,8 @@ function search_site($db,$search="")
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
             $a = sqldate_to_string($db->data[added]);
-            $t = sqldate_to_string($db->data['title']);
-            $id = sqldate_to_string($db->data['id']);
+            $t = sqldate_to_string($db->data[title]);
+            $id = sqldate_to_string($db->data[id]);
 
             if($i % 2) {
               echo "<tr class=\"trrow1\">\n";
@@ -256,7 +256,7 @@ function search_site($db,$search="")
             }
 
         echo "    <td width=\"80%\"><a href=\"articles.php?news=$id&ccl_mode=1\"><b>$t</b></a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"20%\"><span class=\"9px\">$a</span></td>\n";
         echo "  </tr>\n";
@@ -309,7 +309,7 @@ function search_site($db,$search="")
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

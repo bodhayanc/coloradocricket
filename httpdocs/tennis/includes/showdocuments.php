@@ -64,10 +64,10 @@ function show_documents_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data['title']));
-        $pr = htmlentities(stripslashes($db->data['id']));
-        $fi = $db->data['picture'];
-        $id = $db->data['id'];
+        $t = htmlentities(stripslashes($db->data[title]));
+        $pr = htmlentities(stripslashes($db->data[id]));
+        $fi = $db->data[picture];
+        $id = $db->data[id];
 
         // output article
 
@@ -78,7 +78,7 @@ function show_documents_listing($db,$s,$id,$pr)
         }
 
         echo "    <td><a href=\"$PHP_SELF?documents=$pr&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<a href=\"http://www.coloradocricket.org/uploadphotos/documents/$fi\"><img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
+        if ($db->data[picture] != "") echo "<a href=\"http://www.coloradocricket.org/uploadphotos/documents/$fi\"><img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
         echo "    </td>\n";
         echo "  </tr>\n";
     }
@@ -107,9 +107,9 @@ function show_documents($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM tennisdocuments WHERE id=$pr");
     $db->BagAndTag();
 
-    $t = $db->data['title'];
-    $a = $db->data['article'];
-    $fi = $db->data['picture'];
+    $t = $db->data[title];
+    $a = $db->data[article];
+    $fi = $db->data[picture];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -125,7 +125,7 @@ function show_documents($db,$s,$id,$pr)
     echo "</tr>\n";
     echo "</table>\n";
 
-    if ($db->data['picture'] != "") echo "<a href=\"http://www.coloradocricket.org/uploadphotos/documents/$fi\"><img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
+    if ($db->data[picture] != "") echo "<a href=\"http://www.coloradocricket.org/uploadphotos/documents/$fi\"><img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
 
     // output story
@@ -136,7 +136,7 @@ function show_documents($db,$s,$id,$pr)
     // output link back
     $sitevar = "http://www.slorugby.com/documentsarchives.php?documents=$pr&ccl_mode=1";
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
-    if ($db->data['picture'] != "") echo "<a href=\"http://www.coloradocricket.org/uploadphotos/documents/$fi\"><img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
+    if ($db->data[picture] != "") echo "<a href=\"http://www.coloradocricket.org/uploadphotos/documents/$fi\"><img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
     echo "<p>&laquo; <a href=\"$PHP_SELF\">back to documents listing</a></p>\n";
 
     // finish off
@@ -220,8 +220,8 @@ function search_documents($db,$search="")
               echo "<tr class=\"trrow1\">\n";
             }
 
-        echo "    <td><a href=\"$PHP_SELF?documents={$db->data['id']}&ccl_mode=1\">{$db->data['title']}</a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_sm.gif\">\n";
+        echo "    <td><a href=\"$PHP_SELF?documents={$db->data[id]}&ccl_mode=1\">{$db->data[title]}</a>&nbsp;\n";
+        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_pdf_sm.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 
@@ -257,7 +257,7 @@ function search_documents($db,$search="")
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

@@ -15,7 +15,7 @@ function show_teams_listing($db,$s,$id,$pr)
     $db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName DESC LIMIT 1");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $season = $db->data['SeasonID'];
+        $season = $db->data[SeasonID];
     }
     
     $db->Query("SELECT * FROM tennisgroups ORDER BY GroupName");
@@ -71,7 +71,7 @@ function show_teams_listing($db,$s,$id,$pr)
 	        $di = htmlentities(stripslashes($db->data[TeamDesc]));
 	        $co = htmlentities(stripslashes($db->data[TeamColour]));
                 $st = $db->data[TeamActive];
-	        $pi = $db->data['picture'];
+	        $pi = $db->data[picture];
 	
 //              if ($st=1) { $sta = 'Active';}
                if ($st==0) { $sta = 'Inactive';}   // checking using two equal signs 28-Oct-2014 12:11am
@@ -128,7 +128,7 @@ function show_full_teams($db,$s,$id,$pr)
 
     $id = $db->data[TeamID];
     $na = $db->data[TeamName];
-    $ca = $db->data['TeamAbbrev'];
+    $ca = $db->data[TeamAbbrev];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];
     $td = $db->data[TeamDesc];  // Added 29-Jul-2014 12:21am 
@@ -166,11 +166,11 @@ function show_full_teams($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
 
-        $pic = $db->data['picture'];
+        $pic = $db->data[picture];
 
     // output story
 
-        if ($db->data['picture'] != "" ) {
+        if ($db->data[picture] != "" ) {
 
         echo "<tr>\n";
         echo "    <td width=\"100%\" align=\"center\"><img src=\"http://www.coloradocricket.org/uploadphotos/teams/$pic\" width=445></td>\n";
@@ -231,11 +231,11 @@ function show_full_teams($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
 
-        $fn = $db->data['PlayerFName'];
-        $ln = $db->data['PlayerLName'];
+        $fn = $db->data[PlayerFName];
+        $ln = $db->data[PlayerLName];
         $em = $db->data[PlayerEmail];
-        $pi = $db->data['PlayerID'];
-        $pc = $db->data['picture'];
+        $pi = $db->data[PlayerID];
+        $pc = $db->data[picture];
         $pa = $db->data[picture1];
 		$ps = $db->data[isactive];  // 29-Oct-2014 10:26pm player status
 
@@ -333,7 +333,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
     $id = $db->data[TeamID];
     $na = $db->data[TeamName];
-    $ca = $db->data['TeamAbbrev'];
+    $ca = $db->data[TeamAbbrev];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];
 
@@ -386,11 +386,11 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
 
-        $fn = $db->data['PlayerFName'];
-        $ln = $db->data['PlayerLName'];
+        $fn = $db->data[PlayerFName];
+        $ln = $db->data[PlayerLName];
         $em = $db->data[PlayerEmail];
-        $pi = $db->data['PlayerID'];
-        $pc = $db->data['picture'];
+        $pi = $db->data[PlayerID];
+        $pc = $db->data[picture];
         $pa = $db->data[picture1];
         $ia = $db->data[isactive];
 
@@ -487,7 +487,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

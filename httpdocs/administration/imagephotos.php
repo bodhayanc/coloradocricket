@@ -27,7 +27,7 @@ function show_main_menu($db)
 		$db->Query("SELECT * FROM demogallery ORDER BY id");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			$gallery[$db->data['id']] = $db->data['title'];
+			$gallery[$db->data[id]] = $db->data[title];
 		}
 
 		// output gallery header information
@@ -60,7 +60,7 @@ function show_main_menu($db)
 
 					// setup variables
 
-					$t = htmlentities(stripslashes($db->data['title']));
+					$t = htmlentities(stripslashes($db->data[title]));
 					$num = htmlentities(stripslashes($db->data[setnum]));
 					$d = htmlentities(stripslashes($db->data[date]));
 
@@ -71,9 +71,9 @@ function show_main_menu($db)
 					echo "	<td align=\"left\" width=\"45%\">$t</td>\n";
 					echo "	<td align=\"left\" width=\"25%\">$d</td>\n";
 					echo "	<td align=\"right\" width=\"25%\">";
-					echo "<a href=\"main.php?SID=$SID&action=$action&do=dedit&id=" . $db->data['id'] . "\">edit</a>";
+					echo "<a href=\"main.php?SID=$SID&action=$action&do=dedit&id=" . $db->data[id] . "\">edit</a>";
 					echo " | ";
-					echo "<a href=\"main.php?SID=$SID&action=$action&do=ddel&id=" . $db->data['id'] . "\">delete</a></td>\n";
+					echo "<a href=\"main.php?SID=$SID&action=$action&do=ddel&id=" . $db->data[id] . "\">delete</a></td>\n";
 					echo "</tr>\n";
 				}
 			}
@@ -104,7 +104,7 @@ function add_photo_form($db)
 		$db->Query("SELECT * FROM demogallery ORDER BY title");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['id'] . "\">" . $db->data['title'] . "</option>\n";
+			echo "<option value=\"" . $db->data[id] . "\">" . $db->data[title] . "</option>\n";
 		}
 	}
 
@@ -205,7 +205,7 @@ function edit_photo_form($db,$id)
 	$db->Query("SELECT * FROM demogallery ORDER BY id");
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$gallery[$db->data['id']] = $db->data['title'];
+		$gallery[$db->data[id]] = $db->data[title];
 	}
 
 	// query the database
@@ -215,13 +215,13 @@ function edit_photo_form($db,$id)
 	// setup variables
 
 	$a = htmlentities(stripslashes($db->data[photo]));
-	$t = htmlentities(stripslashes($db->data['title']));
+	$t = htmlentities(stripslashes($db->data[title]));
 	$de = htmlentities(stripslashes($db->data[description]));
 	$l = htmlentities(stripslashes($db->data[location]));
 	$da = htmlentities(stripslashes($db->data[date]));
 	$nd = htmlentities(stripslashes($db->data[numdate]));
 	$num = htmlentities(stripslashes($db->data[setnum]));
-	$by = htmlentities(stripslashes($db->data['author']));
+	$by = htmlentities(stripslashes($db->data[author]));
 
 	echo "<p>Edit a photo.</p>\n";
 
@@ -245,12 +245,12 @@ function edit_photo_form($db,$id)
 	echo "</select></p>\n";
 
 
-		if ($db->data['picture']) {
+		if ($db->data[picture]) {
 			echo "<p>current photo</p>\n";
 
 			// point to your photos directory
 
-			echo "<p><img src=\"../uploadphotos/" . $db->data['picture'] . "\"></p>\n";
+			echo "<p><img src=\"../uploadphotos/" . $db->data[picture] . "\"></p>\n";
 			echo "<p>upload a photo (if you want to change the current one)";
 		} else {
 			echo "<p>upload a photo";

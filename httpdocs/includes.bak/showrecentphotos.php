@@ -20,8 +20,8 @@ function show_recent_photos($db,$gallery,$id,$limit=3)
 	$db->Query("SELECT * FROM demogallery ORDER BY id");
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$gallery = $db->data['title'];
-		$title = $db->data['title'];
+		$gallery = $db->data[title];
+		$title = $db->data[title];
 	}
 
 	if (!$db->Exists("SELECT * FROM demophotos")) {
@@ -44,8 +44,8 @@ function show_recent_photos($db,$gallery,$id,$limit=3)
 			// setup the variables
 
 			$p = htmlentities(stripslashes($db->data[picture1]));
-			$t = htmlentities(stripslashes($db->data['title']));
-			$pr = htmlentities(stripslashes($db->data['id']));
+			$t = htmlentities(stripslashes($db->data[title]));
+			$pr = htmlentities(stripslashes($db->data[id]));
 			$da = htmlentities(stripslashes($db->data[date]));
 
 			if ($cnt==$across) {
@@ -74,8 +74,8 @@ function show_recent_photos($db,$gallery,$id,$limit=3)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
+$db->SelectDB($dbcfg[db]);
 
 show_recent_photos($db,$gallery,$id,3);
 

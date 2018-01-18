@@ -16,11 +16,11 @@ function show_printable_article($db,$s,$id,$pr)
 
 	// setup the variables
 
-	$t = $db->data['title'];
-	$id = $db->data['id'];
-	$pr = $db->data['id'];
+	$t = $db->data[title];
+	$id = $db->data[id];
+	$pr = $db->data[id];
 	$ad = sqldate_to_string($db->data[added]);
-	$au = $db->data['author'];
+	$au = $db->data[author];
 
 	// output story
 
@@ -33,10 +33,10 @@ function show_printable_article($db,$s,$id,$pr)
 
 	// only show author and added if they were input
 
-	if ($db->data['author'] != "") echo "<p><b>Author:</b> $au<br>\n";
+	if ($db->data[author] != "") echo "<p><b>Author:</b> $au<br>\n";
 	if ($db->data[added] != "") echo "<b>Submitted:</b> $ad</p>\n";
-	if ($db->data['picture'] != "") echo "<img src=\"uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\">\n";
-	echo "<p>" . $db->data['article'] . "</p>\n";
+	if ($db->data[picture] != "") echo "<img src=\"uploadphotos/news/" . $db->data[picture] . "\" align=\"right\" style=\"border: 1 solid #393939\">\n";
+	echo "<p>" . $db->data[article] . "</p>\n";
 
 	// output link back
 
@@ -52,7 +52,7 @@ function show_printable_article($db,$s,$id,$pr)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 show_printable_article($db,$s,$id,$news);
 

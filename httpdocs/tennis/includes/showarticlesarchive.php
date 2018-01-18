@@ -69,10 +69,10 @@ function show_top10_articles_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data['title']));
-        $pr = htmlentities(stripslashes($db->data['id']));
+        $t = htmlentities(stripslashes($db->data[title]));
+        $pr = htmlentities(stripslashes($db->data[id]));
         $a = sqldate_to_string($db->data[added]);
-        $id = $db->data['id'];
+        $id = $db->data[id];
         $vw = $db->data[views];
 
         // output article
@@ -84,7 +84,7 @@ function show_top10_articles_listing($db,$s,$id,$pr)
         }
 
         echo "    <td align=\"left\" width=\"65%\"><a href=\"$PHP_SELF?news=$pr&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
+        if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td align=\"right\" class=\"9px\">$vw views</td>\n";
         echo "    <td align=\"right\" class=\"9px\">$a</td>\n";     
@@ -169,10 +169,10 @@ function show_full_articles_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data['title']));
-        $pr = htmlentities(stripslashes($db->data['id']));
+        $t = htmlentities(stripslashes($db->data[title]));
+        $pr = htmlentities(stripslashes($db->data[id]));
         $a = sqldate_to_string($db->data[added]);
-        $id = $db->data['id'];
+        $id = $db->data[id];
         $vw = $db->data[views];
 
         // output article
@@ -184,7 +184,7 @@ function show_full_articles_listing($db,$s,$id,$pr)
         }
 
         echo "    <td align=\"left\" width=\"65%\"><a href=\"$PHP_SELF?news=$pr&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
+        if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td align=\"right\" class=\"9px\">$vw views</td>\n";
         echo "    <td align=\"right\" class=\"9px\">$a</td>\n";     
@@ -216,7 +216,7 @@ function show_full_articles($db,$s,$id,$pr)
     //$db->BagAndTag();
 
     $a = sqldate_to_string($db->data[added]);
-    $t = $db->data['title'];
+    $t = $db->data[title];
     $di = $db->data[DiscussID];
     $pd = $db->data[picdesc];
 
@@ -241,7 +241,7 @@ function show_full_articles($db,$s,$id,$pr)
     echo "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
     echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\">\n";
-    if ($db->data['author'] != "") echo "<i>By " . $db->data['author'] . "</i><br>\n";
+    if ($db->data[author] != "") echo "<i>By " . $db->data[author] . "</i><br>\n";
     echo "<i>$a</i>\n";
     echo "  </td>\n";
     echo "  <td align=\"right\" valign=\"bottom\">\n";  
@@ -254,11 +254,11 @@ function show_full_articles($db,$s,$id,$pr)
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
 
     
-    if ($db->data['picture'] != "") { 
+    if ($db->data[picture] != "") { 
       echo "<table width=\"200\" cellpadding=\"5\" cellspacing=\"0\" border=\"0\" align=\"right\">\n";
       echo " <tr>\n";
       echo "  <td align=\"center\" valign=\"middle\">\n";
-      echo "  <div align=\"center\" class=\"photo\"><img src=\"uploadphotos/news/" . $db->data['picture'] . "\" style=\"border: 1 solid #393939\">\n";
+      echo "  <div align=\"center\" class=\"photo\"><img src=\"uploadphotos/news/" . $db->data[picture] . "\" style=\"border: 1 solid #393939\">\n";
       if($pd != "" ) echo "<br><br><div align=\"left\">$pd</div>";
       echo "  </div>\n";      
       echo "  </td>\n";
@@ -268,7 +268,7 @@ function show_full_articles($db,$s,$id,$pr)
       echo "";
     }
     
-    echo "<p>" . $db->data['article'] . "</p>\n"; 
+    echo "<p>" . $db->data[article] . "</p>\n"; 
     
     echo "<p>This article has been viewed <b>$vw</b> times!</p>\n";
 
@@ -354,8 +354,8 @@ function search_articles($db,$search="")
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
             $a = sqldate_to_string($db->data[added]);
-            $t = $db->data['title'];
-            $pr = $db->data['id'];
+            $t = $db->data[title];
+            $pr = $db->data[id];
             $vw = $db->data[views];
 
             if($i % 2) {
@@ -365,7 +365,7 @@ function search_articles($db,$search="")
             }
 
         echo "    <td align=\"left\" width=\"65%\"><a href=\"$PHP_SELF?news=$pr&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
+        if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td align=\"right\" class=\"9px\">$vw views</td>\n";
         echo "    <td align=\"right\" class=\"9px\">$a</td>\n";     
@@ -410,8 +410,8 @@ function search_articles($db,$search="")
     $db->QueryRow("SELECT * FROM news WHERE id=$pr");
     $db->BagAndTag();
 
-    $news = $db->data['title'];
-    $pr = $db->data['id'];
+    $news = $db->data[title];
+    $pr = $db->data[id];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -578,7 +578,7 @@ function do_add_article($db,$title,$author,$article,$picture)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg['db']);
+$db->SelectDB($dbcfg[db]);
 
 switch($ccl_mode) {
 case 0:

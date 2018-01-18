@@ -100,7 +100,7 @@ function show_main_menu($db)
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data[TeamID]));
 		$na = htmlentities(stripslashes($db->data[TeamName]));
-		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
+		$ta = htmlentities(stripslashes($db->data[TeamAbbrev]));
 		$di = htmlentities(stripslashes($db->data[TeamDirections]));
 
 		// output article
@@ -220,10 +220,10 @@ function show_search_menu($db,$search="")
 
 			for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			$id = htmlentities(stripslashes($db->data['PlayerID']));
-			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
-			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-			$pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
+			$id = htmlentities(stripslashes($db->data[PlayerID]));
+			$pln = htmlentities(stripslashes($db->data[PlayerLName]));
+			$pfn = htmlentities(stripslashes($db->data[PlayerFName]));
+			$pte = htmlentities(stripslashes($db->data[TeamAbbrev]));
 
 			if($i % 2) {
 			  echo "<tr class=\"trrow1\">\n";
@@ -232,11 +232,11 @@ function show_search_menu($db,$search="")
 			}
 
 		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
-		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
+		if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
 		if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
 		echo "    </td>\n";
-		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
-		<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
+		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[PlayerID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
+		<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[PlayerID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
 </td>\n";
 		echo "  </tr>\n";
 
@@ -326,7 +326,7 @@ function show_search_menu($db,$search="")
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data[TeamID]));
 		$na = htmlentities(stripslashes($db->data[TeamName]));
-		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
+		$ta = htmlentities(stripslashes($db->data[TeamAbbrev]));
 		$di = htmlentities(stripslashes($db->data[TeamDirections]));
 
 		// output article
@@ -439,10 +439,10 @@ function show_byletter_menu($db,$letter)
 	$db->BagAndTag();
 	for ($r=0; $r<$db->rows; $r++) {
 		$db->GetRow($r);
-		$id = htmlentities(stripslashes($db->data['PlayerID']));
-		$pln = htmlentities(stripslashes($db->data['PlayerLName']));
-		$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-		$pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
+		$id = htmlentities(stripslashes($db->data[PlayerID]));
+		$pln = htmlentities(stripslashes($db->data[PlayerLName]));
+		$pfn = htmlentities(stripslashes($db->data[PlayerFName]));
+		$pte = htmlentities(stripslashes($db->data[TeamAbbrev]));
 		$ia = htmlentities(stripslashes($db->data[isactive]));
 
 		// output article
@@ -454,12 +454,12 @@ function show_byletter_menu($db,$letter)
 			}
 
 		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
-		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
+		if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
 		if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
 		if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 		echo "    </td>\n";
-		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
-<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
+		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[PlayerID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
+<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[PlayerID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
 </td>\n";
 		echo "  </tr>\n";
 	}
@@ -491,7 +491,7 @@ function show_byletter_menu($db,$letter)
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data[TeamID]));
 		$na = htmlentities(stripslashes($db->data[TeamName]));
-		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
+		$ta = htmlentities(stripslashes($db->data[TeamAbbrev]));
 		$di = htmlentities(stripslashes($db->data[TeamDirections]));
 
 		// output article
@@ -634,8 +634,8 @@ function show_byteam_menu($db,$team,$teamname)
 
 			// setup variables
 
-			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
-			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+			$pln = htmlentities(stripslashes($db->data[PlayerLName]));
+			$pfn = htmlentities(stripslashes($db->data[PlayerFName]));
 			$ia = htmlentities(stripslashes($db->data[isactive]));
 			
 			$ip = htmlentities(stripslashes($db->data[IsPresident]));
@@ -654,7 +654,7 @@ function show_byteam_menu($db,$team,$teamname)
 			// output
 
 			echo "	<td align=\"left\">$pln, $pfn";
-			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
+			if ($db->data[picture] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
 			if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">";
 			if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 			
@@ -666,8 +666,8 @@ function show_byteam_menu($db,$team,$teamname)
 			if ($db->data[IsViceCaptain] != 0) echo "&nbsp;<font color=\"green\"><b>Vice Captain</b></font>\n";
 						
 			echo "  </td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
-<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[PlayerID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
+<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[PlayerID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
 </td>\n";
 			echo "</tr>\n";
 			}
@@ -695,7 +695,7 @@ function show_byteam_menu($db,$team,$teamname)
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data[TeamID]));
 		$na = htmlentities(stripslashes($db->data[TeamName]));
-		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
+		$ta = htmlentities(stripslashes($db->data[TeamAbbrev]));
 		$di = htmlentities(stripslashes($db->data[TeamDirections]));
 
 		// output article
@@ -924,8 +924,8 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
-	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+	$pln = htmlentities(stripslashes($db->data[PlayerLName]));
+	$pfn = htmlentities(stripslashes($db->data[PlayerFName]));
 	$pem = htmlentities(stripslashes($db->data[PlayerEmail]));
 	$spr = htmlentities(stripslashes($db->data[shortprofile]));
 
@@ -1051,9 +1051,9 @@ function edit_category_form($db,$id)
 	echo "<input type=\"checkbox\" name=\"IsCaptain\" value=\"1\"" . ($cap==1?" checked":"") . "> Is this player captain?<br>\n";
 	echo "<input type=\"checkbox\" name=\"IsViceCaptain\" value=\"1\"" . ($vca==1?" checked":"") . "> Is this player vice captain?<br>\n";
 
-	if ($db->data['picture']) {
+	if ($db->data[picture]) {
 		echo "<p>current player photo</p>\n";
-		echo "<p><img src=\"../uploadphotos/players/" . $db->data['picture'] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/players/" . $db->data[picture] . "\"></p>\n";
 		echo "<p>upload a player photo (if you want to change the current one)";
 	} else {
 		echo "<p>upload a player photo";
