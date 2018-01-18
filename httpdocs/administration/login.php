@@ -26,7 +26,7 @@
     // open a connection
 
     $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-    $db->SelectDB($dbcfg[db]);
+    $db->SelectDB($dbcfg['db']);
 
     // do the user/password authentication
 

@@ -30,8 +30,8 @@ function show_mini_ads($db)
 			for ($x=0; $x<$db->rows; $x++) {
 				$db->GetRow($x);
 
-				$pid = $db->data[id];
-				$tit = $db->data[title];
+				$pid = $db->data['id'];
+				$tit = $db->data['title'];
 				$pri = $db->data[price];
 
 				
@@ -83,8 +83,8 @@ function show_mini_ads($db)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
-$db->SelectDB($dbcfg[db]);
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
 
 
 show_mini_ads($db);

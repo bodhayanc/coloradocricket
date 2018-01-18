@@ -17,29 +17,29 @@
 
 // database global values
 $dbcfg = array (
-                server  => "74.50.26.197",
-                login   => "colora12_user1",
-                pword   => "cricket",
-                db      => "colora12_cricket"
+                'server'  => "localhost",
+                'login'   => "root",
+                'pword'   => "password1$",
+                'db'      => "colora12_cricket"
         );
 
 // database table values
 $tbcfg = array (
-                admin   => "admin",
-                events  => "events",
-                stories => "stories",
-                mlarchive => "mailinglist_archive",
-                mllists   => "mailinglist_lists",
-                mlemails  => "mailinglist_emails"
+                'admin'   => "admin",
+                'events'  => "events",
+                'stories' => "stories",
+                'mlarchive' => "mailinglist_archive",
+                'mllists'   => "mailinglist_lists",
+                'mlemails'  => "mailinglist_emails"
         );
 
 // path config values
 $pathcfg = array (
-                urlroot => "www.coloradocricket.org",
-                froot   => "/home/colora12/public_html/",
-                aroot   => "/home/colora12/public_html/administration",
-                iroot   => "/home/colora12/public_html/includes",
-                adir    => "administration"
+                'urlroot' => "www.coloradocricket.org",
+                'froot'   => "/home/colora12/public_html/",
+                'aroot'   => "/home/colora12/public_html/administration",
+                'iroot'   => "/home/colora12/public_html/includes",
+                'adir'    => "administration"
         );
 
 // default template settings
@@ -55,8 +55,8 @@ $tpl_defaults = array (
 
 // general config options
 $gencfg = array (
-                webmaster       => "michael@mike250.com",
-                passlen         => 4
+                'webmaster'       => "michael@mike250.com",
+                'passlen'         => 4
         );
 
 $full_month_name = array(
@@ -208,8 +208,6 @@ $states = array (
 
 
 srand((double)microtime()*1000000);
-
-import_request_variables ('gpc');
 
 set_include_path(get_include_path() . PATH_SEPARATOR . "D:\\Inetpub\\vhosts\\coloradocricket.org\\httpdocs\\includes");
 ?>

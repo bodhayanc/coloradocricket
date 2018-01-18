@@ -40,8 +40,8 @@ if (!isset($do)) {
 		echo "<td valign=\"top\">" . $db->data[email] . "</td>";
 		echo "<td valign=\"top\" align=\"center\">" . ($db->data[archive]?"<img src=\"/images/icons/icon_check.gif\">":"<img src=\"/images/icons/icon_cross.gif\">") . "</td>";
 		echo "<td align=\"right\" valign=\"top\" nowrap>";
-		echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_lists&do=edit&id=" . $db->data[ID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a>";
-		echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_lists&do=delete&id=" . $db->data[ID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a>";
+		echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_lists&do=edit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a>";
+		echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_lists&do=delete&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a>";
 		echo "</td>";
 		echo "</tr>\n";
 	}

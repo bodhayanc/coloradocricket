@@ -49,7 +49,7 @@ function show_schedule_listing($db,$schedule,$id,$pr,$team,$week,$game_id)
             $db->GetRow($i);
             $db->BagAndTag();
 
-            $sen = $db->data[SeasonName];
+            $sen = $db->data['SeasonName'];
             $sid = $db->data[season];
 
             echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -104,7 +104,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
 		//16-Apr-2017 - Bodha - Modified to list only the teams associated with the scorecards for that particular season
@@ -112,7 +112,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT t.* FROM teams t, scorecard_game_details s WHERE (s.awayteam = t.TeamID OR s.hometeam = t.TeamID) AND s.season=$schedule AND (s.league_id = 1 OR league_id = 4) GROUP BY t.TeamID ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -154,7 +154,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamAbbrev];
+                $ab = $db->data['TeamAbbrev'];
                 echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
             }
             echo "</p>\n";
@@ -183,7 +183,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $sen = $db->data[SeasonName];
+                $sen = $db->data['SeasonName'];
                 $sid = $db->data[season];
 
             echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -247,10 +247,10 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $t1id = $db->data[HomeID];
                 $t2id = $db->data[AwayID];
                 $umid = $db->data[UmpireID];
-                $d = sqldate_to_string($db->data[game_date]);
+                $d = sqldate_to_string($db->data['game_date']);
                 $sc =  $db->data[scorecard];
                 $re = $db->data[result];
-                $id = $db->data[game_id];
+                $id = $db->data['game_id'];
                 $wk = $db->data[week];
                 $fo = $db->data[forfeit];
                 $ca = $db->data[cancelled];
@@ -317,7 +317,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
             	//16-Apr-2017 - Bodha - Modified to list only the teams associated with the scorecards for that particular season
@@ -326,7 +326,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
                         $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
                 }
 
@@ -368,7 +368,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamAbbrev];
+                $ab = $db->data['TeamAbbrev'];
                 echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
             }
             echo "</p>\n";
@@ -397,7 +397,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $sen = $db->data[SeasonName];
+                $sen = $db->data['SeasonName'];
                 $sid = $db->data[season];
 
             echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -464,10 +464,10 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $t1id = $db->data[HomeID];
                 $t2id = $db->data[AwayID];
                 $umid = $db->data[UmpireID];
-                $d = sqldate_to_string($db->data[game_date]);
+                $d = sqldate_to_string($db->data['game_date']);
                 $sc =  $db->data[scorecard];
                 $re = $db->data[result];
-                $id = $db->data[game_id];
+                $id = $db->data['game_id'];
                 $wk = $db->data[week];
                 $fo = $db->data[forfeit];
                 $ca = $db->data[cancelled];
@@ -538,7 +538,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
             	//16-Apr-2017 - Bodha - Modified to list only the teams associated with the scorecards for that particular season
@@ -547,7 +547,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
 
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
                 }
 
             echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -588,7 +588,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamAbbrev];
+                $ab = $db->data['TeamAbbrev'];
                 echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
             }
             echo "</p>\n";
@@ -617,7 +617,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $sen = $db->data[SeasonName];
+                $sen = $db->data['SeasonName'];
                 $sid = $db->data[season];
 
             echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -681,10 +681,10 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $t1id = $db->data[HomeID];
                 $t2id = $db->data[AwayID];
                 $umid = $db->data[UmpireID];
-                $d = sqldate_to_string($db->data[game_date]);
+                $d = sqldate_to_string($db->data['game_date']);
                 $sc =  $db->data[scorecard];
                 $re = $db->data[result];
-                $id = $db->data[game_id];
+                $id = $db->data['game_id'];
                 $wk = $db->data[week];
                 $fo = $db->data[forfeit];
                 $ca = $db->data[cancelled];
@@ -757,9 +757,9 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
 	
 	    $db->BagAndTag();
 	
-	    $id = $db->data[game_id];
+	    $id = $db->data['game_id'];
 	    $sc = $db->data[season];
-	    $sn = $db->data[SeasonName];
+	    $sn = $db->data['SeasonName'];
 	    $ln = $db->data[LeagueName];
 	    $mo = $db->data[maxovers];
 	    $ht = $db->data[HomeAbbrev];
@@ -770,7 +770,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
 	    $gr = $db->data[GroundName];
 	    $gi = $db->data[GroundID];
 	    $re = $db->data[result];
-	    $po = $db->data[points];
+	    $po = $db->data['points'];
 	    $tt = '';
 	    $mm  = '';
 	    $u1  = '';
@@ -785,7 +785,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
 	    $fo = $db->data[forfeit];
 	    $ca = $db->data[cancelled];
 	
-	    $da = sqldate_to_string($db->data[game_date]);
+	    $da = sqldate_to_string($db->data['game_date']);
 	
 	    $bat1st = '';
 	    $bat1stid = '';
@@ -846,9 +846,9 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
 
     $db->BagAndTag();
 
-    $id = $db->data[game_id];
+    $id = $db->data['game_id'];
     $sc = $db->data[season];
-    $sn = $db->data[SeasonName];
+    $sn = $db->data['SeasonName'];
     $ln = $db->data[LeagueName];
     $mo = $db->data[maxovers];
     $ht = $db->data[HomeAbbrev];
@@ -859,7 +859,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $gr = $db->data[GroundName];
     $gi = $db->data[GroundID];
     $re = $db->data[result];
-    $po = $db->data[points];
+    $po = $db->data['points'];
 	$ttid = $db->data[WonTossID];   // 8-June-2015 11:04pm
     $tt = $db->data[WonTossName];
     $mm  = $db->data[mom];
@@ -883,7 +883,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $fo = $db->data[forfeit];
     $ca = $db->data[cancelled];
 
-    $da = sqldate_to_string($db->data[game_date]);
+    $da = sqldate_to_string($db->data['game_date']);
 
     $bat1st = $db->data[BatFirstAbbrev];
     $bat1stid = $db->data[BatFirstID];
@@ -1000,7 +1000,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $ain = $db->data[AssistFInitial];
     $out = $db->data[HowOutAbbrev];
     $oid = $db->data[HowOutID];
-    $run = $db->data[runs];
+    $run = $db->data['runs'];
     $bal = $db->data[balls];
     $fou = $db->data[fours];
     $six = $db->data[sixes];
@@ -1179,9 +1179,9 @@ echo "<p><b>Result: </b> $re</p>\n";
     for ($t=0; $t<$db->rows; $t++) {
     $db->GetRow($t);
 
-    $wi = $db->data[wickets];
+    $wi = $db->data['wickets'];
     $to = $db->data[total];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
     $rr = Round(($to/$ov),3);    // 11-Oct-2014 10:55pm
 //    $rs = "(". $rr. " runs per over)";     // 11-Oct-2014 10:55pm
     $rs = " (RR: ". $rr. ")";     // 11-Oct-2014 11pm
@@ -1381,10 +1381,10 @@ echo "<p><b>Result: </b> $re</p>\n";
     $pln = $db->data[BowlerLName];
     $pfn = $db->data[BowlerFName];
     $pin = $db->data[BowlerFInitial];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
     $ma = $db->data[maidens];
-    $ru = $db->data[runs];
-    $wi = $db->data[wickets];
+    $ru = $db->data['runs'];
+    $wi = $db->data['wickets'];
     $no = $db->data[noballs];
     $wd = $db->data[wides];
     $hlv = $db->data[highlights_video];
@@ -1520,7 +1520,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $ain = $db->data[AssistFInitial];
     $out = $db->data[HowOutAbbrev];
     $oid = $db->data[HowOutID];
-    $run = $db->data[runs];
+    $run = $db->data['runs'];
     $bal = $db->data[balls];
     $fou = $db->data[fours];
     $six = $db->data[sixes];
@@ -1760,9 +1760,9 @@ echo "<p><b>Result: </b> $re</p>\n";
     for ($t=0; $t<$db->rows; $t++) {
     $db->GetRow($t);
 
-    $wi = $db->data[wickets];
+    $wi = $db->data['wickets'];
     $to = $db->data[total];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
 
 	// 23-Oct-2014 11:05pm checking to avoid division by zero
 	If ($ov > 0 && $to > 0 ){
@@ -1972,10 +1972,10 @@ echo "<p><b>Result: </b> $re</p>\n";
     $pln = $db->data[BowlerLName];
     $pfn = $db->data[BowlerFName];
     $pin = $db->data[BowlerFInitial];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
     $ma = $db->data[maidens];
-    $ru = $db->data[runs];
-    $wi = $db->data[wickets];
+    $ru = $db->data['runs'];
+    $wi = $db->data['wickets'];
     $no = $db->data[noballs];
     $wd = $db->data[wides];
     $hlv = $db->data[highlights_video];
@@ -2116,8 +2116,8 @@ echo "<b>Report:</b> <a href='".$db->data["report"]."'target='_blank' class='sco
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
-$db->SelectDB($dbcfg[db]);
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
 
 switch($ccl_mode) {
 case 0:

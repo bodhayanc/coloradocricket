@@ -43,11 +43,11 @@ function show_latest($db,$s=0,$minlimit=4,$maxlimit=5,$len=300)
 			$db->GetRow($i);
 			$db->DeBagAndTag();
 
-			$t = $db->data[title];
-			$au = $db->data[author];
-			$id = $db->data[id];
-			$pr = $db->data[id];
-			$date = sqldate_to_string($db->data[added]);
+			$t = $db->data['title'];
+			$au = $db->data['author'];
+			$id = $db->data['id'];
+			$pr = $db->data['id'];
+			$date = sqldate_to_string($db->data['added']);
 
 		//if($i % 2) {
 		//  echo "<tr class=\"trrow1\">\n";
@@ -57,7 +57,7 @@ function show_latest($db,$s=0,$minlimit=4,$maxlimit=5,$len=300)
 
 		echo "<tr class=\"trrow1\">\n";
 		echo "    <td width=\"75%\"><a href=\"news.php?news=$pr&ccl_mode=1\">$t</a>\n";
-		if($db->data[picture] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+		if($db->data['picture'] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
 		echo "    </td>\n";
 		echo "    <td width=\"25%\" align=\"right\" class=\"9px\">$date</td>\n";
 		echo "  </tr>\n";
@@ -89,7 +89,7 @@ function show_latest($db,$s=0,$minlimit=4,$maxlimit=5,$len=300)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 show_latest($db,$s,4,5);
 

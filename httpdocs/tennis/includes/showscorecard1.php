@@ -67,9 +67,9 @@ function show_schedule_listing($db,$schedule,$id,$pr,$team,$week,$game_id)
             $db->BagAndTag();
 
             // output
-            $id = $db->data[SeasonID];
+            $id = $db->data['SeasonID'];
 
-            echo "    <option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data[SeasonName] . " season</option>\n";
+            echo "    <option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data['SeasonName'] . " season</option>\n";
 
         }
 
@@ -121,13 +121,13 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
                 $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -166,7 +166,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamAbbrev];
+                $ab = $db->data['TeamAbbrev'];
                 echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
             }
             echo "</p>\n";
@@ -195,7 +195,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $sen = $db->data[SeasonName];
+                $sen = $db->data['SeasonName'];
                 $sid = $db->data[season];
                 
             echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -258,10 +258,10 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $t1id = $db->data[HomeID];
                 $t2id = $db->data[AwayID];
                 $umid = $db->data[UmpireID];
-                $d = sqldate_to_string($db->data[game_date]);
+                $d = sqldate_to_string($db->data['game_date']);
                 $sc =  $db->data[scorecard];
                 $re = $db->data[result];
-                $id = $db->data[game_id];
+                $id = $db->data['game_id'];
                 $wk = $db->data[week];
                 $fo = $db->data[forfeit];
                 $ca = $db->data[cancelled];
@@ -328,14 +328,14 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
                 $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
-                        $teamname[$db->data[TeamID]] = $db->data[TeamName];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
                         $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
                         $teamaway = $teams;
                         $teamhome = $teams;
@@ -377,7 +377,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamAbbrev];
+                $ab = $db->data['TeamAbbrev'];
                 echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
             }
             echo "</p>\n";
@@ -406,7 +406,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $sen = $db->data[SeasonName];
+                $sen = $db->data['SeasonName'];
                 $sid = $db->data[season];
                 
             echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -469,10 +469,10 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $t1id = $db->data[HomeID];
                 $t2id = $db->data[AwayID];
                 $umid = $db->data[UmpireID];
-                $d = sqldate_to_string($db->data[game_date]);
+                $d = sqldate_to_string($db->data['game_date']);
                 $sc =  $db->data[scorecard];
                 $re = $db->data[result];
-                $id = $db->data[game_id];
+                $id = $db->data['game_id'];
                 $wk = $db->data[week];
                 $fo = $db->data[forfeit];
                 $ca = $db->data[cancelled];
@@ -545,13 +545,13 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
                 $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
                 }
 
             echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -589,7 +589,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $id = $db->data[TeamID];
-                $ab = $db->data[TeamAbbrev];
+                $ab = $db->data['TeamAbbrev'];
                 echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
             }
             echo "</p>\n";
@@ -618,7 +618,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $sen = $db->data[SeasonName];
+                $sen = $db->data['SeasonName'];
                 $sid = $db->data[season];
                 
             echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
@@ -680,10 +680,10 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $t1id = $db->data[HomeID];
                 $t2id = $db->data[AwayID];
                 $umid = $db->data[UmpireID];
-                $d = sqldate_to_string($db->data[game_date]);
+                $d = sqldate_to_string($db->data['game_date']);
                 $sc =  $db->data[scorecard];
                 $re = $db->data[result];
-                $id = $db->data[game_id];
+                $id = $db->data['game_id'];
                 $wk = $db->data[week];
                 $fo = $db->data[forfeit];
                 $ca = $db->data[cancelled];
@@ -767,7 +767,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
 
     $db->BagAndTag();
 
-    $id = $db->data[game_id];
+    $id = $db->data['game_id'];
     $sc = $db->data[season];
     $ht = $db->data[HomeName];
     $hi = $db->data[HomeID];
@@ -780,7 +780,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $tt = $db->data[WonTossName];
     $mo = $db->data[maxovers];
 
-    $da = sqldate_to_string($db->data[game_date]);
+    $da = sqldate_to_string($db->data['game_date']);
 
     $bat1st = $db->data[BatFirstName];
     $bat1stid = $db->data[BatFirstID];
@@ -880,7 +880,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $ain = $db->data[AssistFInitial];
     $out = $db->data[HowOutAbbrev];
     $oid = $db->data[HowOutID];
-    $run = $db->data[runs];
+    $run = $db->data['runs'];
     $bal = $db->data[balls];
     $fou = $db->data[fours];
     $six = $db->data[sixes];
@@ -1001,9 +1001,9 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     for ($t=0; $t<$db->rows; $t++) {
     $db->GetRow($t);
 
-    $wi = $db->data[wickets];
+    $wi = $db->data['wickets'];
     $to = $db->data[total];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
 
     echo " <tr>\n";
     echo "  <td class=\"scorecard\" width=\"29%\" align=\"left\">Total</td>\n";
@@ -1103,10 +1103,10 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $pln = $db->data[BowlerLName];
     $pfn = $db->data[BowlerFName];
     $pin = $db->data[BowlerFInitial];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
     $ma = $db->data[maidens];
-    $ru = $db->data[runs];
-    $wi = $db->data[wickets];
+    $ru = $db->data['runs'];
+    $wi = $db->data['wickets'];
     $no = $db->data[noballs];
     $wd = $db->data[wides];
 
@@ -1207,7 +1207,7 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $ain = $db->data[AssistFInitial];
     $out = $db->data[HowOutAbbrev];
     $oid = $db->data[HowOutID];
-    $run = $db->data[runs];
+    $run = $db->data['runs'];
     $bal = $db->data[balls];
     $fou = $db->data[fours];
     $six = $db->data[sixes];
@@ -1328,9 +1328,9 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     for ($t=0; $t<$db->rows; $t++) {
     $db->GetRow($t);
 
-    $wi = $db->data[wickets];
+    $wi = $db->data['wickets'];
     $to = $db->data[total];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
 
     echo " <tr>\n";
     echo "  <td class=\"scorecard\" width=\"29%\" align=\"left\">Total</td>\n";
@@ -1432,10 +1432,10 @@ function show_schedule_game($db,$schedule,$id,$pr,$team,$week,$game_id)
     $pln = $db->data[BowlerLName];
     $pfn = $db->data[BowlerFName];
     $pin = $db->data[BowlerFInitial];
-    $ov = $db->data[overs];
+    $ov = $db->data['overs'];
     $ma = $db->data[maidens];
-    $ru = $db->data[runs];
-    $wi = $db->data[wickets];
+    $ru = $db->data['runs'];
+    $wi = $db->data['wickets'];
     $no = $db->data[noballs];
     $wd = $db->data[wides];
 
@@ -1482,9 +1482,9 @@ if ($db->Exists("SELECT s.*, p.* FROM tennis_scorecard_game_details s, tennispla
 $db->QueryRow("SELECT s.*, p.* FROM tennis_scorecard_game_details s, tennisplayers p where s.mom = p.PlayerID and  s.game_id=$game_id");
 // 24-June-2010 1:34am
    $mm  = $db->data[mom];
-    $mmi = $db->data[PlayerID];
-    $mmf = $db->data[PlayerFName];
-    $mml = $db->data[PlayerLName];
+    $mmi = $db->data['PlayerID'];
+    $mmf = $db->data['PlayerFName'];
+    $mml = $db->data['PlayerLName'];
 }
 else {
    $mm  = "";
@@ -1527,8 +1527,8 @@ else {
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
-$db->SelectDB($dbcfg[db]);
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
 
 
 

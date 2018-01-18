@@ -17,7 +17,7 @@ function show_umpires_rating($db)
     //$db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamAbbrev");
     //for ($i=0; $i<$db->rows; $i++) {
     //    $db->GetRow($i);
-    //    $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+    //    $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
     //}
         
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -54,7 +54,7 @@ function show_umpires_rating($db)
 
     //$db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamID");
     //$db->GetRow($i-1);
-    //$teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+    //$teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
     //$teams_id[$i] = $db->data[TeamID];
     
 
@@ -76,9 +76,9 @@ function show_umpires_rating($db)
     $db->QueryRow ("SELECT p.PlayerFName, p.PlayerLName, p.PlayerID, u.decision_rating, u.pressure_rating, u.management_rating, u.respect_rating FROM umpiring_details u, players p WHERE u.player_id = p.PlayerID");
     for ($r=0; $r<$db->rows; $r++) {
         $db->GetRow($r);
-        $id = htmlentities(stripslashes($db->data[PlayerID]));
-        $pln = htmlentities(stripslashes($db->data[PlayerLName]));
-        $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
+        $id = htmlentities(stripslashes($db->data['PlayerID']));
+        $pln = htmlentities(stripslashes($db->data['PlayerLName']));
+        $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
         $decision = htmlentities(stripslashes($db->data[decision_rating]));
         $pressure = htmlentities(stripslashes($db->data[pressure_rating]));
         $management = htmlentities(stripslashes($db->data[management_rating]));
@@ -115,7 +115,7 @@ function show_umpires_rating($db)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 
 show_umpires_rating($db);

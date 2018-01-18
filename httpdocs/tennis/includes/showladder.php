@@ -46,10 +46,10 @@ function show_ladder_listing($db,$s,$id,$pr)
         for ($x=0; $x<$db->rows; $x++) {
         $db->GetRow($x);
         $db->BagAndTag();
-        $tempid = $db->data[SeasonID];
+        $tempid = $db->data['SeasonID'];
         // output article
 
-        echo "<option value=\"$PHP_SELF?ladder=$id&ccl_mode=1\"" . (($tempid == $id) ? " selected" : "") . ">" . $db->data[SeasonName] . "</option>\n";
+        echo "<option value=\"$PHP_SELF?ladder=$id&ccl_mode=1\"" . (($tempid == $id) ? " selected" : "") . ">" . $db->data['SeasonName'] . "</option>\n";
         }
         echo "</select></p>\n";
 
@@ -102,7 +102,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
                 $db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName DESC");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
 
@@ -147,10 +147,10 @@ function show_ladder($db,$s,$id,$pr,$ladder)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $id = $db->data[SeasonID];
+                $id = $db->data['SeasonID'];
                 // output article
 
-            echo "<option value=\"$PHP_SELF?ladder=$id&ccl_mode=1\">" . $db->data[SeasonName] . "</option>\n";
+            echo "<option value=\"$PHP_SELF?ladder=$id&ccl_mode=1\">" . $db->data['SeasonName'] . "</option>\n";
             }
         }
             echo "</select></p>\n";
@@ -217,14 +217,14 @@ function show_ladder($db,$s,$id,$pr,$ladder)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
 
-                $tid = $db->data[tid];
-                $te = htmlentities(stripslashes($db->data[teamname]));
-                $pl = htmlentities(stripslashes($db->data[played]));
-                $wo = htmlentities(stripslashes($db->data[won]));
-                $lo = htmlentities(stripslashes($db->data[lost]));
-                $ti = htmlentities(stripslashes($db->data[tied]));
-                $nr = htmlentities(stripslashes($db->data[nrr]));
-                $pt = htmlentities(stripslashes($db->data[points]));
+                $tid = $db->data['tid'];
+                $te = htmlentities(stripslashes($db->data['teamname']));
+                $pl = htmlentities(stripslashes($db->data['played']));
+                $wo = htmlentities(stripslashes($db->data['won']));
+                $lo = htmlentities(stripslashes($db->data['lost']));
+                $ti = htmlentities(stripslashes($db->data['tied']));
+                $nr = htmlentities(stripslashes($db->data['nrr']));
+                $pt = htmlentities(stripslashes($db->data['points']));
                 $pe = htmlentities(stripslashes($db->data[netrunrate]));
                 $tp = htmlentities(stripslashes($db->data[totalpoints]));
 
@@ -289,8 +289,8 @@ function show_ladder($db,$s,$id,$pr,$ladder)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
-$db->SelectDB($dbcfg[db]);
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
 
 
 

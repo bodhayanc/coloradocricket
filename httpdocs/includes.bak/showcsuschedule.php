@@ -37,9 +37,9 @@ function show_schedule_listing($db,$schedule,$id,$pr,$team,$week)
 			$db->BagAndTag();
 
 			// output
-			$id = $db->data[SeasonID];
+			$id = $db->data['SeasonID'];
 
-			echo "    <option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data[SeasonName] . " season</option>\n";
+			echo "    <option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data['SeasonName'] . " season</option>\n";
 
 		}
 
@@ -83,13 +83,13 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamName];
+                        $teams[$db->data[TeamID]] = $db->data['teamname'];
                 }
 
 
@@ -120,10 +120,10 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
 					$db->GetRow($x);
 					$db->BagAndTag();
 					$id = $db->data[TeamID];
-					$ab = $db->data[TeamName];
+					$ab = $db->data['teamname'];
 					// output article
 
-				echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data[TeamName] . "</option>\n";
+				echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['teamname'] . "</option>\n";
 				//echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
 				}
 		}
@@ -214,7 +214,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
 				$t1id = $db->data[homeid];
 				$t2id = $db->data[awayid];
 				$umid = $db->data[umpireid];
-				$t = htmlentities(stripslashes($db->data[TeamName]));
+				$t = htmlentities(stripslashes($db->data['teamname']));
 				$d = sqldate_to_string($db->data[date]);
 				$v = htmlentities(stripslashes($db->data[ground]));
 				$vl = htmlentities(stripslashes($db->data[venue]));
@@ -259,10 +259,10 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
 			for ($x=0; $x<$db->rows; $x++) {
 				$db->GetRow($x);
 				$db->BagAndTag();
-				$id = $db->data[SeasonID];
+				$id = $db->data['SeasonID'];
 				// output article
 
-			echo "<option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data[SeasonName] . "</option>\n";
+			echo "<option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data['SeasonName'] . "</option>\n";
 			}
 		}
 			echo "</select></p>\n";
@@ -297,14 +297,14 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
-                        $teamname[$db->data[TeamID]] = $db->data[TeamName];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
                         $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
                         $teamaway = $teams;
                         $teamhome = $teams;
@@ -370,7 +370,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
 				$t1id = $db->data[homeid];
 				$t2id = $db->data[awayid];
 				$umid = $db->data[umpireid];
-				$t = htmlentities(stripslashes($db->data[TeamName]));
+				$t = htmlentities(stripslashes($db->data['teamname']));
 				$d = sqldate_to_string($db->data[date]);
 				$v = htmlentities(stripslashes($db->data[ground]));
 				$vl = htmlentities(stripslashes($db->data[venue]));
@@ -416,10 +416,10 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
 					$db->GetRow($x);
 					$db->BagAndTag();
 					$id = $db->data[TeamID];
-					$ab = $db->data[TeamName];
+					$ab = $db->data['teamname'];
 					// output article
 
-				echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data[TeamName] . "</option>\n";
+				echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['teamname'] . "</option>\n";
 				//echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
 				}
 		}
@@ -465,10 +465,10 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
 				for ($x=0; $x<$db->rows; $x++) {
 					$db->GetRow($x);
 					$db->BagAndTag();
-					$id = $db->data[SeasonID];
+					$id = $db->data['SeasonID'];
 					// output article
 
-				echo "<option value=\"$PHP_SELF?schedule=$id&team=$team&ccl_mode=2\">" . $db->data[SeasonName] . "</option>\n";
+				echo "<option value=\"$PHP_SELF?schedule=$id&team=$team&ccl_mode=2\">" . $db->data['SeasonName'] . "</option>\n";
 				}
 		}
 				echo "    </select></p>\n";
@@ -515,14 +515,14 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
                 }
 
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
-                        $teamname[$db->data[TeamID]] = $db->data[TeamName];
+                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
                         $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
                         $teamaway = $teams;
                         $teamhome = $teams;
@@ -587,7 +587,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
 				$t1id = $db->data[homeid];
 				$t2id = $db->data[awayid];
 				$umid = $db->data[umpireid];
-				$t = htmlentities(stripslashes($db->data[TeamName]));
+				$t = htmlentities(stripslashes($db->data['teamname']));
 				$d = sqldate_to_string($db->data[date]);
 				$v = htmlentities(stripslashes($db->data[ground]));
 				$vl = htmlentities(stripslashes($db->data[venue]));
@@ -636,10 +636,10 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
 					$db->GetRow($x);
 					$db->BagAndTag();
 					$id = $db->data[TeamID];
-					$ab = $db->data[TeamName];
+					$ab = $db->data['teamname'];
 					// output article
 
-				echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data[TeamName] . "</option>\n";
+				echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['teamname'] . "</option>\n";
 				//echo "<a href=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">$ab</a> |\n";
 				}
 		}
@@ -685,10 +685,10 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
 				for ($x=0; $x<$db->rows; $x++) {
 					$db->GetRow($x);
 					$db->BagAndTag();
-					$id = $db->data[SeasonID];
+					$id = $db->data['SeasonID'];
 					// output article
 
-				echo "<option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data[SeasonName] . "</option>\n";
+				echo "<option value=\"$PHP_SELF?schedule=$id&ccl_mode=1\">" . $db->data['SeasonName'] . "</option>\n";
 				}
 		}
 				echo "    </select></p>\n";
@@ -714,8 +714,8 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
-$db->SelectDB($dbcfg[db]);
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
 
 
 

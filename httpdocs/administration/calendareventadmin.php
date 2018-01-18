@@ -132,8 +132,8 @@ function show_recent_main_menu($db)
 	// setup the variables
 	//-------------------------------------------------
 
-	  $ti = htmlentities(stripslashes($db->data[title]));
-	  $id = htmlentities(stripslashes($db->data[id]));
+	  $ti = htmlentities(stripslashes($db->data['title']));
+	  $id = htmlentities(stripslashes($db->data['id']));
 	  $da = sqldate_to_string($db->data[start_date]);
 	  $ci = htmlentities(stripslashes($db->data[cat_id]));
 	  $cn = htmlentities(stripslashes($db->data[cat_name]));
@@ -147,7 +147,7 @@ function show_recent_main_menu($db)
 	  echo "  <td align=\"left\" valign=\"top\" width=\"6\" bgcolor=\"$co\"><img src=\"/images/spacer.gif\" alt=\"$cn\" width=\"6\"></td>\n";
 	  echo "  <td align=\"left\" valign=\"top\">$ti</td>\n";
 	  echo "  <td align=\"left\" valign=\"top\">$da</td>\n";
-	  echo "  <td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a></td>\n";
+	  echo "  <td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a></td>\n";
 	  echo " </tr>\n";
 	}
 
@@ -292,8 +292,8 @@ function show_months_main_menu($db,$theyear,$themonth)
 	// setup the variables
 	//-------------------------------------------------
 
-	  $ti = htmlentities(stripslashes($db->data[title]));
-	  $id = htmlentities(stripslashes($db->data[id]));
+	  $ti = htmlentities(stripslashes($db->data['title']));
+	  $id = htmlentities(stripslashes($db->data['id']));
 	  $da = sqldate_to_string($db->data[start_date]);
 	  $ci = htmlentities(stripslashes($db->data[cat_id]));
 	  $cn = htmlentities(stripslashes($db->data[cat_name]));
@@ -308,7 +308,7 @@ function show_months_main_menu($db,$theyear,$themonth)
 	  echo "  <td align=\"left\" valign=\"top\" width=\"6\" bgcolor=\"$co\"><img src=\"/images/spacer.gif\" alt=\"$cn\" width=\"6\"></td>\n";
 	  echo "  <td align=\"left\" valign=\"top\">$ti</td>\n";
 	  echo "  <td align=\"left\" valign=\"top\">$da</td>\n";
-	  echo "  <td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a></td>\n";
+	  echo "  <td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a></td>\n";
 	  echo " </tr>\n";
 	  }
 	}
@@ -447,8 +447,8 @@ function show_search_main_menu($db,$search="",$theyear,$themonth)
 	// setup the variables
 	//-------------------------------------------------
 
-	  $ti = htmlentities(stripslashes($db->data[title]));
-	  $id = htmlentities(stripslashes($db->data[id]));
+	  $ti = htmlentities(stripslashes($db->data['title']));
+	  $id = htmlentities(stripslashes($db->data['id']));
 	  $da = sqldate_to_string($db->data[start_date]);
 	  $ci = htmlentities(stripslashes($db->data[cat_id]));
 	  $cn = htmlentities(stripslashes($db->data[cat_name]));
@@ -462,7 +462,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth)
 	  echo "  <td align=\"left\" valign=\"top\" width=\"6\" bgcolor=\"$co\"><img src=\"/images/spacer.gif\" alt=\"$cn\" width=\"6\"></td>\n";
 	  echo "  <td align=\"left\" valign=\"top\">$ti</td>\n";
 	  echo "  <td align=\"left\" valign=\"top\">$da</td>\n";
-	  echo "  <td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a></td>\n";
+	  echo "  <td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a></td>\n";
 	  echo " </tr>\n";
 	  }
 
@@ -867,12 +867,12 @@ function edit_category_form($db,$id)
 // setup the variables
 //----------------------------------------------------------------------------------------
 
-	$ti  = htmlentities(stripslashes($db->data[title]));
+	$ti  = htmlentities(stripslashes($db->data['title']));
 	$de  = htmlentities(stripslashes($db->data[description]));
 	$ca  = htmlentities(stripslashes($db->data[cat]));
 	$co  = htmlentities(stripslashes($db->data[contact]));
 	$el  = htmlentities(stripslashes($db->data[email]));
-	$ur  = htmlentities(stripslashes($db->data[url]));
+	$ur  = htmlentities(stripslashes($db->data['url']));
 	$sm  = htmlentities(stripslashes($db->data[start_time_minute]));
 
 	$sd  = htmlentities(stripslashes($db->data[start_date]));

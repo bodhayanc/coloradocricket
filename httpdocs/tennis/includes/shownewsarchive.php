@@ -64,10 +64,10 @@ function show_top20_news_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data[title]));
-        $pr = htmlentities(stripslashes($db->data[id]));
-        $a = sqldate_to_string($db->data[added]);
-        $id = $db->data[id];
+        $t = htmlentities(stripslashes($db->data['title']));
+        $pr = htmlentities(stripslashes($db->data['id']));
+        $a = sqldate_to_string($db->data['added']);
+        $id = $db->data['id'];
 
         // output article
 
@@ -78,7 +78,7 @@ function show_top20_news_listing($db,$s,$id,$pr)
         }
 
         echo "    <td width=\"75%\"><a href=\"$PHP_SELF?news=$pr&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"25%\" class=\"9px\" align=\"right\">$a</td>\n";
         echo "  </tr>\n";
@@ -198,10 +198,10 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data[title]));
-        $pr = htmlentities(stripslashes($db->data[id]));
-        $a = sqldate_to_string($db->data[added]);
-        $id = $db->data[id];
+        $t = htmlentities(stripslashes($db->data['title']));
+        $pr = htmlentities(stripslashes($db->data['id']));
+        $a = sqldate_to_string($db->data['added']);
+        $id = $db->data['id'];
 
         // output article
 
@@ -212,7 +212,7 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
         }
 
         echo "    <td width=\"75%\"><a href=\"$PHP_SELF?news=$pr&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"25%\" class=\"9px\" align=\"right\">$a</td>\n";
         echo "  </tr>\n";
@@ -426,10 +426,10 @@ function show_full_news_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data[title]));
-        $pr = htmlentities(stripslashes($db->data[id]));
-        $a = sqldate_to_string($db->data[added]);
-        $id = $db->data[id];
+        $t = htmlentities(stripslashes($db->data['title']));
+        $pr = htmlentities(stripslashes($db->data['id']));
+        $a = sqldate_to_string($db->data['added']);
+        $id = $db->data['id'];
 
         // output article
 
@@ -440,7 +440,7 @@ function show_full_news_listing($db,$s,$id,$pr)
         }
 
         echo "    <td width=\"75%\"><a href=\"$PHP_SELF?news=$pr&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"25%\" class=\"9px\" align=\"right\">$a</td>\n";
         echo "  </tr>\n";
@@ -470,11 +470,11 @@ function show_full_news($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM news WHERE id=$pr");
     $db->BagAndTag();
 
-    $a = sqldate_to_string($db->data[added]);
-    $t = $db->data[title];
-    $di = $db->data[DiscussID];
+    $a = sqldate_to_string($db->data['added']);
+    $t = $db->data['title'];
+    $di = $db->data['DiscussID'];
     $pd = $db->data[picdesc];
-    $vw = $db->data[views];
+    $vw = $db->data['views'];
 
     $db->Update("UPDATE news SET views=$vw+1 WHERE id=$pr");
 
@@ -500,14 +500,14 @@ function show_full_news($db,$s,$id,$pr)
     // output story
     echo "<b class=\"14px\">$t</b><br>\n";
 
-    if ($db->data[author] != "") echo "<p><b>Author:</b> " . $db->data[author] . "<br>\n";
+    if ($db->data['author'] != "") echo "<p><b>Author:</b> " . $db->data['author'] . "<br>\n";
     echo "<b>Date submitted:</b> $a</p>\n";
 
-    if ($db->data[picture] != "") { 
+    if ($db->data['picture'] != "") { 
       echo "<table width=\"200\" cellpadding=\"4\" cellspacing=\"0\" border=\"0\" align=\"right\">\n";
       echo " <tr>\n";
       echo "  <td align=\"center\" valign=\"middle\">\n";
-      echo "  <div align=\"center\" class=\"photo\"><img src=\"http://www.coloradocricket.org/uploadphotos/news/" . $db->data[picture] . "\" style=\"border: 1 solid #393939\">\n";
+      echo "  <div align=\"center\" class=\"photo\"><img src=\"http://www.coloradocricket.org/uploadphotos/news/" . $db->data['picture'] . "\" style=\"border: 1 solid #393939\">\n";
       if($pd != "" ) echo "<br><br><div align=\"left\">$pd</div>";
       echo "  </div>\n";
       echo "  </td>\n";
@@ -517,7 +517,7 @@ function show_full_news($db,$s,$id,$pr)
       echo "";
     }
 
-    echo "<p>" . $db->data[article] . "</p>\n";
+    echo "<p>" . $db->data['article'] . "</p>\n";
 
     // output link back
     $sitevar = "http://www.coloradocricket.org/newsarchives.php?news=$pr&ccl_mode=1";
@@ -552,11 +552,11 @@ function show_full_news($db,$s,$id,$pr)
             $db->GetRow($i);
             $db->DeBagAndTag();
 
-            $t = $db->data[title];
-            $au = $db->data[author];
-            $id = $db->data[id];
-            $pr = $db->data[id];
-            $date = sqldate_to_string($db->data[added]);
+            $t = $db->data['title'];
+            $au = $db->data['author'];
+            $id = $db->data['id'];
+            $pr = $db->data['id'];
+            $date = sqldate_to_string($db->data['added']);
 
         //if($i % 2) {
         //  echo "<tr class=\"trrow1\">\n";
@@ -566,7 +566,7 @@ function show_full_news($db,$s,$id,$pr)
 
         echo "  <tr class=\"trrow1\">\n";
         echo "    <td width=\"100%\"><a href=\"news.php?news=$pr&ccl_mode=1\">$t</a>\n";
-        if($db->data[picture] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if($db->data['picture'] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 
@@ -660,7 +660,7 @@ function search_news($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
 
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";
@@ -668,8 +668,8 @@ function search_news($db,$search="")
               echo "<tr class=\"trrow1\">\n";
             }
 
-        echo "    <td width=\"75%\"><a href=\"$PHP_SELF?news={$db->data[id]}&ccl_mode=1\">{$db->data[title]}</a>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        echo "    <td width=\"75%\"><a href=\"$PHP_SELF?news={$db->data['id']}&ccl_mode=1\">{$db->data['title']}</a>&nbsp;\n";
+        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"25%\" class=\"9px\" align=\"right\">$a</td>\n";
         echo "  </tr>\n";
@@ -754,8 +754,8 @@ function search_news($db,$search="")
     $db->QueryRow("SELECT * FROM news WHERE id=$pr");
     $db->BagAndTag();
 
-    $news = $db->data[title];
-    $pr = $db->data[id];
+    $news = $db->data['title'];
+    $pr = $db->data['id'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -828,7 +828,7 @@ function search_news($db,$search="")
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 switch($ccl_mode) {
 case 0:

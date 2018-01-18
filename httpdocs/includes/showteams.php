@@ -17,7 +17,7 @@ function show_teams_listing($db,$s,$id,$pr)
     $db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName DESC LIMIT 1");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $season = $db->data[SeasonID];
+        $season = $db->data['SeasonID'];
     }
     
 
@@ -58,8 +58,8 @@ function show_teams_listing($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
-        $ta = htmlentities(stripslashes($db->data[TeamAbbrev]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
+        $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
         $ts = htmlentities(stripslashes($db->data[TeamActive]));
         if($ts == "1") {
@@ -112,8 +112,8 @@ function show_full_teams($db,$s,$id,$pr)
     $db->BagAndTag();
 
     $id = $db->data[TeamID];
-    $na = $db->data[TeamName];
-    $ca = $db->data[TeamAbbrev];
+    $na = $db->data['teamname'];
+    $ca = $db->data['TeamAbbrev'];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];
     $td = $db->data[TeamDesc];
@@ -158,7 +158,7 @@ function show_full_teams($db,$s,$id,$pr)
     $db->QueryRow("SELECT picture, teamlogo FROM teams WHERE TeamID=$pr");
     $db->BagAndTag();
 
-    $pic = $db->data[picture];
+    $pic = $db->data['picture'];
     $teamlogo = $db->data[teamlogo];
 
     if ($pic != "" ) {
@@ -187,9 +187,9 @@ function show_full_teams($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
             
-    $tna = $db->data[TeamName];
-    $tab = $db->data[TeamAbbrev];
-    $sn = $db->data[SeasonName];
+    $tna = $db->data['teamname'];
+    $tab = $db->data['TeamAbbrev'];
+    $sn = $db->data['SeasonName'];
 
         
     echo "$sn League Champions<br>\n";
@@ -231,10 +231,10 @@ function show_full_teams($db,$s,$id,$pr)
             $db->GetRow($n);
             $db->DeBagAndTag();
 
-            $t = $db->data[title];
-            $au = $db->data[author];
-            $newsid = $db->data[id];
-            $date = sqldate_to_string($db->data[added]);
+            $t = $db->data['title'];
+            $au = $db->data['author'];
+            $newsid = $db->data['id'];
+            $date = sqldate_to_string($db->data['added']);
 
         if($n % 2) {
           echo "<tr class=\"trrow1\">\n";
@@ -243,7 +243,7 @@ function show_full_teams($db,$s,$id,$pr)
         }
 
         echo "    <td width=\"75%\"><a href=\"news.php?news=$newsid&ccl_mode=1\">$t</a>\n";
-        if($db->data[picture] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">\n";
+        if($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "    <td width=\"25%\" align=\"right\" class=\"9px\">$date</td>\n";
         echo "  </tr>\n";
@@ -399,11 +399,11 @@ function show_full_teams($db,$s,$id,$pr)
 		for ($s=0; $s<$db->rows; $s++) {
 	        $db->GetRow($s);
 	
-	        $fn = $db->data[PlayerFName];
-	        $ln = $db->data[PlayerLName];
+	        $fn = $db->data['PlayerFName'];
+	        $ln = $db->data['PlayerLName'];
 	        $em = $db->data[PlayerEmail];
-	        $pi = $db->data[PlayerID];
-	        $pc = $db->data[picture];
+	        $pi = $db->data['PlayerID'];
+	        $pc = $db->data['picture'];
 	        $pa = $db->data[picture1];
 	        $gd = $db->data[lastdate];
 	        if($pc == ''){
@@ -495,8 +495,8 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $db->BagAndTag();
 
     $id = $db->data[TeamID];
-    $na = $db->data[TeamName];
-    $ca = $db->data[TeamAbbrev];
+    $na = $db->data['teamname'];
+    $ca = $db->data['TeamAbbrev'];
     $ur = $db->data[TeamURL];
     $co = $db->data[TeamColour];
 	if (($co == null) || ($co == "")) {
@@ -556,11 +556,11 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
 
-        $fn = $db->data[PlayerFName];
-        $ln = $db->data[PlayerLName];
+        $fn = $db->data['PlayerFName'];
+        $ln = $db->data['PlayerLName'];
         $em = $db->data[PlayerEmail];
-        $pi = $db->data[PlayerID];
-        $pc = $db->data[picture];
+        $pi = $db->data['PlayerID'];
+        $pc = $db->data['picture'];
         $pa = $db->data[picture1];
         $ia = $db->data[isactive];
 
@@ -665,7 +665,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 switch($ccl_mode) {
 case 0:

@@ -44,8 +44,8 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$t = htmlentities(stripslashes($db->data[SeasonName]));
-			$id = htmlentities(stripslashes($db->data[SeasonID]));
+			$t = htmlentities(stripslashes($db->data['SeasonName']));
+			$id = htmlentities(stripslashes($db->data['SeasonID']));
 			$fe = $db->data[IsFeature];
 
 			if($x % 2) {
@@ -62,7 +62,7 @@ function show_main_menu($db)
 			} else {
 			echo "	<td align=\"left\"><b><font color=\"red\">$t</font></b></td>\n";
 			}
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[SeasonID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[SeasonID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['SeasonID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['SeasonID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -185,7 +185,7 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$t  = stripslashes($db->data[SeasonName]);
+	$t  = stripslashes($db->data['SeasonName']);
 
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";

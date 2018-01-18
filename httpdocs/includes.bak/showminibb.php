@@ -100,8 +100,8 @@ function show_mini_bb($db,$schedule,$id,$pr,$team,$date,$sv)
 
 
 // open up db connection now so you don't have to in every other file
-$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
-$db->SelectDB($dbcfg[db]);
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
 
 
 show_mini_bb($db,$schedule,$id,$pr,$team,$date,$sv);

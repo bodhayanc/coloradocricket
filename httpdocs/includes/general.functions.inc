@@ -27,23 +27,6 @@ function sqldate_to_string($t="",$short=0)
 	else return $t;
 }
 
-function date_format($sqltime,$lang="US")
-{
-	global $full_day_name,$full_month_name;
-	
-	ereg("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$sqltime,$args);
-	$wd = date("w",mktime(0,0,0,$args[2],$args[3],$args[1]));
-	switch($lang) {
-	case "US":
-		return sprintf("%s, %s %d%s, %s",$full_day_name[$wd],$full_month_name[$args[2]-1],$args[3],ordinal_text($args[3]),$args[1]);
-		break;
-	default:
-		return sprintf("%s, %d%s %s, %s",$full_day_name[$wd],$args[3],ordinal_text($args[3]),$full_month_name[$args[2]-1],$args[1]);
-		break;
-	}
-}
-
-
 function ordinal_text($num=1)
 {
 	$ords = array("th","st","nd","rd");

@@ -28,7 +28,7 @@ if (!isset($do)) {
 	$db->Query("SELECT ID,name FROM $tbcfg[mllists] ORDER BY name");
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$lists[$db->data[ID]] = $db->data[name];
+		$lists[$db->data['id']] = $db->data[name];
 	}
 
 	// now go for the display
@@ -65,9 +65,9 @@ if (!isset($do)) {
 			for ($i=0; $i<$cnt; $i++) {
 				$db->GetRow($i);
 				echo "<tr class=\"trbottom\">";
-				echo "<td valign=\"top\"><a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=view&id=" . $db->data[ID] . "\">" . htmlentities($db->data[subject]) . "</a></td>";
+				echo "<td valign=\"top\"><a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=view&id=" . $db->data['id'] . "\">" . htmlentities($db->data[subject]) . "</a></td>";
 				echo "<td valign=\"top\" align=\"right\">" . $db->data[date] . "</td>";
-				echo "<td valign=\"top\" align=\"right\"><a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=delete&id=" . $db->data[ID] . "\">delete</a></td>";
+				echo "<td valign=\"top\" align=\"right\"><a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=delete&id=" . $db->data['id'] . "\">delete</a></td>";
 				echo "</tr>\n";
 			}
 		}
@@ -91,7 +91,7 @@ if ($do == "view") {
 		return;
 	}
 	$db->QueryRow("SELECT a.*,l.name FROM $tbcfg[mlarchive] a LEFT JOIN $tbcfg[mllists] l ON a.listID=l.ID WHERE a.ID=$id");
-	echo "<p>The archive store for the " . $db->data[ID] . " list type is as follows:</p>\n";
+	echo "<p>The archive store for the " . $db->data['id'] . " list type is as follows:</p>\n";
 	echo "<p><table border=\"0\" cellpadding=\"1\" cellspacing=\"1\" width=\"100%\">\n";
 	echo "<tr class=\"trtop\"><td><span class=\"white\">field</span></td><td><span class=\"white\">value</span></td></tr>\n";
 	echo "<tr class=\"trbottom\"><td valign=\"top\">Subject</td><td valign=\"top\">" . htmlentities($db->data[subject]) . "</td></tr>\n";

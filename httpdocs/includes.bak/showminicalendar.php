@@ -39,8 +39,8 @@ global $PHP_SELF;
 	// variables
 	//-------------------------------------------------
 			
-	  $t = htmlentities(stripslashes($db->data[title]));
-	  $id = htmlentities(stripslashes($db->data[id]));
+	  $t = htmlentities(stripslashes($db->data['title']));
+	  $id = htmlentities(stripslashes($db->data['id']));
 	  $da = sqldate_to_string($db->data[start_date]);
 	  $fd = $db->data[formatted_date];
 
@@ -79,7 +79,7 @@ global $PHP_SELF;
 //////////////////////////////////////////////////////////////////////////////////////////		
 
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 show_short_calendar($db);
 

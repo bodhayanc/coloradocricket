@@ -47,32 +47,32 @@ function show_short_news($db,$s=0,$limit=4,$len=250)
             // get short version of story
             $story = "";
             if ($story != "" && strlen($story)>$len) {
-                $story = substr($db->data[article],0,$len);
+                $story = substr($db->data['article'],0,$len);
                 while($story[strlen($story)-1] != " ") {
                     $story = substr($story,0,-1);
                 }
                 $story = substr($story,0,-1);
             } else {
-                $story = substr($db->data[article],0,$len);
+                $story = substr($db->data['article'],0,$len);
             }
 
             $story .= "...";
             $a = $story;
-            $t = $db->data[title];
-            $au = $db->data[author];
-            $id = $db->data[id];
-            $pr = $db->data[id];
-            $di = $db->data[DiscussID];
-            $date = sqldate_to_string($db->data[added]);
-            $vw = $db->data[views];
+            $t = $db->data['title'];
+            $au = $db->data['author'];
+            $id = $db->data['id'];
+            $pr = $db->data['id'];
+            $di = $db->data['DiscussID'];
+            $date = sqldate_to_string($db->data['added']);
+            $vw = $db->data['views'];
             
             $sid = $db->data[SubID];
             $smi = $db->data[MasterID];
             $sst = $db->data[SubTitle];
             
-            $nty = $db->data[newstype];
+            $nty = $db->data['newstype'];
             
-            if ($db->data[picture] != "") echo "<img width=\"80\" src=\"http://www.coloradocricket.org/uploadphotos/news/" . $db->data[picture] . "\" align=\"right\" style=\"border: 1 solid #393939\">\n";
+            if ($db->data['picture'] != "") echo "<img width=\"80\" src=\"http://www.coloradocricket.org/uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\">\n";
 
             echo "  <span class=\"newstitle\">$t</span><br>\n";
 
@@ -122,7 +122,7 @@ function show_short_news($db,$s=0,$limit=4,$len=250)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 show_short_news($db,$s,4);
 

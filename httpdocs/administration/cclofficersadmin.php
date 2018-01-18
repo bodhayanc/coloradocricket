@@ -62,11 +62,11 @@ function show_main_menu($db)
 			$ot = htmlentities(stripslashes($db->data[cclofficerTitle]));
 			$id = htmlentities(stripslashes($db->data[cclofficerID]));
 
-			$pfn = htmlentities(stripslashes($db->data[PlayerFName]));
-			$pln = htmlentities(stripslashes($db->data[PlayerLName]));
+			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-			$tna = htmlentities(stripslashes($db->data[TeamName]));
-			$tab = htmlentities(stripslashes($db->data[TeamAbbrev]));
+			$tna = htmlentities(stripslashes($db->data['teamname']));
+			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -125,7 +125,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM players ORDER BY PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
+			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
 		}
 	}
 
@@ -143,7 +143,7 @@ echo "<select name=\"cclofficerTitle\">\n";
                       echo "$db->data[cclofficerTitle]";
 			$db->GetRow($i);
 			echo "<option value=\"".$db->data[cclofficerTitle]."\">".$db->data[cclofficerTitle]."</option>\n";
-//			echo "<option value=\"" . $db->data[PlayerID] . "\">" . $db->data[PlayerLName] . ", " . $db->data[PlayerFName] . "</option>\n";
+//			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
 
 		}
 	}
@@ -214,7 +214,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$players[$db->data[PlayerID]] = $db->data[PlayerName];
+		$players[$db->data['PlayerID']] = $db->data[PlayerName];
 	}
 
 	// query database
@@ -225,8 +225,8 @@ function edit_category_form($db,$id)
 
 	$ot = htmlentities(stripslashes($db->data[cclofficerTitle]));
 	$otid = htmlentities(stripslashes($db->data[cclofficerPlayerID]));
-	$pfn = htmlentities(stripslashes($db->data[PlayerFName]));
-	$pln = htmlentities(stripslashes($db->data[PlayerLName]));
+	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 	$ofid = htmlentities(stripslashes($db->data[cclofficerID]));
 	$det = htmlentities(stripslashes($db->data[cclofficerDetail]));
 	$vie = htmlentities(stripslashes($db->data[cclofficerViews]));

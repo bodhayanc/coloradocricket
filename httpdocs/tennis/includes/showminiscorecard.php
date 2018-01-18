@@ -68,7 +68,7 @@ function show_mini_scorecard($db, $season)
 		$d = $db->data[formatted_date];
 		$sc =  $db->data[scorecard];
 		$re = $db->data[result];
-		$id = $db->data[game_id];
+		$id = $db->data['game_id'];
 		$wk = $db->data[week];
 		$fo = $db->data[forfeit];
 		$ca = $db->data[cancelled];

@@ -44,8 +44,8 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$t = htmlentities(stripslashes($db->data[title]));
-			$id = htmlentities(stripslashes($db->data[id]));
+			$t = htmlentities(stripslashes($db->data['title']));
+			$id = htmlentities(stripslashes($db->data['id']));
 			$sa = $db->data[isActive];
 
 			if($x % 2) {
@@ -63,9 +63,9 @@ function show_main_menu($db)
 			echo "	<td align=\"left\">$t<b><font color=\"red\"> (not active)</font></b></td>\n";
 			}
 
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -208,10 +208,10 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$t  = stripslashes($db->data[title]);
-	$th = htmlentities(stripslashes($db->data[title]));
-	$u = htmlentities(stripslashes($db->data[url]));
-	$a  = htmlentities(stripslashes($db->data[article]));
+	$t  = stripslashes($db->data['title']);
+	$th = htmlentities(stripslashes($db->data['title']));
+	$u = htmlentities(stripslashes($db->data['url']));
+	$a  = htmlentities(stripslashes($db->data['article']));
 	$p  = htmlentities(stripslashes($db->data[promised]));
         // 9-Jan-2010
         $act = htmlentities(stripslashes($db->data[isActive]));
@@ -246,9 +246,9 @@ function edit_category_form($db,$id)
 
 	echo "<p>enter a short profile<br><textarea name=\"article\" cols=\"70\" rows=\"15\" wrap=\"virtual\">$a</textarea></p>\n";
 
-	if ($db->data[picture]) {
+	if ($db->data['picture']) {
 		echo "<p>current image</p>\n";
-		echo "<p><img src=\"../uploadphotos/sponsors/" . $db->data[picture] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/sponsors/" . $db->data['picture'] . "\"></p>\n";
 		echo "<p>upload an image (if you want to change the current one)";
 	} else {
 		echo "<p>upload an image";

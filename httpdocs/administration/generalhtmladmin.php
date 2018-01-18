@@ -40,15 +40,15 @@ function show_main_menu($db)
 
 			// setup the variables
 
-			$t  = htmlentities(stripslashes($db->data[title]));
-			$id = htmlentities(stripslashes($db->data[id]));
+			$t  = htmlentities(stripslashes($db->data['title']));
+			$id = htmlentities(stripslashes($db->data['id']));
 
 			// output
 
 			echo "<tr class=\"trbottom\">\n";
 			echo "   <td align=\"left\" valign=\"top\">$id.</td>\n";
 			echo "	<td align=\"left\" valign=\"top\">$t</td>\n";
-			echo "	<td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\">edit html</a></td>\n";
+			echo "	<td align=\"right\" valign=\"top\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\">edit html</a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -149,8 +149,8 @@ function edit_category_form($db,$id)
 
 	// setup the variables
 
-	$t  = stripslashes($db->data[title]);
-	$th = htmlentities(stripslashes($db->data[title]));
+	$t  = stripslashes($db->data['title']);
+	$th = htmlentities(stripslashes($db->data['title']));
 	$gh = htmlentities(stripslashes($db->data[generalhtml]));
 
 	echo "<p>Edit the html. <a href=\"htmlhelp.php\" target=\"_new\">Click here for html formatting help.</a></p>\n";
@@ -162,9 +162,9 @@ function edit_category_form($db,$id)
 	echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	echo "<p>enter the title<br><input type=\"text\" name=\"title\" size=\"25\" maxlength=\"255\" value=\"$th\"></p>\n";
-	if ($db->data[picture]) {
+	if ($db->data['picture']) {
 		echo "<p>current file</p>\n";
-		echo "<p>" . $db->data[picture] . "</p>\n";
+		echo "<p>" . $db->data['picture'] . "</p>\n";
 		echo "<p>upload a file (if you want to change the current one)";
 	} else {
 		echo "<p>upload a file <i>(not required)</i>";

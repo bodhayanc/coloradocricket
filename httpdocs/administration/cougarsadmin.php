@@ -42,8 +42,8 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$t = htmlentities(stripslashes($db->data[title]));
-			$id = htmlentities(stripslashes($db->data[id]));
+			$t = htmlentities(stripslashes($db->data['title']));
+			$id = htmlentities(stripslashes($db->data['id']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -55,7 +55,7 @@ function show_main_menu($db)
 
 			echo "	<td align=\"left\">$id</td>\n";
 			echo "	<td align=\"left\">$t</td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -186,10 +186,10 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$t  = stripslashes($db->data[title]);
-	$th = htmlentities(stripslashes($db->data[title]));
-	$au = htmlentities(stripslashes($db->data[author]));
-	$a  = htmlentities(stripslashes($db->data[article]));
+	$t  = stripslashes($db->data['title']);
+	$th = htmlentities(stripslashes($db->data['title']));
+	$au = htmlentities(stripslashes($db->data['author']));
+	$a  = htmlentities(stripslashes($db->data['article']));
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";
@@ -212,9 +212,9 @@ function edit_category_form($db,$id)
 	echo "<p>enter the name of the cougars<br><input type=\"text\" name=\"title\" size=\"25\"maxlength=\"255\" value=\"$th\"></p>\n";
 	echo "<p>enter the name of the author<br><input type=\"text\" name=\"author\" size=\"25\"maxlength=\"255\" value=\"$au\"></p>\n";
 	echo "<p>enter the cougars article<br><textarea name=\"article\" cols=\"40\" rows=\"10\" wrap=\"virtual\">$a</textarea></p>\n";
-	if ($db->data[picture]) {
+	if ($db->data['picture']) {
 		echo "<p>current photo</p>\n";
-		echo "<p><img src=\"../uploadphotos/cougars/" . $db->data[picture] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/cougars/" . $db->data['picture'] . "\"></p>\n";
 		echo "<p>upload a photo (if you want to change the current one)";
 	} else {
 		echo "<p>upload a photo";

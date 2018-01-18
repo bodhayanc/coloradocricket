@@ -43,7 +43,7 @@ if ($do == "preview") {
 
 	// display details
 
-	$name = $db->QueryItem("SELECT name FROM $tbcfg[mllists] WHERE ID=$fields[id]");
+	$name = $db->QueryItem("SELECT name FROM $tbcfg[mllists] WHERE ID=$fields['id']");
 	echo "<p>Please review the details of the newsletter you wish to send to the <b>$name</b> newsletter type.</p>\n";
 	echo "<p><table border=\"0\" cellpadding=\"1\" cellspacing=\"1\" width=\"100%\">\n";
 	echo "<tr class=\"trtop\"><td><span class=\"trtopfont\">field</span></td><td><span class=\"trtopfont\">value</span></td></tr>\n";
@@ -62,7 +62,7 @@ if ($do == "preview") {
 	echo "<input type=\"hidden\" name=\"SID\" value=\"$SID\">\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"cancel\">\n";
-	echo "<input type=\"hidden\" name=\"fields[id]\" value=\"$fields[id]\">\n";
+	echo "<input type=\"hidden\" name=\"fields['id']\" value=\"$fields['id']\">\n";
 	echo "<input type=\"hidden\" name=\"fields[subject]\" value=\"$fields[subject]\">\n";
 	echo "<input type=\"hidden\" name=\"fields[body]\" value=\"$fields[body]\">\n";
 	echo "<input type=\"submit\" value=\"cancel newsletter\"></form></td>\n";
@@ -73,7 +73,7 @@ if ($do == "preview") {
 	echo "<input type=\"hidden\" name=\"SID\" value=\"$SID\">\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"edit\">\n";
-	echo "<input type=\"hidden\" name=\"fields[id]\" value=\"$fields[id]\">\n";
+	echo "<input type=\"hidden\" name=\"fields['id']\" value=\"$fields['id']\">\n";
 	echo "<input type=\"hidden\" name=\"fields[subject]\" value=\"$fields[subject]\">\n";
 	echo "<input type=\"hidden\" name=\"fields[body]\" value=\"$fields[body]\">\n";
 	echo "<input type=\"submit\" value=\"re-edit newsletter\"></form></td>\n";
@@ -84,7 +84,7 @@ if ($do == "preview") {
 	echo "<input type=\"hidden\" name=\"SID\" value=\"$SID\">\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"send\">\n";
-	echo "<input type=\"hidden\" name=\"fields[id]\" value=\"$fields[id]\">\n";
+	echo "<input type=\"hidden\" name=\"fields['id']\" value=\"$fields['id']\">\n";
 	echo "<input type=\"hidden\" name=\"fields[subject]\" value=\"$fields[subject]\">\n";
 	echo "<input type=\"hidden\" name=\"fields[body]\" value=\"$fields[body]\">\n";
 	echo "<input type=\"submit\" value=\"send newsletter\"></form></td>\n";
@@ -116,7 +116,7 @@ if ($do == "send") {
 
 	// get newsletter type details
 
-	$db->QueryRow("SELECT name,email,archive FROM $tbcfg[mllists] WHERE ID=$fields[id]");
+	$db->QueryRow("SELECT name,email,archive FROM $tbcfg[mllists] WHERE ID=$fields['id']");
 	$fromemail = $db->data[email];
 	$addressbook = $db->data[name];
 	$archive = $db->data[archive];
@@ -129,7 +129,7 @@ if ($do == "send") {
 
 	// now send to users
 
-	$db->Query("SELECT * FROM $tbcfg[mlemails] WHERE listID=$fields[id] AND unsubscribed=0");
+	$db->Query("SELECT * FROM $tbcfg[mlemails] WHERE listID=$fields['id'] AND unsubscribed=0");
 	$notsent = array();
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
@@ -155,9 +155,9 @@ if ($do == "send") {
 		// add an unsubscribe link (change this to what you need)
 
 		$body .= "\n\n\n\n\n\n-=-=-=-=-=-=-=-\nThis email is sent from the CCL website. \n\nIf you wish to be removed from the $addressbook Mailing List, click the following link.\n\n";
-		$body .= "http://www.coloradocricket.org/unsubscribe.php?id=" . $db->data[ID] . "&email=" . $db->data[email] . "\n\n";
+		$body .= "http://www.coloradocricket.org/unsubscribe.php?id=" . $db->data['id'] . "&email=" . $db->data[email] . "\n\n";
 		$body .= "If you do not have access to a web browser but can email, then send an email to $fromemail stating your ";
-		$body .= "id number, " . $db->data[ID] . ", and email address, " . $db->data[email] . ", and your wish to be removed from the newsletter type.\n";
+		$body .= "id number, " . $db->data['id'] . ", and email address, " . $db->data[email] . ", and your wish to be removed from the newsletter type.\n";
 		$body .= "-=-=-=-=-=-=-=-\n";
 
 		// tidy it up
@@ -206,7 +206,7 @@ if ($do == "send") {
 
 		// store in the database
 
-		$db->Insert("INSERT INTO $tbcfg[mlarchive] (listID,date,body,subject) VALUES ($fields[id],NOW(),'$body','$subject')");
+		$db->Insert("INSERT INTO $tbcfg[mlarchive] (listID,date,body,subject) VALUES ($fields['id'],NOW(),'$body','$subject')");
 		if ($db->a_rows != -1) echo "<p>An archive has been created for this newsletter.</p>\n";
 		else echo "<p>An archive could not be created for this newsletter.</p>\n";
 	}
@@ -238,12 +238,12 @@ function show_form($SID,$action,$do,$fields)
 	$db->Query("SELECT l.ID,l.name FROM $tbcfg[mllists] l LEFT JOIN $tbcfg[mlemails] e ON l.ID=e.listID WHERE e.listID IS NOT NULL GROUP BY l.ID ORDER BY name");
 	if ($db->rows==1) {
 		$db->GetRow(0);
-		echo "<input type=\"hidden\" name=\"fields[id]\" value=\"" . $db->data[ID] . "\">\n";
+		echo "<input type=\"hidden\" name=\"fields['id']\" value=\"" . $db->data['id'] . "\">\n";
 	} else {
-		echo "<tr class=\"trbottom\"><td valign=\"top\">Select List</td><td valign=\"middle\"><select name=\"fields[id]\">";
+		echo "<tr class=\"trbottom\"><td valign=\"top\">Select List</td><td valign=\"middle\"><select name=\"fields['id']\">";
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[ID] . "\"" . ($db->data[ID] == $fields[id] ? " selected":"") . ">" . $db->data[name] . "</option>";
+			echo "<option value=\"" . $db->data['id'] . "\"" . ($db->data['id'] == $fields['id'] ? " selected":"") . ">" . $db->data[name] . "</option>";
 		}
 		echo "</select></td></tr>\n";
 	}

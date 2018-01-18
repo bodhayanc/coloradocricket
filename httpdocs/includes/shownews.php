@@ -55,31 +55,31 @@ function show_short_news($db,$s=0,$limit=5,$len=100)
             // get short version of story
             $story = "";
             if ($story != "" && strlen($story)>$len) {
-                $story = substr($db->data[article],0,$len);
+                $story = substr($db->data['article'],0,$len);
                 while($story[strlen($story)-1] != " ") {
                     $story = substr($story,0,-1);
                 }
                 $story = substr($story,0,-1);
             } else {
-                $story = substr($db->data[article],0,$len);
+                $story = substr($db->data['article'],0,$len);
             }
 
             $story .= "...";
             $a = $story;
-            $t = $db->data[title];
-            $au = $db->data[author];
-            $id = $db->data[id];
-            $pr = $db->data[id];
-            $di = $db->data[DiscussID];
-            $date = sqldate_to_string($db->data[added]);
-            $vw = $db->data[views];
+            $t = $db->data['title'];
+            $au = $db->data['author'];
+            $id = $db->data['id'];
+            $pr = $db->data['id'];
+            $di = $db->data['DiscussID'];
+            $date = sqldate_to_string($db->data['added']);
+            $vw = $db->data['views'];
 			
    // 6-May-2015 11:12pm         
    //         $sid = $db->data[SubID];
    //         $smi = $db->data[MasterID];
   //          $sst = $db->data[SubTitle];
             
-            $nty = $db->data[newstype];
+            $nty = $db->data['newstype'];
              if( $nty == 1) {
              	$prefix_subdomain = "";
              }
@@ -89,7 +89,7 @@ function show_short_news($db,$s=0,$limit=5,$len=100)
         	 else if( $nty == 3) {
              	$prefix_subdomain = "tennis.";
              }
-            if ($db->data[picture] != "") echo "<a href=\"http://".$prefix_subdomain."coloradocricket.org/news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data[picture] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
+            if ($db->data['picture'] != "") echo "<a href=\"http://".$prefix_subdomain."coloradocricket.org/news.php?news=$pr&ccl_mode=1\"><img width=\"80\" src=\"uploadphotos/news/" . $db->data['picture'] . "\" align=\"right\" style=\"border: 1 solid #393939\"></a>\n";
 			
           
             
@@ -146,7 +146,7 @@ function show_short_news($db,$s=0,$limit=5,$len=100)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 show_short_news($db,$s,5);
 

@@ -69,14 +69,14 @@ function show_mini_scorecard($db, $season)
 		$t1id = $db->data[HomeID];
 		$t2id = $db->data[AwayID];
 		$umid = $db->data[UmpireID];
-		$d = sqldate_to_string($db->data[game_date]);
+		$d = sqldate_to_string($db->data['game_date']);
 		$sc =  $db->data[scorecard];
 		$re = $db->data[result];
-		$id = $db->data[game_id];
+		$id = $db->data['game_id'];
 		$wk = $db->data[week];
 		$fo = $db->data[forfeit];
 		$ca = $db->data[cancelled];
-		$ss = explode(" ", $db->data[SeasonName]);
+		$ss = explode(" ", $db->data['SeasonName']);
 
 // Gets the last 2 digits of the year
 //		$ss1 = substr($ss[0],2);

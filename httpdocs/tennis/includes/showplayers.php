@@ -105,7 +105,7 @@ function show_players_listing($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -144,10 +144,10 @@ function show_players_listing($db,$s,$id,$pr)
     $db->BagAndTag();
     for ($r=0; $r<$db->rows; $r++) {
         $db->GetRow($r);
-        $id = htmlentities(stripslashes($db->data[PlayerID]));
-        $pln = htmlentities(stripslashes($db->data[PlayerLName]));
-        $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
-        $pte = htmlentities(stripslashes($db->data[TeamAbbrev]));
+        $id = htmlentities(stripslashes($db->data['PlayerID']));
+        $pln = htmlentities(stripslashes($db->data['PlayerLName']));
+        $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+        $pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
         // output article
 
@@ -158,7 +158,7 @@ function show_players_listing($db,$s,$id,$pr)
             }
 
         echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         if ($db->data[picture1] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
@@ -202,19 +202,19 @@ function show_full_players($db,$s,$id,$pr,$tid)
     ");
     $db->BagAndTag();
 
-    $plid = $db->data[PlayerID];
-    $pln = $db->data[PlayerLName];
-    $pfn = $db->data[PlayerFName];
+    $plid = $db->data['PlayerID'];
+    $pln = $db->data['PlayerLName'];
+    $pfn = $db->data['PlayerFName'];
     $pem = $db->data[PlayerEmail];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
-    $pic = $db->data[picture];
+    $pic = $db->data['picture'];
     $pic1 = $db->data[picture1];
     $tid = $db->data[TeamID];
-    $tna = $db->data[TeamName];
+    $tna = $db->data['teamname'];
     $tco = $db->data[TeamColour];
 
     $cid = $db->data[ClubID];
@@ -288,7 +288,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS, p.PlayerLName, p.PlayerFName FROM tennis_scorecard_batting_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID WHERE b.player_id = $pr GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
     $scinn = $db->data[Matches];
-    $scrun = $db->data[Runs];
+    $scrun = $db->data['runs'];
     $schig = $db->data[HS]; 
     } else {
     }
@@ -357,7 +357,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $db->BagAndTag();
     $scmai = $db->data[Maidens];
     $scbru = $db->data[BRuns];
-    $scwic = $db->data[Wickets];
+    $scwic = $db->data['wickets'];
     $scove = 
 
     $bnum = $db->data[Balls]; 
@@ -403,8 +403,8 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT player_id, wickets, runs FROM tennis_scorecard_bowling_details WHERE player_id = $pr ORDER BY wickets DESC, runs ASC LIMIT 1")) {   
     $db->QueryRow("SELECT player_id, wickets, runs FROM tennis_scorecard_bowling_details WHERE player_id = $pr ORDER BY wickets DESC, runs ASC LIMIT 1");
     $db->BagAndTag();
-    $scbbw = $db->data[wickets];
-    $scbbr = $db->data[runs];   
+    $scbbw = $db->data['wickets'];
+    $scbbr = $db->data['runs'];   
     
     if($scbru >= 1 && $scwic >= 1) {
     $boavg = Round($scbru / $scwic, 2);
@@ -614,11 +614,11 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $db->GetRow($i);
             $db->DeBagAndTag();
 
-            $t = $db->data[title];
-            $au = $db->data[author];
-            $id = $db->data[id];
-            $pr = $db->data[id];
-            $date = sqldate_to_string($db->data[added]);
+            $t = $db->data['title'];
+            $au = $db->data['author'];
+            $id = $db->data['id'];
+            $pr = $db->data['id'];
+            $date = sqldate_to_string($db->data['added']);
 
         if($i % 2) {
           echo "<tr class=\"trrow1\">\n";
@@ -627,7 +627,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
         }
 
         echo "    <td width=\"100%\"><a href=\"news.php?news=$pr&ccl_mode=1\">$t</a>\n";
-        if($db->data[picture] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if($db->data['picture'] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 
@@ -771,10 +771,10 @@ function search_players($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $id = htmlentities(stripslashes($db->data[PlayerID]));
-            $pln = htmlentities(stripslashes($db->data[PlayerLName]));
-            $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
-            $pte = htmlentities(stripslashes($db->data[TeamAbbrev]));
+            $id = htmlentities(stripslashes($db->data['PlayerID']));
+            $pln = htmlentities(stripslashes($db->data['PlayerLName']));
+            $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+            $pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             if($i % 2) {
               echo "<tr class=\"trrow1\">\n";
@@ -783,7 +783,7 @@ function search_players($db,$search="")
             }
 
         echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         if ($db->data[picture1] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
@@ -813,7 +813,7 @@ function search_players($db,$search="")
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -873,7 +873,7 @@ function search_players($db,$search="")
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data[TeamName]));
+        $na = htmlentities(stripslashes($db->data['teamname']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -1004,10 +1004,10 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $db->BagAndTag();
     for ($r=0; $r<$db->rows; $r++) {
         $db->GetRow($r);
-        $id = htmlentities(stripslashes($db->data[PlayerID]));
-        $pln = htmlentities(stripslashes($db->data[PlayerLName]));
-        $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
-        $pte = htmlentities(stripslashes($db->data[TeamAbbrev]));
+        $id = htmlentities(stripslashes($db->data['PlayerID']));
+        $pln = htmlentities(stripslashes($db->data['PlayerLName']));
+        $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+        $pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
         // output article
 
@@ -1018,7 +1018,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
             }
 
         echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
+        if ($db->data['picture'] != "") echo "<img src=\"http://www.coloradocricket.org/images/icons/icon_picture.gif\">\n";
         if ($db->data[picture1] != "") echo "&nbsp;<img src=\"http://www.coloradocricket.org/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
@@ -1063,7 +1063,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 switch($ccl_mode) {
 case 0:

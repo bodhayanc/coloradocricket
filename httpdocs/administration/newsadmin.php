@@ -62,8 +62,8 @@ function show_recent_main_menu($db)
 
 			// setup variables
 
-			$t = htmlentities(stripslashes($db->data[title]));
-			$id = htmlentities(stripslashes($db->data[id]));
+			$t = htmlentities(stripslashes($db->data['title']));
+			$id = htmlentities(stripslashes($db->data['id']));
 			$fe = $db->data[IsFeature];
 
 			if($x % 2) {
@@ -81,9 +81,9 @@ function show_recent_main_menu($db)
 			echo "	<td align=\"left\"><b><font color=\"red\">$t</font></b></td>\n";
 			}
 
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></td>\n";
+echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -189,8 +189,8 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 
 			// setup variables
 
-			$t = htmlentities(stripslashes($db->data[title]));
-			$id = htmlentities(stripslashes($db->data[id]));
+			$t = htmlentities(stripslashes($db->data['title']));
+			$id = htmlentities(stripslashes($db->data['id']));
 			$fe = $db->data[IsFeature];
 
 			if($x % 2) {
@@ -207,7 +207,7 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 			} else {
 			echo "	<td align=\"left\"><b><font color=\"red\">$t</font></b></td>\n";
 			}
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -312,9 +312,9 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 
 			for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			$a = sqldate_to_string($db->data[added]);
-			$t = htmlentities(stripslashes($db->data[title]));
-			$id = htmlentities(stripslashes($db->data[id]));
+			$a = sqldate_to_string($db->data['added']);
+			$t = htmlentities(stripslashes($db->data['title']));
+			$id = htmlentities(stripslashes($db->data['id']));
 			$fe = $db->data[IsFeature];
 
 			if($i % 2) {
@@ -331,7 +331,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 			} else {
 			echo "	<td align=\"left\"><b><font color=\"red\">$t</font></b></td>\n";
 			}
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 
 			}
@@ -449,8 +449,8 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$t = htmlentities(stripslashes($db->data[title]));
-			$id = htmlentities(stripslashes($db->data[id]));
+			$t = htmlentities(stripslashes($db->data['title']));
+			$id = htmlentities(stripslashes($db->data['id']));
 			$fe = $db->data[IsFeature];
 
 			if($x % 2) {
@@ -467,7 +467,7 @@ function show_main_menu($db)
 			} else {
 			echo "	<td align=\"left\"><b><font color=\"red\">$t</font></b></td>\n";
 			}
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -571,7 +571,7 @@ function add_category_form($db)
 		$db->Query("SELECT id, LEFT(title,50) AS mastertitle FROM news WHERE MasterID = '' ORDER BY added DESC, id DESC");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			echo "<option value=\"" . $db->data[id] . "\">" . $db->data[mastertitle] . "...</option>\n";
+			echo "<option value=\"" . $db->data['id'] . "\">" . $db->data[mastertitle] . "...</option>\n";
 		}
 	}
 
@@ -710,10 +710,10 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$t  = stripslashes($db->data[title]);
-	$th = htmlentities(stripslashes($db->data[title]));
-	$au = htmlentities(stripslashes($db->data[author]));
-	$a  = htmlentities(stripslashes($db->data[article]));
+	$t  = stripslashes($db->data['title']);
+	$th = htmlentities(stripslashes($db->data['title']));
+	$au = htmlentities(stripslashes($db->data['author']));
+	$a  = htmlentities(stripslashes($db->data['article']));
 	$pd  = htmlentities(stripslashes($db->data[picdesc]));
 
 	$is = stripslashes($db->data[IsFeature]);
@@ -775,9 +775,9 @@ function edit_category_form($db,$id)
 	echo "<p>enter the name of the news<br><input type=\"text\" name=\"title\" size=\"50\"maxlength=\"255\" value=\"$th\" ID='\"text\"7'8></p>\n";
 	echo "<p>enter the name of the author<br><input type=\"text\" name=\"author\" size=\"50\"maxlength=\"255\" value=\"$au\" ID='\"text\"8'9></p>\n";
 	echo "<p>enter the news article<br><textarea name=\"article\" cols=\"70\" rows=\"15\" wrap=\"virtual\" ID=\"Textarea3\">$a</textarea></p>\n";
-	if ($db->data[picture]) {
+	if ($db->data['picture']) {
 		echo "<p>current photo</p>\n";
-		echo "<p><img src=\"../uploadphotos/news/" . $db->data[picture] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/news/" . $db->data['picture'] . "\"></p>\n";
 		echo "<p>upload a photo (if you want to change the current one)";
 	} else {
 		echo "<p>upload a photo";

@@ -69,10 +69,10 @@ function show_documents_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $t = htmlentities(stripslashes($db->data[title]));
-        $pr = htmlentities(stripslashes($db->data[id]));
-        $fi = $db->data[picture];
-        $id = $db->data[id];
+        $t = htmlentities(stripslashes($db->data['title']));
+        $pr = htmlentities(stripslashes($db->data['id']));
+        $fi = $db->data['picture'];
+        $id = $db->data['id'];
 
         // output article
 
@@ -96,7 +96,7 @@ function show_documents_listing($db,$s,$id,$pr)
 	{
 		echo "<a href=\"/uploadphotos/documents/CCL_Umpiring_Grades-March2009.xls\"><img src=\"/images/icons/ccl-xcel-small.gif\" border=\"0\"></a>\n";
 
-	}else	if ($db->data[picture] != "") {
+	}else	if ($db->data['picture'] != "") {
 		echo "<a href=\"/uploadphotos/documents/$fi\"><img src=\"/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
 	} else {
 		echo "<p>No document found.</p>";
@@ -130,9 +130,9 @@ function show_documents($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM documents WHERE id=$pr");
     $db->BagAndTag();
 
-    $t = $db->data[title];
-    $a = $db->data[article];
-    $fi = $db->data[picture];
+    $t = $db->data['title'];
+    $a = $db->data['article'];
+    $fi = $db->data['picture'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -148,7 +148,7 @@ function show_documents($db,$s,$id,$pr)
     echo "</tr>\n";
     echo "</table>\n";
 
-    if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;<a href=\"/uploadphotos/documents/$fi\">download this file</a>\n";
+    if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;<a href=\"/uploadphotos/documents/$fi\">download this file</a>\n";
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
 
     // output story
@@ -161,7 +161,7 @@ function show_documents($db,$s,$id,$pr)
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
     
 
-    if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;<a href=\"/uploadphotos/documents/$fi\">download this file</a>\n";
+    if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;<a href=\"/uploadphotos/documents/$fi\">download this file</a>\n";
     echo "<p>&laquo; <a href=\"$PHP_SELF\">back to documents listing</a></p>\n";
 
     // finish off
@@ -242,7 +242,7 @@ function search_documents($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data[added]);
+            $a = sqldate_to_string($db->data['added']);
 
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";
@@ -250,8 +250,8 @@ function search_documents($db,$search="")
               echo "<tr class=\"trrow1\">\n";
             }
 
-        echo "    <td><a href=\"$PHP_SELF?documents={$db->data[id]}&ccl_mode=1\">{$db->data[title]}</a>&nbsp;\n";
-        if ($db->data[picture] != "") echo "<img src=\"/images/icons/icon_pdf_sm.gif\">\n";
+        echo "    <td><a href=\"$PHP_SELF?documents={$db->data['id']}&ccl_mode=1\">{$db->data['title']}</a>&nbsp;\n";
+        if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_pdf_sm.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 
@@ -287,7 +287,7 @@ function search_documents($db,$search="")
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 switch($ccl_mode) {
 case 0:

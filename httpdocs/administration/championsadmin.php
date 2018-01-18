@@ -92,8 +92,8 @@ function show_main_menu($db)
 			// setup variables
 
 
-			$tna = htmlentities(stripslashes($db->data[TeamName]));
-			$tab = htmlentities(stripslashes($db->data[TeamAbbrev]));
+			$tna = htmlentities(stripslashes($db->data['teamname']));
+			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
                         // 6-Jan-2010
 			$tna2 = htmlentities(stripslashes($db->data[TeamName2]));
@@ -101,7 +101,7 @@ function show_main_menu($db)
 			$tna3 = htmlentities(stripslashes($db->data[TeamName3]));
 			$tab3 = htmlentities(stripslashes($db->data[TeamAbbrev3]));
 
-			$sn = htmlentities(stripslashes($db->data[SeasonName]));
+			$sn = htmlentities(stripslashes($db->data['SeasonName']));
 
 			if($x % 2) {
 			  echo "<tr class=\"trrow2\">\n";
@@ -164,7 +164,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM seasons ORDER BY SeasonName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[SeasonID] . "\">" . $db->data[SeasonName] . "</option>\n";
+			echo "<option value=\"" . $db->data['SeasonID'] . "\">" . $db->data['SeasonName'] . "</option>\n";
 		}
 	}
 
@@ -181,7 +181,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -199,7 +199,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -217,7 +217,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data[TeamName] . "</option>\n";
+			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -275,7 +275,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$seasons[$db->data[SeasonID]] = $db->data[SeasonName];
+		$seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
 	}
 
 	// get all teams
@@ -283,7 +283,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$teams[$db->data[TeamID]] = $db->data[TeamName];
+		$teams[$db->data[TeamID]] = $db->data['teamname'];
 	}	
 
 	// query database
@@ -309,8 +309,8 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$se = htmlentities(stripslashes($db->data[SeasonName]));
-	$te = htmlentities(stripslashes($db->data[TeamName]));
+	$se = htmlentities(stripslashes($db->data['SeasonName']));
+	$te = htmlentities(stripslashes($db->data['teamname']));
 
 // 6-Jan-2010
 $te2 = htmlentities(stripslashes($db->data[TeamName2]));

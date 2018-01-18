@@ -29,8 +29,8 @@ function show_randomsponsor($db)
 			$db->GetRow($i);
             $db->BagAndTag();
 		
-			$url = $db->data[url];
-			$pic = $db->data[picture];
+			$url = $db->data['url'];
+			$pic = $db->data['picture'];
 		
 		if($i == 0) {
 			//$img_files = " ' ".$pic." ' ";
@@ -101,8 +101,8 @@ function show_randomsponsor($db)
 		}
 }
 
-$db = new mysql_class($dbcfg[login],$dbcfg[pword],$dbcfg[server]);
-$db->SelectDB($dbcfg[db]);
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
 
 show_randomsponsor($db);
 

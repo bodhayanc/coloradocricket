@@ -39,7 +39,7 @@ function show_main_menu($db)
 
 			// setup the variables
 
-			$t = htmlentities(stripslashes($db->data[title]));
+			$t = htmlentities(stripslashes($db->data['title']));
 			$my = htmlentities(stripslashes($db->data[my]));
 
 			// output
@@ -47,7 +47,7 @@ function show_main_menu($db)
 			echo "<tr class=\"trbottom\">\n";
 			echo "	<td align=\"left\">$t</td>\n";
 			echo "	<td align=\"left\">$my</td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[id] . "\">edit</a> | <a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[id] . "\">delete</a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\">edit</a> | <a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\">delete</a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -143,9 +143,9 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$t  = stripslashes($db->data[title]);
+	$t  = stripslashes($db->data['title']);
 	$my  = stripslashes($db->data[my]);
-	$th = htmlentities(stripslashes($db->data[title]));
+	$th = htmlentities(stripslashes($db->data['title']));
 
 	echo "<p>Edit the gallery.</p>\n";
 	echo "<form action=\"main.php\" method=\"post\">\n";

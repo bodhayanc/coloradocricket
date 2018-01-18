@@ -17,7 +17,7 @@ function show_umpires_listing($db)
     $db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamAbbrev");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
     }
         
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -56,7 +56,7 @@ function show_umpires_listing($db)
 //    $db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamID");
 $db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamAbbrev");
     $db->GetRow($i-1);
-    $teams[$db->data[TeamID]] = $db->data[TeamAbbrev];
+    $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
     $teams_id[$i] = $db->data[TeamID];
     
 
@@ -80,11 +80,11 @@ $db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamA
 
     for ($r=0; $r<$db->rows; $r++) {
         $db->GetRow($r);
-        $id = htmlentities(stripslashes($db->data[PlayerID]));
-        $pln = htmlentities(stripslashes($db->data[PlayerLName]));
-        $pfn = htmlentities(stripslashes($db->data[PlayerFName]));
-        $pte = htmlentities(stripslashes($db->data[TeamAbbrev]));
-        $ptn = htmlentities(stripslashes($db->data[TeamName]));
+        $id = htmlentities(stripslashes($db->data['PlayerID']));
+        $pln = htmlentities(stripslashes($db->data['PlayerLName']));
+        $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+        $pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
+        $ptn = htmlentities(stripslashes($db->data['teamname']));
         $l1ump = htmlentities(stripslashes($db->data[IsL1Umpire]));
 
     if($l1ump == 1) {
@@ -125,7 +125,7 @@ $db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamA
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 
 show_umpires_listing($db);

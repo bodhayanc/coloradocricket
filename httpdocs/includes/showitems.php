@@ -46,8 +46,8 @@ function show_items_listing($db)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[id]));
-        $na = htmlentities(stripslashes($db->data[title]));
+        $id = htmlentities(stripslashes($db->data['id']));
+        $na = htmlentities(stripslashes($db->data['title']));
         $price = htmlentities(stripslashes($db->data[price]));
 
         // output article
@@ -118,8 +118,8 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-            $iid = $db->data[id];
-            $itit = $db->data[title];
+            $iid = $db->data['id'];
+            $itit = $db->data['title'];
             $ipic = $db->data[picture1];
             $ipri = $db->data[price];
             $idet = $db->data[item_details];
@@ -166,7 +166,7 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 switch($ccl_mode) {
 case 0:

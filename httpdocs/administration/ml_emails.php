@@ -26,7 +26,7 @@ if (!isset($do)) {
 	$db->Query("SELECT * FROM $tbcfg[mllists] ORDER BY name");
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$lists[$db->data[ID]] = $db->data[name];
+		$lists[$db->data['id']] = $db->data[name];
 	}
 
 	// go through array and get all emails for that list
@@ -64,8 +64,8 @@ if (!isset($do)) {
 				echo "<td valign=\"top\" align=\"center\">" . $db->data[email] . "</td>";
 				echo "<td valign=\"top\" align=\"center\">" . ($db->data[unsubscribed]?"unsubscribed":"&nbsp;") . "</td>";
 				echo "<td valign=\"top\" align=\"right\" nowrap>";
-				echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_emails&do=edit&id=" . $db->data[ID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a>";
-				echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_emails&do=delete&id=" . $db->data[ID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a>";
+				echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_emails&do=edit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\"></a>";
+				echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_emails&do=delete&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\"></a>";
 				echo "</td>";
 				echo "</tr>\n";
 			}
@@ -201,12 +201,12 @@ function show_form($SID,$action,$do,$fields,$list=0,$id=0)
 		$db->Query("SELECT ID,name FROM $tbcfg[mllists] ORDER BY name");
 		if ($db->rows==1) {
 			$db->GetRow(0);
-			echo "<input type=\"hidden\" name=\"fields[listID]\" value=\"" . $db->data[ID] . "\">\n";
+			echo "<input type=\"hidden\" name=\"fields[listID]\" value=\"" . $db->data['id'] . "\">\n";
 		} else {
 			echo "<tr class=\"trtop\"><td valign=\"middle\">Mailing list</td><td valign=\"middle\"><select name=\"fields[listID]\">";
 			for ($i=0; $i<$db->rows; $i++) {
 				$db->GetRow($i);
-				echo "<option value=\"" . $db->data[ID] . "\"" . ($db->data[ID] == $fields[listID] ? " selected":"") . ">" . $db->data[name] . "</option>";
+				echo "<option value=\"" . $db->data['id'] . "\"" . ($db->data['id'] == $fields[listID] ? " selected":"") . ">" . $db->data[name] . "</option>";
 			}
 			echo "</select></td></tr>\n";
 		}

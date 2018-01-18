@@ -78,7 +78,7 @@ if ($userpic_name != "") {
 
 // open up db connection now so you don't have to in every other file
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
-$db->SelectDB($dbcfg[db]);
+$db->SelectDB($dbcfg['db']);
 
 do_add_article($db,$title,$author,$article,$IsFeature,$IsPending,$picture);
 
