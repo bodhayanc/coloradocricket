@@ -157,11 +157,11 @@ function show_main_menu_season($db,$season,$sename)
 			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-			$tna = htmlentities(stripslashes($db->data['teamname']));
+			$tna = htmlentities(stripslashes($db->data['TeamName']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
-			$det = htmlentities(stripslashes($db->data[FeaturedDetail]));
-			$id = htmlentities(stripslashes($db->data[FeaturedID]));
+			$det = htmlentities(stripslashes($db->data['FeaturedDetail']));
+			$id = htmlentities(stripslashes($db->data['FeaturedID']));
 
 			$sn = htmlentities(stripslashes($db->data['SeasonName']));
 
@@ -176,7 +176,7 @@ function show_main_menu_season($db,$season,$sename)
 			echo "	<td align=\"left\">$id</td>\n";
 			echo "	<td align=\"left\">$pfn $pln</td>\n";
 			echo "	<td align=\"left\">$tab</td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[FeaturedID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['FeaturedID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -317,7 +317,7 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$fd = htmlentities(stripslashes($db->data[FeaturedDetail]));
+	$fd = htmlentities(stripslashes($db->data['FeaturedDetail']));
 	$fp = htmlentities(stripslashes($db->data[FeaturedPlayer]));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));

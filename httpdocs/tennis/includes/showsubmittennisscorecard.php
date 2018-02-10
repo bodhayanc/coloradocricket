@@ -76,7 +76,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM tennisteams where TeamActive = 1 ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "  </select>\n";
@@ -93,7 +93,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM tennisteams  where TeamActive = 1 ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "  </select>\n";
@@ -110,7 +110,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM tennisteams  where TeamActive = 1 ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -127,7 +127,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM tennisteams  where TeamActive = 1 ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -144,7 +144,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM tennisteams  where TeamActive = 1 ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -161,7 +161,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM tennisteams  where TeamActive = 1 ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -178,7 +178,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM tennisteams where TeamActive = 1  ORDER BY TeamAbbrev");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -195,7 +195,7 @@ function add_scorecard_step1($db)
 		$db->Query("SELECT * FROM grounds ORDER BY GroundID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[GroundID] . "\">" . $db->data[GroundName] . "</option>\n";
+			echo "<option value=\"" . $db->data['GroundID'] . "\">" . $db->data['GroundName'] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -392,9 +392,9 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 	
 	SELECT
 	  s.*,
-	  a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-	  h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev,
-	  u.TeamID AS UmpireID, u.TeamName AS UmpireName, u.TeamAbbrev AS UmpireAbbrev,
+	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
+	  u.TeamID AS 'umpireid', u.TeamName AS UmpireName, u.TeamAbbrev AS 'umpireabbrev',
 	  t.TeamID AS WonTossID, t.TeamName AS WonTossName, t.TeamAbbrev AS WonTossAbbrev,
 	  b.TeamID AS BatFirstID, b.TeamName AS BatFirstName, b.TeamAbbrev AS BatFirstAbbrev,
 	  n.TeamID AS BatSecondID, n.TeamName AS BatSecondName, n.TeamAbbrev AS BatSecondAbbrev,
@@ -422,25 +422,25 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 	$db->BagAndTag();
 
 	$gid = $db->data['game_id'];
-	$gsc = $db->data[season];
+	$gsc = $db->data['season'];
 	
-	$ght = $db->data[HomeAbbrev];
-	$ghi = $db->data[HomeID];
-	$gat = $db->data[AwayAbbrev];
-	$gai = $db->data[AwayID];
+	$ght = $db->data['homeabbrev'];
+	$ghi = $db->data['homeid'];
+	$gat = $db->data['awayabbrev'];
+	$gai = $db->data['awayid'];
 	
-	$gut = $db->data[UmpireAbbrev];
-	$ggr = $db->data[GroundName];
-	$ggi = $db->data[GroundID];
-	$gre = $db->data[result];
+	$gut = $db->data['umpireabbrev'];
+	$ggr = $db->data['GroundName'];
+	$ggi = $db->data['GroundID'];
+	$gre = $db->data['result'];
 	$gtt = $db->data[WonTossAbbrev];
 
 	$gda = sqldate_to_string($db->data['game_date']);
 
-	$bat1st   = $db->data[BatFirstAbbrev];
-	$bat1stid = $db->data[BatFirstID];
-	$bat2nd   = $db->data[BatSecondAbbrev];
-	$bat2ndid = $db->data[BatSecondID];
+	$bat1st   = $db->data['BatFirstAbbrev'];
+	$bat1stid = $db->data['BatFirstID'];
+	$bat2nd   = $db->data['BatSecondAbbrev'];
+	$bat2ndid = $db->data['BatSecondID'];
 	
 
 
@@ -531,7 +531,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -602,7 +602,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -673,7 +673,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -744,7 +744,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -815,7 +815,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -886,7 +886,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -957,7 +957,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -1028,7 +1028,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -1099,7 +1099,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -1170,7 +1170,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -1241,7 +1241,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2254,9 +2254,9 @@ function add_scorecard_step3($db,$game_id,$season)
 	
 	SELECT
 	  s.*,
-	  a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-	  h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev,
-	  u.TeamID AS UmpireID, u.TeamName AS UmpireName, u.TeamAbbrev AS UmpireAbbrev,
+	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
+	  u.TeamID AS 'umpireid', u.TeamName AS UmpireName, u.TeamAbbrev AS 'umpireabbrev',
 	  t.TeamID AS WonTossID, t.TeamName AS WonTossName, t.TeamAbbrev AS WonTossAbbrev,
 	  b.TeamID AS BatFirstID, b.TeamName AS BatFirstName, b.TeamAbbrev AS BatFirstAbbrev,
 	  n.TeamID AS BatSecondID, n.TeamName AS BatSecondName, n.TeamAbbrev AS BatSecondAbbrev,
@@ -2284,28 +2284,28 @@ function add_scorecard_step3($db,$game_id,$season)
 	$db->BagAndTag();
 
 	$gid = $db->data['game_id'];
-	$gsc = $db->data[season];
+	$gsc = $db->data['season'];
 
 	$b1  = $db->data[batting_first_id];
 	$at  = $db->data[awayteam];
 	$ht  = $db->data[hometeam];
 
-	$ght = $db->data[HomeAbbrev];
-	$ghi = $db->data[HomeID];
-	$gat = $db->data[AwayAbbrev];
-	$gai = $db->data[AwayID];
-	$gut = $db->data[UmpireAbbrev];
-	$ggr = $db->data[GroundName];
-	$ggi = $db->data[GroundID];
-	$gre = $db->data[result];
+	$ght = $db->data['homeabbrev'];
+	$ghi = $db->data['homeid'];
+	$gat = $db->data['awayabbrev'];
+	$gai = $db->data['awayid'];
+	$gut = $db->data['umpireabbrev'];
+	$ggr = $db->data['GroundName'];
+	$ggi = $db->data['GroundID'];
+	$gre = $db->data['result'];
 	$gtt = $db->data[WonTossAbbrev];
 
 	$gda = sqldate_to_string($db->data['game_date']);
 
-	$bat1st = $db->data[BatFirstAbbrev];
-	$bat1stid = $db->data[BatFirstID];
-	$bat2nd = $db->data[BatSecondAbbrev];
-	$bat2ndid = $db->data[BatSecondID];
+	$bat1st = $db->data['BatFirstAbbrev'];
+	$bat1stid = $db->data['BatFirstID'];
+	$bat2nd = $db->data['BatSecondAbbrev'];
+	$bat2ndid = $db->data['BatSecondID'];
 
 
 
@@ -2396,7 +2396,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2467,7 +2467,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2538,7 +2538,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2609,7 +2609,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2680,7 +2680,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2751,7 +2751,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2822,7 +2822,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2893,7 +2893,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2964,7 +2964,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3035,7 +3035,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3106,7 +3106,7 @@ function add_scorecard_step3($db,$game_id,$season)
 		$db->Query("SELECT * FROM howout ORDER BY HowOutID");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[HowOutID] . "\">" . $db->data[HowOutName] . "</option>\n";
+			echo "<option value=\"" . $db->data['HowOutID'] . "\">" . $db->data[HowOutName] . "</option>\n";
 		}
 	}
 	echo "</select>\n";

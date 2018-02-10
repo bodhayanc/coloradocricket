@@ -126,7 +126,7 @@ function show_awards_season($db,$id,$aw,$season,$sename)
         $db->GetRow($x);
         $db->BagAndTag();
         $sen = $db->data['SeasonName'];
-        $sid = $db->data[season];
+        $sid = $db->data['season'];
         $selected = "";
         if ($sename == $sen) {
         	$selected = "selected";
@@ -173,7 +173,7 @@ function show_awards_season($db,$id,$aw,$season,$sename)
         $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
         $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-        $tna = htmlentities(stripslashes($db->data['teamname']));
+        $tna = htmlentities(stripslashes($db->data['TeamName']));
         $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
         $det = htmlentities(stripslashes($db->data[AwardDetail]));
@@ -248,7 +248,7 @@ function show_awards($db,$s,$id,$aw,$season,$sename)
         $pic = $db->data['picture'];
         $pid = $db->data['PlayerID'];
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
 
         $det = $db->data[AwardDetail];

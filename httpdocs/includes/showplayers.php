@@ -105,8 +105,8 @@ function show_players_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data['teamname']));
+        $id = htmlentities(stripslashes($db->data['TeamID']));
+        $na = htmlentities(stripslashes($db->data['TeamName']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -160,7 +160,7 @@ function show_players_listing($db,$s,$id,$pr)
 
         echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
         if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
-        if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
+        if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
     }
@@ -210,19 +210,19 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pla = $db->data[PlayerLAbbrev];
-    $pem = $db->data[PlayerEmail];
+    $pla = $db->data['PlayerLAbbrev'];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -371,7 +371,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	 	 if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName")) {
 	    $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName");
 	    $db->BagAndTag();
-	    $scinn = $db->data[Matches];
+	    $scinn = $db->data['Matches'];
 	    $scrun = $db->data['runs'];   
 	    } else {
 	    }
@@ -515,7 +515,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName")) {
     $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $coscinn = $db->data[Matches];
+    $coscinn = $db->data['Matches'];
     $coscrun = $db->data['runs']; 
     } else {
     }
@@ -603,13 +603,13 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName")) {  
     $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $coscmai = $db->data[Maidens];
-    $coscbru = $db->data[BRuns];
+    $coscmai = $db->data['maidens'];
+    $coscbru = $db->data['BRuns'];
     $coscwic = $db->data['wickets'];
 
     // Get Cougars Overs, Balls
     
-    $cobnum = $db->data[Balls]; 
+    $cobnum = $db->data['balls']; 
     $cobovers = Round(($cobnum / 6), 2); 
     $cobfloor = floor($cobovers); 
 
@@ -766,14 +766,14 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName")) {  
 	    $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName");
 	    $db->BagAndTag();
-	    $scmai = $db->data[Maidens];
-	    $scbru = $db->data[BRuns];
+	    $scmai = $db->data['maidens'];
+	    $scbru = $db->data['BRuns'];
 	    $scwic = $db->data['wickets'];
 	    echo $db->data['overs'];
 	
 	    // Get League Overs, Balls
 	    
-	    $bnum = $db->data[Balls]; 
+	    $bnum = $db->data['balls']; 
 	    $bovers = Round(($bnum / 6), 2); 
 	    $bfloor = floor($bovers); 
 	
@@ -1281,7 +1281,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-            $tna = htmlentities(stripslashes($db->data['teamname']));
+            $tna = htmlentities(stripslashes($db->data['TeamName']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             $det = htmlentities(stripslashes($db->data[AwardDetail]));
@@ -1341,7 +1341,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-            $tna = htmlentities(stripslashes($db->data['teamname']));
+            $tna = htmlentities(stripslashes($db->data['TeamName']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             $sn = htmlentities(stripslashes($db->data['SeasonName']));
@@ -1397,11 +1397,11 @@ function show_full_players($db,$s,$id,$pr,$tid)
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
             $pid = htmlentities(stripslashes($db->data[FeaturedPlayer]));
 
-            $tna = htmlentities(stripslashes($db->data['teamname']));
+            $tna = htmlentities(stripslashes($db->data['TeamName']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
-            $det = htmlentities(stripslashes($db->data[FeaturedDetail]));
-            $id = htmlentities(stripslashes($db->data[FeaturedID]));
+            $det = htmlentities(stripslashes($db->data['FeaturedDetail']));
+            $id = htmlentities(stripslashes($db->data['FeaturedID']));
             $sn = htmlentities(stripslashes($db->data['SeasonName']));
             $a = sqldate_to_string($db->data['added']);
 
@@ -1568,7 +1568,7 @@ function search_players($db,$search="")
 
         echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
         if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
-        if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
+        if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 
@@ -1596,8 +1596,8 @@ function search_players($db,$search="")
     $db->QueryRow("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID = 1 ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data['teamname']));
+        $id = htmlentities(stripslashes($db->data['TeamID']));
+        $na = htmlentities(stripslashes($db->data['TeamName']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -1656,8 +1656,8 @@ function search_players($db,$search="")
     $db->QueryRow("SELECT * FROM teams WHERE TeamActive=1 ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data['teamname']));
+        $id = htmlentities(stripslashes($db->data['TeamID']));
+        $na = htmlentities(stripslashes($db->data['TeamName']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
 
         // output article
@@ -1803,7 +1803,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
         echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
         if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
-        if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
+        if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
     }

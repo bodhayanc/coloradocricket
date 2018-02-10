@@ -32,7 +32,7 @@ function show_mini_ads($db)
 
 				$pid = $db->data['id'];
 				$tit = $db->data['title'];
-				$pri = $db->data[price];
+				$pri = $db->data['price'];
 
 				
 

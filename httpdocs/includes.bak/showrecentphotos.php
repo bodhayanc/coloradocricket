@@ -43,10 +43,10 @@ function show_recent_photos($db,$gallery,$id,$limit=3)
 
 			// setup the variables
 
-			$p = htmlentities(stripslashes($db->data[picture1]));
+			$p = htmlentities(stripslashes($db->data['picture1']));
 			$t = htmlentities(stripslashes($db->data['title']));
 			$pr = htmlentities(stripslashes($db->data['id']));
-			$da = htmlentities(stripslashes($db->data[date]));
+			$da = htmlentities(stripslashes($db->data['date']));
 
 			if ($cnt==$across) {
 				echo "</tr>\n";
@@ -59,7 +59,7 @@ function show_recent_photos($db,$gallery,$id,$limit=3)
 			}
 
 			echo "<td valign=\"middle\"><div align=\"center\">\n";
-			echo "<p><a href=\"photos.php?id=$pr&mode=2\"><img border=\"2\" src=\"uploadphotos/" . $db->data[picture1] . "\" style=\"border: 1 solid #3c3c3c\"></a>";
+			echo "<p><a href=\"photos.php?id=$pr&mode=2\"><img border=\"2\" src=\"uploadphotos/" . $db->data['picture1'] . "\" style=\"border: 1 solid #3c3c3c\"></a>";
 			echo "<br>$t<br><font size=\"-2\">$da</font></div></td>\n";
 			++$cnt;
 		}

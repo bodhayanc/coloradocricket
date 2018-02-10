@@ -34,8 +34,8 @@ function show_mini_scorecard($db, $season)
 	SELECT
 	  s.*,
 	  DATE_FORMAT(s.game_date, '%b %e') as formatted_date, 
-	  a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-	  h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev
+	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev'
 	FROM
 	  tennis_scorecard_game_details s
 	INNER JOIN
@@ -59,19 +59,19 @@ function show_mini_scorecard($db, $season)
 
         	for ($x = 0; $x < $db->rows; $x++) {
                 $db->GetRow($x);
-		$t1 = $db->data[HomeAbbrev];
-		$t2 = $db->data[AwayAbbrev];
-		$um = $db->data[UmpireAbbrev];
-		$t1id = $db->data[HomeID];
-		$t2id = $db->data[AwayID];
-		$umid = $db->data[UmpireID];
-		$d = $db->data[formatted_date];
-		$sc =  $db->data[scorecard];
-		$re = $db->data[result];
+		$t1 = $db->data['homeabbrev'];
+		$t2 = $db->data['awayabbrev'];
+		$um = $db->data['umpireabbrev'];
+		$t1id = $db->data['homeid'];
+		$t2id = $db->data['awayid'];
+		$umid = $db->data['umpireid'];
+		$d = $db->data['formatted_date'];
+		$sc =  $db->data['scorecard'];
+		$re = $db->data['result'];
 		$id = $db->data['game_id'];
-		$wk = $db->data[week];
-		$fo = $db->data[forfeit];
-		$ca = $db->data[cancelled];
+		$wk = $db->data['week'];
+		$fo = $db->data['forfeit'];
+		$ca = $db->data['cancelled'];
 
 		if($x % 2) {
 		  echo "<tr class=\"trrow1\">\n";

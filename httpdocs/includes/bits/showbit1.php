@@ -34,9 +34,9 @@ function show_bitbattingachievement($db)
         $gid = $db->data['game_id'];
         $gda = sqldate_to_string($db->data['game_date']);
         $run = $db->data['runs'];
-        $bal = $db->data[balls];
-        $fou = $db->data[fours];
-        $six = $db->data[sixes];
+        $bal = $db->data['balls'];
+        $fou = $db->data['fours'];
+        $six = $db->data['sixes'];
         $not = $db->data[notout];
         
         if($run >= "50" && $run < "60") {

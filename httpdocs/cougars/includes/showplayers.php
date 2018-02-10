@@ -192,7 +192,7 @@ function show_cougarsplayers_season($db,$id,$cougar,$season,$sename)
             $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
             $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-            $tna = htmlentities(stripslashes($db->data['teamname']));
+            $tna = htmlentities(stripslashes($db->data['TeamName']));
             $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
             $det = htmlentities(stripslashes($db->data[CougarDetail]));
@@ -287,7 +287,7 @@ function show_cougarsplayers_listinga($db,$s,$id,$pr)
         $pic = $db->data['picture'];
         $pid = $db->data['PlayerID'];
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
 
         $det = $db->data[CougarDetail];
@@ -354,7 +354,7 @@ function show_cougarsplayers($db,$s,$id,$pr)
         $pic = $db->data['picture'];
         $pid = $db->data['PlayerID'];
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
 
         $det = $db->data[CougarDetail];

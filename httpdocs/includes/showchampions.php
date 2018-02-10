@@ -83,10 +83,10 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
             
         // setup variables
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
         $sn = $db->data['SeasonName'];
-        $tid = $db->data[TeamID];
+        $tid = $db->data['TeamID'];
         
 		$tna2 = $db->data[TeamName2];  // 8-Oct-2015 10:30pm
         $tab2 = $db->data[TeamAbbrev2];
@@ -165,10 +165,10 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
             
         // setup variables
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
         $sn = $db->data['SeasonName'];
-        $tid = $db->data[TeamID];
+        $tid = $db->data['TeamID'];
         
 		$tna2 = $db->data[TeamName2];  // 8-Oct-2015 10:30pm
         $tab2 = $db->data[TeamAbbrev2];

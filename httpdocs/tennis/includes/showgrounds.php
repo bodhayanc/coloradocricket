@@ -48,8 +48,8 @@ function show_grounds_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[GroundID]));
-        $na = htmlentities(stripslashes($db->data[GroundName]));
+        $id = htmlentities(stripslashes($db->data['GroundID']));
+        $na = htmlentities(stripslashes($db->data['GroundName']));
         $di = htmlentities(stripslashes($db->data[GroundDirections]));
 
         // output article
@@ -90,8 +90,8 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM grounds WHERE GroundID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[GroundID];
-    $na = $db->data[GroundName];
+    $id = $db->data['GroundID'];
+    $na = $db->data['GroundName'];
     $di = $db->data[GroundDirections];
     $zi = $db->data[GroundZip];
     $de = $db->data[description];

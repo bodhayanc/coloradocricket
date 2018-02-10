@@ -124,7 +124,7 @@ function search_site($db,$search="")
 
         echo "    <td width=\"100%\"><a href=\"players.php?players=$id&ccl_mode=1\"><b>$pln, $pfn</b></a> <span class=\"9px\">($pte)</span>&nbsp;\n";
         if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
-        if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
+        if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 

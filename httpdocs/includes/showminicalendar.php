@@ -41,8 +41,8 @@ global $PHP_SELF;
 			
 	  $t = htmlentities(stripslashes($db->data['title']));
 	  $id = htmlentities(stripslashes($db->data['id']));
-	  $da = sqldate_to_string($db->data[start_date]);
-	  $fd = $db->data[formatted_date];
+	  $da = sqldate_to_string($db->data['start_date']);
+	  $fd = $db->data['formatted_date'];
 
 	//-------------------------------------------------
 	// output article

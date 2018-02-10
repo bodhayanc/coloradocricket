@@ -36,7 +36,7 @@ function show_sponsors_listing($db)
         $db->GetRow($i);
         $t = htmlentities(stripslashes($db->data['title']));
         $u = htmlentities(stripslashes($db->data['url']));
-        $p = htmlentities(stripslashes($db->data[promised]));
+        $p = htmlentities(stripslashes($db->data['promised']));
         $a = $db->data['article'];
         $pr = htmlentities(stripslashes($db->data['id']));
         $id = $db->data['id'];

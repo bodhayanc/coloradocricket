@@ -206,7 +206,7 @@ function edit_category_form($db,$id)
 	$th = htmlentities(stripslashes($db->data['title']));
 	$u = htmlentities(stripslashes($db->data['url']));
 	$a  = htmlentities(stripslashes($db->data['article']));
-	$p  = htmlentities(stripslashes($db->data[promised]));
+	$p  = htmlentities(stripslashes($db->data['promised']));
 
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";

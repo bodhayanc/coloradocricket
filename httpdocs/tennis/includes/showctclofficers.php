@@ -78,7 +78,7 @@ function show_cclofficers_listing($db,$id,$offid)
         $pid = $db->data[cclofficerPlayerID];
         $fna = $db->data['PlayerFName'];
         $lna = $db->data['PlayerLName'];
-        $pem = $db->data[PlayerEmail];
+        $pem = $db->data['PlayerEmail'];
         $tab = $db->data['TeamAbbrev'];
         $pc = $db->data['picture'];
         $detail = $db->data[cclofficerDetail];
@@ -150,7 +150,7 @@ function show_cclofficers_detail($db,$id,$offid)
         $vi = $db->data[cclofficerViews];
         $fna = $db->data['PlayerFName'];
         $lna = $db->data['PlayerLName'];
-        $pem = $db->data[PlayerEmail];
+        $pem = $db->data['PlayerEmail'];
         $pic = $db->data['picture'];
 
     echo "<b class=\"16px\">$ti</b><br><br>\n";
@@ -230,7 +230,7 @@ function show_cclofficers_views($db,$id,$offid)
         $pid = $db->data['PlayerID'];
         $fna = $db->data['PlayerFName'];
         $lna = $db->data['PlayerLName'];
-        $pem = $db->data[PlayerEmail];
+        $pem = $db->data['PlayerEmail'];
         $pic = $db->data['picture'];
 
 

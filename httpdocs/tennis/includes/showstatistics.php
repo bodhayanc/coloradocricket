@@ -83,8 +83,8 @@ function show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $id = $db->data[TeamID];
-                $ab = $db->data['teamname'];
+                $id = $db->data['TeamID'];
+                $ab = $db->data['TeamName'];
 
         echo "<li><a href=\"$PHP_SELF?statistics=&team=$id&ccl_mode=2\">Career Team Averages: $ab</a></li>\n";
         }
@@ -157,7 +157,7 @@ function show_statistics_byseason($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -202,7 +202,7 @@ function show_statistics_byseason($db,$statistics,$id,$pr,$team,$week,$game_id)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
         
         echo "    <option value=\"$PHP_SELF?statistics=$sen&ccl_mode=1\" class=\"10px\">$sen</option>\n";
         }
@@ -234,8 +234,8 @@ function show_statistics_byseason($db,$statistics,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $id = $db->data[TeamID];
-                $ab = $db->data['teamname'];
+                $id = $db->data['TeamID'];
+                $ab = $db->data['TeamName'];
 
         echo "<li><a href=\"$PHP_SELF?statistics=$statistics&team=$id&ccl_mode=2\">Team Averages: $ab</a></li>\n";
         }
@@ -282,8 +282,8 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
-        $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
+        $teamcolour[$db->data['TeamID']] = $db->data['TeamColour'];
     }
                 
         if (!$db->Exists("
@@ -360,7 +360,7 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
         
         echo "    <option value=\"$PHP_SELF?statistics=$sen&team=$team&ccl_mode=2\" class=\"10px\">$sen</option>\n";        
         }
@@ -435,12 +435,12 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
-    $playerid = $db->data[player_id];
-    $init = $db->data[PlayerInitial];
+    $playerid = $db->data['player_id'];
+    $init = $db->data['PlayerInitial'];
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];
-    $labbr = $db->data[PlayerLAbbrev];
-    $scinn = $db->data[Matches];
+    $labbr = $db->data['PlayerLAbbrev'];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
 
     $innings = $db->data[Innings];  
@@ -634,16 +634,16 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
     for ($r=0; $r<$db->rows; $r++) {
       $db->GetRow($r);          
 
-      $playerid = $db->data[player_id];
-      $init = $db->data[PlayerInitial];
+      $playerid = $db->data['player_id'];
+      $init = $db->data['PlayerInitial'];
       $fname = $db->data['PlayerFName'];
       $lname = $db->data['PlayerLName'];
-      $labbr = $db->data[PlayerLAbbrev];
-      $scmai = $db->data[Maidens];
-      $scbru = $db->data[BRuns];
+      $labbr = $db->data['PlayerLAbbrev'];
+      $scmai = $db->data['maidens'];
+      $scbru = $db->data['BRuns'];
       $scwic = $db->data['wickets'];
 
-      $bnum = $db->data[Balls]; 
+      $bnum = $db->data['balls']; 
       $bovers = Round(($bnum / 6), 2); 
       $bfloor = floor($bovers); 
 
@@ -762,7 +762,7 @@ function show_statistics_mostruns($db,$statistics,$sort,$sort2,$option,$team)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
                     
     if(!$db->Exists("SELECT g.season, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName FROM tennis_scorecard_batting_details s INNER JOIN tennisplayers p ON s.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON s.game_id = g.game_id GROUP BY s.player_id")) {
@@ -850,7 +850,7 @@ function show_statistics_mostruns($db,$statistics,$sort,$sort2,$option,$team)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
         
         if($sort == "Average") echo "    <option value=\"$PHP_SELF?option=byseason&statistics=$sen&sort=Average&sort2=Runs&ccl_mode=3\" class=\"10px\">$sen</option>\n";
         if($sort == "Runs")    echo "    <option value=\"$PHP_SELF?option=byseason&statistics=$sen&sort=Runs&sort2=Average&ccl_mode=3\" class=\"10px\">$sen</option>\n";
@@ -905,16 +905,16 @@ function show_statistics_mostruns($db,$statistics,$sort,$sort2,$option,$team)
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
-    $playerid = $db->data[player_id];
-    $init = $db->data[PlayerInitial];
+    $playerid = $db->data['player_id'];
+    $init = $db->data['PlayerInitial'];
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];
-    $labbr = $db->data[PlayerLAbbrev];
-    $scinn = $db->data[Matches];
+    $labbr = $db->data['PlayerLAbbrev'];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     //$schig = $db->data[HS];   
     $teama = $db->data['TeamAbbrev'];
-    $teamid = $db->data[TeamID];
+    $teamid = $db->data['TeamID'];
 
     $innings = $db->data[Innings];
 
@@ -1062,7 +1062,7 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
                     
     if(!$db->Exists("SELECT g.season, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName FROM tennis_scorecard_batting_details s INNER JOIN tennisplayers p ON s.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON s.game_id = g.game_id GROUP BY s.player_id")) {
@@ -1138,7 +1138,7 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
         
         echo "    <option value=\"$PHP_SELF?option=byseason&statistics=$sen&ccl_mode=4\" class=\"10px\">$sen</option>\n";       
         }
@@ -1169,9 +1169,9 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
     echo "</tr>\n";
     
     
-    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS AwayAbbrev, h.TeamAbbrev AS HomeAbbrev, b.player_id, b.runs AS Runs, b.notout, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_batting_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID INNER JOIN seasons n ON g.season = n.SeasonID WHERE n.SeasonName LIKE '%{$statistics}%' AND Runs >= 20 ORDER BY Runs DESC");
-    if($option == "allcareer")  $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS AwayAbbrev, h.TeamAbbrev AS HomeAbbrev, b.player_id, b.runs AS Runs, b.notout, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_batting_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE Runs >= 25 ORDER BY Runs DESC");
-    if($option == "teamcareer") $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS AwayAbbrev, h.TeamAbbrev AS HomeAbbrev, b.player_id, b.runs AS Runs, b.notout, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_batting_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE p.PlayerTeam = $team AND Runs >= 35 ORDER BY Runs DESC");
+    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS 'awayabbrev', h.TeamAbbrev AS 'homeabbrev', b.player_id, b.runs AS Runs, b.notout, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_batting_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID INNER JOIN seasons n ON g.season = n.SeasonID WHERE n.SeasonName LIKE '%{$statistics}%' AND Runs >= 20 ORDER BY Runs DESC");
+    if($option == "allcareer")  $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS 'awayabbrev', h.TeamAbbrev AS 'homeabbrev', b.player_id, b.runs AS Runs, b.notout, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_batting_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE Runs >= 25 ORDER BY Runs DESC");
+    if($option == "teamcareer") $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS 'awayabbrev', h.TeamAbbrev AS 'homeabbrev', b.player_id, b.runs AS Runs, b.notout, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_batting_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE p.PlayerTeam = $team AND Runs >= 35 ORDER BY Runs DESC");
 
     $db->BagAndTag();
 
@@ -1182,16 +1182,16 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
-    $playerid = $db->data[player_id];
-    $init = $db->data[PlayerInitial];
+    $playerid = $db->data['player_id'];
+    $init = $db->data['PlayerInitial'];
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];
-    $labbr = $db->data[PlayerLAbbrev];
+    $labbr = $db->data['PlayerLAbbrev'];
     $bruns = $db->data['runs'];
     $notou = $db->data[notout];
-    $awayt = $db->data[AwayAbbrev];
-    $homet = $db->data[HomeAbbrev];
-    $groun = $db->data[Ground];
+    $awayt = $db->data['awayabbrev'];
+    $homet = $db->data['homeabbrev'];
+    $groun = $db->data['ground'];
     $gamed = $db->data['game_date'];
     $gamei = $db->data['game_id'];
 
@@ -1252,7 +1252,7 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
     
     
@@ -1343,7 +1343,7 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
 
               if($sort == "Average") echo "<option value=\"$PHP_SELF?option=byseason&statistics=$sen&sort=Average&direction=asc&ccl_mode=5\" class=\"10px\">$sen</option>\n";
               if($sort == "Wickets") echo "<option value=\"$PHP_SELF?option=byseason&statistics=$sen&sort=Wickets&direction=desc&ccl_mode=5\" class=\"10px\">$sen</option>\n";
@@ -1405,16 +1405,16 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
       
       $db->GetRow($r);          
 
-      $playerid = $db->data[player_id];
-      $init = $db->data[PlayerInitial];
+      $playerid = $db->data['player_id'];
+      $init = $db->data['PlayerInitial'];
       $fname = $db->data['PlayerFName'];
       $lname = $db->data['PlayerLName'];
-      $labbr = $db->data[PlayerLAbbrev];
-      $scmai = $db->data[Maidens];
-      $scbru = $db->data[BRuns];
+      $labbr = $db->data['PlayerLAbbrev'];
+      $scmai = $db->data['maidens'];
+      $scbru = $db->data['BRuns'];
       $scwic = $db->data['wickets'];
       $teama = $db->data['TeamAbbrev'];
-      $teamid = $db->data[TeamID]; 
+      $teamid = $db->data['TeamID']; 
       
       
 
@@ -1424,7 +1424,7 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
         $average = "-";
       }
 
-      $bnum = $db->data[Balls]; 
+      $bnum = $db->data['balls']; 
       $bovers = Round(($bnum / 6), 2); 
       $bfloor = floor($bovers); 
 
@@ -1557,7 +1557,7 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
     
     if (!$db->Exists("SELECT g.season, n.SeasonName, COUNT( s.player_id ) AS Matches, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName FROM tennis_scorecard_bowling_details s INNER JOIN tennisplayers p ON s.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON s.game_id = g.game_id INNER JOIN seasons n ON g.season = n.SeasonID GROUP BY s.player_id")) {
@@ -1633,7 +1633,7 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
         
         echo "    <option value=\"$PHP_SELF?option=byseason&statistics=$sen&ccl_mode=6\" class=\"10px\">$sen</option>\n";       
         }
@@ -1664,9 +1664,9 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
     echo "</tr>\n";
     
 
-    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS AwayAbbrev, h.TeamAbbrev AS HomeAbbrev, b.player_id, b.runs AS BRuns, b.wickets AS Wickets, p.PlayerLName, p.PlayerLAbbrev, p.PlayerFName, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_bowling_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID INNER JOIN seasons n ON g.season = n.SeasonID WHERE n.SeasonName LIKE '%{$statistics}%' AND Wickets >= 3 ORDER BY Wickets DESC, Runs ASC");
-    if($option == "allcareer")  $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS AwayAbbrev, h.TeamAbbrev AS HomeAbbrev, b.player_id, b.runs AS BRuns, b.wickets AS Wickets, p.PlayerLName, p.PlayerLAbbrev, p.PlayerFName, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_bowling_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE Wickets >= 4 ORDER BY Wickets DESC, Runs ASC");
-    if($option == "teamcareer") $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS AwayAbbrev, h.TeamAbbrev AS HomeAbbrev, b.player_id, b.runs AS BRuns, b.wickets AS Wickets, p.PlayerLName, p.PlayerLAbbrev, p.PlayerFName, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_bowling_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE p.PlayerTeam = $team AND Wickets >= 3 ORDER BY Wickets DESC, Runs ASC");
+    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS 'awayabbrev', h.TeamAbbrev AS 'homeabbrev', b.player_id, b.runs AS BRuns, b.wickets AS Wickets, p.PlayerLName, p.PlayerLAbbrev, p.PlayerFName, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_bowling_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID INNER JOIN seasons n ON g.season = n.SeasonID WHERE n.SeasonName LIKE '%{$statistics}%' AND Wickets >= 3 ORDER BY Wickets DESC, Runs ASC");
+    if($option == "allcareer")  $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS 'awayabbrev', h.TeamAbbrev AS 'homeabbrev', b.player_id, b.runs AS BRuns, b.wickets AS Wickets, p.PlayerLName, p.PlayerLAbbrev, p.PlayerFName, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_bowling_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE Wickets >= 4 ORDER BY Wickets DESC, Runs ASC");
+    if($option == "teamcareer") $db->Query("SELECT g.season, g.game_id, g.game_date, g.awayteam, g.hometeam, r.GroundAbbrev AS Ground, a.TeamAbbrev AS 'awayabbrev', h.TeamAbbrev AS 'homeabbrev', b.player_id, b.runs AS BRuns, b.wickets AS Wickets, p.PlayerLName, p.PlayerLAbbrev, p.PlayerFName, LEFT(p.PlayerFName,1) AS PlayerInitial FROM tennis_scorecard_bowling_details b INNER JOIN tennisplayers p ON b.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON b.game_id = g.game_id INNER JOIN tennisteams a ON g.awayteam = a.TeamID INNER JOIN tennisteams h ON g.hometeam = h.TeamID INNER JOIN grounds r ON g.ground_id = r.GroundID WHERE p.PlayerTeam = $team AND Wickets >= 3 ORDER BY Wickets DESC, Runs ASC");
 
     $db->BagAndTag();
 
@@ -1677,16 +1677,16 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
-    $playerid = $db->data[player_id];
-    $init = $db->data[PlayerInitial];
+    $playerid = $db->data['player_id'];
+    $init = $db->data['PlayerInitial'];
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];
-    $labbr = $db->data[PlayerLAbbrev];
-    $scbru = $db->data[BRuns];
+    $labbr = $db->data['PlayerLAbbrev'];
+    $scbru = $db->data['BRuns'];
     $scwic = $db->data['wickets'];
-    $awayt = $db->data[AwayAbbrev];
-    $homet = $db->data[HomeAbbrev];
-    $groun = $db->data[Ground];
+    $awayt = $db->data['awayabbrev'];
+    $homet = $db->data['homeabbrev'];
+    $groun = $db->data['ground'];
     $gamed = $db->data['game_date'];
     $gamei = $db->data['game_id'];
 
@@ -1744,7 +1744,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
     
     if (!$db->Exists("SELECT g.season, n.SeasonName, t.TeamAbbrev, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName FROM tennis_scorecard_batting_details s INNER JOIN tennisplayers p ON s.player_id = p.PlayerID INNER JOIN tennis_scorecard_game_details g ON s.game_id = g.game_id INNER JOIN tennisteams t ON p.PlayerTeam = t.TeamID INNER JOIN seasons n ON g.season = n.SeasonID GROUP BY s.player_id ORDER BY p.PlayerLName")) {
@@ -1821,7 +1821,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
         
         echo "    <option value=\"$PHP_SELF?option=byseason&statistics=$sen&ccl_mode=7\" class=\"10px\">$sen</option>\n";       
         }
@@ -1869,14 +1869,14 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
-    $playerid = $db->data[player_id];
-    $init = $db->data[PlayerInitial];
+    $playerid = $db->data['player_id'];
+    $init = $db->data['PlayerInitial'];
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];
-    $labbr = $db->data[PlayerLAbbrev];
-    $teamid = $db->data[TeamID];
+    $labbr = $db->data['PlayerLAbbrev'];
+    $teamid = $db->data['TeamID'];
     $teama = $db->data['TeamAbbrev'];         
-    $scinn = $db->data[Matches];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     $schig = $db->data[HS];             
 
@@ -1944,7 +1944,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     if($option == "allcareer")   $subdb->QueryRow("SELECT b.wickets AS BWickets, b.runs AS BRuns FROM tennis_scorecard_bowling_details b WHERE b.player_id = $playerid ORDER BY b.wickets DESC, b.runs ASC LIMIT 1");
     if($option == "teamcareer")   $subdb->QueryRow("SELECT b.wickets AS BWickets, b.runs AS BRuns FROM tennis_scorecard_bowling_details b WHERE b.player_id = $playerid AND b.team=$team ORDER BY b.wickets DESC, b.runs ASC LIMIT 1");
 
-      $scbbr = $subdb->data[BRuns];  
+      $scbbr = $subdb->data['BRuns'];  
       $scbbw = $subdb->data[BWickets];  
     } else {
       $scbbw = "-";

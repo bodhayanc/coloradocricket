@@ -130,7 +130,7 @@ function show_featuredmember_season($db,$id,$fm,$season,$sename)
         $db->GetRow($x);
         $db->BagAndTag();
         $sen = $db->data['SeasonName'];
-        $sid = $db->data[season];
+        $sid = $db->data['season'];
 
     echo "    <option value=\"$PHP_SELF?season=$sid&sename=$sen&ccl_mode=2\" class=\"10px\">$sen</option>\n";
 
@@ -176,11 +176,11 @@ function show_featuredmember_season($db,$id,$fm,$season,$sename)
         $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
         $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-        $tna = htmlentities(stripslashes($db->data['teamname']));
+        $tna = htmlentities(stripslashes($db->data['TeamName']));
         $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
-        $det = htmlentities(stripslashes($db->data[FeaturedDetail]));
-        $id = htmlentities(stripslashes($db->data[FeaturedID]));
+        $det = htmlentities(stripslashes($db->data['FeaturedDetail']));
+        $id = htmlentities(stripslashes($db->data['FeaturedID']));
         $sn = htmlentities(stripslashes($db->data['SeasonName']));
         $a = sqldate_to_string($db->data['added']);
 
@@ -247,10 +247,10 @@ function show_featuredmember($db,$id,$fm,$season,$sename)
         $pic = $db->data['picture'];
         $pid = $db->data['PlayerID'];
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
 
-        $det = $db->data[FeaturedDetail];
+        $det = $db->data['FeaturedDetail'];
         $a = sqldate_to_string($db->data['added']);
 
         echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";

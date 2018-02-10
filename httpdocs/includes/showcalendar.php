@@ -48,7 +48,7 @@ function show_calendar_listing($db)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['id']));
         $na = htmlentities(stripslashes($db->data['title']));
-        $sd = htmlentities(stripslashes($db->data[start_date]));
+        $sd = htmlentities(stripslashes($db->data['start_date']));
 
         // output article
 
@@ -124,7 +124,7 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
             $ina = $db->data[contact];
             $iurl= $db->data['url'];
             $iem = $db->data[email];
-            $isd = $db->data[start_date];
+            $isd = $db->data['start_date'];
 	    $ied = $db->data[end_date];
 
             $iap = $db->data[approved];
@@ -165,17 +165,20 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_calendar_listing($db);
-    break;
-case 1:
-    show_calendar_items($db,$id);
-    break;
-default:
-    show_calendar_listing($db);
-    break;
+if(isset($ccl_mode)) {
+	switch($ccl_mode) {
+	case 0:
+		show_calendar_listing($db);
+		break;
+	case 1:
+		show_calendar_items($db,$id);
+		break;
+	default:
+		show_calendar_listing($db);
+		break;
+	}
+} else {
+	show_calendar_listing($db);
 }
-
 
 ?>

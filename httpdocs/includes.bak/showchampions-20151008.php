@@ -75,10 +75,10 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
             
         // setup variables
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
         $sn = $db->data['SeasonName'];
-        $tid = $db->data[TeamID];
+        $tid = $db->data['TeamID'];
         
         echo '<tr class="trrow', ($x % 2 ? '1' : '2'), '">';
 // 1-Mar-2010  - removed the words  League Champions.           
@@ -136,10 +136,10 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
             
         // setup variables
 
-        $tna = $db->data['teamname'];
+        $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
         $sn = $db->data['SeasonName'];
-        $tid = $db->data[TeamID];
+        $tid = $db->data['TeamID'];
         
         echo '<tr class="trrow', ($x % 2 ? '1' : '2'), '">';
 // 1-Mar-2010  - removed the words  League Champions.         

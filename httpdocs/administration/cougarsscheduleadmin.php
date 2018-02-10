@@ -134,7 +134,7 @@ function show_main_menu_season($db,$season,$sename)
 					$t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
 					$um = htmlentities(stripslashes($teams[$db->data[umpires]]));
 					$tn = htmlentities(stripslashes($db->data['teamname']));
-					$da = htmlentities(stripslashes($db->data[formatted_date]));
+					$da = htmlentities(stripslashes($db->data['formatted_date']));
 					$ve = htmlentities(stripslashes($db->data[venue]));
 
 
@@ -423,9 +423,9 @@ function edit_category_form($db,$id)
 
 		echo "<p>enter the venue<br><input type=\"text\" name=\"venue\" size=\"40\" maxlength=\"255\" value=\"$ve\"></p>\n";
 
-	if ($db->data[scorecard]) {
+	if ($db->data['scorecard']) {
 		echo "<p>current scorecard</p>\n";
-		echo "<p><a href=\"../scorecards/$se/" . $db->data[scorecard] . "\"><img src=\"/images/icons/icon_detail.gif\" border=\"0\">&nbsp;/scorecards/$se/" . $db->data[scorecard] . "</a></p>\n";
+		echo "<p><a href=\"../scorecards/$se/" . $db->data['scorecard'] . "\"><img src=\"/images/icons/icon_detail.gif\" border=\"0\">&nbsp;/scorecards/$se/" . $db->data['scorecard'] . "</a></p>\n";
 		echo "<p>upload a scorecard (if you want to change the current one)";
 	} else {
 		echo "<p>upload a scorecard";

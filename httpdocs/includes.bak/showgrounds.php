@@ -47,8 +47,8 @@ function show_grounds_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[GroundID]));
-        $na = htmlentities(stripslashes($db->data[GroundName]));
+        $id = htmlentities(stripslashes($db->data['GroundID']));
+        $na = htmlentities(stripslashes($db->data['GroundName']));
         $di = htmlentities(stripslashes($db->data[GroundDirections]));
 		$gl = htmlentities(stripslashes($db->data[GroundLoc]));  // Added this 10-Aug-2015 11:10pm
 
@@ -90,8 +90,8 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM grounds WHERE GroundID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[GroundID];
-    $na = $db->data[GroundName];
+    $id = $db->data['GroundID'];
+    $na = $db->data['GroundName'];
     $gl = $db->data[GroundLoc];
     $di = $db->data[GroundDirections];
     $zi = $db->data[GroundZip];
@@ -278,7 +278,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->BagAndTag();
     
     $fid = $db->data['game_id'];
-    $run = $db->data[BRuns];
+    $run = $db->data['BRuns'];
     $pfn = $db->data['PlayerFName'];
     $pln = $db->data['PlayerLName'];
     $wic = $db->data['wickets'];
@@ -306,7 +306,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->BagAndTag();
     
     $fid = $db->data['game_id'];
-    $run = $db->data[total];
+    $run = $db->data['total'];
     $tab = $db->data['TeamAbbrev'];
     $wic = $db->data['wickets'];
     $dat = $db->data['game_date'];
@@ -333,7 +333,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->BagAndTag();
     
     $fid = $db->data['game_id'];
-    $run = $db->data[total];
+    $run = $db->data['total'];
     $tab = $db->data['TeamAbbrev'];
     $wic = $db->data['wickets'];
     $dat = $db->data['game_date'];
@@ -548,8 +548,8 @@ function show_grounds_games($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM grounds WHERE GroundID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[GroundID];
-    $na = $db->data[GroundName];
+    $id = $db->data['GroundID'];
+    $na = $db->data['GroundName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -602,8 +602,8 @@ function show_grounds_games($db,$s,$id,$pr)
             SELECT
               s.*,
               n.SeasonName, 
-              a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-              h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev
+              a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+              h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev'
             FROM
               scorecard_game_details s
             INNER JOIN
@@ -620,21 +620,21 @@ function show_grounds_games($db,$s,$id,$pr)
 
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
-                $t1 = $db->data[HomeAbbrev];
-                $t2 = $db->data[AwayAbbrev];
-                $um = $db->data[UmpireAbbrev];
-                $t1id = $db->data[HomeID];
-                $t2id = $db->data[AwayID];
-                $umid = $db->data[UmpireID];
+                $t1 = $db->data['homeabbrev'];
+                $t2 = $db->data['awayabbrev'];
+                $um = $db->data['umpireabbrev'];
+                $t1id = $db->data['homeid'];
+                $t2id = $db->data['awayid'];
+                $umid = $db->data['umpireid'];
                 $d = sqldate_to_string($db->data['game_date']);
-                $sc =  $db->data[scorecard];
-                $re = $db->data[result];
+                $sc =  $db->data['scorecard'];
+                $re = $db->data['result'];
                 $id = $db->data['game_id'];
-                $wk = $db->data[week];
-                $fo = $db->data[forfeit];
-                $ca = $db->data[cancelled];
+                $wk = $db->data['week'];
+                $fo = $db->data['forfeit'];
+                $ca = $db->data['cancelled'];
                 $sn = $db->data['SeasonName'];
-                $si = $db->data[season];
+                $si = $db->data['season'];
 
             if($x % 2) {
               echo "<tr class=\"trrow2\">\n";
@@ -682,13 +682,13 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     $db->Query("SELECT * FROM grounds ORDER BY GroundID");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $grounds[$db->data[GroundID]] = $db->data[GroundName];
+        $grounds[$db->data['GroundID']] = $db->data['GroundName'];
     }
 
     $db->Query("SELECT * FROM teams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
                     
     if(!$db->Exists("SELECT g.season, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id GROUP BY s.player_id")) {
@@ -776,11 +776,11 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
-    $playerid = $db->data[player_id];
-    $init = $db->data[PlayerInitial];
+    $playerid = $db->data['player_id'];
+    $init = $db->data['PlayerInitial'];
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];    
-    $scinn = $db->data[Matches];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     //$schig = $db->data[HS];   
     $teama = $db->data['TeamAbbrev'];

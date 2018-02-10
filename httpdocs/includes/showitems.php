@@ -48,7 +48,7 @@ function show_items_listing($db)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['id']));
         $na = htmlentities(stripslashes($db->data['title']));
-        $price = htmlentities(stripslashes($db->data[price]));
+        $price = htmlentities(stripslashes($db->data['price']));
 
         // output article
 
@@ -120,8 +120,8 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
         $db->GetRow($i);
             $iid = $db->data['id'];
             $itit = $db->data['title'];
-            $ipic = $db->data[picture1];
-            $ipri = $db->data[price];
+            $ipic = $db->data['picture1'];
+            $ipri = $db->data['price'];
             $idet = $db->data[item_details];
 
             $ina = $db->data[contact_name];

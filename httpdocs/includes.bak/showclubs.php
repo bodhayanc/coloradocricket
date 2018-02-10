@@ -147,17 +147,17 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $cur = $db->data[ClubURL];
     $cco = $db->data[ClubColour];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
     $tab = $db->data['TeamAbbrev'];
-    $tco = $db->data[TeamColour];
+    $tco = $db->data['TeamColour'];
 
     $pid = $db->data['PlayerID'];
     $pfn = $db->data['PlayerFName'];
     $pln = $db->data['PlayerLName'];
 
-    $gri = $db->data[GroundID];
-    $grn = $db->data[GroundName];
+    $gri = $db->data['GroundID'];
+    $grn = $db->data['GroundName'];
     $clublogo = $db->data[clublogo];
 
 
@@ -221,7 +221,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $fn = $db->data['PlayerFName'];
     $ln = $db->data['PlayerLName'];
-    $em = $db->data[PlayerEmail];
+    $em = $db->data['PlayerEmail'];
     $pi = $db->data['PlayerID'];
 
     echo "<tr class=\"trrow1\">\n";
@@ -246,7 +246,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $fn = $db->data['PlayerFName'];
     $ln = $db->data['PlayerLName'];
-    $em = $db->data[PlayerEmail];
+    $em = $db->data['PlayerEmail'];
     $pi = $db->data['PlayerID'];
 
     echo "<tr class=\"trrow2\">\n";
@@ -271,7 +271,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $fn = $db->data['PlayerFName'];
     $ln = $db->data['PlayerLName'];
-    $em = $db->data[PlayerEmail];
+    $em = $db->data['PlayerEmail'];
     $pi = $db->data['PlayerID'];
 
     echo "<tr class=\"trrow1\">\n";
@@ -296,7 +296,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $fn = $db->data['PlayerFName'];
     $ln = $db->data['PlayerLName'];
-    $em = $db->data[PlayerEmail];
+    $em = $db->data['PlayerEmail'];
     $pi = $db->data['PlayerID'];
 
     echo "<tr class=\"trrow2\">\n";
@@ -321,7 +321,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $fn = $db->data['PlayerFName'];
     $ln = $db->data['PlayerLName'];
-    $em = $db->data[PlayerEmail];
+    $em = $db->data['PlayerEmail'];
     $pi = $db->data['PlayerID'];
 
     echo "<tr class=\"trrow1\">\n";
@@ -346,7 +346,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $fn = $db->data['PlayerFName'];
     $ln = $db->data['PlayerLName'];
-    $em = $db->data[PlayerEmail];
+    $em = $db->data['PlayerEmail'];
     $pi = $db->data['PlayerID'];
 
     echo "<tr class=\"trrow2\">\n";
@@ -408,10 +408,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $cur = $db->data[ClubURL];
     $cco = $db->data[ClubColour];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
     $tab = $db->data['TeamAbbrev'];
-    $tco = $db->data[TeamColour];
+    $tco = $db->data['TeamColour'];
     $pic = $db->data['picture'];
 
     $pid = $db->data['PlayerID'];
@@ -448,10 +448,10 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $cur = $db->data[ClubURL];
     $cco = $db->data[ClubColour];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
     $tab = $db->data['TeamAbbrev'];
-    $tco = $db->data[TeamColour];
+    $tco = $db->data['TeamColour'];
 
     $pid = $db->data['PlayerID'];
     $pfn = $db->data['PlayerFName'];

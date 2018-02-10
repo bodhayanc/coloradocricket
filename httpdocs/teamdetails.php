@@ -4,7 +4,7 @@
     require ("includes/class.fasttemplate.inc");
     require ("includes/general.functions.inc");
 
-    $page = teams;
+    $page = 'teams';
 
 ?>
 

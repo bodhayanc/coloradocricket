@@ -57,8 +57,8 @@ function show_teams_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data['teamname']));
+        $id = htmlentities(stripslashes($db->data['TeamID']));
+        $na = htmlentities(stripslashes($db->data['TeamName']));
         $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
         $ts = htmlentities(stripslashes($db->data[TeamActive]));
@@ -104,19 +104,19 @@ function show_teams_listing($db,$s,$id,$pr)
 }
 
 
-function show_full_teams($db,$s,$id,$pr)
+function show_full_teams($db,$pr)
 {
     global $PHP_SELF;
 
     $db->QueryRow("SELECT * FROM teams WHERE TeamID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[TeamID];
-    $na = $db->data['teamname'];
+    $id = $db->data['TeamID'];
+    $na = $db->data['TeamName'];
     $ca = $db->data['TeamAbbrev'];
-    $ur = $db->data[TeamURL];
-    $co = $db->data[TeamColour];
-    $td = $db->data[TeamDesc];
+    $ur = $db->data['TeamURL'];
+    $co = $db->data['TeamColour'];
+    $td = $db->data['TeamDesc'];
 	if (($co == null) || ($co == "")) {
 		$co = "000000";
 	}
@@ -159,7 +159,7 @@ function show_full_teams($db,$s,$id,$pr)
     $db->BagAndTag();
 
     $pic = $db->data['picture'];
-    $teamlogo = $db->data[teamlogo];
+    $teamlogo = $db->data['teamlogo'];
 
     if ($pic != "" ) {
    	$str_team_pic =  "<a href=\"/uploadphotos/teams/$pic\" onClick=\"return enlarge('/uploadphotos/teams/$pic',event)\"><img src=\"/uploadphotos/teams/$pic\" width=\"150\" align=\"right\" border=\"1\"></a>\n";
@@ -187,7 +187,7 @@ function show_full_teams($db,$s,$id,$pr)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
             
-    $tna = $db->data['teamname'];
+    $tna = $db->data['TeamName'];
     $tab = $db->data['TeamAbbrev'];
     $sn = $db->data['SeasonName'];
 
@@ -302,14 +302,21 @@ function show_full_teams($db,$s,$id,$pr)
     echo "<a name=\"#players\"></a>\n";
    		$str_mode = $_GET['ccl_mode'];
 		$str_teams = $_GET['teams'];
-		if($_GET['status'] == "2") {
-			$sel = "selected";
-		}
-		else if($_GET['status'] == "0" || $_GET['status'] == "") {
+		$sel = "";
+		$sel1 = "";
+		$sel2 = "";
+		if (isset($_GET['status'])) {
+			if($_GET['status'] == "2") {
+				$sel = "selected";
+			}
+			else if($_GET['status'] == "0" || $_GET['status'] == "") {
+				$sel1 = "selected";
+			}
+			else if($_GET['status'] == "1") {
+				$sel2 = "selected";
+			}
+		} else {
 			$sel1 = "selected";
-		}
-		else if($_GET['status'] == "1") {
-			$sel2 = "selected";
 		}
 		
 		$str_drop = "PLAYER STATUS: <select id=\"status\" name=\"status\" onchange=\"changeURL($str_mode,$str_teams); \">";
@@ -328,16 +335,18 @@ function show_full_teams($db,$s,$id,$pr)
     echo "  <td bgcolor=\"#FFFFFF\" valign=\"top\" bordercolor=\"#FFFFFF\"  colspan=\"2\">\n";
 
     echo "<section width=\"100%\">\n";
-	if ($_GET['status'] == '' OR $_GET['status'] == '0') {
-	   	$active_status = "0";
-	}
-	else if ($_GET['status'] == '1'){
-	   	$active_status = "1";
-	}
-	else if ($_GET['status'] == '2'){
-	   	$active_status = "0,1";
-	}
-            
+	$active_status = "0";
+	if (isset($_GET['status'])) {
+		if ($_GET['status'] == '' OR $_GET['status'] == '0') {
+			$active_status = "0";
+		}
+		else if ($_GET['status'] == '1'){
+			$active_status = "1";
+		}
+		else if ($_GET['status'] == '2'){
+			$active_status = "0,1";
+		}
+    }
     if ($db->Exists("
     SELECT
       pl.PlayerID, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub, pl.picture, pl.picture1, MAX(sg.game_date) AS lastdate
@@ -401,11 +410,11 @@ function show_full_teams($db,$s,$id,$pr)
 	
 	        $fn = $db->data['PlayerFName'];
 	        $ln = $db->data['PlayerLName'];
-	        $em = $db->data[PlayerEmail];
+	        $em = $db->data['PlayerEmail'];
 	        $pi = $db->data['PlayerID'];
 	        $pc = $db->data['picture'];
-	        $pa = $db->data[picture1];
-	        $gd = $db->data[lastdate];
+	        $pa = $db->data['picture1'];
+	        $gd = $db->data['lastdate'];
 	        if($pc == ''){
 	        	$pc = "HeadNoMan.jpg";
 	        }
@@ -494,11 +503,11 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $db->QueryRow("SELECT * FROM teams WHERE TeamID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[TeamID];
-    $na = $db->data['teamname'];
+    $id = $db->data['TeamID'];
+    $na = $db->data['TeamName'];
     $ca = $db->data['TeamAbbrev'];
-    $ur = $db->data[TeamURL];
-    $co = $db->data[TeamColour];
+    $ur = $db->data['TeamURL'];
+    $co = $db->data['TeamColour'];
 	if (($co == null) || ($co == "")) {
 		$co = "000000";
 	}
@@ -558,10 +567,10 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
         $fn = $db->data['PlayerFName'];
         $ln = $db->data['PlayerLName'];
-        $em = $db->data[PlayerEmail];
+        $em = $db->data['PlayerEmail'];
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
-        $pa = $db->data[picture1];
+        $pa = $db->data['picture1'];
         $ia = $db->data[isactive];
 
     // output story
@@ -667,19 +676,21 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_teams_listing($db,$s,$id,$teams);
-    break;
-case 1:
-    show_full_teams($db,$s,$id,$teams);
-    break;
-case 2:
-    show_alpha_listing($db,$s,$id,$teams,$letter);
-    break;  
-default:
-    show_teams_listing($db,$s,$id,$teams);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_teams_listing($db,$s,$id,$teams);
+		break;
+	case 1:
+		show_full_teams($db,$_GET['teams']);
+		break;
+	case 2:
+		show_alpha_listing($db,$s,$id,$teams,$letter);
+		break;  
+	default:
+		show_teams_listing($db,$s,$id,$teams);
+		break;
+	}
 }
 
 
@@ -687,7 +698,7 @@ default:
 <script language="javascript">
 function changeURL(mode, team) {
 	status = document.getElementById('status').value;
-	document.location.href = "http://coloradocricket.org/teamdetails.php?teams=" + team + "&ccl_mode=" + mode + "&status=" + status;
+	document.location.href = "teamdetails.php?teams=" + team + "&ccl_mode=" + mode + "&status=" + status;
 }
 
 </script>

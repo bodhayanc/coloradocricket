@@ -231,10 +231,10 @@ function edit_category_form($db,$id)
 
 	$tn = htmlentities(stripslashes($db->data['teamname']));
 	$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-	$ur = htmlentities(stripslashes($db->data[TeamURL]));
+	$ur = htmlentities(stripslashes($db->data['TeamURL']));
 	$tc = htmlentities(stripslashes($db->data[TeamColour]));
 	$tv = htmlentities(stripslashes($db->data[TeamActive]));
-	$td = htmlentities(stripslashes($db->data[TeamDesc]));
+	$td = htmlentities(stripslashes($db->data['TeamDesc']));
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";

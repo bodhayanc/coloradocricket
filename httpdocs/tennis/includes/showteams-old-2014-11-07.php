@@ -65,11 +65,11 @@ function show_teams_listing($db,$s,$id,$pr)
     if($db->rows != 0) {
 	    for ($x=0; $x<$db->rows; $x++) {
 	        $db->GetRow($x);
-	        $id = htmlentities(stripslashes($db->data[TeamID]));
-	        $na = htmlentities(stripslashes($db->data['teamname']));
+	        $id = htmlentities(stripslashes($db->data['TeamID']));
+	        $na = htmlentities(stripslashes($db->data['TeamName']));
 //	        $di = htmlentities(stripslashes($db->data[TeamDirections]));  commented 29-Jul-2014 12:09am
-	        $di = htmlentities(stripslashes($db->data[TeamDesc]));
-	        $co = htmlentities(stripslashes($db->data[TeamColour]));
+	        $di = htmlentities(stripslashes($db->data['TeamDesc']));
+	        $co = htmlentities(stripslashes($db->data['TeamColour']));
                 $st = $db->data[TeamActive];
 	        $pi = $db->data['picture'];
 	
@@ -126,12 +126,12 @@ function show_full_teams($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM tennisteams WHERE TeamID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[TeamID];
-    $na = $db->data['teamname'];
+    $id = $db->data['TeamID'];
+    $na = $db->data['TeamName'];
     $ca = $db->data['TeamAbbrev'];
-    $ur = $db->data[TeamURL];
-    $co = $db->data[TeamColour];
-    $td = $db->data[TeamDesc];  // Added 29-Jul-2014 12:21am 
+    $ur = $db->data['TeamURL'];
+    $co = $db->data['TeamColour'];
+    $td = $db->data['TeamDesc'];  // Added 29-Jul-2014 12:21am 
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -233,10 +233,10 @@ function show_full_teams($db,$s,$id,$pr)
 
         $fn = $db->data['PlayerFName'];
         $ln = $db->data['PlayerLName'];
-        $em = $db->data[PlayerEmail];
+        $em = $db->data['PlayerEmail'];
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
-        $pa = $db->data[picture1];
+        $pa = $db->data['picture1'];
 		$ps = $db->data[isactive];  // 29-Oct-2014 10:26pm player status
 
     // output story
@@ -331,11 +331,11 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $db->QueryRow("SELECT * FROM tennisteams WHERE TeamID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[TeamID];
-    $na = $db->data['teamname'];
+    $id = $db->data['TeamID'];
+    $na = $db->data['TeamName'];
     $ca = $db->data['TeamAbbrev'];
-    $ur = $db->data[TeamURL];
-    $co = $db->data[TeamColour];
+    $ur = $db->data['TeamURL'];
+    $co = $db->data['TeamColour'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -388,10 +388,10 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
         $fn = $db->data['PlayerFName'];
         $ln = $db->data['PlayerLName'];
-        $em = $db->data[PlayerEmail];
+        $em = $db->data['PlayerEmail'];
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
-        $pa = $db->data[picture1];
+        $pa = $db->data['picture1'];
         $ia = $db->data[isactive];
 
     // output story

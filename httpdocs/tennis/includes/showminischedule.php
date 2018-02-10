@@ -28,7 +28,7 @@ function show_mini_schedule($db, $season)
         $db->Query("
             SELECT
                 sch.*, DATE_FORMAT(sch.date, '%b %e') as formatted_date, 
-                te.TeamID AS awayid,te.TeamAbbrev AS awayabbrev,t1.TeamID AS homeid,t1.TeamAbbrev AS homeabbrev
+                te.TeamID AS 'awayid',te.TeamAbbrev AS 'awayabbrev',t1.TeamID AS 'homeid',t1.TeamAbbrev AS 'homeabbrev'
             FROM
                 tennisschedule sch
 	    INNER JOIN
@@ -56,11 +56,11 @@ function show_mini_schedule($db, $season)
 
         	for ($x = 0; $x < $db->rows; $x++) {
                 $db->GetRow($x);
-		$t1 = $db->data[homeabbrev];
-		$t2 = $db->data[awayabbrev];
-		$um = $db->data[umpireabbrev];
-		$t1id = $db->data[homeid];
-		$t2id = $db->data[awayid];
+		$t1 = $db->data['homeabbrev'];
+		$t2 = $db->data['awayabbrev'];
+		$um = $db->data['umpireabbrev'];
+		$t1id = $db->data['homeid'];
+		$t2id = $db->data['awayid'];
                 $da  = $db->data['formatted_date'];
                 $we  = $db->data['week'];
                 $se  = $db->data['season'];

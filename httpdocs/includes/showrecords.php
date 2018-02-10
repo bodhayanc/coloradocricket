@@ -38,7 +38,7 @@ function show_statistics_main($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -95,8 +95,8 @@ function show_statistics_main($db,$statistics,$id,$pr,$team,$week,$game_id)
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
-                $id = $db->data[TeamID];
-                $ab = $db->data['teamname'];
+                $id = $db->data['TeamID'];
+                $ab = $db->data['TeamName'];
 
         echo "<li><a href=\"$PHP_SELF?statistics=$statistics&team=$id&ccl_mode=2\">$ab</a></li>\n";
         }
@@ -145,7 +145,7 @@ function show_resultstatistics($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -230,7 +230,7 @@ function show_teamresults($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -282,7 +282,7 @@ function show_teamresults($db,$statistics,$id,$pr,$team,$week,$game_id)
             for ($r=0; $r<$db->rows; $r++) {
             $db->GetRow($r);
 
-            $tid = $db->data[TeamID];
+            $tid = $db->data['TeamID'];
             $tea = $db->data['TeamAbbrev'];
             $pla = $db->data['played'];
             $won = $db->data['won'];
@@ -348,7 +348,7 @@ function show_highestwinmargins($db,$statistics,$id,$pr,$team,$week,$game_id)
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -400,7 +400,7 @@ function show_highestwinmargins($db,$statistics,$id,$pr,$team,$week,$game_id)
             for ($r=0; $r<$db->rows; $r++) {
             $db->GetRow($r);
 
-            $tid = $db->data[TeamID];
+            $tid = $db->data['TeamID'];
             $tea = $db->data['TeamAbbrev'];
             $pla = $db->data['played'];
             $won = $db->data['won'];

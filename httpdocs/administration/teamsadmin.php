@@ -42,7 +42,7 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$tn = htmlentities(stripslashes($db->data['teamname']));
+			$tn = htmlentities(stripslashes($db->data['TeamName']));
 			$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 			$tc = htmlentities(stripslashes($db->data[TeamActive]));
 
@@ -62,9 +62,9 @@ function show_main_menu($db)
 			}
 			if ($db->data['picture'] != "" ) echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">&nbsp;";
 			echo "</td>\n";
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[TeamID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[TeamID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[TeamID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -227,12 +227,12 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$tn = htmlentities(stripslashes($db->data['teamname']));
+	$tn = htmlentities(stripslashes($db->data['TeamName']));
 	$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-	$ur = htmlentities(stripslashes($db->data[TeamURL]));
-	$tc = htmlentities(stripslashes($db->data[TeamColour]));
+	$ur = htmlentities(stripslashes($db->data['TeamURL']));
+	$tc = htmlentities(stripslashes($db->data['TeamColour']));
 	$tv = htmlentities(stripslashes($db->data[TeamActive]));
-	$td = htmlentities(stripslashes($db->data[TeamDesc]));
+	$td = htmlentities(stripslashes($db->data['TeamDesc']));
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";

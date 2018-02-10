@@ -110,7 +110,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -152,7 +152,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
         } else {
             $db->Query("
                 SELECT 
-                  sch.* , te.TeamID AS awayid, te.TeamAbbrev AS awayabbrev, t1.TeamID AS homeid, t1.TeamAbbrev AS homeabbrev
+                  sch.* , te.TeamID AS 'awayid', te.TeamAbbrev AS 'awayabbrev', t1.TeamID AS 'homeid', t1.TeamAbbrev AS 'homeabbrev'
                 FROM 
                   ((cougarsschedule sch
                 INNER JOIN 
@@ -167,16 +167,16 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
 
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
-                $t1 = $db->data[homeabbrev];
-                $t2 = $db->data[awayabbrev];
-                $um = $db->data[umpireabbrev];
-                $t1id = $db->data[homeid];
-                $t2id = $db->data[awayid];
-                $umid = $db->data[umpireid];
-                $t = htmlentities(stripslashes($db->data['teamname']));
-                $d = sqldate_to_string($db->data[date]);
-                $v = htmlentities(stripslashes($db->data[ground]));
-                $vl = htmlentities(stripslashes($db->data[venue]));
+                $t1 = $db->data['homeabbrev'];
+                $t2 = $db->data['awayabbrev'];
+                $um = $db->data['umpireabbrev'];
+                $t1id = $db->data['homeid'];
+                $t2id = $db->data['awayid'];
+                $umid = $db->data['umpireid'];
+                $t = htmlentities(stripslashes($db->data['TeamName']));
+                $d = sqldate_to_string($db->data['date']);
+                $v = htmlentities(stripslashes($db->data['ground']));
+                $vl = htmlentities(stripslashes($db->data['venue']));
 
             if($x % 2) {
               echo "<tr class=\"trrow1\">\n";

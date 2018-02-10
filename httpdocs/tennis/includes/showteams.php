@@ -58,8 +58,8 @@ function show_teams_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[TeamID]));
-        $na = htmlentities(stripslashes($db->data['teamname']));
+        $id = htmlentities(stripslashes($db->data['TeamID']));
+        $na = htmlentities(stripslashes($db->data['TeamName']));
         $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
         $di = htmlentities(stripslashes($db->data[TeamDirections]));
         $ts = htmlentities(stripslashes($db->data[TeamActive]));
@@ -112,12 +112,12 @@ function show_full_teams($db,$s,$id,$pr)
     $db->QueryRow("SELECT * FROM tennisteams WHERE TeamID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[TeamID];
-    $na = $db->data['teamname'];
+    $id = $db->data['TeamID'];
+    $na = $db->data['TeamName'];
     $ca = $db->data['TeamAbbrev'];
-    $ur = $db->data[TeamURL];
-    $co = $db->data[TeamColour];
-    $td = $db->data[TeamDesc];
+    $ur = $db->data['TeamURL'];
+    $co = $db->data['TeamColour'];
+    $td = $db->data['TeamDesc'];
 
     
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -159,7 +159,7 @@ function show_full_teams($db,$s,$id,$pr)
 
     $pic = $db->data['picture'];
 	$teamlogo = $pic;  // 7-Nov-2014 10:10pm
-//    $teamlogo = $db->data[teamlogo];
+//    $teamlogo = $db->data['teamlogo'];
 
     if ($pic != "" ) {
 	$str_team_pic =  "<a href=\"http://www.coloradocricket.org/uploadphotos/teams/$pic\" onClick=\"return enlarge('http://www.coloradocricket.org/uploadphotos/teams/$pic',event)\"><img src=\"http://www.coloradocricket.org/uploadphotos/teams/$pic\" width=\"150\" align=\"right\" border=\"1\"></a>\n";
@@ -190,7 +190,7 @@ function show_full_teams($db,$s,$id,$pr)
 //    for ($i=0; $i<$db->rows; $i++) {
 //        $db->GetRow($i);
 //
-//    $tna = $db->data['teamname'];
+//    $tna = $db->data['TeamName'];
 //    $tab = $db->data['TeamAbbrev'];
 //    $sn = $db->data['SeasonName'];
 //
@@ -406,11 +406,11 @@ function show_full_teams($db,$s,$id,$pr)
 	
 	        $fn = $db->data['PlayerFName'];
 	        $ln = $db->data['PlayerLName'];
-	        $em = $db->data[PlayerEmail];
+	        $em = $db->data['PlayerEmail'];
 	        $pi = $db->data['PlayerID'];
 	        $pc = $db->data['picture'];
-	        $pa = $db->data[picture1];
-	        $gd = $db->data[lastdate];
+	        $pa = $db->data['picture1'];
+	        $gd = $db->data['lastdate'];
 	        if($pc == ''){
 	        	$pc = "HeadNoMan.jpg";
 	        }
@@ -508,11 +508,11 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $db->QueryRow("SELECT * FROM tennisteams WHERE TeamID=$pr");
     $db->BagAndTag();
 
-    $id = $db->data[TeamID];
-    $na = $db->data['teamname'];
+    $id = $db->data['TeamID'];
+    $na = $db->data['TeamName'];
     $ca = $db->data['TeamAbbrev'];
-    $ur = $db->data[TeamURL];
-    $co = $db->data[TeamColour];
+    $ur = $db->data['TeamURL'];
+    $co = $db->data['TeamColour'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -570,10 +570,10 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
         $fn = $db->data['PlayerFName'];
         $ln = $db->data['PlayerLName'];
-        $em = $db->data[PlayerEmail];
+        $em = $db->data['PlayerEmail'];
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
-        $pa = $db->data[picture1];
+        $pa = $db->data['picture1'];
         $ia = $db->data[isactive];
 
     // output story

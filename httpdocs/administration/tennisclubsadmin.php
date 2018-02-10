@@ -103,7 +103,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM grounds ORDER BY GroundID");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			echo "<option value=\"" . $db->data[GroundID] . "\">" . $db->data[GroundName] . "</option>\n";
+			echo "<option value=\"" . $db->data['GroundID'] . "\">" . $db->data['GroundName'] . "</option>\n";
 		}
 	}
 
@@ -200,7 +200,7 @@ function edit_category_form($db,$id)
 	for ($g=0; $g<$db->rows; $g++) {
 		$db->GetRow($g);
         $db->BagAndTag();
-		$grounds[$db->data[GroundID]] = $db->data[GroundName];
+		$grounds[$db->data['GroundID']] = $db->data['GroundName'];
 	}
 
 	// query database

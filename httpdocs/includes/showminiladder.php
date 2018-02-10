@@ -1,7 +1,7 @@
 <?php
 
 
-function show_miniladder($db,$s,$id,$pr,$ladder)
+function show_miniladder($db)
 {
 	global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -73,8 +73,8 @@ function show_miniladder($db,$s,$id,$pr,$ladder)
 					$ti = htmlentities(stripslashes($db->data['tied']));
 					$nr = htmlentities(stripslashes($db->data['nrr']));
 					$pt = htmlentities(stripslashes($db->data['points']));
-					$pe = htmlentities(stripslashes($db->data[penalty]));
-					$tp = htmlentities(stripslashes($db->data[totalpoints]));
+					$pe = htmlentities(stripslashes($db->data['penalty']));
+					$tp = htmlentities(stripslashes($db->data['totalpoints']));
 
 			if($x % 2) {
 			  echo "<tr class=\"trrow1\">\n";
@@ -112,7 +112,7 @@ $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
 
-show_miniladder($db,$s,$id,$pr,$ladder);
+show_miniladder($db);
 
 
 ?>

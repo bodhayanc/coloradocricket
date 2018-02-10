@@ -102,7 +102,7 @@ function show_top20_news_listing($db,$s,$id,$pr,$mn)
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$li = $db->data[LeagueAbbrev];
-			$ln = $db->data[LeagueName];
+			$ln = $db->data['LeagueName'];
 			echo "  <option value=\"$li\">$ln</option>\n";
 		}
 	}
@@ -336,7 +336,7 @@ function show_popular_news_listing($db,$s,$id,$pr)
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$li = $db->data[LeagueAbbrev];
-			$ln = $db->data[LeagueName];
+			$ln = $db->data['LeagueName'];
 			echo "  <option value=\"$li\">$ln</option>\n";
 		}
 	}
@@ -535,7 +535,7 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$li = $db->data[LeagueAbbrev];
-			$ln = $db->data[LeagueName];
+			$ln = $db->data['LeagueName'];
 			echo "  <option value=\"$li\">$ln</option>\n";
 		}
 	}
@@ -737,7 +737,7 @@ function show_full_news_listing($db,$s,$id,$pr)
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$li = $db->data[LeagueAbbrev];
-			$ln = $db->data[LeagueName];
+			$ln = $db->data['LeagueName'];
 			echo "  <option value=\"$li\">$ln</option>\n";
 		}
 	}
@@ -1136,7 +1136,7 @@ function search_news($db,$search="")
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$li = $db->data[LeagueAbbrev];
-			$ln = $db->data[LeagueName];
+			$ln = $db->data['LeagueName'];
 			echo "  <option value=\"$li\">$ln</option>\n";
 		}
 	}
@@ -1411,7 +1411,7 @@ function show_type_news_listing($db,$s,$id,$pr,$type)
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$li = $db->data[LeagueAbbrev];
-			$ln = $db->data[LeagueName];
+			$ln = $db->data['LeagueName'];
 			echo "  <option value=\"$li\">$ln</option>\n";
 		}
 	}

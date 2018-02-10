@@ -137,8 +137,8 @@ function show_today_yesterday_news($db,$date,$len=250)
     $db->Query("
     SELECT
       s.*,
-      a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-      h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev
+      a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+      h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev'
     FROM
       scorecard_game_details s
     INNER JOIN
@@ -200,19 +200,19 @@ function show_today_yesterday_news($db,$date,$len=250)
       $db->GetRow($x);
 
       // Setup the variables
-      $t1 = $db->data[HomeAbbrev];
-      $t2 = $db->data[AwayAbbrev];
-      $um = $db->data[UmpireAbbrev];
-      $t1id = $db->data[HomeID];
-      $t2id = $db->data[AwayID];
-      $umid = $db->data[UmpireID];
+      $t1 = $db->data['homeabbrev'];
+      $t2 = $db->data['awayabbrev'];
+      $um = $db->data['umpireabbrev'];
+      $t1id = $db->data['homeid'];
+      $t2id = $db->data['awayid'];
+      $umid = $db->data['umpireid'];
       $d = sqldate_to_string($db->data['game_date']);
-      $sc =  $db->data[scorecard];
-      $re = $db->data[result];
+      $sc =  $db->data['scorecard'];
+      $re = $db->data['result'];
       $id = $db->data['game_id'];
-      $wk = $db->data[week];
-      $fo = $db->data[forfeit];
-      $ca = $db->data[cancelled];
+      $wk = $db->data['week'];
+      $fo = $db->data['forfeit'];
+      $ca = $db->data['cancelled'];
                 
 
       echo ' <tr class="trrow', ($x % 2 ? '2' : '1'), '">';
@@ -390,8 +390,8 @@ function show_other_yesterday_news($db,$date,$len=250)
     $db->Query("
     SELECT
       s.*,
-      a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-      h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev
+      a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+      h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev'
     FROM
       scorecard_game_details s
     INNER JOIN
@@ -450,19 +450,19 @@ function show_other_yesterday_news($db,$date,$len=250)
       $db->GetRow($x);
 
       // Setup the variables
-      $t1 = $db->data[HomeAbbrev];
-      $t2 = $db->data[AwayAbbrev];
-      $um = $db->data[UmpireAbbrev];
-      $t1id = $db->data[HomeID];
-      $t2id = $db->data[AwayID];
-      $umid = $db->data[UmpireID];
+      $t1 = $db->data['homeabbrev'];
+      $t2 = $db->data['awayabbrev'];
+      $um = $db->data['umpireabbrev'];
+      $t1id = $db->data['homeid'];
+      $t2id = $db->data['awayid'];
+      $umid = $db->data['umpireid'];
       $d = sqldate_to_string($db->data['game_date']);
-      $sc =  $db->data[scorecard];
-      $re = $db->data[result];
+      $sc =  $db->data['scorecard'];
+      $re = $db->data['result'];
       $id = $db->data['game_id'];
-      $wk = $db->data[week];
-      $fo = $db->data[forfeit];
-      $ca = $db->data[cancelled];
+      $wk = $db->data['week'];
+      $fo = $db->data['forfeit'];
+      $ca = $db->data['cancelled'];
                 
 
       echo ' <tr class="trrow', ($x % 2 ? '2' : '1'), '">';

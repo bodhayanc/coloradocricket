@@ -94,7 +94,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
 
@@ -130,7 +130,7 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 for ($x=0; $x<$db->rows; $x++) {
                     $db->GetRow($x);
                     $db->BagAndTag();
-                    $id = $db->data[TeamID];
+                    $id = $db->data['TeamID'];
                     // output article
 
                 echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['TeamAbbrev'] . "</option>\n";
@@ -178,11 +178,11 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 for ($x=0; $x<$db->rows; $x++) {
                     $db->GetRow($x);
                     $db->BagAndTag();
-                    $week = $db->data[week];
+                    $week = $db->data['week'];
                     $da  = $db->data['formatted_date'];
                     // output article
 
-                echo "    <option value=\"$PHP_SELF?schedule=$schedule&week=$week&ccl_mode=3\">Week " . $db->data[week] . " ($da)</option>\n";
+                echo "    <option value=\"$PHP_SELF?schedule=$schedule&week=$week&ccl_mode=3\">Week " . $db->data['week'] . " ($da)</option>\n";
                 }
         }
                 echo "    </select></p>\n";
@@ -222,10 +222,10 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
                 $t1 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
                 $t2 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
                 $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
-                $t = htmlentities(stripslashes($db->data['teamname']));
-                $d = sqldate_to_string($db->data[date]);
-                $v = htmlentities(stripslashes($db->data[ground]));
-                $vl = htmlentities(stripslashes($db->data[venue]));
+                $t = htmlentities(stripslashes($db->data['TeamName']));
+                $d = sqldate_to_string($db->data['date']);
+                $v = htmlentities(stripslashes($db->data['ground']));
+                $vl = htmlentities(stripslashes($db->data['venue']));
 
             if($x % 2) {
               echo "<tr class=\"trrow1\">\n";
@@ -320,9 +320,9 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
-                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
-                        $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
+                        $teamname[$db->data['TeamID']] = $db->data['TeamName'];
+                        $teamcolour[$db->data['TeamID']] = $db->data['TeamColour'];
                         $teamaway = $teams;
                         $teamhome = $teams;
                 }
@@ -361,10 +361,10 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
                 $t1 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
                 $t2 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
                 $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
-                $t = htmlentities(stripslashes($db->data['teamname']));
-                $d = sqldate_to_string($db->data[date]);
-                $v = htmlentities(stripslashes($db->data[ground]));
-                $vl = htmlentities(stripslashes($db->data[venue]));
+                $t = htmlentities(stripslashes($db->data['TeamName']));
+                $d = sqldate_to_string($db->data['date']);
+                $v = htmlentities(stripslashes($db->data['ground']));
+                $vl = htmlentities(stripslashes($db->data['venue']));
     if($x % 2) {
       echo "<tr class=\"trrow1\">\n";
     } else {
@@ -422,7 +422,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM schedule ORDER BY id");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $weeks[$db->data[week]] = $db->data[week];
+                        $weeks[$db->data['week']] = $db->data['week'];
                 }
 
 
@@ -435,9 +435,9 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 $db->Query("SELECT * FROM teams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
-                        $teamname[$db->data[TeamID]] = $db->data['teamname'];
-                        $teamcolour[$db->data[TeamID]] = $db->data[TeamColour];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
+                        $teamname[$db->data['TeamID']] = $db->data['TeamName'];
+                        $teamcolour[$db->data['TeamID']] = $db->data['TeamColour'];
                         $teamaway = $teams;
                         $teamhome = $teams;
                 }
@@ -476,10 +476,10 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 $t1 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
                 $t2 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
                 $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
-                $t = htmlentities(stripslashes($db->data['teamname']));
-                $d = sqldate_to_string($db->data[date]);
-                $v = htmlentities(stripslashes($db->data[ground]));
-                $vl = htmlentities(stripslashes($db->data[venue]));
+                $t = htmlentities(stripslashes($db->data['TeamName']));
+                $d = sqldate_to_string($db->data['date']);
+                $v = htmlentities(stripslashes($db->data['ground']));
+                $vl = htmlentities(stripslashes($db->data['venue']));
     if($x % 2) {
       echo "<tr class=\"trrow1\">\n";
     } else {
@@ -522,7 +522,7 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 for ($x=0; $x<$db->rows; $x++) {
                     $db->GetRow($x);
                     $db->BagAndTag();
-                    $id = $db->data[TeamID];
+                    $id = $db->data['TeamID'];
                     // output article
 
                 echo "    <option value=\"$PHP_SELF?schedule=$schedule&team=$id&ccl_mode=2\">" . $db->data['TeamAbbrev'] . "</option>\n";
@@ -559,10 +559,10 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
                 for ($x=0; $x<$db->rows; $x++) {
                     $db->GetRow($x);
                     $db->BagAndTag();
-                    $week = $db->data[week];
+                    $week = $db->data['week'];
                     // output article
 
-                echo "    <option value=\"$PHP_SELF?schedule=$schedule&week=$week&ccl_mode=3\">Week " . $db->data[week] . "</option>\n";
+                echo "    <option value=\"$PHP_SELF?schedule=$schedule&week=$week&ccl_mode=3\">Week " . $db->data['week'] . "</option>\n";
                 }
         }
                 echo "    </select></p>\n";

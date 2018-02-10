@@ -20,9 +20,9 @@ function sqldate_to_string($t="",$short=0)
 	else $months = array(
 		"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
 		);
-	if (ereg("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$t,$args))
+	if (preg_match("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})^",$t,$args))
 		return sprintf("%s %d, %s",$months[$args[2]-1],$args[3],$args[1]);
-	else if (ereg("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})",$t,$args))
+	else if (preg_match("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})^",$t,$args))
 		return sprintf("%s %d, %s",$months[$args[2]-1],$args[3],$args[1]);
 	else return $t;
 }
@@ -59,7 +59,7 @@ function show_short_story($num=1,$ctry="us",$div="R",$len=210)
 	$story .= "...";
 	
 	// now build up for html output
-	$story = eregi_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",nl2br(htmlentities($story)));
+	$story = preg_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",nl2br(htmlentities($story)));
 	$story = "<p><span class=\"story$num\">$header[0]</span></p><div class=\"stdtext\">" . $story . "</div>";
 	$story .= "<p><a href=\"stories.php?num=$num&div=$div&ctry=$ctry\">click here for full story</a></p>";
 
@@ -83,7 +83,7 @@ function show_full_story($num=1,$ctry="us",$div="R")
 	}
 	
 	// now build up for html output
-	$story = eregi_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",nl2br(htmlentities($story)));
+	$story = preg_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",nl2br(htmlentities($story)));
 	// process any special tags
 	$story = preg_replace("/\[link=(\S+?)\](.*?)\[\/link\]/Uis", "<a href=\"\\1\" class=\"12px\">\\2</a>",$story);
 	$story = preg_replace("/\[img=(\S+?)\](.*?)\[\/img\]/Uis", "<img src=\"\\1\" align=\"left\">",$story);

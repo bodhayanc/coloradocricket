@@ -152,7 +152,7 @@ function show_main_menu_season($db,$season,$sename)
 					$t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
 					$um = htmlentities(stripslashes($teams[$db->data[umpires]]));
 					$tn = htmlentities(stripslashes($db->data['teamname']));
-					$da = htmlentities(stripslashes($db->data[formatted_date]));
+					$da = htmlentities(stripslashes($db->data['formatted_date']));
 					$ve = htmlentities(stripslashes($db->data[ground]));
 					$u1 = htmlentities(stripslashes($db->data[Ump1Abbrev]));
 					$u2 = htmlentities(stripslashes($db->data[Ump2Abbrev]));

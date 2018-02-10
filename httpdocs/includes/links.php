@@ -29,7 +29,7 @@
 	  //"shop" => array("shop","Shop"),
 	  "sponsors" => array("sponsors.php","Sponsors"),
 //	  "cal" => array("calendar","Calendar"),
-          "cal" => array("calendar.php","Calendar"),
+      "Calendar" => array("calendar.php","Calendar"),
 
 	  "ScheduleAndResults" => array("","SCHEDULE & RESULTS"),
 	  "schedule" => array("schedule.php?schedule=72&ccl_mode=1","League Schedule"),

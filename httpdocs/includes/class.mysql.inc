@@ -184,7 +184,7 @@ class mysql_class{
 	# strip them yourself. Handy if you use page titles as primary keys
 	# or for other types of matches.
 	function StripRowSlashes(){
-		if ($this->data) {
+		if (isset($this->data)) {
 			foreach($this->data as $key => $val){
 				$this->data[$key] = stripslashes($val);
 			}
@@ -236,7 +236,7 @@ class mysql_class{
 			if ($field=="") {
 				foreach($this->data as $key => $val) {
 					$val = htmlentities($val);
-					$val = eregi_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",$val);
+					$val = preg_replace("~[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}~", "<a href=\"mailto:\\0\">\\0</a>",$val);
 					$val = preg_replace("/\[link=(\S+?)\](.*?)\[\/link\]/is", "<a href=\"\\1\" class=\"news\">\\2</a>",$val);
 					$val = preg_replace("/\[img=(\S+?)\]/is", "<img src=\"\\1\">",$val);					
 					$val = preg_replace("/\[i\](.*?)\[\/i\]/is", "<i>\\1</i>",$val);
@@ -246,12 +246,12 @@ class mysql_class{
 					$val = preg_replace("/\[tr\](.*?)\[\/tr\]/is", "<tr>\\1</tr>",$val);
 					$val = preg_replace("/\[td\](.*?)\[\/td\]/is", "<td valign=\"top\">\\1</td>",$val);
 					$val = preg_replace("/\[pre\](.*?)\[\/pre\]/is", "<pre>\\1</pre>",$val);
-					$val = eregi_replace("\[list\]","<li type=\"square\">",$val);
+					$val = preg_replace("[list]","<li type=\"square\">",$val);
 					$this->data[$key] = nl2br($val);
 				}
 			} else {
 				$val = htmlentities($this->data[$field]);
-				$val = eregi_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",$val);
+				$val = preg_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",$val);
 				$val = preg_replace("/\[link=(\S+?)\](.*?)\[\/link\]/is", "<a href=\"\\1\" class=\"news\">\\2</a>",$val);
 				$val = preg_replace("/\[img=(\S+?)\]/is", "<img src=\"\\1\">",$val);					
 				$val = preg_replace("/\[i\](.*?)\[\/i\]/is", "<i>\\1</i>",$val);
@@ -261,7 +261,7 @@ class mysql_class{
 				$val = preg_replace("/\[tr\](.*?)\[\/tr\]/is", "<tr>\\1</tr>",$val);
 				$val = preg_replace("/\[td\](.*?)\[\/td\]/is", "<td valign=\"top\">\\1</td>",$val);				
 				$val = preg_replace("/\[pre\](.*?)\[\/pre\]/is", "<pre>\\1</pre>",$val);
-				$val = eregi_replace("\[list\]","<li type=\"square\">",$val);
+				$val = preg_replace("\[list\]","<li type=\"square\">",$val);
 				$this->data[$field] = nl2br($val);
 			}
 		}	
@@ -272,9 +272,9 @@ class mysql_class{
 			if ($field=="") {
 				foreach($this->data as $key => $val) {
 					$val = htmlentities($val);
-					$val = eregi_replace("\\[link=([^\\[]*)\\]","",$val);
+					$val = preg_replace("[link=([^\\[]*)]","",$val);
 					$val = str_replace("[/link]","",$val);
-					$val = eregi_replace("\\[img=([^\\[]*)\\]","",$val);
+					$val = preg_replace("[img=([^\\[]*)]","",$val);
 					$val = str_replace("[/img]","",$val);					
 					$val = str_replace("[i]","",$val);
 					$val = str_replace("[/i]","",$val);
@@ -286,9 +286,9 @@ class mysql_class{
 			} else {
 				$val = htmlentities($this->data[$field]);
 				$val = htmlentities($val);
-				$val = eregi_replace("\\[link=([^\\[]*)\\]","",$val);
+				$val = preg_replace("[link=([^\\[]*)]","",$val);
 				$val = str_replace("[/link]","",$val);
-				$val = eregi_replace("\\[img=([^\\[]*)\\]","",$val);
+				$val = preg_replace("[img=([^\\[]*)]","",$val);
 				$val = str_replace("[/img]","",$val);				
 				$val = str_replace("[i]","",$val);
 				$val = str_replace("[/i]","",$val);

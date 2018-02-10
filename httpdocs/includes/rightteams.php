@@ -28,7 +28,7 @@
 		$db->Query("SELECT * FROM teams WHERE (LeagueID=1 OR LeagueID=4) AND TeamActive=1 ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"teamdetails.php?teams=" . $db->data[TeamID] . "&ccl_mode=1\">" . $db->data['TeamAbbrev'] . "</option>\n";
+			echo "<option value=\"teamdetails.php?teams=" . $db->data['TeamID'] . "&ccl_mode=1\">" . $db->data['TeamAbbrev'] . "</option>\n";
 		}
 	}
 	echo "</select></p>\n";
@@ -49,8 +49,8 @@
         $db->Query("
 	SELECT
 	  s.*,
-	  a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-	  h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev,
+	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
 	  DATE_FORMAT(s.game_date, '%b %e') as formatted_date
 	FROM
 	  scorecard_game_details s
@@ -84,24 +84,20 @@
         	for ($c = 0; $c < $db->rows; $c++) {
                 $db->GetRow($c);
                 
-		$t1 = $db->data[HomeAbbrev];
-		$t2 = $db->data[AwayAbbrev];
-		$um = $db->data[UmpireAbbrev];
-		$t1id = $db->data[HomeID];
-		$t2id = $db->data[AwayID];
-		$umid = $db->data[UmpireID];
-		$d = $db->data[formatted_date];
-		$sc =  $db->data[scorecard];
-		$re = $db->data[result];
+		$t1 = $db->data['homeabbrev'];
+		$t2 = $db->data['awayabbrev'];
+		$t1id = $db->data['homeid'];
+		$t2id = $db->data['awayid'];
+		$d = $db->data['formatted_date'];
+		$re = $db->data['result'];
 		$id = $db->data['game_id'];
-		$wk = $db->data[week];
+		$wk = $db->data['week'];
 		$ti = $db->data['tied'];
-		$fo = $db->data[forfeit];
-		$ca = $db->data[cancelled];
-		$cp = $db->data[cancelledplay];
-		$rwi = $db->data[result_won_id];
+		$fo = $db->data['forfeit'];
+		$ca = $db->data['cancelled'];
+		$rwi = $db->data['result_won_id'];
 		
-		if($ca == '1' || $cp == '1') {
+		if($ca == '1') {
 		  $wl = "C";
 		} else if($ti == '1') {
 		  $wl = "T";
@@ -135,8 +131,8 @@
         $db->Query("
 	SELECT
 	  s.*,
-	  a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-	  h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev,
+	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
 	  DATE_FORMAT(s.game_date, '%b %e') as formatted_date
 	FROM
 	  scorecard_game_details s
@@ -169,24 +165,20 @@
         	for ($c = 0; $c < $db->rows; $c++) {
                 $db->GetRow($c);
                 
-		$t1 = $db->data[HomeAbbrev];
-		$t2 = $db->data[AwayAbbrev];
-		$um = $db->data[UmpireAbbrev];
-		$t1id = $db->data[HomeID];
-		$t2id = $db->data[AwayID];
-		$umid = $db->data[UmpireID];
-		$d = $db->data[formatted_date];
-		$sc =  $db->data[scorecard];
-		$re = $db->data[result];
+		$t1 = $db->data['homeabbrev'];
+		$t2 = $db->data['awayabbrev'];
+		$t1id = $db->data['homeid'];
+		$t2id = $db->data['awayid'];
+		$d = $db->data['formatted_date'];
+		$re = $db->data['result'];
 		$id = $db->data['game_id'];
-		$wk = $db->data[week];
+		$wk = $db->data['week'];
 		$ti = $db->data['tied'];
-		$fo = $db->data[forfeit];
-		$ca = $db->data[cancelled];
-		$cp = $db->data[cancelledplay];
-		$rwi = $db->data[result_won_id];
+		$fo = $db->data['forfeit'];
+		$ca = $db->data['cancelled'];
+		$rwi = $db->data['result_won_id'];
 		
-		if($ca == '1' || $cp == '1') {
+		if($ca == '1') {
 		  $wl = "C";
 		} else if($ti == '1') {
 		  $wl = "T";
@@ -234,8 +226,8 @@
         $db->Query("
 	SELECT
 	  s.*,
-	  a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-	  h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev,
+	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
 	  DATE_FORMAT(s.game_date, '%b %e') as formatted_date
 	FROM
 	  scorecard_game_details s
@@ -266,24 +258,20 @@
 	for ($c = 0; $c < $db->rows; $c++) {
 		$db->GetRow($c);
                 
-		$t1 = $db->data[HomeAbbrev];
-		$t2 = $db->data[AwayAbbrev];
-		$um = $db->data[UmpireAbbrev];
-		$t1id = $db->data[HomeID];
-		$t2id = $db->data[AwayID];
-		$umid = $db->data[UmpireID];
-		$d = $db->data[formatted_date];
-		$sc =  $db->data[scorecard];
-		$re = $db->data[result];
+		$t1 = $db->data['homeabbrev'];
+		$t2 = $db->data['awayabbrev'];
+		$t1id = $db->data['homeid'];
+		$t2id = $db->data['awayid'];
+		$d = $db->data['formatted_date'];
+		$re = $db->data['result'];
 		$id = $db->data['game_id'];
-		$wk = $db->data[week];
+		$wk = $db->data['week'];
 		$ti = $db->data['tied'];
-		$fo = $db->data[forfeit];
-		$ca = $db->data[cancelled];
-		$cp = $db->data[cancelledplay];
-		$rwi = $db->data[result_won_id];
+		$fo = $db->data['forfeit'];
+		$ca = $db->data['cancelled'];
+		$rwi = $db->data['result_won_id'];
 		
-		if($ca == '1' || $cp == '1') {
+		if($ca == '1') {
 		  $wl = "C";
 		} else if($ti == '1') {
 		  $wl = "T";
@@ -317,8 +305,8 @@
         $db->Query("
 	SELECT
 	  s.*,
-	  a.TeamID AS AwayID, a.TeamName AS AwayName, a.TeamAbbrev AS AwayAbbrev,
-	  h.TeamID AS HomeID, h.TeamName AS HomeName, h.TeamAbbrev AS HomeAbbrev,
+	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
 	  DATE_FORMAT(s.game_date, '%b %e') as formatted_date
 	FROM
 	  scorecard_game_details s
@@ -348,24 +336,20 @@
 	for ($c = 0; $c < $db->rows; $c++) {
 		$db->GetRow($c);
                 
-		$t1 = $db->data[HomeAbbrev];
-		$t2 = $db->data[AwayAbbrev];
-		$um = $db->data[UmpireAbbrev];
-		$t1id = $db->data[HomeID];
-		$t2id = $db->data[AwayID];
-		$umid = $db->data[UmpireID];
-		$d = $db->data[formatted_date];
-		$sc =  $db->data[scorecard];
-		$re = $db->data[result];
+		$t1 = $db->data['homeabbrev'];
+		$t2 = $db->data['awayabbrev'];
+		$t1id = $db->data['homeid'];
+		$t2id = $db->data['awayid'];
+		$d = $db->data['formatted_date'];
+		$re = $db->data['result'];
 		$id = $db->data['game_id'];
-		$wk = $db->data[week];
+		$wk = $db->data['week'];
 		$ti = $db->data['tied'];
-		$fo = $db->data[forfeit];
-		$ca = $db->data[cancelled];
-		$cp = $db->data[cancelledplay];
-		$rwi = $db->data[result_won_id];
+		$fo = $db->data['forfeit'];
+		$ca = $db->data['cancelled'];
+		$rwi = $db->data['result_won_id'];
 		
-		if($ca == '1' || $cp == '1') {
+		if($ca == '1') {
 		  $wl = "C";
 		} else if($ti == '1') {
 		  $wl = "T";
@@ -413,7 +397,7 @@
     
 	$db->Query("
 	SELECT
-	  lad. * , tm.TeamAbbrev AS teamname, tm.TeamID as tid
+	  lad. * , tm.TeamAbbrev AS TeamName, tm.TeamID as tid
 	FROM
 	  ladder lad
 	INNER JOIN
@@ -447,15 +431,15 @@
                 $db->GetRow($l);
                 
 		$tid = $db->data['tid'];
-		$te = htmlentities(stripslashes($db->data['teamname']));
+		$te = htmlentities(stripslashes($db->data['TeamName']));
 		$pl = htmlentities(stripslashes($db->data['played']));
 		$wo = htmlentities(stripslashes($db->data['won']));
 		$lo = htmlentities(stripslashes($db->data['lost']));
 		$ti = htmlentities(stripslashes($db->data['tied']));
 		$nr = htmlentities(stripslashes($db->data['nrr']));
 		$pt = htmlentities(stripslashes($db->data['points']));
-		$pe = htmlentities(stripslashes($db->data[penalty]));
-		$tp = htmlentities(stripslashes($db->data[totalpoints]));
+		$pe = htmlentities(stripslashes($db->data['penalty']));
+		$tp = htmlentities(stripslashes($db->data['totalpoints']));
 		
 
 		if($l % 2) {
@@ -498,7 +482,7 @@
     
 	$db->Query("
 	SELECT
-	  lad. * , tm.TeamAbbrev AS teamname, tm.TeamID as tid
+	  lad. * , tm.TeamAbbrev AS TeamName, tm.TeamID as tid
 	FROM
 	  ladder lad
 	INNER JOIN
@@ -532,15 +516,15 @@
                 $db->GetRow($l);
                 
 		$tid = $db->data['tid'];
-		$te = htmlentities(stripslashes($db->data['teamname']));
+		$te = htmlentities(stripslashes($db->data['TeamName']));
 		$pl = htmlentities(stripslashes($db->data['played']));
 		$wo = htmlentities(stripslashes($db->data['won']));
 		$lo = htmlentities(stripslashes($db->data['lost']));
 		$ti = htmlentities(stripslashes($db->data['tied']));
 		$nr = htmlentities(stripslashes($db->data['nrr']));
 		$pt = htmlentities(stripslashes($db->data['points']));
-		$pe = htmlentities(stripslashes($db->data[penalty]));
-		$tp = htmlentities(stripslashes($db->data[totalpoints]));
+		$pe = htmlentities(stripslashes($db->data['penalty']));
+		$tp = htmlentities(stripslashes($db->data['totalpoints']));
 		
 
 		if($l % 2) {
@@ -633,19 +617,18 @@
 	echo " <tr class=\"trrow1\">\n";
 	echo "  <td align=\"left\" valign=\"middle\">\n";
         
-                $db->GetRow($b);
+                $db->GetRow(0);
                 
 		$playerid = $db->data['PlayerID'];
-		$init = $db->data[PlayerInitial];
+		$init = $db->data['PlayerInitial'];
 		$fname = $db->data['PlayerFName'];
 		$lname = $db->data['PlayerLName'];
-		$labbr = $db->data[PlayerLAbbrev];
-		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
+		$labbr = $db->data['PlayerLAbbrev'];
+		$scinn = $db->data['Matches'];
+		$scrun = $db->data['Runs'];
 		$pic   = $db->data['picture'];
 		$ss = explode(" ", $db->data['SeasonName']);
 		$ss2 = $ss[1];
-		echo $ss_final_text;
 		
 		if($pic != "") {
 		echo "<img src=\"/uploadphotos/players/$pic\" align=\"left\" border=\"1\" width=\"50\">\n";
@@ -710,13 +693,13 @@
         	for ($b = 0; $b < $db->rows; $b++) {
                 $db->GetRow($b);
                 
-		$playerid = $db->data[player_id];
-		$init = $db->data[PlayerInitial];
+		$playerid = $db->data['player_id'];
+		$init = $db->data['PlayerInitial'];
 		$fname = $db->data['PlayerFName'];
 		$lname = $db->data['PlayerLName'];
-		$labbr = $db->data[PlayerLAbbrev];
-		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
+		$labbr = $db->data['PlayerLAbbrev'];
+		$scinn = $db->data['Matches'];
+		$scrun = $db->data['Runs'];
 
 				if($b % 2) {
 				  echo "<tr class=\"trrow2\">\n";
@@ -777,16 +760,16 @@
 	echo " <tr class=\"trrow1\">\n";
 	echo "  <td align=\"left\" valign=\"middle\">\n";
         
-                $db->GetRow($o);
+                $db->GetRow(0);
                 
 	  	$bplayerid = $db->data['PlayerID'];
-	  	$binit = $db->data[PlayerInitial];
+	  	$binit = $db->data['PlayerInitial'];
 	  	$bfname = $db->data['PlayerFName'];
 	  	$blname = $db->data['PlayerLName'];
-	  	$blabbr = $db->data[PlayerLAbbrev];
-	  	$scmai = $db->data[Maidens];
-	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
+	  	$blabbr = $db->data['PlayerLAbbrev'];
+	  	$scmai = $db->data['Maidens'];
+	  	$scbru = $db->data['BRuns'];
+	  	$scwic = $db->data['Wickets'];
 		$bpic   = $db->data['picture'];
 		
 		if($bpic != "") {
@@ -851,14 +834,14 @@
         	for ($o = 0; $o < $db->rows; $o++) {
                 $db->GetRow($o);
                 
-	  	$playerid = $db->data[player_id];
-	  	$init = $db->data[PlayerInitial];
+	  	$playerid = $db->data['player_id'];
+	  	$init = $db->data['PlayerInitial'];
 	  	$fname = $db->data['PlayerFName'];
 	  	$lname = $db->data['PlayerLName'];
-	  	$labbr = $db->data[PlayerLAbbrev];
-	  	$scmai = $db->data[Maidens];
-	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
+	  	$labbr = $db->data['PlayerLAbbrev'];
+	  	$scmai = $db->data['Maidens'];
+	  	$scbru = $db->data['BRuns'];
+	  	$scwic = $db->data['Wickets'];
 
 				if($o % 2) {
 				  echo "<tr class=\"trrow2\">\n";
@@ -936,16 +919,15 @@
         $db->GetRow(0);
                 
 		$playerid = $db->data['PlayerID'];
-		$init = $db->data[PlayerInitial];
+		$init = $db->data['PlayerInitial'];
 		$fname = $db->data['PlayerFName'];
 		$lname = $db->data['PlayerLName'];
-		$labbr = $db->data[PlayerLAbbrev];
-		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
+		$labbr = $db->data['PlayerLAbbrev'];
+		$scinn = $db->data['Matches'];
+		$scrun = $db->data['Runs'];
 		$pic   = $db->data['picture'];
 		$ss = explode(" ", $db->data['SeasonName']);
 		$ss2 = $ss[1];
-		echo $ss_final_text;
 		
 		if($pic != "") {
 		echo "<img src=\"/uploadphotos/players/$pic\" align=\"left\" border=\"1\" width=\"50\">\n";
@@ -1010,13 +992,13 @@
         	for ($b = 0; $b < $db->rows; $b++) {
                 $db->GetRow($b);
                 
-		$playerid = $db->data[player_id];
-		$init = $db->data[PlayerInitial];
+		$playerid = $db->data['player_id'];
+		$init = $db->data['PlayerInitial'];
 		$fname = $db->data['PlayerFName'];
 		$lname = $db->data['PlayerLName'];
-		$labbr = $db->data[PlayerLAbbrev];
-		$scinn = $db->data[Matches];
-		$scrun = $db->data['runs'];
+		$labbr = $db->data['PlayerLAbbrev'];
+		$scinn = $db->data['Matches'];
+		$scrun = $db->data['Runs'];
 
 				if($b % 2) {
 				  echo "<tr class=\"trrow2\">\n";
@@ -1080,13 +1062,13 @@
                 $db->GetRow(0);
                 
 	  	$bplayerid = $db->data['PlayerID'];
-	  	$binit = $db->data[PlayerInitial];
+	  	$binit = $db->data['PlayerInitial'];
 	  	$bfname = $db->data['PlayerFName'];
 	  	$blname = $db->data['PlayerLName'];
-	  	$blabbr = $db->data[PlayerLAbbrev];
-	  	$scmai = $db->data[Maidens];
-	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
+	  	$blabbr = $db->data['PlayerLAbbrev'];
+	  	$scmai = $db->data['Maidens'];
+	  	$scbru = $db->data['BRuns'];
+	  	$scwic = $db->data['Wickets'];
 		$bpic   = $db->data['picture'];
 		
 		if($bpic != "") {
@@ -1151,14 +1133,14 @@
         	for ($o = 0; $o < $db->rows; $o++) {
                 $db->GetRow($o);
                 
-	  	$playerid = $db->data[player_id];
-	  	$init = $db->data[PlayerInitial];
+	  	$playerid = $db->data['player_id'];
+	  	$init = $db->data['PlayerInitial'];
 	  	$fname = $db->data['PlayerFName'];
 	  	$lname = $db->data['PlayerLName'];
-	  	$labbr = $db->data[PlayerLAbbrev];
-	  	$scmai = $db->data[Maidens];
-	  	$scbru = $db->data[BRuns];
-	  	$scwic = $db->data['wickets'];
+	  	$labbr = $db->data['PlayerLAbbrev'];
+	  	$scmai = $db->data['Maidens'];
+	  	$scbru = $db->data['BRuns'];
+	  	$scwic = $db->data['Wickets'];
 
 				if($o % 2) {
 				  echo "<tr class=\"trrow2\">\n";

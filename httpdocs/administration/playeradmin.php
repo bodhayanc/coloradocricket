@@ -233,7 +233,7 @@ function show_search_menu($db,$search="")
 
 		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
 		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
-		if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
+		if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
 		echo "    </td>\n";
 		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
 		<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
@@ -455,7 +455,7 @@ function show_byletter_menu($db,$letter)
 
 		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
 		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
-		if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
+		if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
 		if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 		echo "    </td>\n";
 		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
@@ -655,7 +655,7 @@ function show_byteam_menu($db,$team,$teamname)
 
 			echo "	<td align=\"left\">$pln, $pfn";
 			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
-			if ($db->data[picture1] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">";
+			if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">";
 			if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 			
 			if ($db->data[IsPresident] != 0) echo "&nbsp;<font color=\"green\"><b>President</b></font>\n";
@@ -926,7 +926,7 @@ function edit_category_form($db,$id)
 
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-	$pem = htmlentities(stripslashes($db->data[PlayerEmail]));
+	$pem = htmlentities(stripslashes($db->data['PlayerEmail']));
 	$spr = htmlentities(stripslashes($db->data[shortprofile]));
 
 	$ump = $db->data[IsUmpire];
@@ -1063,9 +1063,9 @@ function edit_category_form($db,$id)
 	echo "<li>only GIF and JPG files only please.</ul></p>\n";
 	echo "<br><input type=\"file\" name=\"userpic\" size=\"40\"></p>\n";
 
-	if ($db->data[picture1]) {
+	if ($db->data['picture1']) {
 		echo "<p>current player action photo</p>\n";
-		echo "<p><img src=\"../uploadphotos/players/action/" . $db->data[picture1] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/players/action/" . $db->data['picture1'] . "\"></p>\n";
 		echo "<p>upload a player action photo (if you want to change the current one)";
 	} else {
 		echo "<p>upload a player action photo";

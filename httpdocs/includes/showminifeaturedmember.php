@@ -35,13 +35,13 @@ function show_minifeaturedmember($db,$len=100)
 		// get short version of story
 		$story = "";
 		if ($story != "" && strlen($story)>$len) {
-			$story = substr($db->data[FeaturedDetail],0,$len);
+			$story = substr($db->data['FeaturedDetail'],0,$len);
 			while($story[strlen($story)-1] != " ") {
 				$story = substr($story,0,-1);
 			}
 			$story = substr($story,0,-1);
 		} else {
-			$story = substr($db->data[FeaturedDetail],0,$len);
+			$story = substr($db->data['FeaturedDetail'],0,$len);
 		}
 
 		$story .= "...";
@@ -52,9 +52,9 @@ function show_minifeaturedmember($db,$len=100)
 		$pfn = $db->data['PlayerFName'];
 		$pln = $db->data['PlayerLName'];
 		$pic = $db->data['picture'];
-		$tna = $db->data['teamname'];
+		$tna = $db->data['TeamName'];
 		$tab = $db->data['TeamAbbrev'];
-		$fid = $db->data[FeaturedID];
+		$fid = $db->data['FeaturedID'];
 
 		// output story, show the image, if no image show the title
 

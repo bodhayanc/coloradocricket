@@ -74,7 +74,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+            echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
         }
     }
     echo "</select></p>\n";

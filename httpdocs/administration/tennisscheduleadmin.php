@@ -80,7 +80,7 @@ function show_main_menu_season($db,$season,$sename)
                 $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
             echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
@@ -138,9 +138,9 @@ function show_main_menu_season($db,$season,$sename)
                     $t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
                     $t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
                     $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
-                    $tn = htmlentities(stripslashes($db->data['teamname']));
-                    $da = htmlentities(stripslashes($db->data[formatted_date]));
-                    $ve = htmlentities(stripslashes($db->data[ground]));
+                    $tn = htmlentities(stripslashes($db->data['TeamName']));
+                    $da = htmlentities(stripslashes($db->data['formatted_date']));
+                    $ve = htmlentities(stripslashes($db->data['ground']));
 
 
                     if($x % 2) {
@@ -202,7 +202,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+            echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
         }
     }
 
@@ -215,7 +215,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+            echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
         }
     }
         echo "</select></p>\n";
@@ -227,7 +227,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+            echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
         }
     }
 
@@ -241,7 +241,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM grounds ORDER BY GroundID");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[GroundID] . "\">" . $db->data[GroundName] . "</option>\n";
+            echo "<option value=\"" . $db->data['GroundID'] . "\">" . $db->data['GroundName'] . "</option>\n";
         }
     }
         echo "</select></p>\n";
@@ -301,21 +301,21 @@ function delete_category_check($db,$id)
     $db->Query("SELECT * FROM tennisteams ORDER BY TeamName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
 
     $db->Query("SELECT * FROM grounds ORDER BY GroundName");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $grounds[$db->data[GroundID]] = $db->data[GroundName];
+        $grounds[$db->data['GroundID']] = $db->data['GroundName'];
     }
 
     $db->QueryItem("SELECT * FROM tennisschedule WHERE id=$id");
 
-    $date = sqldate_to_string($db->data[date]);
+    $date = sqldate_to_string($db->data['date']);
     $t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
     $t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
-    $ve = htmlentities(stripslashes($grounds[$db->data[venue]]));
+    $ve = htmlentities(stripslashes($grounds[$db->data['venue']]));
 
     echo "<p>Are you sure you wish to delete the following scheduled game:</p>\n";
     echo "<p><b>$date</b></p>\n";
@@ -353,7 +353,7 @@ function edit_category_form($db,$id)
     for ($t=0; $t<$db->rows; $t++) {
         $db->GetRow($t);
         $db->BagAndTag();
-        $teams[$db->data[TeamID]] = $db->data['teamname'];
+        $teams[$db->data['TeamID']] = $db->data['TeamName'];
         $teams2 = $teams;
         $umpires = $teams;
     }
@@ -363,22 +363,22 @@ function edit_category_form($db,$id)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $db->BagAndTag();
-        $grounds[$db->data[GroundID]] = $db->data[GroundName];
+        $grounds[$db->data['GroundID']] = $db->data['GroundName'];
     }
     
     // get article details
 
     $db->QueryRow("SELECT * FROM tennisschedule WHERE id=$id");
 
-    $se = stripslashes($db->data[season]);
-    $we = stripslashes($db->data[week]);
-    $da = stripslashes($db->data[date]);
+    $se = stripslashes($db->data['season']);
+    $we = stripslashes($db->data['week']);
+    $da = stripslashes($db->data['date']);
     $ti = stripslashes($db->data[time]);
     $t1 = stripslashes($db->data[awayteam]);
     $t2 = stripslashes($db->data[hometeam]);
-    $ve = stripslashes($db->data[venue]);
+    $ve = stripslashes($db->data['venue']);
     $um = stripslashes($db->data[umpires]);
-    $re = stripslashes($db->data[result]);
+    $re = stripslashes($db->data['result']);
 
     echo "<p>Edit the scheduled game.</p>\n";
 
@@ -397,7 +397,7 @@ function edit_category_form($db,$id)
         echo "  <option value=\"\">--------------------------</option>\n";
 
         foreach ($seasons as $k => $v) {
-          echo "<option value=\"$k\"" . ($k==$db->data[season]?" selected":"") . ">" . $v . "</option>\n";
+          echo "<option value=\"$k\"" . ($k==$db->data['season']?" selected":"") . ">" . $v . "</option>\n";
         }
         echo "</select></p>\n";
 
@@ -441,7 +441,7 @@ function edit_category_form($db,$id)
         echo "  <option value=\"\">--------------------------</option>\n";
 
         foreach ($grounds as $k => $v) {
-          echo "<option value=\"$k\"" . ($k==$db->data[venue]?" selected":"") . ">" . $v . "</option>\n";
+          echo "<option value=\"$k\"" . ($k==$db->data['venue']?" selected":"") . ">" . $v . "</option>\n";
         }
         echo "</select></p>\n";
 

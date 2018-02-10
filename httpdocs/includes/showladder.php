@@ -48,7 +48,7 @@ function show_ladder_listing($db,$s,$id,$pr)
         $db->BagAndTag();
 
         $sen = $db->data['SeasonName'];
-        $sid = $db->data[season];
+        $sid = $db->data['season'];
         
         echo "    <option value=\"$PHP_SELF?ladder=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
 
@@ -144,7 +144,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
             $db->GetRow($x);
             $db->BagAndTag();
             $sen = $db->data['SeasonName'];
-            $sid = $db->data[season];
+            $sid = $db->data['season'];
         
         echo "    <option value=\"$PHP_SELF?ladder=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
         
@@ -213,15 +213,15 @@ function show_ladder($db,$s,$id,$pr,$ladder)
                 $db->GetRow($x);
 
                     $tid = $db->data['tid'];
-                    $te = htmlentities(stripslashes($db->data['teamname']));
+                    $te = htmlentities(stripslashes($db->data['TeamName']));
                     $pl = htmlentities(stripslashes($db->data['played']));
                     $wo = htmlentities(stripslashes($db->data['won']));
                     $lo = htmlentities(stripslashes($db->data['lost']));
                     $ti = htmlentities(stripslashes($db->data['tied']));
                     $nr = htmlentities(stripslashes($db->data['nrr']));
                     $pt = htmlentities(stripslashes($db->data['points']));
-                    $pe = htmlentities(stripslashes($db->data[penalty]));
-                    $tp = htmlentities(stripslashes($db->data[totalpoints]));
+                    $pe = htmlentities(stripslashes($db->data['penalty']));
+                    $tp = htmlentities(stripslashes($db->data['totalpoints']));
                                         if ($pl == 0){
                                         $av = 0;
                                         }else {
@@ -293,7 +293,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
             for ($r=0; $r<$db->rows; $r++) {
             $db->GetRow($r);
 
-            $tid = $db->data[TeamID];
+            $tid = $db->data['TeamID'];
             $te  = $db->data['TeamAbbrev'];
             
         // Get Home Games

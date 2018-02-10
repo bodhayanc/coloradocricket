@@ -32,7 +32,7 @@ function show_mini_ads($db)
 
 				$pid = $db->data['id'];
 				$tit = $db->data['title'];
-				$pri = $db->data[price];
+				$pri = $db->data['price'];
 
 				
 
@@ -43,18 +43,10 @@ function show_mini_ads($db)
 			  echo "<tr bgcolor=\"#EEEFEF\">\n";
 			}
 
-			if($pun != "") {
-			  $postuser = $pun;
-			} else {
-			  $postuser = "Anonymous";
-			}
-
-			if($una == "Anonymous") {
-			  $user = $postuser;
-			} else {
-			  $user = $una;
-			}
-
+			$postuser = "Anonymous";
+			
+			$user = $postuser;
+			
 			if($tit == "") {
 			  $subject = "No Title";
 			} else {

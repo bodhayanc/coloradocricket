@@ -17,7 +17,7 @@ function show_umpires_rating($db)
     //$db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamAbbrev");
     //for ($i=0; $i<$db->rows; $i++) {
     //    $db->GetRow($i);
-    //    $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+    //    $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     //}
         
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -54,12 +54,12 @@ function show_umpires_rating($db)
 
     //$db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamID");
     //$db->GetRow($i-1);
-    //$teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
-    //$teams_id[$i] = $db->data[TeamID];
+    //$teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
+    //$teams_id[$i] = $db->data['TeamID'];
     
 
     //echo "<tr class=\"colhead\">\n";
-    //echo "    <td width=\"100%\"><b>" . htmlentities(stripslashes($teams[$db->data[TeamID]])) . "</b></td>\n";
+    //echo "    <td width=\"100%\"><b>" . htmlentities(stripslashes($teams[$db->data['TeamID']])) . "</b></td>\n";
     //echo "  </tr>\n";
 
     //if (!$db->Exists("SELECT te.TeamID, te.TeamAbbrev, te.TeamName, pl.* FROM players pl INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE pl.isumpire=1 AND te.TeamActive=1 AND pl.PlayerTeam=$teams_id[$i] ORDER BY pl.PlayerLName")) {

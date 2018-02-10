@@ -218,7 +218,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
                 $db->GetRow($x);
 
                 $tid = $db->data['tid'];
-                $te = htmlentities(stripslashes($db->data['teamname']));
+                $te = htmlentities(stripslashes($db->data['TeamName']));
                 $pl = htmlentities(stripslashes($db->data['played']));
                 $wo = htmlentities(stripslashes($db->data['won']));
                 $lo = htmlentities(stripslashes($db->data['lost']));
@@ -226,7 +226,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
                 $nr = htmlentities(stripslashes($db->data['nrr']));
                 $pt = htmlentities(stripslashes($db->data['points']));
                 $pe = htmlentities(stripslashes($db->data[netrunrate]));
-                $tp = htmlentities(stripslashes($db->data[totalpoints]));
+                $tp = htmlentities(stripslashes($db->data['totalpoints']));
 
             
             echo '<tr class="trrow', ($x % 2 ? '2' : '1'), '">';

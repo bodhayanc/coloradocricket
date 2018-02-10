@@ -265,12 +265,12 @@ function edit_photo_form($db,$id)
 		echo "<li>only GIF and JPG files only please.\n";
 		echo "</ul>\n";
 
-		if ($db->data[picture1]) {
+		if ($db->data['picture1']) {
 			echo "<p>current thumbnail</p>\n";
 
 			// point to your photos directory
 
-			echo "<p><img src=\"../uploadphotos/" . $db->data[picture1] . "\"></p>\n";
+			echo "<p><img src=\"../uploadphotos/" . $db->data['picture1'] . "\"></p>\n";
 			echo "<p>upload a thumbnail (if you want to change the current one)";
 		} else {
 			echo "<p>upload a thumbnail";

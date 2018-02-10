@@ -65,15 +65,15 @@ function show_miniladdertwenty($db,$s,$id,$pr,$ladder)
 				$db->GetRow($x);
 
 					$tid = $db->data['tid'];
-					$te = htmlentities(stripslashes($db->data['teamname']));
+					$te = htmlentities(stripslashes($db->data['TeamName']));
 					$pl = htmlentities(stripslashes($db->data['played']));
 					$wo = htmlentities(stripslashes($db->data['won']));
 					$lo = htmlentities(stripslashes($db->data['lost']));
 					$ti = htmlentities(stripslashes($db->data['tied']));
 					$nr = htmlentities(stripslashes($db->data['nrr']));
 					$pt = htmlentities(stripslashes($db->data['points']));
-					$pe = htmlentities(stripslashes($db->data[penalty]));
-					$tp = htmlentities(stripslashes($db->data[totalpoints]));
+					$pe = htmlentities(stripslashes($db->data['penalty']));
+					$tp = htmlentities(stripslashes($db->data['totalpoints']));
 
 			if($x % 2) {
 			  echo "<tr class=\"trrow1\">\n";

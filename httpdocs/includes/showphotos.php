@@ -105,10 +105,10 @@ function show_thumbs($db,$gallery,$id)
 
 			// setup the variables
 
-			$p = htmlentities(stripslashes($db->data[picture1]));
+			$p = htmlentities(stripslashes($db->data['picture1']));
 			$t = htmlentities(stripslashes($db->data['title']));
 			$pr = htmlentities(stripslashes($db->data['id']));
-			$da = htmlentities(stripslashes($db->data[date]));
+			$da = htmlentities(stripslashes($db->data['date']));
 
 			if ($cnt==$across) {
 				echo "</tr>\n";
@@ -120,7 +120,7 @@ function show_thumbs($db,$gallery,$id)
 				$intr = 1;
 			}
 
-			echo "<td valign=\"top\"><div align=\"center\"><a href=\"$PHP_SELF?gallery=$gallery&id=$pr&mode=2\"><img border=\"2\" src=\"uploadphotos/" . $db->data[picture1] . "\" style=\"border: 1 solid #3C3C3C\"></a>";
+			echo "<td valign=\"top\"><div align=\"center\"><a href=\"$PHP_SELF?gallery=$gallery&id=$pr&mode=2\"><img border=\"2\" src=\"uploadphotos/" . $db->data['picture1'] . "\" style=\"border: 1 solid #3C3C3C\"></a>";
 			echo "<br>$t<br><font size=\"1\">$da</font></div></td>\n";
 			++$cnt;
 		}
@@ -159,7 +159,7 @@ function show_photos($db,$gallery,$id)
 		$t = htmlentities(stripslashes($db->data['title']));
 		$de = htmlentities(stripslashes($db->data[description]));
 		$l = htmlentities(stripslashes($db->data[location]));
-		$da = htmlentities(stripslashes($db->data[date]));
+		$da = htmlentities(stripslashes($db->data['date']));
 		$g = $db->data[gallery];
 
 		// output photos

@@ -30,18 +30,18 @@ function show_full_players_stats($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pem = $db->data[PlayerEmail];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -218,18 +218,18 @@ function show_breakdown_year($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pem = $db->data[PlayerEmail];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -308,7 +308,7 @@ function show_breakdown_year($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName")) {
     $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $scinn = $db->data[Matches];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     //$schig = $db->data[HS];   
     } else {
@@ -456,12 +456,12 @@ function show_breakdown_year($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName")) {   
     $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $scmai = $db->data[Maidens];
-    $scbru = $db->data[BRuns];
+    $scmai = $db->data['maidens'];
+    $scbru = $db->data['BRuns'];
     $scwic = $db->data['wickets'];
 
 
-    $bnum = $db->data[Balls]; 
+    $bnum = $db->data['balls']; 
     $bovers = Round(($bnum / 6), 2); 
     $bfloor = floor($bovers); 
 
@@ -645,18 +645,18 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pem = $db->data[PlayerEmail];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -705,7 +705,7 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM teams");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -771,7 +771,7 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
               Runs DESC");
 
     $db->BagAndTag();
-    $scinn = $db->data[Matches];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     //$schig = $db->data[HS];   
     } else {
@@ -889,7 +889,7 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM teams");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -919,12 +919,12 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.opponent=$i GROUP BY p.PlayerLName, p.PlayerFName")) { 
     $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.opponent=$i GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $scmai = $db->data[Maidens];
-    $scbru = $db->data[BRuns];
+    $scmai = $db->data['maidens'];
+    $scbru = $db->data['BRuns'];
     $scwic = $db->data['wickets'];
 
 
-    $bnum = $db->data[Balls]; 
+    $bnum = $db->data['balls']; 
     $bovers = Round(($bnum / 6), 2); 
     $bfloor = floor($bovers); 
 
@@ -1108,18 +1108,18 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pem = $db->data[PlayerEmail];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -1168,7 +1168,7 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM grounds");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $grounds[$db->data[GroundID]] = $db->data[GroundName];
+        $grounds[$db->data['GroundID']] = $db->data['GroundName'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -1232,7 +1232,7 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
               p.PlayerLName, p.PlayerFName");
 
     $db->BagAndTag();
-    $scinn = $db->data[Matches];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     //$schig = $db->data[HS];   
     } else {
@@ -1349,7 +1349,7 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM grounds");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $grounds[$db->data[GroundID]] = $db->data[GroundName];
+        $grounds[$db->data['GroundID']] = $db->data['GroundName'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -1379,12 +1379,12 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT SUM(IF(INSTR(b.overs, '.'),((LEFT(b.overs, INSTR(b.overs, '.') - 1) * 6) + RIGHT(b.overs, INSTR(b.overs, '.') - 1)),(b.overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i GROUP BY p.PlayerLName, p.PlayerFName")) {    
     $db->QueryRow("SELECT SUM(IF(INSTR(b.overs, '.'),((LEFT(b.overs, INSTR(b.overs, '.') - 1) * 6) + RIGHT(b.overs, INSTR(b.overs, '.') - 1)),(b.overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $scmai = $db->data[Maidens];
-    $scbru = $db->data[BRuns];
+    $scmai = $db->data['maidens'];
+    $scbru = $db->data['BRuns'];
     $scwic = $db->data['wickets'];
 
 
-    $bnum = $db->data[Balls]; 
+    $bnum = $db->data['balls']; 
     $bovers = Round(($bnum / 6), 2); 
     $bfloor = floor($bovers); 
 
@@ -1570,18 +1570,18 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pem = $db->data[PlayerEmail];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -1692,7 +1692,7 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
               p.PlayerLName, p.PlayerFName");
 
     $db->BagAndTag();
-    $scinn = $db->data[Matches];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     //$schig = $db->data[HS];   
     } else {
@@ -1808,12 +1808,12 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.bowling_position=$i GROUP BY p.PlayerLName, p.PlayerFName")) { 
     $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.bowling_position=$i GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $scmai = $db->data[Maidens];
-    $scbru = $db->data[BRuns];
+    $scmai = $db->data['maidens'];
+    $scbru = $db->data['BRuns'];
     $scwic = $db->data['wickets'];
 
 
-    $bnum = $db->data[Balls]; 
+    $bnum = $db->data['balls']; 
     $bovers = Round(($bnum / 6), 2); 
     $bfloor = floor($bovers); 
 
@@ -2000,18 +2000,18 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pem = $db->data[PlayerEmail];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -2122,7 +2122,7 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
               p.PlayerLName, p.PlayerFName");
 
     $db->BagAndTag();
-    $scinn = $db->data[Matches];
+    $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
     //$schig = $db->data[HS];   
     } else {
@@ -2239,12 +2239,12 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.innings_id=$i GROUP BY p.PlayerLName, p.PlayerFName")) {   
     $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.innings_id=$i GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $scmai = $db->data[Maidens];
-    $scbru = $db->data[BRuns];
+    $scmai = $db->data['maidens'];
+    $scbru = $db->data['BRuns'];
     $scwic = $db->data['wickets'];
 
 
-    $bnum = $db->data[Balls]; 
+    $bnum = $db->data['balls']; 
     $bovers = Round(($bnum / 6), 2); 
     $bfloor = floor($bovers); 
 
@@ -2433,19 +2433,19 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pla = $db->data[PlayerLAbbrev];
-    $pem = $db->data[PlayerEmail];
+    $pla = $db->data['PlayerLAbbrev'];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -2614,21 +2614,21 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
         $dte = sqldate_to_string($db->data['game_date']);
         $dat = $db->data['game_date'];
         $opp = $db->data[OpponentAbbrev];
-        $gro = $db->data[GroundName];
-        $out = $db->data[HowOutAbbrev];
-        $oid = $db->data[HowOutID];
+        $gro = $db->data['GroundName'];
+        $out = $db->data['HowOutAbbrev'];
+        $oid = $db->data['HowOutID'];
         $pln = $db->data['PlayerLName'];
         $pfn = $db->data['PlayerFName'];
-        $pin = $db->data[BatterFInitial];
-        $bln = $db->data[BowlerLName];
-        $bfn = $db->data[BowlerFName];
+        $pin = $db->data['BatterFInitial'];
+        $bln = $db->data['BowlerLName'];
+        $bfn = $db->data['BowlerFName'];
         $ala = $db->data[AssistLAbbrev];
         $bla = $db->data[BowlerLAbbrev];
-        $pla = $db->data[PlayerLAbbrev];
-        $bin = $db->data[BowlerFInitial];
-        $aln = $db->data[AssistLName];
-        $afn = $db->data[AssistFName];
-        $ain = $db->data[AssistFInitial];   
+        $pla = $db->data['PlayerLAbbrev'];
+        $bin = $db->data['BowlerFInitial'];
+        $aln = $db->data['AssistLName'];
+        $afn = $db->data['AssistFName'];
+        $ain = $db->data['AssistFInitial'];   
         $run = $db->data['runs'];
         $not = $db->data[notout];
         
@@ -2725,7 +2725,7 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
     	$j = 0;
     	$dbb->GetRow($j);
 	    $ov = $dbb->data['overs'];
-	    $ma = $dbb->data[maidens];
+	    $ma = $dbb->data['maidens'];
 	    $ru = $dbb->data['runs'];
 	    $wi = $dbb->data['wickets'];
    	    $final_bowling = $ov."-".$ma."-".$ru."-".$wi;
@@ -2876,18 +2876,18 @@ function show_breakdown_bowlprogress($db,$s,$id,$pr,$tid)
     $plid = $db->data['PlayerID'];
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
-    $pem = $db->data[PlayerEmail];
+    $pem = $db->data['PlayerEmail'];
     $bor = $db->data[Born];
     $bat = $db->data[BattingStyle];
     $bow = $db->data[BowlingStyle];
     $spr = $db->data[shortprofile];
 
     $pic = $db->data['picture'];
-    $pic1 = $db->data[picture1];
+    $pic1 = $db->data['picture1'];
 
-    $tid = $db->data[TeamID];
-    $tna = $db->data['teamname'];
-    $tco = $db->data[TeamColour];
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
 
     $cid = $db->data[ClubID];
     $cna = $db->data[ClubName];
@@ -2999,22 +2999,22 @@ function show_breakdown_bowlprogress($db,$s,$id,$pr,$tid)
         $dte = sqldate_to_string($db->data['game_date']);
         $dat = $db->data['game_date'];
         $opp = $db->data[OpponentAbbrev];
-        $gro = $db->data[GroundName];
-        $out = $db->data[HowOutAbbrev];
-        $oid = $db->data[HowOutID];
+        $gro = $db->data['GroundName'];
+        $out = $db->data['HowOutAbbrev'];
+        $oid = $db->data['HowOutID'];
         $pln = $db->data['PlayerLName'];
         $pfn = $db->data['PlayerFName'];
-        $pin = $db->data[BatterFInitial];
-        $bln = $db->data[BowlerLName];
-        $bfn = $db->data[BowlerFName];
-        $bin = $db->data[BowlerFInitial];
-        $aln = $db->data[AssistLName];
-        $afn = $db->data[AssistFName];
-        $ain = $db->data[AssistFInitial];   
+        $pin = $db->data['BatterFInitial'];
+        $bln = $db->data['BowlerLName'];
+        $bfn = $db->data['BowlerFName'];
+        $bin = $db->data['BowlerFInitial'];
+        $aln = $db->data['AssistLName'];
+        $afn = $db->data['AssistFName'];
+        $ain = $db->data['AssistFInitial'];   
         $run = $db->data['runs'];
         $not = $db->data[notout];
         $bwi = $db->data[BWickets];
-        $bru = $db->data[BRuns];
+        $bru = $db->data['BRuns'];
         
 
 

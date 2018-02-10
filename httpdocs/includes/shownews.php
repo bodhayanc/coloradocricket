@@ -148,6 +148,6 @@ function show_short_news($db,$s=0,$limit=5,$len=100)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-show_short_news($db,$s,5);
+show_short_news($db,0,5);
 
 ?>

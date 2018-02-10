@@ -40,7 +40,7 @@ function show_minirandommember($db)
 		$pln = $db->data['PlayerLName'];
 		$pic = $db->data['picture'];
 
-		$tna = $db->data['teamname'];
+		$tna = $db->data['TeamName'];
 		$tab = $db->data['TeamAbbrev'];
 		
 		$bat = $db->data[BattingStyle];
