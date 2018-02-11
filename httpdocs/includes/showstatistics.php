@@ -9,7 +9,7 @@
 
 
 
-function show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id)
+function show_statistics_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -137,7 +137,7 @@ function show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id)
 }
 
 
-function show_statistics_byseason($db,$statistics,$id,$pr,$team,$week,$game_id)
+function show_statistics_byseason($db,$statistics)
 {
         global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -294,7 +294,7 @@ function show_statistics_byseason($db,$statistics,$id,$pr,$team,$week,$game_id)
 
 
 
-function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
+function show_statistics_team($db,$statistics,$team)
 {
         global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -461,7 +461,7 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
 	// print_r($db->GetRow(22));
@@ -477,18 +477,18 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
     $lname = $db->data['PlayerLName'];
     $labbr = $db->data['PlayerLAbbrev'];
     $scinn = $db->data['Matches'];
-    $scrun = $db->data['runs'];
+    $scrun = $db->data['Runs'];
 
-    $innings = $db->data[Innings];  
+    $innings = $db->data['Innings'];  
 
-    if($db->data[Notouts] != 0) {
-      $notouts = $db->data[Notouts];
+    if($db->data['Notouts'] != 0) {
+      $notouts = $db->data['Notouts'];
     } else {
       $notouts = "-";
     }
 
-    if($db->data[Average] != "") {
-      $average = $db->data[Average];
+    if($db->data['Average'] != "") {
+      $average = $db->data['Average'];
     } else {
       $average = "-";
     }
@@ -500,8 +500,8 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
       $schun = "-";
     } else {
     $subdb->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.player_id = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND b.runs >= 100");
-    if($subdb->data[Hundred] != "0") {
-      $schun = $subdb->data[Hundred];   
+    if($subdb->data['Hundred'] != "0") {
+      $schun = $subdb->data['Hundred'];   
     } else {
       $schun = "-";
     }
@@ -514,8 +514,8 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
       $scfif = "-";
     } else {
     $subdb->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.player_id = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND (b.runs BETWEEN 50 AND 99)");
-    if($subdb->data[Fifty] != "0") {
-    $scfif = $subdb->data[Fifty];   
+    if($subdb->data['Fifty'] != "0") {
+    $scfif = $subdb->data['Fifty'];   
     } else {
     $scfif = "-";
     }
@@ -527,7 +527,7 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
       $scctc = "0";
     } else {
     $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.assist = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND b.how_out = 4");
-      $scctc = $subdb->data[Caught];    
+      $scctc = $subdb->data['Caught'];    
     }
 
 	
@@ -537,7 +537,7 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
       $sccab = "0";
     } else {
     $subdb->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.bowler = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND b.how_out = 5");
-      $sccab = $subdb->data[CandB]; 
+      $sccab = $subdb->data['CandB']; 
     }
 
     if($scctc + $sccab != "0") {
@@ -552,8 +552,8 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
       $scstu = "-";
     } else {
     $subdb->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.assist = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND b.how_out = 10");
-    if($subdb->data[Stumped] != "0") {
-      $scstu = $subdb->data[Stumped];   
+    if($subdb->data['Stumped'] != "0") {
+      $scstu = $subdb->data['Stumped'];   
     } else {
       $scstu = "-";
     }
@@ -563,8 +563,8 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
     // Get Highest Score
     //* 2016-01-18 10:20pm Had to comment this as it was not displaying the Bowling stats especially for 2015 Twenty20 season.
 	  $subdb->QueryRow("SELECT b.notout, MAX(b.runs) AS HS FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.player_id = $playerid AND s.SeasonName LIKE '%{$statistics}%' GROUP BY b.notout ORDER BY HS DESC LIMIT 1");
-      $schig = $subdb->data[HS];
-	  $scnot = $subdb->data[notout];
+      $schig = $subdb->data['HS'];
+	  $scnot = $subdb->data['notout'];
 	//*/
 	
 	//  echo "$playerid : $schig  : $scnot"; 
@@ -575,8 +575,8 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
 	  $scnot = "";
     } else {
     $subdb->QueryRow("SELECT b.notout, MAX(b.runs) AS HS FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.player_id = $playerid AND s.SeasonName LIKE '%{$statistics}%' GROUP BY b.notout ORDER BY HS DESC LIMIT 1");
-      $schig = $subdb->data[HS];
-	  $scnot = $subdb->data[notout];
+      $schig = $subdb->data['HS'];
+	  $scnot = $subdb->data['notout'];
 	}
 	*/
 
@@ -686,7 +686,7 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
     for ($r=0; $r<$db->rows; $r++) {
@@ -697,11 +697,11 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
       $fname = $db->data['PlayerFName'];
       $lname = $db->data['PlayerLName'];
       $labbr = $db->data['PlayerLAbbrev'];
-      $scmai = $db->data['maidens'];
+      $scmai = $db->data['Maidens'];
       $scbru = $db->data['BRuns'];
-      $scwic = $db->data['wickets'];
+      $scwic = $db->data['Wickets'];
 
-      $bnum = $db->data['balls']; 
+      $bnum = $db->data['Balls']; 
       $bovers = Round(($bnum / 6), 2); 
       $bfloor = floor($bovers); 
 
@@ -724,15 +724,15 @@ function show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id)
         }           
 
     $subdb->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.player_id = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND b.wickets = 4");
-    if($subdb->data[fourwickets] != "0") {
-      $scbfo = $subdb->data[fourwickets];
+    if($subdb->data['fourwickets'] != "0") {
+      $scbfo = $subdb->data['fourwickets'];
     } else {
       $scbfo = "-";
     }
 
     $subdb->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.player_id = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND b.wickets >= 5");
-    if($subdb->data[fivewickets] != "0") {
-      $scbfi = $subdb->data[fivewickets];
+    if($subdb->data['fivewickets'] != "0") {
+      $scbfi = $subdb->data['fivewickets'];
     } else {
       $scbfi = "-";
     }           
@@ -869,7 +869,7 @@ function show_statistics_mostruns($db,$statistics,$sort,$sort2,$option,$team)
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);  
+    $d = sqldate_to_string($db->data['earlydate']);  
     $inc = ''; 
     if(date("Y") == $statistics) {
     	$inc = "Including Knock-Outs.";
@@ -967,7 +967,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
     for ($r=0; $r<$db->rows; $r++) {
@@ -979,21 +979,21 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     $lname = $db->data['PlayerLName'];
     $labbr = $db->data['PlayerLAbbrev'];
     $scinn = $db->data['Matches'];
-    $scrun = $db->data['runs'];
-    //$schig = $db->data[HS];   
+    $scrun = $db->data['Runs'];
+    //$schig = $db->data['HS'];   
     $teama = $db->data['TeamAbbrev'];
     $teamid = $db->data['TeamID'];
 
-    $innings = $db->data[Innings];
+    $innings = $db->data['Innings'];
 
-    if($db->data[Notouts] != 0) {
-      $notouts = $db->data[Notouts];
+    if($db->data['Notouts'] != 0) {
+      $notouts = $db->data['Notouts'];
     } else {
       $notouts = "-";
     }
 
-    if($db->data[Average] != "") {
-      $average = $db->data[Average];
+    if($db->data['Average'] != "") {
+      $average = $db->data['Average'];
     } else {
       $average = "-";
     }
@@ -1004,8 +1004,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND b.runs >= 100");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND b.team=$team AND b.runs >= 100");
     
-    if($subdb->data[Hundred] != "0") {
-      $schun = $subdb->data[Hundred];   
+    if($subdb->data['Hundred'] != "0") {
+      $schun = $subdb->data['Hundred'];   
     } else {
       $schun = "-";
     }
@@ -1016,8 +1016,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND (b.runs BETWEEN 50 AND 99) ");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND b.team=$team AND (b.runs BETWEEN 50 AND 99) ");      
     
-    if($subdb->data[Fifty] != "0") {
-    $scfif = $subdb->data[Fifty];   
+    if($subdb->data['Fifty'] != "0") {
+    $scfif = $subdb->data['Fifty'];   
     } else {
     $scfif = "-";
     }
@@ -1028,7 +1028,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.how_out = 4");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.opponent=$team AND b.how_out = 4");
 
-      $scctc = $subdb->data[Caught];    
+      $scctc = $subdb->data['Caught'];    
 
     // Get Caught and Bowleds
 
@@ -1036,7 +1036,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.bowler = $playerid  AND b.how_out = 5");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.bowler = $playerid  AND b.opponent=$team AND b.how_out = 5");
 
-      $sccab = $subdb->data[CandB]; 
+      $sccab = $subdb->data['CandB']; 
 
     if($scctc + $sccab != "0") {
       $sccat = $scctc + $sccab;
@@ -1050,8 +1050,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.how_out = 10");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.opponent=$team AND b.how_out = 10");
 
-    if($subdb->data[Stumped] != "0") {
-      $scstu = $subdb->data[Stumped];   
+    if($subdb->data['Stumped'] != "0") {
+      $scstu = $subdb->data['Stumped'];   
     } else {
       $scstu = "-";
     }
@@ -1062,8 +1062,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT b.notout, MAX(b.runs) AS HS FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4) AND b.player_id = $playerid GROUP BY b.notout ORDER BY HS DESC LIMIT 1");
     if($option == "teamcareer") $subdb->QueryRow("SELECT b.notout, MAX(b.runs) AS HS FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.team=$team GROUP BY b.notout ORDER BY HS DESC LIMIT 1");       
     
-    $schig = $subdb->data[HS];
-    $scnot = $subdb->data[notout];
+    $schig = $subdb->data['HS'];
+    $scnot = $subdb->data['notout'];
 
     if($r % 2) {
       echo "<tr class=\"trrow1\">\n";
@@ -1181,7 +1181,7 @@ function show_statistics_mostruns_rookies($db,$statistics,$sort,$sort2,$option,$
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);   
+    $d = sqldate_to_string($db->data['earlydate']);   
     $inc = '';
     if(date("Y") == $statistics){
     	$inc = "Including Knock-Outs.";
@@ -1312,7 +1312,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 	
     for ($r=0; $r<$db->rows; $r++) {
@@ -1325,20 +1325,20 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     $labbr = $db->data['PlayerLAbbrev'];
     $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
-    //$schig = $db->data[HS];   
+    //$schig = $db->data['HS'];   
     $teama = $db->data['TeamAbbrev'];
     $teamid = $db->data['TeamID'];
 
-    $innings = $db->data[Innings];
+    $innings = $db->data['Innings'];
 
-    if($db->data[Notouts] != 0) {
-      $notouts = $db->data[Notouts];
+    if($db->data['Notouts'] != 0) {
+      $notouts = $db->data['Notouts'];
     } else {
       $notouts = "-";
     }
 
-    if($db->data[Average] != "") {
-      $average = $db->data[Average];
+    if($db->data['Average'] != "") {
+      $average = $db->data['Average'];
     } else {
       $average = "-";
     }
@@ -1349,8 +1349,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND b.runs >= 100");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND b.team=$team AND b.runs >= 100");
     
-    if($subdb->data[Hundred] != "0") {
-      $schun = $subdb->data[Hundred];   
+    if($subdb->data['Hundred'] != "0") {
+      $schun = $subdb->data['Hundred'];   
     } else {
       $schun = "-";
     }
@@ -1361,8 +1361,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND (b.runs BETWEEN 50 AND 99) ");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid  AND b.team=$team AND (b.runs BETWEEN 50 AND 99) ");      
     
-    if($subdb->data[Fifty] != "0") {
-    $scfif = $subdb->data[Fifty];   
+    if($subdb->data['Fifty'] != "0") {
+    $scfif = $subdb->data['Fifty'];   
     } else {
     $scfif = "-";
     }
@@ -1373,7 +1373,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.how_out = 4");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.opponent=$team AND b.how_out = 4");
 
-      $scctc = $subdb->data[Caught];    
+      $scctc = $subdb->data['Caught'];    
 
     // Get Caught and Bowleds
 
@@ -1381,7 +1381,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.bowler = $playerid  AND b.how_out = 5");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.bowler = $playerid  AND b.opponent=$team AND b.how_out = 5");
 
-      $sccab = $subdb->data[CandB]; 
+      $sccab = $subdb->data['CandB']; 
 
     if($scctc + $sccab != "0") {
       $sccat = $scctc + $sccab;
@@ -1395,8 +1395,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.how_out = 10");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.assist = $playerid  AND b.opponent=$team AND b.how_out = 10");
 
-    if($subdb->data[Stumped] != "0") {
-      $scstu = $subdb->data[Stumped];   
+    if($subdb->data['Stumped'] != "0") {
+      $scstu = $subdb->data['Stumped'];   
     } else {
       $scstu = "-";
     }
@@ -1407,8 +1407,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($option == "allcareer")  $subdb->QueryRow("SELECT b.notout, MAX(b.runs) AS HS FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4) AND b.player_id = $playerid GROUP BY b.notout ORDER BY HS DESC LIMIT 1");
     if($option == "teamcareer") $subdb->QueryRow("SELECT b.notout, MAX(b.runs) AS HS FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.team=$team GROUP BY b.notout ORDER BY HS DESC LIMIT 1");       
     
-    $schig = $subdb->data[HS];
-    $scnot = $subdb->data[notout];
+    $schig = $subdb->data['HS'];
+    $scnot = $subdb->data['notout'];
 
     if($i % 2) {
       echo "<tr class=\"trrow1\">\n";
@@ -1527,7 +1527,7 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);   
+    $d = sqldate_to_string($db->data['earlydate']);   
     $inc = '';
     if(date("Y") == $statistics){
     	$inc = "Including Knock-Outs.";
@@ -1602,7 +1602,7 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
     for ($r=0; $r<$db->rows; $r++) {
@@ -1613,11 +1613,11 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];
     $labbr = $db->data['PlayerLAbbrev'];
-    $bruns = $db->data['runs'];
-    $notou = $db->data[notout];
+    $bruns = $db->data['Runs'];
+    $notou = $db->data['notout'];
     $awayt = $db->data['awayabbrev'];
     $homet = $db->data['homeabbrev'];
-    $groun = $db->data['ground'];
+    $groun = $db->data['Ground'];
     $gamed = $db->data['game_date'];
     $gamei = $db->data['game_id'];
 
@@ -1665,7 +1665,7 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
 }
 
 
-function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
+function show_statistics_bowling($db,$statistics,$sort,$direction,$option)
 {
         global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -1726,7 +1726,7 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);   
+    $d = sqldate_to_string($db->data['earlydate']);   
 	$inc = '';
 	if(date("Y") == $statistics){
 		$inc = "Including Knock-Outs. ";
@@ -1821,14 +1821,14 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
     echo "  <td align=\"right\" width=\"9%\"><b>TEAM</b></td>\n";
     echo " </tr>\n";
 
-    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, t.TeamID, t.TeamAbbrev, b.player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, SUM( b.runs ) / SUM( b.wickets ) AS Average, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID INNER JOIN seasons n ON g.season = n.SeasonID WHERE (g.league_id=1 OR g.league_id=4)  AND n.SeasonName LIKE '%{$statistics}%' GROUP BY b.player_id HAVING Balls >=30 ORDER BY $sort $direction, Average ASC");
-    if($option == "allcareer")  $db->Query("SELECT g.season, t.TeamID, t.TeamAbbrev, b.player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, SUM( b.runs ) / SUM( b.wickets ) AS Average, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID WHERE (g.league_id=1 OR g.league_id=4)  GROUP BY b.player_id HAVING Balls >=300 ORDER BY $sort $direction, Average ASC");
-    if($option == "teamcareer") $db->Query("SELECT g.season, t.TeamID, t.TeamAbbrev, b.player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, SUM( b.runs ) / SUM( b.wickets ) AS Average, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID WHERE (g.league_id=1 OR g.league_id=4)  AND p.PlayerTeam = $team GROUP BY b.player_id ORDER BY $sort $direction, Average ASC");
+    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, t.TeamID, t.TeamAbbrev, b.player_id AS player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, SUM( b.runs ) / SUM( b.wickets ) AS Average, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID INNER JOIN seasons n ON g.season = n.SeasonID WHERE (g.league_id=1 OR g.league_id=4)  AND n.SeasonName LIKE '%{$statistics}%' GROUP BY b.player_id HAVING Balls >=30 ORDER BY $sort $direction, Average ASC");
+    if($option == "allcareer")  $db->Query("SELECT g.season, t.TeamID, t.TeamAbbrev, b.player_id AS player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, SUM( b.runs ) / SUM( b.wickets ) AS Average, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID WHERE (g.league_id=1 OR g.league_id=4)  GROUP BY b.player_id HAVING Balls >=300 ORDER BY $sort $direction, Average ASC");
+    if($option == "teamcareer") $db->Query("SELECT g.season, t.TeamID, t.TeamAbbrev, b.player_id AS player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, SUM( b.runs ) / SUM( b.wickets ) AS Average, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID WHERE (g.league_id=1 OR g.league_id=4)  AND p.PlayerTeam = $team GROUP BY b.player_id ORDER BY $sort $direction, Average ASC");
 
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
     //
     // serialNumber will be used later to display the serial number
@@ -1844,21 +1844,21 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
       $fname = $db->data['PlayerFName'];
       $lname = $db->data['PlayerLName'];
       $labbr = $db->data['PlayerLAbbrev'];
-      $scmai = $db->data['maidens'];
+      $scmai = $db->data['Maidens'];
       $scbru = $db->data['BRuns'];
-      $scwic = $db->data['wickets'];
+      $scwic = $db->data['Wickets'];
       $teama = $db->data['TeamAbbrev'];
       $teamid = $db->data['TeamID']; 
       
       
 
-      if($db->data[Average] != "") {
-      $average = $db->data[Average];
+      if($db->data['Average'] != "") {
+      $average = $db->data['Average'];
       } else {
         $average = "-";
       }
 
-      $bnum = $db->data['balls']; 
+      $bnum = $db->data['Balls']; 
       $bovers = Round(($bnum / 6), 2); 
       $bfloor = floor($bovers); 
 
@@ -1884,8 +1884,8 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
       if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.wickets = 4");
       if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.team=$team AND b.wickets = 4");
 
-      if($subdb->data[fourwickets] != "0") {
-        $scbfo = $subdb->data[fourwickets];
+      if($subdb->data['fourwickets'] != "0") {
+        $scbfo = $subdb->data['fourwickets'];
       } else {
         $scbfo = "-";
       }
@@ -1894,8 +1894,8 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team)
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.wickets >= 5");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.team=$team AND b.wickets >= 5");
 
-    if($subdb->data[fivewickets] != "0") {
-      $scbfi = $subdb->data[fivewickets];
+    if($subdb->data['fivewickets'] != "0") {
+      $scbfi = $subdb->data['fivewickets'];
     } else {
       $scbfi = "-";
     }           
@@ -2042,7 +2042,7 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);   
+    $d = sqldate_to_string($db->data['earlydate']);   
 	$inc = '';
 	if(date("Y") == $statistics) {
 		$inc = "Including Knock-Outs.";
@@ -2180,7 +2180,7 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
     //
     // serialNumber will be used later to display the serial number
@@ -2205,8 +2205,8 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
       
       
 
-      if($db->data[Average] != "") {
-      $average = $db->data[Average];
+      if($db->data['Average'] != "") {
+      $average = $db->data['Average'];
       } else {
         $average = "-";
       }
@@ -2237,8 +2237,8 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
       if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.wickets = 4");
       if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.team=$team AND b.wickets = 4");
 
-      if($subdb->data[fourwickets] != "0") {
-        $scbfo = $subdb->data[fourwickets];
+      if($subdb->data['fourwickets'] != "0") {
+        $scbfo = $subdb->data['fourwickets'];
       } else {
         $scbfo = "-";
       }
@@ -2247,8 +2247,8 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
     if($option == "allcareer")  $subdb->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.wickets >= 5");
     if($option == "teamcareer") $subdb->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id=4)  AND b.player_id = $playerid AND b.team=$team AND b.wickets >= 5");
 
-    if($subdb->data[fivewickets] != "0") {
-      $scbfi = $subdb->data[fivewickets];
+    if($subdb->data['fivewickets'] != "0") {
+      $scbfi = $subdb->data['fivewickets'];
     } else {
       $scbfi = "-";
     }           
@@ -2391,7 +2391,7 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);   
+    $d = sqldate_to_string($db->data['earlydate']);   
     $inc = '';
     if(date("Y") == $statistics) {
     	$inc = "Including Knock-Outs.";
@@ -2466,7 +2466,7 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
     for ($r=0; $r<$db->rows; $r++) {
@@ -2478,10 +2478,10 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
     $lname = $db->data['PlayerLName'];
     $labbr = $db->data['PlayerLAbbrev'];
     $scbru = $db->data['BRuns'];
-    $scwic = $db->data['wickets'];
+    $scwic = $db->data['Wickets'];
     $awayt = $db->data['awayabbrev'];
     $homet = $db->data['homeabbrev'];
-    $groun = $db->data['ground'];
+    $groun = $db->data['Ground'];
     $gamed = $db->data['game_date'];
     $gamei = $db->data['game_id'];
 
@@ -2587,7 +2587,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);   
+    $d = sqldate_to_string($db->data['earlydate']);   
 	$inc = '';
 	if(date("Y") == $statistics) {
 		$inc = "<br>Including Knock-Outs";
@@ -2666,7 +2666,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
     for ($r=0; $r<$db->rows; $r++) {
@@ -2680,8 +2680,8 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     $teamid = $db->data['TeamID'];
     $teama = $db->data['TeamAbbrev'];         
     $scinn = $db->data['Matches'];
-    $scrun = $db->data['runs'];
-    $schig = $db->data[HS];             
+    $scrun = $db->data['Runs'];
+    $schig = $db->data['HS'];             
 
     // Get Sum of Notouts
 
@@ -2689,8 +2689,8 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     if($option == "allcareer")   $subdb->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b WHERE b.how_out = 2 AND b.player_id = $playerid");
     if($option == "teamcareer")   $subdb->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b WHERE b.how_out = 2 AND b.player_id = $playerid AND b.team=$team");
 
-    if($subdb->data[Notout] != "0") {
-      $scnot = $subdb->data[Notout];    
+    if($subdb->data['Notout'] != "0") {
+      $scnot = $subdb->data['Notout'];    
     } else {
       $scnot = "-";
     }
@@ -2748,7 +2748,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     if($option == "teamcareer")   $subdb->QueryRow("SELECT b.wickets AS BWickets, b.runs AS BRuns FROM scorecard_bowling_details b WHERE b.player_id = $playerid AND b.team=$team ORDER BY b.wickets DESC, b.runs ASC LIMIT 1");
 
       $scbbr = $subdb->data['BRuns'];  
-      $scbbw = $subdb->data[BWickets];  
+      $scbbw = $subdb->data['BWickets'];  
     } else {
       $scbbw = "-";
       $scbbr = "-";
@@ -2859,40 +2859,43 @@ $db->SelectDB($dbcfg['db']);
 
 
 
-switch($ccl_mode) {
-case 0:
-    show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id);
-    break;
-case 1:
-    show_statistics_byseason($db,$statistics,$id,$pr,$team,$week,$game_id);
-    break;
-case 2:
-    show_statistics_team($db,$statistics,$id,$pr,$team,$week,$game_id);
-    break;
-case 3:
-    show_statistics_mostruns($db,$statistics,$sort,$sort2,$option,$team);
-    break;  
-case 4:
-    show_statistics_bestinnings($db,$statistics,$option,$team);
-    break;  
-case 5:
-    show_statistics_bowling($db,$statistics,$sort,$direction,$option,$team);
-    break;
-case 6:
-    show_statistics_bestbowling($db,$statistics,$option,$team);
-    break;  
-case 7:
-    show_statistics_allrounders($db,$statistics,$option,$team);
-    break;
-case 8:
-    show_statistics_mostruns_rookies($db,$statistics,$sort,$sort2,$option,$team);
-    break;
-case 9:
-    show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$option,$team);
-    break;
-default:
-    show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_statistics_listing($db,$_GET['statistics'],$id,$pr,$team,$week,$game_id);
+		break;
+	case 1:
+		show_statistics_byseason($db,$_GET['statistics']);
+		break;
+	case 2:
+		show_statistics_team($db,$_GET['statistics'],$_GET['team']);
+		break;
+	case 3:
+		show_statistics_mostruns($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['sort'],$_GET['sort2'],$_GET['option'],isset($_GET['team']) ? $_GET['team'] : '');
+		break;  
+	case 4:
+		show_statistics_bestinnings($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['option'], isset($_GET['team']) ? $_GET['team'] : '');
+		break;  
+	case 5:
+		show_statistics_bowling($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['sort'],$_GET['direction'],$_GET['option']);
+		break;
+	case 6:
+		show_statistics_bestbowling($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['option'],isset($_GET['team']) ? $_GET['team'] : '');
+		break;  
+	case 7:
+		show_statistics_allrounders($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['option'],isset($_GET['team']) ? $_GET['team'] : '');
+		break;
+	case 8:
+		show_statistics_mostruns_rookies($db,$statistics,$sort,$sort2,$option,$team);
+		break;
+	case 9:
+		show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$option,$team);
+		break;
+	default:
+		show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id);
+		break;
+	}
+} else {
+	show_statistics_listing($db);
 }
-
 ?>

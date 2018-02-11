@@ -290,7 +290,7 @@ function show_schedule($db,$schedule)
 
 
 
-function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
+function show_schedule_team($db,$schedule,$team)
 {
         global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -377,7 +377,6 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $wk = $db->data['week'];
-                $da  = $db->data['formatted_date'];
             echo "    <a href=\"$PHP_SELF?schedule=$schedule&week=$wk&ccl_mode=3\">$wk</a> |\n";
             }
             echo "</p>\n";
@@ -456,12 +455,9 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $t1 = $db->data['homeabbrev'];
                 $t2 = $db->data['awayabbrev'];
-                $um = $db->data['umpireabbrev'];
                 $t1id = $db->data['homeid'];
                 $t2id = $db->data['awayid'];
-                $umid = $db->data['umpireid'];
                 $d = sqldate_to_string($db->data['game_date']);
-                $sc =  $db->data['scorecard'];
                 $re = $db->data['result'];
                 $id = $db->data['game_id'];
                 $wk = $db->data['week'];
@@ -505,7 +501,7 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id)
 }
 
 
-function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
+function show_schedule_week($db,$schedule,$week)
 {
         global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -597,7 +593,6 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $db->BagAndTag();
                 $wk = $db->data['week'];
-                $da  = $db->data['formatted_date'];
             echo "    <a href=\"$PHP_SELF?schedule=$schedule&week=$wk&ccl_mode=3\">$wk</a> |\n";
             }
             echo "</p>\n";
@@ -673,12 +668,9 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id)
                 $db->GetRow($x);
                 $t1 = $db->data['homeabbrev'];
                 $t2 = $db->data['awayabbrev'];
-                $um = $db->data['umpireabbrev'];
                 $t1id = $db->data['homeid'];
                 $t2id = $db->data['awayid'];
-                $umid = $db->data['umpireid'];
                 $d = sqldate_to_string($db->data['game_date']);
-                $sc =  $db->data['scorecard'];
                 $re = $db->data['result'];
                 $id = $db->data['game_id'];
                 $wk = $db->data['week'];
@@ -2124,10 +2116,10 @@ if (isset($_GET['ccl_mode'])) {
 		show_schedule($db,$_GET['schedule']);
 		break;
 	case 2:
-		show_schedule_team($db,$schedule,$id,$pr,$team,$week,$game_id);
+		show_schedule_team($db,$_GET['schedule'],$_GET['team']);
 		break;
 	case 3:
-		show_schedule_week($db,$schedule,$id,$pr,$team,$week,$game_id);
+		show_schedule_week($db,$_GET['schedule'],$_GET['week']);
 		break;
 	case 4:
 		show_schedule_game($db, $_GET['game_id']);

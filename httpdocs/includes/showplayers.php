@@ -382,8 +382,8 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league ORDER BY b.runs DESC LIMIT 1")) {
 	    $db->QueryRow("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league ORDER BY b.runs DESC LIMIT 1");
 	    $db->BagAndTag();
-	    $scnos = $db->data[notout];
-	    $schig = $db->data[HS]; 
+	    $scnos = $db->data['notout'];
+	    $schig = $db->data['HS']; 
 	    } else {
 	    }   
 	    
@@ -392,7 +392,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.how_out = 2 OR b.how_out = 1)")) {
 	    $db->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.how_out = 2 OR b.how_out = 1)");
 	    $db->BagAndTag();
-	    $scnot = $db->data[Notout];
+	    $scnot = $db->data['Notout'];
 	    $outin = $scinn - $scnot;
 	    
 	    if($scrun >= 1 && $outin >= 1) {
@@ -411,7 +411,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.runs >= 100")) {   
 	    $db->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.runs >= 100");
 	    $db->BagAndTag();
-	    $schun = $db->data[Hundred];    
+	    $schun = $db->data['Hundred'];    
 	    } else {
 	    $schun = "0";
 	    }
@@ -421,7 +421,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.runs BETWEEN 50 AND 99) ")) {   
 	    $db->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.runs BETWEEN 50 AND 99) ");
 	    $db->BagAndTag();
-	    $scfif = $db->data[Fifty];      
+	    $scfif = $db->data['Fifty'];      
 	    } else {
 	    $scfif = "0";
 	    }
@@ -433,7 +433,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND b.how_out = 4")) { 
 	    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND b.how_out = 4");
 	    $db->BagAndTag();
-	    $scctc = $db->data[Caught];
+	    $scctc = $db->data['Caught'];
 	    } else {
 	    $scctc = "0";
 	    }
@@ -444,7 +444,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.bowler = $pr AND $str_league AND b.how_out = 5")) {  
 	    $db->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.bowler = $pr AND $str_league AND b.how_out = 5");
 	    $db->BagAndTag();
-	    $sccab = $db->data[CandB];
+	    $sccab = $db->data['CandB'];
 	    } else {
 	    $sccab = "0";
 	    }
@@ -457,7 +457,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND b.how_out = 10")) {    
 	    $db->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND b.how_out = 10");
 	    $db->BagAndTag();
-	    $scstu = $db->data[Stumped];
+	    $scstu = $db->data['Stumped'];
 	    } else {
 	    $scstu = "0";
 	    }
@@ -525,8 +525,8 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 ORDER BY b.runs DESC LIMIT 1")) {
     $db->QueryRow("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 ORDER BY b.runs DESC LIMIT 1");
     $db->BagAndTag();
-    $coscnos = $db->data[notout];
-    $coschig = $db->data[HS];   
+    $coscnos = $db->data['notout'];
+    $coschig = $db->data['HS'];   
     } else {
     }     
     
@@ -535,7 +535,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.how_out = 2")) {
     $db->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.how_out = 2");
     $db->BagAndTag();
-    $coscnot = $db->data[Notout];
+    $coscnot = $db->data['Notout'];
     $cooutin = $coscinn - $coscnot;
     
     if($coscrun >= 1 && $cooutin >= 1) {
@@ -552,7 +552,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND (b.runs BETWEEN 50 AND 99) ")) {   
     $db->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND (b.runs BETWEEN 50 AND 99) ");
     $db->BagAndTag();
-    $coscfif = $db->data[Fifty];        
+    $coscfif = $db->data['Fifty'];        
     } else {
     $coscfif = "0";
     }
@@ -562,7 +562,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.runs >= 100")) {   
     $db->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.runs >= 100");
     $db->BagAndTag();
-    $coschun = $db->data[Hundred];  
+    $coschun = $db->data['Hundred'];  
     } else {
     $coschun = "0";
     }  
@@ -572,7 +572,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 4")) { 
     $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 4");
     $db->BagAndTag();
-    $coscctc = $db->data[Caught];
+    $coscctc = $db->data['Caught'];
     } else {
     $coscctc = "0";
     }
@@ -583,7 +583,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.bowler = $pr AND g.league_id = 2 AND b.how_out = 5")) {  
     $db->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.bowler = $pr AND g.league_id = 2 AND b.how_out = 5");
     $db->BagAndTag();
-    $cosccab = $db->data[CandB];
+    $cosccab = $db->data['CandB'];
     } else {
     $cosccab = "0";
     }
@@ -593,7 +593,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 10")) {    
     $db->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 10");
     $db->BagAndTag();
-    $coscstu = $db->data[Stumped];
+    $coscstu = $db->data['Stumped'];
     } else {
     $coscstu = "0";
     }
@@ -640,7 +640,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets = 4")) {    
     $db->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets = 4");
     $db->BagAndTag();
-    $coscbfo = $db->data[fourwickets];
+    $coscbfo = $db->data['fourwickets'];
     } else {
     $coscbfo = "0";
     }
@@ -650,7 +650,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets >= 5")) {   
     $db->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets >= 5");
     $db->BagAndTag();
-    $coscbfi = $db->data[fivewickets];
+    $coscbfi = $db->data['fivewickets'];
     } else {
     $coscbfi = "0";
     }   
@@ -805,7 +805,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 4")) {    
 	    $db->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 4");
 	    $db->BagAndTag();
-	    $scbfo = $db->data[fourwickets];
+	    $scbfo = $db->data['fourwickets'];
 	    } else {
 	    $scbfo = "0";
 	    }
@@ -816,7 +816,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
 	    if ($db->Exists("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets >= 5")) {   
 	    $db->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets >= 5");
 	    $db->BagAndTag();
-	    $scbfi = $db->data[fivewickets];
+	    $scbfi = $db->data['fivewickets'];
 	    } else {
 	    $scbfi = "0";
 	    }

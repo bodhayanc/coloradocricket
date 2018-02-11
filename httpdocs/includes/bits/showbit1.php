@@ -37,7 +37,7 @@ function show_bitbattingachievement($db)
         $bal = $db->data['balls'];
         $fou = $db->data['fours'];
         $six = $db->data['sixes'];
-        $not = $db->data[notout];
+        $not = $db->data['notout'];
         
         if($run >= "50" && $run < "60") {
           $batdesc = "scored a fantastic half century against $tna"; 

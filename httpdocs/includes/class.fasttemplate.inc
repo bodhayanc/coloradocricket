@@ -46,7 +46,7 @@ class FastTemplate {
 
 //	************************************************************
 
-	function FastTemplate ($pathToTemplates = "")
+	function __construct ($pathToTemplates = "")
 	{
 		global $php_errormsg;
 

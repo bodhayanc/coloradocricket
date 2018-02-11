@@ -289,14 +289,14 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $db->BagAndTag();
     $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
-    $schig = $db->data[HS]; 
+    $schig = $db->data['HS']; 
     } else {
     }
 
     if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM tennis_scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8)")) {
     $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM tennis_scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8)");
     $db->BagAndTag();
-    $scnot = $db->data[Notout];
+    $scnot = $db->data['Notout'];
     $outin = $scinn - $scnot;
     
     if($scrun >= 1 && $outin >= 1) {
@@ -312,14 +312,14 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(runs) AS Hundred FROM tennis_scorecard_batting_details WHERE player_id = $pr AND runs >= 100")) { 
     $db->QueryRow("SELECT COUNT(runs) AS Hundred FROM tennis_scorecard_batting_details WHERE player_id = $pr AND runs >= 100");
     $db->BagAndTag();
-    $schun = $db->data[Hundred];    
+    $schun = $db->data['Hundred'];    
     } else {
     }
     
     if ($db->Exists("SELECT COUNT(runs) AS Fifty FROM tennis_scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) ")) { 
     $db->QueryRow("SELECT COUNT(runs) AS Fifty FROM tennis_scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) ");
     $db->BagAndTag();
-    $scfif = $db->data[Fifty];      
+    $scfif = $db->data['Fifty'];      
     } else {
     }
     
@@ -328,7 +328,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(assist) AS Caught FROM tennis_scorecard_batting_details WHERE assist = $pr AND how_out = 4")) {   
     $db->QueryRow("SELECT COUNT(assist) AS Caught FROM tennis_scorecard_batting_details WHERE assist = $pr AND how_out = 4");
     $db->BagAndTag();
-    $scctc = $db->data[Caught];
+    $scctc = $db->data['Caught'];
     } else {
     }
     
@@ -337,7 +337,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(bowler) AS CandB FROM tennis_scorecard_batting_details WHERE bowler = $pr AND how_out = 5")) {    
     $db->QueryRow("SELECT COUNT(bowler) AS CandB FROM tennis_scorecard_batting_details WHERE bowler = $pr AND how_out = 5");
     $db->BagAndTag();
-    $sccab = $db->data[CandB];
+    $sccab = $db->data['CandB'];
     } else {
     }
     
@@ -346,7 +346,7 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(assist) AS Stumped FROM tennis_scorecard_batting_details WHERE assist = $pr AND how_out = 10")) { 
     $db->QueryRow("SELECT COUNT(assist) AS Stumped FROM tennis_scorecard_batting_details WHERE assist = $pr AND how_out = 10");
     $db->BagAndTag();
-    $scstu = $db->data[Stumped];
+    $scstu = $db->data['Stumped'];
     } else {
     }
     
@@ -389,14 +389,14 @@ function show_full_players($db,$s,$id,$pr,$tid)
     if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM tennis_scorecard_bowling_details WHERE player_id = $pr AND wickets = 2")) {  
     $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM tennis_scorecard_bowling_details WHERE player_id = $pr AND wickets = 2");
     $db->BagAndTag();
-    $scbfo = $db->data[fourwickets];
+    $scbfo = $db->data['fourwickets'];
     } else {
     }
 
     if ($db->Exists("SELECT COUNT(wickets) AS fivewickets FROM tennis_scorecard_bowling_details WHERE player_id = $pr AND wickets >= 3")) { 
     $db->QueryRow("SELECT COUNT(wickets) AS fivewickets FROM tennis_scorecard_bowling_details WHERE player_id = $pr AND wickets >= 3");
     $db->BagAndTag();
-    $scbfi = $db->data[fivewickets];
+    $scbfi = $db->data['fivewickets'];
     } else {
     }
     

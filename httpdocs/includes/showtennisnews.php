@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_tennis($db,$s=0,$limit=5,$len=300)
+function show_tennis($db,$limit=5,$len=300)
 {
 	global $PHP_SELF, $greenbdr, $bluebdr, $yellowbdr, $tennisbdr;
 
@@ -88,6 +88,6 @@ function show_tennis($db,$s=0,$limit=5,$len=300)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-show_tennis($db,$s,5,5);
+show_tennis($db,5,5);
 
 ?>

@@ -8,11 +8,12 @@ $MYSQL_CLASS_INC=true;
 
 class mysql_class{
 	# Constructor
-	function mysql_class($user="phpuser",$pass="php",$host="localhost"){
+	function __construct($user="phpuser",$pass="php",$host="localhost", $db=""){
 		$this->user=$user;
 		$this->pass=$pass;
 		$this->host=$host;
-		$this->id=@mysql_connect($this->host,$this->user,$this->pass) or
+		$this->db=$db;
+		$this->id=@mysqli_connect($this->host,$this->user,$this->pass,$this->db) or
 			mysql_ErrorMsg("mysql_connect: Unable to connect to mysql server: $this->host");
 	}
 
@@ -75,15 +76,15 @@ class mysql_class{
 	# Select or change databases
 	function SelectDB($db){
 		$this->db=$db;
-		@mysql_select_db($db,$this->id) or
-			mysql_ErrorMsg("Unable to select database: $db");
+		@mysqli_select_db($this->id, $db) or
+			mysql_ErrorMsg("Unable to select database: $db. " . mysqli_error($this->id));
 	}
 	
 
 	# Get a list of the available tables in this database
 	function GetTableList(){
 		$this->result=@mysql_list_tables($this->db,$this->id) or
-			mysql_ErrorMsg("Unable to find any tables in database: $this->db");
+			mysql_ErrorMsg("Unable to find any tables in database: $this->db. " . mysqli_error($this->id));
 		$i=0;
 		while($i < mysql_num_rows($this->result)){
 			$tb_names[$i]=mysql_tablename($this->result,$i);
@@ -105,67 +106,67 @@ class mysql_class{
 
 	# Delete rows from a table
 	function Delete($query){
-		$this->result=@mysql_query($query,$this->id) or
-			mysql_ErrorMsg("Unable to perform Delete: $query");
+		$this->result=@mysqli_query($this->id, $query) or
+			mysql_ErrorMsg("Unable to perform Delete: $query. " . mysqli_error($this->id));
 		$this->a_rows=@mysql_affected_rows($this->result);
 	}
 
 	# Update elements in database
 	function Update($query){
-		$this->result=@mysql_query($query,$this->id) or
-			mysql_ErrorMsg("Unable to perform update: $query");
+		$this->result=@mysqli_query($this->id, $query) or
+			mysql_ErrorMsg("Unable to perform update: $query. " . mysqli_error($this->id));
 		$this->a_rows=@mysql_affected_rows($this->result);
 	}
 
 	# Insert row into a table
 	function Insert($query){
-		$this->result=@mysql_query($query,$this->id) or
-			mysql_ErrorMsg("Unable to perform insert: $query");
+		$this->result=@mysqli_query($this->id, $query) or
+			mysql_ErrorMsg("Unable to perform insert: $query. " . mysqli_error($this->id));
 		$this->a_rows=@mysql_affected_rows($this->result);
 	}
 
 	# Get last insert id from an auto_incremented field
 	function InsertID(){
 		$this->result=@mysql_insert_id($this->id) or
-			mysql_ErrorMsg("Cannot retrieve auto_increment value: $this->id");
+			mysql_ErrorMsg("Cannot retrieve auto_increment value: $this->id. " . mysqli_error($this->id));
 		return($this->result);
 	}
 
 	# Multiple row return query - Use GetRow function to loop through
 	function Query($query){
-		$this->result=@mysql_query($query,$this->id) or
-			mysql_ErrorMsg("Unable to perform query: $query");
-		$this->rows=@mysql_num_rows($this->result);
+		$this->result=@mysqli_query($this->id, $query) or
+			mysql_ErrorMsg("Unable to perform query: $query. " . mysqli_error($this->id));
+		$this->rows=@mysqli_num_rows($this->result);
 		$this->StripRowSlashes();
 	}
 
 	# Get a row of data from a multiple row query
 	function GetRow($row){
-		@mysql_data_seek($this->result,$row) or
-			mysql_ErrorMsg("Unable to seek data row: $row");
-		$this->data=@mysql_fetch_array($this->result) or
-			mysql_ErrorMsg("Unable to fetch row: $row");
+		@mysqli_data_seek($this->result,$row) or
+			mysql_ErrorMsg("Unable to seek data row: $row. " . mysqli_error($this->id));
+		$this->data=@mysqli_fetch_array($this->result) or
+			mysql_ErrorMsg("Unable to fetch row: $row. " . mysqli_error($this->id));
 		$this->StripRowSlashes();
 	}
 
 	# Single row return query
 	function QueryRow($query){
-		$this->result=@mysql_query($query,$this->id) or
-			mysql_ErrorMsg("Unable to perform query: $query");
-		$this->rows=@mysql_num_rows($this->result);
-		$this->data=@mysql_fetch_array($this->result) or
-			mysql_ErrorMsg("Unable to fetch data from query: $query");
+		$this->result=@mysqli_query($this->id, $query) or
+			mysql_ErrorMsg("Unable to perform query: $query. " . mysqli_error($this->id));
+		$this->rows=@mysqli_num_rows($this->result);
+		$this->data=@mysqli_fetch_array($this->result) or
+			mysql_ErrorMsg("Unable to fetch data from query: $query. " . mysqli_error($this->id));
 		$this->StripRowSlashes();
 		return($this->data);
 	}
 
 	# Single element return query
 	function QueryItem($query){
-		$this->result=@mysql_query($query,$this->id) or
+		$this->result=@mysqli_query($this->id, $query) or
 			mysql_ErrorMsg("Unable to perform query: $query");
-		$this->rows=@mysql_num_rows($this->result);
-		$this->data=@mysql_fetch_array($this->result) or
-			mysql_ErrorMsg("Unable to fetch data from query: $query");
+		$this->rows=@mysqli_num_rows($this->result);
+		$this->data=@mysqli_fetch_array($this->result) or
+			mysql_ErrorMsg("Unable to fetch data from query: $query. " . mysqli_error($this->id));
 		$this->StripRowSlashes();
 		return($this->data[0]);
 	}
@@ -173,8 +174,8 @@ class mysql_class{
 	# Use if checking for empty query result returns 0 if empty,
 	# and 1 if there is at least one result
 	function Exists($query){
-		$this->result=@mysql_query($query,$this->id);
-		if(@mysql_num_rows($this->result)) return 1;
+		$this->result=@mysqli_query($this->id, $query);
+		if(@mysqli_num_rows($this->result)) return 1;
 		else return 0;
 	}
 
@@ -201,10 +202,10 @@ class mysql_class{
 			return;
 		} else {
 			$query = "SHOW COLUMNS FROM $table LIKE '$field'";
-			$myResult=@mysql_query($query,$this->id) or
-							mysql_ErrorMsg("Unable to perform set fetch: $query");
-			$myData=@mysql_fetch_array($myResult) or
-			mysql_ErrorMsg("Unable to fetch data set form : $query");
+			$myResult=@mysqli_query($this->id, $query) or
+							mysql_ErrorMsg("Unable to perform set fetch: $query. " . mysqli_error($this->id));
+			$myData=@mysqli_fetch_array($myResult) or
+			mysql_ErrorMsg("Unable to fetch data set form : $query. " . mysqli_error($this->id));
 			foreach($myData as $key => $val){
 				$myData[$key] = stripslashes($val);
 			}
@@ -219,10 +220,10 @@ class mysql_class{
 			return;
 		} else {
 			$query = "SHOW COLUMNS FROM $table LIKE '$field'";
-			$myResult=@mysql_query($query,$this->id) or
-							mysql_ErrorMsg("Unable to perform enum fetch: $query");
-			$myData=@mysql_fetch_array($myResult) or
-			mysql_ErrorMsg("Unable to fetch data enum form : $query");
+			$myResult=@mysqli_query($this->id, $query) or
+							mysql_ErrorMsg("Unable to perform enum fetch: $query. " . mysqli_error($this->id));
+			$myData=@mysqli_fetch_array($myResult) or
+			mysql_ErrorMsg("Unable to fetch data enum form : $query. " . mysqli_error($this->id));
 			foreach($myData as $key => $val){
 				$myData[$key] = stripslashes($val);
 			}
@@ -317,7 +318,6 @@ function mysql_ErrorMsg($msg){
 
 	# Display the error message
 	$text ="<font color=\"#ff0000\" size=+2><p>Error: $msg :";
-	$text .= mysql_error();
 	$text .= "</font>\n";
 	die($text);
 }

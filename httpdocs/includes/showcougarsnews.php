@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_cougars($db,$s=0,$limit=5,$len=300)
+function show_cougars($db,$limit=5,$len=300)
 {
 	global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr, $cougarbdr;
 
@@ -88,6 +88,6 @@ function show_cougars($db,$s=0,$limit=5,$len=300)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-show_cougars($db,$s,5);
+show_cougars($db,5);
 
 ?>

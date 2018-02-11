@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_short_articles($db,$s=0,$limit=5,$len=300)
+function show_short_articles($db,$limit=5)
 {
 	global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr, $redbdr, $blackbdr;
 
@@ -84,6 +84,6 @@ function show_short_articles($db,$s=0,$limit=5,$len=300)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-show_short_articles($db,$s,5);
+show_short_articles($db,5);
 
 ?>

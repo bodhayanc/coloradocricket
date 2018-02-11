@@ -301,7 +301,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
               $homegames = "0";
             } else {
             $subdb->QueryRow("SELECT hometeam, count(hometeam) AS Homegames FROM scorecard_game_details WHERE hometeam=$tid AND season=$ladder AND cancelledplay=0 AND cancelled=0 GROUP BY hometeam");     
-              $homegames = $subdb->data[Homegames];
+              $homegames = $subdb->data['Homegames'];
             }
 
         // Get Home Ties
@@ -309,7 +309,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
               $hometies = "0";
             } else {
             $subdb->QueryRow("SELECT hometeam, count(hometeam) AS Hometies FROM scorecard_game_details WHERE hometeam=$tid AND season=$ladder AND cancelledplay=0 AND cancelled=0 AND result_won_id=0 GROUP BY hometeam");      
-              $hometies = $subdb->data[Hometies];
+              $hometies = $subdb->data['Hometies'];
             }
 
                         
@@ -318,7 +318,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
               $homewins = "0";
             } else {
             $subdb->QueryRow("SELECT hometeam, count(result_won_id) AS Homewins FROM scorecard_game_details WHERE hometeam=result_won_id AND hometeam=$tid AND season=$ladder AND cancelledplay=0 AND cancelled=0 GROUP BY hometeam");      
-              $homewins = $subdb->data[Homewins];
+              $homewins = $subdb->data['Homewins'];
             }
 
         // Get Home Losses          
@@ -330,7 +330,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
               $awaygames = "0";
             } else {
             $subdb->QueryRow("SELECT awayteam, count(awayteam) AS Awaygames FROM scorecard_game_details WHERE awayteam=$tid AND season=$ladder AND cancelledplay=0 AND cancelled=0 GROUP BY awayteam");     
-              $awaygames = $subdb->data[Awaygames];
+              $awaygames = $subdb->data['Awaygames'];
             }
 
         // Get Away Ties
@@ -338,7 +338,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
               $awayties = "0";
             } else {
             $subdb->QueryRow("SELECT awayteam, count(awayteam) AS Awayties FROM scorecard_game_details WHERE awayteam=$tid AND season=$ladder AND cancelledplay=0 AND cancelled=0 AND result_won_id=0 GROUP BY awayteam");      
-              $awayties = $subdb->data[Awayties];
+              $awayties = $subdb->data['Awayties'];
             }
 
         // Get Away Wins            
@@ -346,7 +346,7 @@ function show_ladder($db,$s,$id,$pr,$ladder)
               $awaywins = "0";
             } else {
             $subdb->QueryRow("SELECT awayteam, count(result_won_id) AS Awaywins FROM scorecard_game_details WHERE awayteam=result_won_id AND awayteam=$tid AND season=$ladder AND cancelledplay=0 AND cancelled=0 GROUP BY awayteam");      
-              $awaywins = $subdb->data[Awaywins];
+              $awaywins = $subdb->data['Awaywins'];
             }
 
         // Get Away Losses          

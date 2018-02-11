@@ -251,7 +251,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $run = $db->data['runs'];
     $pfn = $db->data['PlayerFName'];
     $pln = $db->data['PlayerLName'];
-    $not = $db->data[notout];
+    $not = $db->data['notout'];
     $dat = $db->data['game_date'];
     
     echo "  <tr>\n";
@@ -732,7 +732,7 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     ");
     $db->BagAndTag();
     
-    $d = sqldate_to_string($db->data[earlydate]);   
+    $d = sqldate_to_string($db->data['earlydate']);   
     
 
       if($sort == "Average") echo "<b class=\"16px\">{$grounds[$pr]} Career Batting - Highest Averages</b><br>From <b>$d</b> to the present.<br>Minimum 3 innings and 50 runs<br><br>\n";
@@ -782,19 +782,19 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     $lname = $db->data['PlayerLName'];    
     $scinn = $db->data['Matches'];
     $scrun = $db->data['runs'];
-    //$schig = $db->data[HS];   
+    //$schig = $db->data['HS'];   
     $teama = $db->data['TeamAbbrev'];
 
-    $innings = $db->data[Innings];
+    $innings = $db->data['Innings'];
 
-    if($db->data[Notouts] != 0) {
-      $notouts = $db->data[Notouts];
+    if($db->data['Notouts'] != 0) {
+      $notouts = $db->data['Notouts'];
     } else {
       $notouts = "-";
     }
 
-    if($db->data[Average] != "") {
-      $average = $db->data[Average];
+    if($db->data['Average'] != "") {
+      $average = $db->data['Average'];
     } else {
       $average = "-";
     }
@@ -803,8 +803,8 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     
     $subdb->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $playerid  AND g.ground_id=$pr AND b.runs >= 100");
     
-    if($subdb->data[Hundred] != "0") {
-      $schun = $subdb->data[Hundred];   
+    if($subdb->data['Hundred'] != "0") {
+      $schun = $subdb->data['Hundred'];   
     } else {
       $schun = "-";
     }
@@ -813,8 +813,8 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     
     $subdb->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $playerid  AND g.ground_id=$pr AND (b.runs BETWEEN 50 AND 99) ");     
     
-    if($subdb->data[Fifty] != "0") {
-    $scfif = $subdb->data[Fifty];   
+    if($subdb->data['Fifty'] != "0") {
+    $scfif = $subdb->data['Fifty'];   
     } else {
     $scfif = "-";
     }
@@ -823,13 +823,13 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     
     $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $playerid  AND g.ground_id=$pr AND b.how_out = 4");
 
-      $scctc = $subdb->data[Caught];    
+      $scctc = $subdb->data['Caught'];    
 
     // Get Caught and Bowleds
 
     $subdb->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.bowler = $playerid  AND g.ground_id=$pr AND b.how_out = 5");
 
-      $sccab = $subdb->data[CandB]; 
+      $sccab = $subdb->data['CandB']; 
 
     if($scctc + $sccab != "0") {
       $sccat = $scctc + $sccab;
@@ -841,8 +841,8 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
 
     $subdb->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $playerid  AND g.ground_id=$pr AND b.how_out = 10");
 
-    if($subdb->data[Stumped] != "0") {
-      $scstu = $subdb->data[Stumped];   
+    if($subdb->data['Stumped'] != "0") {
+      $scstu = $subdb->data['Stumped'];   
     } else {
       $scstu = "-";
     }
@@ -851,8 +851,8 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
 
     $subdb->QueryRow("SELECT b.notout, MAX(b.runs) AS HS FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $playerid AND g.ground_id=$pr GROUP BY b.notout ORDER BY HS DESC LIMIT 1");      
     
-    $schig = $subdb->data[HS];
-    $scnot = $subdb->data[notout];
+    $schig = $subdb->data['HS'];
+    $scnot = $subdb->data['notout'];
 
     if($r % 2) {
       echo "<tr class=\"trrow2\">\n";
