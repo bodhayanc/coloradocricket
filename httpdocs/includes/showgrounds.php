@@ -174,9 +174,9 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->BagAndTag();
     
     $fid = $db->data['game_id'];
-    $ffg = $db->data[FirstGame];
-    $ft1 = $db->data[HomeTeam];
-    $ft2 = $db->data[AwayTeam];
+    $ffg = $db->data['FirstGame'];
+    $ft1 = $db->data['HomeTeam'];
+    $ft2 = $db->data['AwayTeam'];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\" align=\"left\"><b>First Game</b></td>\n";
@@ -200,9 +200,9 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->BagAndTag();
     
     $fid = $db->data['game_id'];
-    $flg = $db->data[LastGame];
-    $ft1 = $db->data[HomeTeam];
-    $ft2 = $db->data[AwayTeam];
+    $flg = $db->data['LastGame'];
+    $ft1 = $db->data['HomeTeam'];
+    $ft2 = $db->data['AwayTeam'];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\" align=\"left\"><b>Last Game</b></td>\n";

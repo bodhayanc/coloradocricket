@@ -318,7 +318,7 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$fd = htmlentities(stripslashes($db->data[FeaturedDetail]));
-	$fp = htmlentities(stripslashes($db->data[FeaturedPlayer]));
+	$fp = htmlentities(stripslashes($db->data['FeaturedPlayer']));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 

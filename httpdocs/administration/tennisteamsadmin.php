@@ -44,7 +44,7 @@ function show_main_menu($db)
 
             $tn = htmlentities(stripslashes($db->data['TeamName']));
             $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-            $tc = htmlentities(stripslashes($db->data[TeamActive]));
+            $tc = htmlentities(stripslashes($db->data['TeamActive']));
             $tg = htmlentities(stripslashes($db->data[GroupName]));
 
             if($x % 2) {
@@ -103,7 +103,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM clubs WHERE LeagueID = 3 ORDER BY ClubName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[ClubID] . "\">" . $db->data[ClubName] . "</option>\n";
+            echo "<option value=\"" . $db->data['ClubID'] . "\">" . $db->data['ClubName'] . "</option>\n";
         }
     }
     */
@@ -236,7 +236,7 @@ function edit_category_form($db,$id)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $db->BagAndTag();
-        $clubs[$db->data[ClubID]] = $db->data[ClubName];
+        $clubs[$db->data['ClubID']] = $db->data['ClubName'];
     }
 
     // get all groups
@@ -258,7 +258,7 @@ function edit_category_form($db,$id)
     $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
     $ur = htmlentities(stripslashes($db->data['TeamURL']));
     $tc = htmlentities(stripslashes($db->data['TeamColour']));
-    $tv = htmlentities(stripslashes($db->data[TeamActive]));
+    $tv = htmlentities(stripslashes($db->data['TeamActive']));
     $td = htmlentities(stripslashes($db->data['TeamDesc']));
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";

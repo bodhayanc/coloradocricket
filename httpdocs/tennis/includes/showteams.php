@@ -61,8 +61,8 @@ function show_teams_listing($db,$s,$id,$pr)
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
         $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-        $di = htmlentities(stripslashes($db->data[TeamDirections]));
-        $ts = htmlentities(stripslashes($db->data[TeamActive]));
+        $di = htmlentities(stripslashes($db->data['TeamDirections']));
+        $ts = htmlentities(stripslashes($db->data['TeamActive']));
         if($ts == "1") {
         	$ts_status = "Active";
         }

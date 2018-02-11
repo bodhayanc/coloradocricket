@@ -123,7 +123,7 @@ function show_main_menu_season($db,$season)
 		$id = htmlentities(stripslashes($db->data[TeamID]));
 		$na = htmlentities(stripslashes($db->data['teamname']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data[TeamDirections]));
+		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 

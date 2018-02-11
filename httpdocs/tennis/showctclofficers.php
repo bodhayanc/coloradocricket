@@ -36,9 +36,9 @@ function show_cclofficers_listing($db,$id,$offid)
     for ($k=0; $k<$db_year->rows; $k++) {
     	$sel = '';
         $db_year->GetRow($k);
-        $year = $db_year->data[season_year];
+        $year = $db_year->data['season_year'];
         if($k == 0){
-        $maxyear =  $db_year->data[season_year];
+        $maxyear =  $db_year->data['season_year'];
         }
         if($year == $_GET['season_year']) {
         	$sel = "selected";
@@ -74,8 +74,8 @@ function show_cclofficers_listing($db,$id,$offid)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
 
-        $id = $db->data[cclofficerID];
-        $ti = $db->data[cclofficerTitle];
+        $id = $db->data['cclofficerID'];
+        $ti = $db->data['cclofficerTitle'];
         $pid = $db->data[cclofficerPlayerID];
         $fna = $db->data['PlayerFName'];
         $lna = $db->data['PlayerLName'];
@@ -145,8 +145,8 @@ function show_cclofficers_detail($db,$id,$offid)
 
     for ($d=0; $d<$db->rows; $d++) {
         $db->GetRow($d);
-        $id = $db->data[cclofficerID];
-        $ti = $db->data[cclofficerTitle];
+        $id = $db->data['cclofficerID'];
+        $ti = $db->data['cclofficerTitle'];
         $de = $db->data[cclofficerDetail];
         $vi = $db->data[cclofficerViews];
         $fna = $db->data['PlayerFName'];
@@ -225,8 +225,8 @@ function show_cclofficers_views($db,$id,$offid)
     for ($d=0; $d<$db->rows; $d++) {
         $db->GetRow($d);
         $db->BagAndTag();
-        $id = $db->data[cclofficerID];
-        $ti = $db->data[cclofficerTitle];
+        $id = $db->data['cclofficerID'];
+        $ti = $db->data['cclofficerTitle'];
         $vie = $db->data[cclofficerViews];
         $pid = $db->data['PlayerID'];
         $fna = $db->data['PlayerFName'];

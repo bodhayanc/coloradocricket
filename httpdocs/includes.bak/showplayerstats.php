@@ -31,10 +31,10 @@ function show_full_players_stats($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -43,8 +43,8 @@ function show_full_players_stats($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -219,10 +219,10 @@ function show_breakdown_year($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -231,8 +231,8 @@ function show_breakdown_year($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -646,10 +646,10 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -658,8 +658,8 @@ function show_breakdown_opponent($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -1109,10 +1109,10 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -1121,8 +1121,8 @@ function show_breakdown_ground($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -1571,10 +1571,10 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -1583,8 +1583,8 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -1630,7 +1630,7 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM batpositions");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $positions[$db->data[BatPosID]] = $db->data[BatPosName];
+        $positions[$db->data['BatPosID']] = $db->data['BatPosName'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -1778,7 +1778,7 @@ function show_breakdown_batpos($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM batpositions");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $positions[$db->data[BatPosID]] = $db->data[BatPosName];
+        $positions[$db->data['BatPosID']] = $db->data['BatPosName'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -2001,10 +2001,10 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -2013,8 +2013,8 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -2060,7 +2060,7 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM innings");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $inns[$db->data[InnID]] = $db->data[InnName];
+        $inns[$db->data['InnID']] = $db->data['InnName'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -2209,7 +2209,7 @@ function show_breakdown_innno($db,$s,$id,$pr,$tid)
     $db->Query("SELECT * FROM innings");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $inns[$db->data[InnID]] = $db->data[InnName];
+        $inns[$db->data['InnID']] = $db->data['InnName'];
     }
                 
         echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
@@ -2435,10 +2435,10 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
     $pfn = $db->data['PlayerFName'];
     $pla = $db->data['PlayerLAbbrev'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -2447,8 +2447,8 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -2613,7 +2613,7 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
         $gid = $db->data['game_id'];
         $dte = sqldate_to_string($db->data['game_date']);
         $dat = $db->data['game_date'];
-        $opp = $db->data[OpponentAbbrev];
+        $opp = $db->data['OpponentAbbrev'];
         $gro = $db->data['GroundName'];
         $out = $db->data['HowOutAbbrev'];
         $oid = $db->data['HowOutID'];
@@ -2622,8 +2622,8 @@ function show_breakdown_batprogress($db,$s,$id,$pr,$tid)
         $pin = $db->data['BatterFInitial'];
         $bln = $db->data['BowlerLName'];
         $bfn = $db->data['BowlerFName'];
-        $ala = $db->data[AssistLAbbrev];
-        $bla = $db->data[BowlerLAbbrev];
+        $ala = $db->data['AssistLAbbrev'];
+        $bla = $db->data['BowlerLAbbrev'];
         $pla = $db->data['PlayerLAbbrev'];
         $bin = $db->data['BowlerFInitial'];
         $aln = $db->data['AssistLName'];
@@ -2877,10 +2877,10 @@ function show_breakdown_bowlprogress($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -2889,8 +2889,8 @@ function show_breakdown_bowlprogress($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -2998,7 +2998,7 @@ function show_breakdown_bowlprogress($db,$s,$id,$pr,$tid)
         $gid = $db->data['game_id'];
         $dte = sqldate_to_string($db->data['game_date']);
         $dat = $db->data['game_date'];
-        $opp = $db->data[OpponentAbbrev];
+        $opp = $db->data['OpponentAbbrev'];
         $gro = $db->data['GroundName'];
         $out = $db->data['HowOutAbbrev'];
         $oid = $db->data['HowOutID'];

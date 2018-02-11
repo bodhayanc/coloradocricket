@@ -171,11 +171,11 @@ function show_main_menu_season($db,$season,$sename)
 			$tna = htmlentities(stripslashes($db->data['teamname']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
-			$det = htmlentities(stripslashes($db->data[AwardDetail]));
+			$det = htmlentities(stripslashes($db->data['AwardDetail']));
 			$tit = htmlentities(stripslashes($db->data[AwardTitle]));
 			$id = htmlentities(stripslashes($db->data[AwardID]));
 			
-			$an = htmlentities(stripslashes($db->data[AwardName]));
+			$an = htmlentities(stripslashes($db->data['AwardName']));
 
 			$sn = htmlentities(stripslashes($db->data['SeasonName']));
 
@@ -234,7 +234,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM awardtypes ORDER BY AwardName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[AwardID] . "\">" . $db->data[AwardName] . "</option>\n";
+			echo "<option value=\"" . $db->data[AwardID] . "\">" . $db->data['AwardName'] . "</option>\n";
 		}
 	}
 
@@ -339,7 +339,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$awards[$db->data[AwardID]] = $db->data[AwardName];
+		$awards[$db->data[AwardID]] = $db->data['AwardName'];
 	}
 	// query database
 
@@ -348,7 +348,7 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$ti = htmlentities(stripslashes($db->data[AwardTitle]));
-	$fd = htmlentities(stripslashes($db->data[AwardDetail]));
+	$fd = htmlentities(stripslashes($db->data['AwardDetail']));
 	$fp = htmlentities(stripslashes($db->data[AwardPlayer]));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));

@@ -58,9 +58,9 @@ function show_main_menu($db)
 			$std = $db->data[start_date];
 			$etd = $db->data[end_date];
 			$st = $db->data[status];
-                        $sy = $db->data[season_year];
-			$ot = htmlentities(stripslashes($db->data[cclofficerTitle]));
-			$id = htmlentities(stripslashes($db->data[cclofficerID]));
+                        $sy = $db->data['season_year'];
+			$ot = htmlentities(stripslashes($db->data['cclofficerTitle']));
+			$id = htmlentities(stripslashes($db->data['cclofficerID']));
 
 			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
@@ -140,9 +140,9 @@ echo "<select name=\"cclofficerTitle\">\n";
 	if ($db->Exists("SELECT distinct cclofficerTitle FROM cclofficers")) {
 		$db->Query("SELECT distinct cclofficerTitle FROM cclofficers");
 		for ($i=0; $i<$db->rows; $i++) {
-                      echo "$db->data[cclofficerTitle]";
+                      echo "$db->data['cclofficerTitle']";
 			$db->GetRow($i);
-			echo "<option value=\"".$db->data[cclofficerTitle]."\">".$db->data[cclofficerTitle]."</option>\n";
+			echo "<option value=\"".$db->data['cclofficerTitle']."\">".$db->data['cclofficerTitle']."</option>\n";
 //			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerLName'] . ", " . $db->data['PlayerFName'] . "</option>\n";
 
 		}
@@ -223,15 +223,15 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$ot = htmlentities(stripslashes($db->data[cclofficerTitle]));
+	$ot = htmlentities(stripslashes($db->data['cclofficerTitle']));
 	$otid = htmlentities(stripslashes($db->data[cclofficerPlayerID]));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
-	$ofid = htmlentities(stripslashes($db->data[cclofficerID]));
+	$ofid = htmlentities(stripslashes($db->data['cclofficerID']));
 	$det = htmlentities(stripslashes($db->data[cclofficerDetail]));
 	$vie = htmlentities(stripslashes($db->data[cclofficerViews]));
 
-$sy = htmlentities(stripslashes($db->data[season_year]));
+$sy = htmlentities(stripslashes($db->data['season_year']));
 $sdt= htmlentities(stripslashes($db->data[start_date]));
 $edt = htmlentities(stripslashes($db->data[end_date]));
 $sta = htmlentities(stripslashes($db->data[status]));

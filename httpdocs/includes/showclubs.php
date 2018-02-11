@@ -46,8 +46,8 @@ function show_clubs_listing($db,$s,$id,$pr)
 
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[ClubID]));
-        $na = htmlentities(stripslashes($db->data[ClubName]));
+        $id = htmlentities(stripslashes($db->data['ClubID']));
+        $na = htmlentities(stripslashes($db->data['ClubName']));
         $di = htmlentities(stripslashes($db->data[ClubDirections]));
         $cs = htmlentities(stripslashes($db->data[ClubActive]));
         $clublogo =  htmlentities(stripslashes($db->data[clublogo]));
@@ -90,8 +90,8 @@ function show_clubs_listing($db,$s,$id,$pr)
 	$j = 0;
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
-        $id = htmlentities(stripslashes($db->data[ClubID]));
-        $na = htmlentities(stripslashes($db->data[ClubName]));
+        $id = htmlentities(stripslashes($db->data['ClubID']));
+        $na = htmlentities(stripslashes($db->data['ClubName']));
         $di = htmlentities(stripslashes($db->data[ClubDirections]));
         $cs = htmlentities(stripslashes($db->data[ClubActive]));
         $clublogo =  htmlentities(stripslashes($db->data[clublogo]));
@@ -141,8 +141,8 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.clublogo, cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, pl.PlayerID, pl.PlayerFName, pl.PlayerLName, gr.GroundName, gr.GroundID FROM (clubs cl INNER JOIN players pl ON cl.ClubID = pl.PlayerClub) INNER JOIN teams te ON pl.PlayerTeam = te.TeamID INNER JOIN grounds gr ON cl.GroundID = gr.GroundID WHERE cl.ClubID = $pr");
     $db->BagAndTag();
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
     $cab = $db->data[ClubAbbrev];
     $cur = $db->data[ClubURL];
     $cco = $db->data[ClubColour];
@@ -403,8 +403,8 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
     $cur = $db->data[ClubURL];
     $cco = $db->data[ClubColour];
 
@@ -442,8 +442,8 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, pl.PlayerID, pl.PlayerFName, pl.PlayerLName FROM (clubs cl INNER JOIN players pl ON cl.ClubID = pl.PlayerClub) INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE cl.ClubID = $pr");
     $db->BagAndTag();
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
     $cab = $db->data[ClubAbbrev];
     $cur = $db->data[ClubURL];
     $cco = $db->data[ClubColour];

@@ -106,7 +106,7 @@ function show_players_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
-        $di = htmlentities(stripslashes($db->data[TeamDirections]));
+        $di = htmlentities(stripslashes($db->data['TeamDirections']));
 
         // output article
 
@@ -206,10 +206,10 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $pln = $db->data['PlayerLName'];
     $pfn = $db->data['PlayerFName'];
     $pem = $db->data['PlayerEmail'];
-    $bor = $db->data[Born];
-    $bat = $db->data[BattingStyle];
-    $bow = $db->data[BowlingStyle];
-    $spr = $db->data[shortprofile];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
 
     $pic = $db->data['picture'];
     $pic1 = $db->data['picture1'];
@@ -217,8 +217,8 @@ function show_full_players($db,$s,$id,$pr,$tid)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
-    $cid = $db->data[ClubID];
-    $cna = $db->data[ClubName];
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -814,7 +814,7 @@ function search_players($db,$search="")
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
-        $di = htmlentities(stripslashes($db->data[TeamDirections]));
+        $di = htmlentities(stripslashes($db->data['TeamDirections']));
 
         // output article
 
@@ -874,7 +874,7 @@ function search_players($db,$search="")
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
-        $di = htmlentities(stripslashes($db->data[TeamDirections]));
+        $di = htmlentities(stripslashes($db->data['TeamDirections']));
 
         // output article
 

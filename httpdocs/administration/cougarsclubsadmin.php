@@ -42,7 +42,7 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$cn = htmlentities(stripslashes($db->data[ClubName]));
+			$cn = htmlentities(stripslashes($db->data['ClubName']));
 			$ca = htmlentities(stripslashes($db->data[ClubActive]));
 
 			if($x % 2) {
@@ -58,7 +58,7 @@ function show_main_menu($db)
 			} else {
 			echo "	<td align=\"left\">$cn <b><font color=\"red\">(not active)</font></b></td>\n";
 			}
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[ClubID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[ClubID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -209,7 +209,7 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$cn = htmlentities(stripslashes($db->data[ClubName]));
+	$cn = htmlentities(stripslashes($db->data['ClubName']));
 	$ur = htmlentities(stripslashes($db->data[ClubURL]));
 	$cc = htmlentities(stripslashes($db->data[ClubColour]));
 	$ca = htmlentities(stripslashes($db->data[ClubActive]));

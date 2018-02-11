@@ -103,8 +103,8 @@ function show_main_menu($db)
 		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data[TeamDirections]));
-                $isactive = htmlentities(stripslashes($db->data[TeamActive]));
+		$di = htmlentities(stripslashes($db->data['TeamDirections']));
+                $isactive = htmlentities(stripslashes($db->data['TeamActive']));
 
 		// output article
 
@@ -284,7 +284,7 @@ function show_search_menu($db,$search="")
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['TeamName']));
-		$di = htmlentities(stripslashes($db->data[TeamDirections]));
+		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 
@@ -343,7 +343,7 @@ function show_search_menu($db,$search="")
 		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data[TeamDirections]));
+		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 
@@ -508,7 +508,7 @@ function show_byletter_menu($db,$letter)
 		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data[TeamDirections]));
+		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 
@@ -699,7 +699,7 @@ function show_byteam_menu($db,$team,$teamname)
 		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data[TeamDirections]));
+		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 
@@ -918,7 +918,7 @@ function edit_category_form($db,$id)
 	for ($c=0; $c<$db->rows; $c++) {
 		$db->GetRow($c);
         $db->BagAndTag();
-		$clubs[$db->data[ClubID]] = $db->data[ClubName];
+		$clubs[$db->data['ClubID']] = $db->data['ClubName'];
 	}
 
 	// query database
@@ -930,7 +930,7 @@ function edit_category_form($db,$id)
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pem = htmlentities(stripslashes($db->data['PlayerEmail']));
-	$spr = htmlentities(stripslashes($db->data[shortprofile]));
+	$spr = htmlentities(stripslashes($db->data['shortprofile']));
 
 	$ump = $db->data[IsUmpire];
 	$pre = $db->data[IsPresident];
@@ -940,9 +940,9 @@ function edit_category_form($db,$id)
 	$cap = $db->data[IsCaptain];
 	$vca = $db->data[IsViceCaptain];
 
-	$bor = $db->data[Born];
-	$bat = $db->data[BattingStyle];
-	$bow = $db->data[BowlingStyle];
+	$bor = $db->data['Born'];
+	$bat = $db->data['BattingStyle'];
+	$bow = $db->data['BowlingStyle'];
 	
 	$ip = stripslashes($db->data[isactive]);
 	$ipyes = 'yes';

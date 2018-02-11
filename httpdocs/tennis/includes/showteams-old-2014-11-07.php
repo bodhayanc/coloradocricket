@@ -67,10 +67,10 @@ function show_teams_listing($db,$s,$id,$pr)
 	        $db->GetRow($x);
 	        $id = htmlentities(stripslashes($db->data['TeamID']));
 	        $na = htmlentities(stripslashes($db->data['TeamName']));
-//	        $di = htmlentities(stripslashes($db->data[TeamDirections]));  commented 29-Jul-2014 12:09am
+//	        $di = htmlentities(stripslashes($db->data['TeamDirections']));  commented 29-Jul-2014 12:09am
 	        $di = htmlentities(stripslashes($db->data['TeamDesc']));
 	        $co = htmlentities(stripslashes($db->data['TeamColour']));
-                $st = $db->data[TeamActive];
+                $st = $db->data['TeamActive'];
 	        $pi = $db->data['picture'];
 	
 //              if ($st=1) { $sta = 'Active';}

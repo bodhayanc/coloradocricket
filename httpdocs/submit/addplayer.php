@@ -73,7 +73,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM clubs ORDER BY ClubName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data[ClubID] . "\">" . $db->data[ClubName] . "</option>\n";
+            echo "<option value=\"" . $db->data['ClubID'] . "\">" . $db->data['ClubName'] . "</option>\n";
         }
     }
     echo "</select></p>\n";

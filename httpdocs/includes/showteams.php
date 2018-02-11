@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_teams_listing($db,$s,$id,$pr)
+function show_teams_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
     
@@ -60,8 +60,7 @@ function show_teams_listing($db,$s,$id,$pr)
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
         $ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-        $di = htmlentities(stripslashes($db->data[TeamDirections]));
-        $ts = htmlentities(stripslashes($db->data[TeamActive]));
+        $ts = htmlentities(stripslashes($db->data['TeamActive']));
         if($ts == "1") {
         	$ts_status = "Active";
         }
@@ -679,7 +678,7 @@ $db->SelectDB($dbcfg['db']);
 if (isset($_GET['ccl_mode'])) {
 	switch($_GET['ccl_mode']) {
 	case 0:
-		show_teams_listing($db,$s,$id,$teams);
+		show_teams_listing($db);
 		break;
 	case 1:
 		show_full_teams($db,$_GET['teams']);
@@ -691,6 +690,8 @@ if (isset($_GET['ccl_mode'])) {
 		show_teams_listing($db,$s,$id,$teams);
 		break;
 	}
+} else {
+	show_teams_listing($db);
 }
 
 

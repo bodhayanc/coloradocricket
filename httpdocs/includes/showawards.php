@@ -176,11 +176,11 @@ function show_awards_season($db,$id,$aw,$season,$sename)
         $tna = htmlentities(stripslashes($db->data['TeamName']));
         $tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
-        $det = htmlentities(stripslashes($db->data[AwardDetail]));
-        $awn = htmlentities(stripslashes($db->data[AwardName]));
-        $id = htmlentities(stripslashes($db->data[plaward]));
+        $det = htmlentities(stripslashes($db->data['AwardDetail']));
+        $awn = htmlentities(stripslashes($db->data['AwardName']));
+        $id = htmlentities(stripslashes($db->data['plaward']));
         $sn = htmlentities(stripslashes($db->data['SeasonName']));
-        $ad = htmlentities(stripslashes($db->data[AwardDetail]));
+        $ad = htmlentities(stripslashes($db->data['AwardDetail']));
         $pc = htmlentities(stripslashes($db->data['picture']));
         $a = sqldate_to_string($db->data['added']);
 
@@ -254,8 +254,8 @@ function show_awards($db,$s,$id,$aw,$season,$sename)
         $tna = $db->data['TeamName'];
         $tab = $db->data['TeamAbbrev'];
 
-        $det = $db->data[AwardDetail];
-        $awn = htmlentities(stripslashes($db->data[AwardName]));
+        $det = $db->data['AwardDetail'];
+        $awn = htmlentities(stripslashes($db->data['AwardName']));
 
         echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
         echo "<tr>\n";

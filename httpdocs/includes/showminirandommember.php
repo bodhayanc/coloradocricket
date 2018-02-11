@@ -43,8 +43,8 @@ function show_minirandommember($db)
 		$tna = $db->data['TeamName'];
 		$tab = $db->data['TeamAbbrev'];
 		
-		$bat = $db->data[BattingStyle];
-		$bow = $db->data[BowlingStyle];
+		$bat = $db->data['BattingStyle'];
+		$bow = $db->data['BowlingStyle'];
 
 		// output story, show the image, if no image show the title
 
