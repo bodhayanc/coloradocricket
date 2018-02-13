@@ -1537,11 +1537,11 @@ if (isset($_GET['ccl_mode'])) {
         show_type_news_listing($db,$s,$id,$news,$type);
         break;  
     default:
-        show_top20_news_listing($db,$s,$id,$news);
+        show_top20_news_listing($db,$s,$id,$_GET['news']);
         break;
     }
 } else {
-    show_top20_news_listing($db,$s,$id,$news);
+    show_top20_news_listing($db,$s,$id,$_GET['news']);
 }
 
 
