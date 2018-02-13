@@ -1510,34 +1510,38 @@ function show_type_news_listing($db,$s,$id,$pr,$type)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_top20_news_listing($db,$s,$id,$news,$mn);
-    break;
-case 1:
-    show_full_news($db,$s,$id,$news);
-    break;
-case 2:
-    search_news($db,$search);
-    break;
-case 3:
-    show_email($db,$s,$id,$news);
-    break;
-case 4:
-    show_full_news_listing($db,$s,$id,$news);
-    break;
-case 5:
-    show_monthly_news_listing($db,$s,$id,$news,$theyear,$themonth,$monthname);
-    break;
-case 6:
-    show_popular_news_listing($db,$s,$id,$news);
-    break;
-case 7:
-    show_type_news_listing($db,$s,$id,$news,$type);
-    break;  
-default:
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+    case 0:
+        show_top20_news_listing($db,$s,$id,$news,$mn);
+        break;
+    case 1:
+        show_full_news($db,$s,$id,$_GET['news']);
+        break;
+    case 2:
+        search_news($db,$search);
+        break;
+    case 3:
+        show_email($db,$s,$id,$news);
+        break;
+    case 4:
+        show_full_news_listing($db,$s,$id,$news);
+        break;
+    case 5:
+        show_monthly_news_listing($db,$s,$id,$news,$theyear,$themonth,$monthname);
+        break;
+    case 6:
+        show_popular_news_listing($db,$s,$id,$news);
+        break;
+    case 7:
+        show_type_news_listing($db,$s,$id,$news,$type);
+        break;  
+    default:
+        show_top20_news_listing($db,$s,$id,$news);
+        break;
+    }
+} else {
     show_top20_news_listing($db,$s,$id,$news);
-    break;
 }
 
 
