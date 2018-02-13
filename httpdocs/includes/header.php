@@ -40,8 +40,8 @@ window.external.AddFavorite(url,title)
 
 <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="#000000">
   <tr>
-    <td valign="top" align="left" class="blackbar">&nbsp;<a href="javascript:bookmark()" class="blackbar">add to favourites</a> | <a href="http://babelfish.altavista.com/babelfish/trurl_pagecontent?lp=en_es&trurl=http%3a%2f%2fwww.coloradocricket.org%2findex.php" class="blackbar">español</a></td>
-    <td valign="top" align="right" class="blackbar"><a href="http://www.coloradocricket.org/board/posting.php?mode=newtopic&f=6" class="blackbar">help</a> | <a href="http://www.coloradocricket.org/search.php" class="blackbar">search</a> | <a href="http://www.coloradocricket.org/administration/main.php" class="blackbar">admin</a> | <a href="http://www.coloradocricket.org" class="blackbar">home</a> &nbsp;</td>
+    <td valign="top" align="left" class="blackbar">&nbsp;<a href="javascript:bookmark()" class="blackbar">add to favourites</a> | <a href="http://babelfish.altavista.com/babelfish/trurl_pagecontent?lp=en_es&trurl=http%3a%2f%2fwww.coloradocricket.org%2findex.php" class="blackbar">espa&ntilde;ol</a></td>
+    <td valign="top" align="right" class="blackbar"><a href="/board/posting.php?mode=newtopic&f=6" class="blackbar">help</a> | <a href="/search.php" class="blackbar">search</a> | <a href="/administration/main.php" class="blackbar">admin</a> | <a href="/" class="blackbar">home</a> &nbsp;</td>
   </tr>
 </table>
 
@@ -53,9 +53,9 @@ window.external.AddFavorite(url,title)
 
     <select name=ccl_mode onChange="gotosite(this.options[this.selectedIndex].value)">
       <option>select a site</option>
-      <option value="http://www.coloradocricket.org">» colorado cricket league</option>
-      <option value="http://cougars.coloradocricket.org">» colorado cougars</option>
-      <option value="http://tennis.coloradocricket.org">» tennis ball cricket</option>
+      <option value="http://www.coloradocricket.org">&#xbb; colorado cricket league</option>
+      <option value="http://cougars.coloradocricket.org">&#xbb; colorado cougars</option>
+      <option value="http://tennis.coloradocricket.org">&#xbb; tennis ball cricket</option>
     </select>&nbsp;&nbsp;
 
       </div>
