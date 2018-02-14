@@ -18,9 +18,9 @@
 // database global values
 $dbcfg = array (
                 'server'  => "localhost",
-                'login'   => "root",
-                'pword'   => "password1$",
-                'db'      => "colora12_cricket"
+                'login'   => "colorad2_db1",
+                'pword'   => "fBCwg=UAESP",
+                'db'      => "colorad2_db1"
         );
 
 // database table values
