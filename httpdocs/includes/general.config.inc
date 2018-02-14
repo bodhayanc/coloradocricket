@@ -10,7 +10,7 @@
 
 // Site variables
         $copyright = "copyright &copy; <a href=\"http://www.coastart.net\">Michael Doig</a> 2004.\n";
-        $siteurl   = "http://localhost";
+        $siteurl   = "http://coloradocricket.org";
         $sitepath  = "/public_html/";
         $limit     = 10;
 
@@ -35,7 +35,7 @@ $tbcfg = array (
 
 // path config values
 $pathcfg = array (
-                'urlroot' => "localhost",
+                'urlroot' => "coloradocricket.org",
                 'froot'   => "/home/colora12/public_html/",
                 'aroot'   => "/home/colora12/public_html/administration",
                 'iroot'   => "/home/colora12/public_html/includes",
