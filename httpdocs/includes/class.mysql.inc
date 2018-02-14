@@ -33,14 +33,14 @@ class mysql_class{
 	function CreateDB($database){
 		$this->result= @mysql_create_db($database) or
 			mysql_ErrorMsg("Unable to create database: $database");
-		$this->a_rows=@mysql_affected_rows($this->result);
+		$this->a_rows=@mysqli_affected_rows($this->result);
 	}
 
 	# Drop a database
 	function DropDB($database){
 		$this->result=@mysql_drop_db($database) or
 			mysql_ErrorMsg("Unable to drop database: $database");
-		$this->a_rows=@mysql_affected_rows($this->result);
+		$this->a_rows=@mysqli_affected_rows($this->result);
 	}
 
 	# Copy a database from this server (even to another)
@@ -108,21 +108,21 @@ class mysql_class{
 	function Delete($query){
 		$this->result=@mysqli_query($this->id, $query) or
 			mysql_ErrorMsg("Unable to perform Delete: $query. " . mysqli_error($this->id));
-		$this->a_rows=@mysql_affected_rows($this->result);
+		$this->a_rows=@mysqli_affected_rows($this->result);
 	}
 
 	# Update elements in database
 	function Update($query){
 		$this->result=@mysqli_query($this->id, $query) or
 			mysql_ErrorMsg("Unable to perform update: $query. " . mysqli_error($this->id));
-		$this->a_rows=@mysql_affected_rows($this->result);
+		$this->a_rows=@mysqli_affected_rows($this->result);
 	}
 
 	# Insert row into a table
 	function Insert($query){
 		$this->result=@mysqli_query($this->id, $query) or
 			mysql_ErrorMsg("Unable to perform insert: $query. " . mysqli_error($this->id));
-		$this->a_rows=@mysql_affected_rows($this->result);
+		$this->a_rows=@mysqli_affected_rows($this->result);
 	}
 
 	# Get last insert id from an auto_incremented field

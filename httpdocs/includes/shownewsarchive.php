@@ -873,7 +873,7 @@ function show_full_news_listing($db,$s,$id,$pr)
 }
 
 
-function show_full_news($db,$s,$id,$pr)
+function show_full_news($db,$pr)
 {
     global $PHP_SELF, $greenbdr;
 
@@ -884,7 +884,7 @@ function show_full_news($db,$s,$id,$pr)
     $t = $db->data['title'];
     $vw = $db->data['views'];
     $di = $db->data['DiscussID'];
-    $pd = $db->data[picdesc];
+    $pd = $db->data['picdesc'];
         
     $db->Update("UPDATE news SET views=$vw+1 WHERE id=$pr");
 
@@ -1516,7 +1516,7 @@ if (isset($_GET['ccl_mode'])) {
         show_top20_news_listing($db,$s,$id,$news,$mn);
         break;
     case 1:
-        show_full_news($db,$s,$id,$_GET['news']);
+        show_full_news($db,$_GET['news']);
         break;
     case 2:
         search_news($db,$search);

@@ -11,7 +11,7 @@
 // Site variables
         $copyright = "copyright &copy; <a href=\"http://www.coastart.net\">Michael Doig</a> 2004.\n";
         $siteurl   = "http://localhost";
-        $sitepath  = "/home/colora12/public_html/";
+        $sitepath  = "/public_html/";
         $limit     = 10;
 
 
