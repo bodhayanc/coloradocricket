@@ -157,13 +157,11 @@ function show_main_menu_season($db,$season,$sename)
 			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-			$tna = htmlentities(stripslashes($db->data['teamname']));
+			$tna = htmlentities(stripslashes($db->data['TeamName']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
-			$det = htmlentities(stripslashes($db->data[FeaturedDetail]));
-			$id = htmlentities(stripslashes($db->data[FeaturedID]));
-
-			$sn = htmlentities(stripslashes($db->data['SeasonName']));
+			$det = htmlentities(stripslashes($db->data['FeaturedDetail']));
+			$id = htmlentities(stripslashes($db->data['FeaturedID']));
 
 			if($x % 2) {
 			  echo "<tr class=\"trrow2\">\n";
@@ -176,7 +174,7 @@ function show_main_menu_season($db,$season,$sename)
 			echo "	<td align=\"left\">$id</td>\n";
 			echo "	<td align=\"left\">$pfn $pln</td>\n";
 			echo "	<td align=\"left\">$tab</td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[FeaturedID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['FeaturedID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['FeaturedID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -298,7 +296,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$players[$db->data['PlayerID']] = $db->data[PlayerName];
+		$players[$db->data['PlayerID']] = $db->data['PlayerName'];
 	}
 
 	// get all seasons
@@ -317,7 +315,7 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$fd = htmlentities(stripslashes($db->data[FeaturedDetail]));
+	$fd = htmlentities(stripslashes($db->data['FeaturedDetail']));
 	$fp = htmlentities(stripslashes($db->data['FeaturedPlayer']));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
@@ -397,6 +395,40 @@ function do_update_category($db,$id,$FeaturedPlayer,$FeaturedDetail,$season)
 		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sedit&id=$id\">update featured member some more</a></p>\n";
 }
 
+function delete_category_check($db,$id)
+{
+	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+
+	// query the database with title variable
+
+	$db->QueryRow("SELECT pl.PlayerFName, pl.PlayerLName FROM featuredmember fm INNER JOIN players pl ON fm.FeaturedPlayer=pl.PlayerID WHERE fm.FeaturedID=$id");
+	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
+
+	// output
+
+	echo "<p>Are you sure you wish to delete the Featured Member:</p>\n";
+	echo "<p><b>$pln, $pfn</b></p>\n";
+	echo "<p><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=$id&doit=1\">YES</a> | <a href=\"main.php?SID=$SID&action=$action&do=sdel&id=$id&doit=0\">NO</a></p>\n";
+}
+
+function do_delete_category($db,$id,$doit)
+{
+	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+
+	// cancel delete
+
+	if (!$doit) echo "<p>You have chosen NOT to delete that Featured Member.</p>\n";
+	else {
+
+	// do delete
+
+		$db->Delete("DELETE FROM featuredmember WHERE FeaturedID=$id");
+		echo "<p>You have now deleted that Featured Member.</p>\n";
+	}
+	echo "<p>&laquo; <a href=\"main.php?SID=$SID&action=$action\">return to the Featured Member listing</a></p>\n";
+}
+
 
 
 // main program
@@ -408,21 +440,36 @@ if (!$USER['flags'][$f_featuredmember_admin]) {
 
 echo "<p class=\"16px\"><b>Featured Member Administration</b></p>\n";
 
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
 switch($do) {
 case "byseason":
-    show_main_menu_season($db,$season,$sename);
-    break;
+	show_main_menu_season($db,$_GET['season'],$_GET['sename']);
+	break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$FeaturedPlayer,$FeaturedDetail,$season,$sename);
+	else do_add_category($db,$_POST['FeaturedPlayer'],$_POST['FeaturedDetail'],$_POST['season'],'');
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$_GET['doit']);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$FeaturedPlayer,$FeaturedDetail,$season,$sename);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['FeaturedPlayer'],$_POST['FeaturedDetail'],$_POST['season'],'');
 	break;
 default:
 	show_main_menu($db);

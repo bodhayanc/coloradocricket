@@ -82,9 +82,8 @@ function show_recent_main_menu($db)
 			echo "	<td align=\"left\"><b><font color=\"red\">$t</font></b></td>\n";
 			}
 
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -163,6 +162,7 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 	echo "<input type=\"hidden\" name=\"SID\" value=\"$SID\" ID='\"hidden\"3'4>\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\" ID='\"hidden\"4'5>\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"search\" ID='\"hidden\"5'6>\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
 	echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" ID='\"text\"1'2> <input type=\"submit\" value=\"Search\" ID='\"submit\"1'2 NAME=\"submit\"2></form></p>\n";
 
 	echo "    </td>\n";
@@ -229,9 +229,7 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
 			$ty = $db->data['theyear'];
-			$tm = $db->data['themonth'];
-			$mi = $db->data['monthid'];
-
+			
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=2&monthname=February&ccl_mode=5\">Feb</a>|";
@@ -365,9 +363,7 @@ function show_search_main_menu($db,$search="")
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
 			$ty = $db->data['theyear'];
-			$tm = $db->data['themonth'];
-			$mi = $db->data['monthid'];
-
+			
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=2&monthname=February&ccl_mode=5\">Feb</a>|";
@@ -489,9 +485,7 @@ function show_main_menu($db)
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
 			$ty = $db->data['theyear'];
-			$tm = $db->data['themonth'];
-			$mi = $db->data['monthid'];
-
+			
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=2&monthname=February&ccl_mode=5\">Feb</a>|";
@@ -889,7 +883,7 @@ if (isset($_GET['do'])) {
 } else if(isset($_POST['do'])) {
 	$do = $_POST['do'];
 } else {
-	$do = "menu";
+	$do = "";
 }
 	
 switch($do) {
@@ -897,7 +891,7 @@ case "menu":
 	show_main_menu($db);
 	break;
 case "months":
-	show_months_main_menu($db,$theyear,$themonth,$monthname);
+	show_months_main_menu($db,$_GET['theyear'],$_GET['themonth'],$_GET['monthname']);
 	break;
 case "search":
 	show_search_main_menu($db,$_GET['search']);

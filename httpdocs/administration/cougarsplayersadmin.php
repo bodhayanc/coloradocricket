@@ -418,7 +418,7 @@ function edit_category_form($db,$id,$team)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$players[$db->data['PlayerID']] = $db->data[PlayerName];
+		$players[$db->data['PlayerID']] = $db->data['PlayerName'];
 	}
 
 	// get all seasons
