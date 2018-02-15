@@ -1,4 +1,21 @@
-<link rel="shortcut icon" href="/images/favicon.ico" />
+<?php
+
+//------------------------------------------------------------------------------
+// Site Control v2.0
+//
+// (c) Andrew Collington - andy@amnuts.com
+// (c) Michael Doig      - michael@coastart.net
+// On behalf of Coastart Internet Services - all rights reserved.
+//------------------------------------------------------------------------------
+
+if(session_id() == '') {
+	session_start();
+}
+
+$currentSID = session_id();
+
+
+?><link rel="shortcut icon" href="/images/favicon.ico" />
 <script language="javascript">
   function gotosite(site)
   {
@@ -41,7 +58,7 @@ window.external.AddFavorite(url,title)
 <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="#000000">
   <tr>
     <td valign="top" align="left" class="blackbar">&nbsp;<a href="javascript:bookmark()" class="blackbar">add to favourites</a> | <a href="http://babelfish.altavista.com/babelfish/trurl_pagecontent?lp=en_es&trurl=http%3a%2f%2fwww.coloradocricket.org%2findex.php" class="blackbar">espa&ntilde;ol</a></td>
-    <td valign="top" align="right" class="blackbar"><a href="/board/posting.php?mode=newtopic&f=6" class="blackbar">help</a> | <a href="/search.php" class="blackbar">search</a> | <a href="/administration/main.php" class="blackbar">admin</a> | <a href="/" class="blackbar">home</a> &nbsp;</td>
+    <td valign="top" align="right" class="blackbar"><a href="/board/posting.php?mode=newtopic&f=6" class="blackbar">help</a> | <a href="/search.php" class="blackbar">search</a> | <a href="/administration/main.php?SID=<?php echo $currentSID ?>" class="blackbar">admin</a> | <a href="/" class="blackbar">home</a> &nbsp;</td>
   </tr>
 </table>
 

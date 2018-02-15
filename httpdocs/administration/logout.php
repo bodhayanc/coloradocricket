@@ -22,8 +22,6 @@ $db->SelectDB($dbcfg['db']);
 $db->Update("UPDATE $tbcfg[admin] SET ison=0 WHERE email='" . $USER['email'] . "'");
 
 // destroy the session and log them out
-
-session_unregister($USER);
 session_destroy();
 header("Location: http://$pathcfg[urlroot]/$pathcfg[adir]/index.php?again=2");
 

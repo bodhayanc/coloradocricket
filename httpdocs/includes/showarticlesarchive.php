@@ -9,7 +9,7 @@
 
 
 
-function show_top10_articles_listing($db,$s,$id,$pr)
+function show_top10_articles_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -48,7 +48,8 @@ function show_top10_articles_listing($db,$s,$id,$pr)
 
     echo "<form action=\"$PHP_SELF\">";
     echo "<input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
-    echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 
     echo "    </td>\n";
     echo "  </tr>\n";
@@ -208,7 +209,7 @@ function show_full_articles_listing($db,$s,$id,$pr)
 }
 
 
-function show_full_articles($db,$s,$id,$pr)
+function show_full_articles($db,$pr)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -219,7 +220,9 @@ function show_full_articles($db,$s,$id,$pr)
     $t = $db->data['title'];
     $di = $db->data['DiscussID'];
     $pd = $db->data['picdesc'];
+	$vw = $db->data['views'];
 
+	$db->Update("UPDATE news SET views=$vw+1 WHERE id=$pr");
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
     echo "  <td align=\"left\" valign=\"top\">\n";
@@ -580,28 +583,32 @@ function do_add_article($db,$title,$author,$article,$picture)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_top10_articles_listing($db,$s,$id,$news);
-    break;
-case 1:
-    show_full_articles($db,$s,$id,$news);
-    break;
-case 2:
-    search_articles($db,$search);
-    break;
-case 3:
-    show_email($db,$s,$id,$news);
-    break;
-case 4:
-    show_full_articles_listing($db,$s,$id,$news);
-    break;
-case 5:
-	 add_article($db);
-    break;
-default:
-    show_top10_articles_listing($db,$s,$id,$news);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_top10_articles_listing($db);
+		break;
+	case 1:
+		show_full_articles($db,$_GET['news']);
+		break;
+	case 2:
+		search_articles($db,$_GET['search']);
+		break;
+	case 3:
+		show_email($db,$s,$id,$news);
+		break;
+	case 4:
+		show_full_articles_listing($db);
+		break;
+	case 5:
+		 add_article($db);
+		break;
+	default:
+		show_top10_articles_listing($db);
+		break;
+	}
+} else {
+	show_top10_articles_listing($db);
 }
 
 

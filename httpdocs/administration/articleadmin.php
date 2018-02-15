@@ -12,7 +12,7 @@ function show_main_menu($db)
 {
 	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
-	//echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">Add a news article</a></p>\n";
+	echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">Add a news article</a></p>\n";
 
 	// check for empty database
 
@@ -44,7 +44,7 @@ function show_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsPending];
+			$fe = $db->data['IsPending'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -65,7 +65,7 @@ function show_main_menu($db)
 			}
 //			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-	echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></td>\n";
+	echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -156,8 +156,7 @@ function do_add_category($db,$uid,$title,$author,$article,$IsFeature,$DiscussID,
 	$di = addslashes(trim($DiscussID));
 	$pd = addslashes(trim($picdesc));	
 	$d = date("Y",time()) . "-" . date("m",time()) . "-" . date("j",time());
-	$pa = eregi_replace("\r","",$photo);
-
+	
 	// check for duplicates
 
 	if ($db->Exists("SELECT * FROM news WHERE title='$t'")) {
@@ -251,11 +250,11 @@ function edit_category_form($db,$id)
 	if ($db->data['IsFeature'] ==1) $is1 = $isyes;
 	if ($db->data['IsFeature'] ==0) $is1 = $isno;
 
-	$ip = stripslashes($db->data[IsPending]);
+	$ip = stripslashes($db->data['IsPending']);
 	$ipyes = 'yes';
 	$ipno = 'no';
-	if ($db->data[IsPending] ==0) $ip1 = $ipyes;
-	if ($db->data[IsPending] ==1) $ip1 = $ipno;
+	if ($db->data['IsPending'] ==0) $ip1 = $ipyes;
+	if ($db->data['IsPending'] ==1) $ip1 = $ipno;
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";
@@ -342,8 +341,6 @@ function do_update_category($db,$id,$title,$author,$article,$IsFeature,$IsPendin
 // setup the variables
 
 	$t = addslashes(trim($title));
-	$pa = eregi_replace("\r","",$photo);
-	$o = addslashes(trim($old));
 	$au = addslashes(trim($author));
 	$if = addslashes(trim($IsFeature));
 	$ip = addslashes(trim($IsPending));
@@ -352,8 +349,7 @@ function do_update_category($db,$id,$title,$author,$article,$IsFeature,$IsPendin
 
 // prevent the need for using escape sequences with apostrophe's
 
-	$a = eregi_replace("\r","",$article);
-	$a = addslashes(trim($a));
+	$a = addslashes(trim($article));
 
 	// query database
 
@@ -366,19 +362,19 @@ function do_update_category($db,$id,$title,$author,$article,$IsFeature,$IsPendin
 
 // do picture stuff here - doesn't like being passed to a function!
 
-if ($userpic_name != "") {
-	$picture = urldecode($userpic_name);
-	$picture = ereg_replace(" ","_",$picture);
-	$picture = ereg_replace("&","_and_",$picture);
-
-// put picture in right place
-
-	if (!copy($userpic,"../uploadphotos/news/$picture")) {
+if (isset($_FILES['userpic']) && $_FILES['userpic']['name'] != "") {
+	
+	$uploaddir = "../uploadphotos/news/";
+	$basename = basename($_FILES['userpic']['name']);
+	$uploadfile = $uploaddir . $basename;
+	// put picture in right place
+	if (move_uploaded_file($_FILES['userpic']['tmp_name'], $uploadfile)) {
+		$setpic = "";
+		$picture=$basename;
+	} else {
 		echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
-		unlink($userpic);
-		return;
 	}
-	unlink($userpic);
+	
 	$setpic = ",picture='$picture'";
 } else {
 	$picture = "";
@@ -394,21 +390,35 @@ if (!$USER['flags'][$f_news_admin]) {
 
 echo "<p class=\"16px\"><b>Featured Article Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$USER['email'],$title,$author,$article,$IsFeature,$DiscussID,$picdesc,$picture);
+	else do_add_category($db,$USER['email'],$_POST['title'],$_POST['author'],$_POST['article'],$_POST['IsFeature'],0,$_POST['picdesc'],$picture);
 	break;
 case "sdel":
-                     //Per Kervyn's request -- taking off the confirmation option
-	//if (!isset($doit)) delete_category_check($db,$id);
-	//else do_delete_category($db,$id,$doit);
-                     $doit=1;
-                     do_delete_category($db,$id,$doit);
-	break;
+    //Per Kervyn's request -- taking off the confirmation option
+	// Bodha adding it back 02/15/2018
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
+    break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$title,$author,$article,$IsFeature,IsPending,$DiscussID,$picdesc,$setpic);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['title'],$_POST['author'],$_POST['article'],$_POST['IsFeature'],$_POST['IsPending'],0,$_POST['picdesc'],$setpic);
 	break;
 default:
 	show_main_menu($db);
