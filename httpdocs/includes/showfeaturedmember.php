@@ -314,20 +314,23 @@ function show_featuredmember($db,$id,$fm,$season,$sename)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-
-switch($ccl_mode) {
-case 0:
-    show_featuredmember_listing($db,$id,$fm);
-    break;
-case 1:
-    show_featuredmember($db,$id,$fm,$season,$sename);
-    break;
-case 2:
-    show_featuredmember_season($db,$id,$fm,$season,$sename);
-    break;  
-default:
-    show_featuredmember_listing($db,$id,$fm);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_featuredmember_listing($db,$id, isset($_GET['fm']) ? $_GET['fm'] : '');
+		break;
+	case 1:
+		show_featuredmember($db,isset($_GET['id']) ? $_GET['id'] : '',isset($_GET['fm']) ? $_GET['fm'] : '',isset($_GET['season']) ? $_GET['season'] : '',isset($_GET['sename']) ? $_GET['sename'] : '');
+		break;
+	case 2:
+		show_featuredmember_season($db,isset($_GET['id']) ? $_GET['id'] : '',isset($_GET['fm']) ? $_GET['fm'] : '',isset($_GET['season']) ? $_GET['season'] : '',isset($_GET['sename']) ? $_GET['sename'] : '');
+		break;  
+	default:
+		show_featuredmember_listing($db,isset($_GET['id']) ? $_GET['id'] : '',isset($_GET['fm']) ? $_GET['fm'] : '');
+		break;
+	}
+} else {
+	show_featuredmember_listing($db);
 }
 
 ?>
