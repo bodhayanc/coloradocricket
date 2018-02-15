@@ -74,7 +74,7 @@ function show_recent_main_menu($db)
 		$db->Query("SELECT yearid AS theyear FROM year ORDER BY yearid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$ty = $db->data[theyear];
+			$ty = $db->data['theyear'];
 			echo "  <option value=\"$ty\">$ty</option>\n";
 		}
 	}
@@ -91,7 +91,7 @@ function show_recent_main_menu($db)
 		$db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$mi = $db->data[themonth];
+			$mi = $db->data['themonth'];
 			$mn = $db->data[monthname];
 			$ma = $db->data[abbrev];
 			echo "  <option value=\"$mn\">$ma</option>\n";
@@ -226,7 +226,7 @@ function show_months_main_menu($db,$theyear,$themonth)
 		$db->Query("SELECT yearid AS theyear FROM year ORDER BY yearid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$ty = $db->data[theyear];
+			$ty = $db->data['theyear'];
 			echo "  <option value=\"$ty\">$ty</option>\n";
 		}
 	}
@@ -243,7 +243,7 @@ function show_months_main_menu($db,$theyear,$themonth)
 		$db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$mi = $db->data[themonth];
+			$mi = $db->data['themonth'];
 			$mn = $db->data[monthname];
 			$ma = $db->data[abbrev];
 			echo "  <option value=\"$mn\">$ma</option>\n";
@@ -387,7 +387,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth)
 		$db->Query("SELECT yearid AS theyear FROM year ORDER BY yearid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$ty = $db->data[theyear];
+			$ty = $db->data['theyear'];
 			echo "  <option value=\"$ty\">$ty</option>\n";
 		}
 	}
@@ -404,7 +404,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth)
 		$db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$mi = $db->data[themonth];
+			$mi = $db->data['themonth'];
 			$mn = $db->data[monthname];
 			$ma = $db->data[abbrev];
 			echo "  <option value=\"$mn\">$ma</option>\n";
@@ -615,7 +615,7 @@ global $bluebdr, $action,$SID;
 		$db->Query("SELECT monthid AS themonth, monthnum, abbrev, title AS monthname FROM month ORDER BY monthid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$mi = $db->data[themonth];
+			$mi = $db->data['themonth'];
 			$mn = $db->data[monthname];
 			$mu = $db->data[monthnum];
 			$ma = $db->data[abbrev];
@@ -635,7 +635,7 @@ global $bluebdr, $action,$SID;
 		$db->Query("SELECT yearid AS theyear FROM year ORDER BY yearid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$ty = $db->data[theyear];
+			$ty = $db->data['theyear'];
 			echo "  <option value=\"$ty\">$ty</option>\n";
 		}
 	}
@@ -1025,7 +1025,7 @@ function edit_category_form($db,$id)
 		$db->Query("SELECT monthid AS themonth, monthnum, abbrev, title AS monthname FROM month ORDER BY monthid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$mi = $db->data[themonth];
+			$mi = $db->data['themonth'];
 			$mn = $db->data[monthname];
 			$mu = $db->data[monthnum];
 			$ma = $db->data[abbrev];
@@ -1045,7 +1045,7 @@ function edit_category_form($db,$id)
 		$db->Query("SELECT yearid AS theyear FROM year ORDER BY yearid");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			$ty = $db->data[theyear];
+			$ty = $db->data['theyear'];
 			echo "  <option value=\"$ty\">$ty</option>\n";
 		}
 	}
@@ -1204,7 +1204,7 @@ function do_update_category($db,$id,$title,$description,$cat,$day,$month,$year,$
 // MAIN PROGRAM
 //////////////////////////////////////////////////////////////////////////////////////////
 
-if (!$USER[flags][$f_cal_event_admin]) {
+if (!$USER['flags'][$f_cal_event_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

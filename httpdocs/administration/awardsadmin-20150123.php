@@ -439,7 +439,7 @@ function do_update_category($db,$id,$AwardPlayer,$AwardTitle,$AwardDetail,$seaso
 
 // main program
 
-if (!$USER[flags][$f_awards_admin]) {
+if (!$USER['flags'][$f_awards_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

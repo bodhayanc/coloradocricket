@@ -494,7 +494,7 @@ if ($usercard_name != "") {
 
 // main program
 
-if (!$USER[flags][$f_tennisladder_admin]) {
+if (!$USER['flags'][$f_tennisladder_admin]) {
     header("Location: main.php?SID=$SID");
     exit;
 }

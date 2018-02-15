@@ -48,10 +48,12 @@ require "../includes/general.functions.inc";
           <td>
 
     <?php
-      if ($again==1) echo "<p>username/password not found.</p>\n";
-      elseif ($again==2) echo "<p>You have successfully logged out.</p>\n";
-      elseif ($again==3) echo "<p>Your session has expired. Please login again.<br>Remember to logout after each session!</p>\n";
-      if ($again) echo "<br>\n";
+	if(isset($_GET['again'])) {
+		  if ($_GET['again']==1) echo "<p>username/password not found.</p>\n";
+		  elseif ($_GET['again']==2) echo "<p>You have successfully logged out.</p>\n";
+		  elseif ($_GET['again']==3) echo "<p>Your session has expired. Please login again.<br>Remember to logout after each session!</p>\n";
+		if ($_GET['again']) echo "<br>\n";
+	}
     ?>
 
   <form action="login.php" method="post">

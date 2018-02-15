@@ -1153,7 +1153,7 @@ else
 
 // main program
 
-if (!$USER[flags][$f_player_admin]) {
+if (!$USER['flags'][$f_player_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

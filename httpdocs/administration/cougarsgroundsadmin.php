@@ -481,7 +481,7 @@ if ($userpic_name != "") {
 
 // main program
 
-if (!$USER[flags][$f_cougarsgrounds_admin]) {
+if (!$USER['flags'][$f_cougarsgrounds_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

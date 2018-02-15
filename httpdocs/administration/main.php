@@ -15,10 +15,18 @@ require "../includes/class.fasttemplate.inc";
 
 session_start();
 
+global $PHP_SELF;
 // if the person hasn't logged on yet
 $USER=$_SESSION['userdata'];
+if(isset($_GET['SID'])) {
+	$SID = $_GET['SID'];
+} else if(isset($_POST['SID'])) {
+	$SID = $_POST['SID'];
+} else {
+	$SID = "";
+}
 
-if ($USER[email] == "" || $SID == "") {
+if ($USER['email'] == "" || $SID != session_id()) {
     header("Location: http://$pathcfg[urlroot]/$pathcfg[adir]/index.php?again=3");
     exit;
 }
@@ -26,6 +34,14 @@ if ($USER[email] == "" || $SID == "") {
 $content = "";
 $menu = "";
 $jscript = "";
+if(isset($_GET['action'])) {
+	$action = $_GET['action'];
+} else if(isset($_POST['action'])) {
+	$action = $_POST['action'];
+} else {
+	$action = "";
+}
+
 ?>
 
 
@@ -51,7 +67,7 @@ $jscript = "";
 
     <table width="180" border="0" cellspacing="0" cellpadding="0" bgcolor="#030979">
         <tr>
-          <td><img src="/images/nav-top.gif" width="150" height="20"></td>
+          <td><img src="/images/nav-top.gif" width="180" height="20"></td>
         </tr>
         <tr>
           <td>
@@ -66,13 +82,13 @@ $jscript = "";
 
               echo "<tr>\n";
 
-              if($page == "main") {
+              if(isset($page) && $page == "main") {
               echo "  <td bgcolor=\"#dddddd\" height=\"20\">\n";
               } else {
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"main.php?SID=$SID\" class=\"menu\">Main Screen</a>\n";
+              echo "  &nbsp;- <a href=\"main.php?SID=".$SID."\" class=\"menu\">Main Screen</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -81,7 +97,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER[flags][$f_user_admin]) ||  ($USER[flags][$f_news_admin]) || ($USER[flags][$f_history_admin])) {
+            if (($USER['flags'][$f_user_admin]) ||  ($USER['flags'][$f_news_admin]) || ($USER['flags'][$f_history_admin])) {
 
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
@@ -97,7 +113,7 @@ $jscript = "";
 
             // User Administration
 
-            if ($USER[flags][$f_user_admin]) {
+            if ($USER['flags'][$f_user_admin]) {
 
               echo "<tr>\n";
 
@@ -107,7 +123,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=useradmin\" class=\"menu\">User Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=useradmin\" class=\"menu\">User Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -119,7 +135,7 @@ $jscript = "";
 
             // News Administration
 
-            if ($USER[flags][$f_news_admin]) {
+            if ($USER['flags'][$f_news_admin]) {
 
               echo "<tr>\n";
 
@@ -129,7 +145,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=newsadmin\" class=\"menu\">News Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=newsadmin\" class=\"menu\">News Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -141,7 +157,7 @@ $jscript = "";
 
             // Featured Article Administration
 
-            if ($USER[flags][$f_news_admin]) {
+            if ($USER['flags'][$f_news_admin]) {
 
               echo "<tr>\n";
 
@@ -151,7 +167,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=articleadmin\" class=\"menu\">Article Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=articleadmin\" class=\"menu\">Article Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -163,7 +179,7 @@ $jscript = "";
 
             // History Administration
 
-            if ($USER[flags][$f_history_admin]) {
+            if ($USER['flags'][$f_history_admin]) {
 
               echo "<tr>\n";
 
@@ -173,7 +189,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=historyadmin\" class=\"menu\">History Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=historyadmin\" class=\"menu\">History Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -185,7 +201,7 @@ $jscript = "";
 
             // CCL Documents Administration
 
-            if ($USER[flags][$f_ccldocuments_admin]) {
+            if ($USER['flags'][$f_ccldocuments_admin]) {
 
               echo "<tr>\n";
 
@@ -195,7 +211,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=ccldocumentsadmin\" class=\"menu\">Documents Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=ccldocumentsadmin\" class=\"menu\">Documents Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -207,7 +223,7 @@ $jscript = "";
             
             // Sponsors Administration
 
-            if ($USER[flags][$f_sponsors_admin]) {
+            if ($USER['flags'][$f_sponsors_admin]) {
 
               echo "<tr>\n";
 
@@ -217,7 +233,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=sponsorsadmin\" class=\"menu\">Sponsors Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=sponsorsadmin\" class=\"menu\">Sponsors Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -232,7 +248,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER[flags][$f_clubs_admin]) ||  ($USER[flags][$f_teams_admin]) || ($USER[flags][$f_grounds_admin])) {
+            if (($USER['flags'][$f_clubs_admin]) ||  ($USER['flags'][$f_teams_admin]) || ($USER['flags'][$f_grounds_admin])) {
 
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
@@ -248,7 +264,7 @@ $jscript = "";
 
             // Clubs Administration
 
-            if ($USER[flags][$f_clubs_admin]) {
+            if ($USER['flags'][$f_clubs_admin]) {
 
               echo "<tr>\n";
 
@@ -258,7 +274,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=clubsadmin\" class=\"menu\">Clubs Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=clubsadmin\" class=\"menu\">Clubs Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -270,7 +286,7 @@ $jscript = "";
 
             // Teams Administration
 
-            if ($USER[flags][$f_teams_admin]) {
+            if ($USER['flags'][$f_teams_admin]) {
 
               echo "<tr>\n";
 
@@ -280,7 +296,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=teamsadmin\" class=\"menu\">Teams Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=teamsadmin\" class=\"menu\">Teams Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -292,7 +308,7 @@ $jscript = "";
 
             // Grounds Administration
 
-            if ($USER[flags][$f_grounds_admin]) {
+            if ($USER['flags'][$f_grounds_admin]) {
 
               echo "<tr>\n";
 
@@ -302,7 +318,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=groundsadmin\" class=\"menu\">Grounds Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=groundsadmin\" class=\"menu\">Grounds Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -315,7 +331,7 @@ $jscript = "";
 
             // Schedule Administration
 
-            if ($USER[flags][$f_schedule_admin]) {
+            if ($USER['flags'][$f_schedule_admin]) {
 
               echo "<tr>\n";
 
@@ -325,7 +341,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=scheduleadmin\" class=\"menu\">Schedule Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=scheduleadmin\" class=\"menu\">Schedule Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -337,7 +353,7 @@ $jscript = "";
 
             // Points Table Administration
 
-            if ($USER[flags][$f_ladder_admin]) {
+            if ($USER['flags'][$f_ladder_admin]) {
 
               echo "<tr>\n";
 
@@ -347,7 +363,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=ladderadmin\" class=\"menu\">Standings Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=ladderadmin\" class=\"menu\">Standings Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -359,7 +375,7 @@ $jscript = "";
             
             // Champions Administration
 
-            if ($USER[flags][$f_champions_admin]) {
+            if ($USER['flags'][$f_champions_admin]) {
 
               echo "<tr>\n";
 
@@ -369,7 +385,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=championsadmin\" class=\"menu\">Champions Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=championsadmin\" class=\"menu\">Champions Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -384,7 +400,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER[flags][$f_featuredmember_admin]) || ($USER[flags][$f_player_admin])) {
+            if (($USER['flags'][$f_featuredmember_admin]) || ($USER['flags'][$f_player_admin])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;PLAYER SETTINGS\n";
@@ -399,7 +415,7 @@ $jscript = "";
 
             // Player Administration
 
-            if ($USER[flags][$f_player_admin]) {
+            if ($USER['flags'][$f_player_admin]) {
 
               echo "<tr>\n";
 
@@ -409,7 +425,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=playeradmin\" class=\"menu\">Players Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=playeradmin\" class=\"menu\">Players Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -421,7 +437,7 @@ $jscript = "";
 
             // Featured Member Administration
 
-            if ($USER[flags][$f_featuredmember_admin]) {
+            if ($USER['flags'][$f_featuredmember_admin]) {
 
               echo "<tr>\n";
 
@@ -431,7 +447,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=featuredmemberadmin\" class=\"menu\">Featured Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=featuredmemberadmin\" class=\"menu\">Featured Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -443,7 +459,7 @@ $jscript = "";
 
             // CCL Officers Administration
 
-            if ($USER[flags][$f_cclofficers_admin]) {
+            if ($USER['flags'][$f_cclofficers_admin]) {
 
               echo "<tr>\n";
 
@@ -453,7 +469,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=cclofficersadmin\" class=\"menu\">CCL Officers Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=cclofficersadmin\" class=\"menu\">CCL Officers Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -465,7 +481,7 @@ $jscript = "";
 
             // Awards Administration
 
-            if ($USER[flags][$f_awards_admin]) {
+            if ($USER['flags'][$f_awards_admin]) {
 
               echo "<tr>\n";
 
@@ -475,7 +491,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=awardsadmin\" class=\"menu\">Player Awards Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=awardsadmin\" class=\"menu\">Player Awards Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -490,7 +506,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER[flags][$f_cougarsnews_admin]) || ($USER[flags][$f_cougarsschedule_admin]) || ($USER[flags][$f_cougarsplayers_admin])) {
+            if (($USER['flags'][$f_cougarsnews_admin]) || ($USER['flags'][$f_cougarsschedule_admin]) || ($USER['flags'][$f_cougarsplayers_admin])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#025A43\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;COUGARS SETTINGS\n";
@@ -506,7 +522,7 @@ $jscript = "";
 
             // Cougars News Administration
 
-            if ($USER[flags][$f_cougarsnews_admin]) {
+            if ($USER['flags'][$f_cougarsnews_admin]) {
 
               echo "<tr>\n";
 
@@ -516,7 +532,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=cougarsnewsadmin\" class=\"menu\">News Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=cougarsnewsadmin\" class=\"menu\">News Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -528,7 +544,7 @@ $jscript = "";
 
             // Cougars Schedule Administration
 
-            if ($USER[flags][$f_cougarsschedule_admin]) {
+            if ($USER['flags'][$f_cougarsschedule_admin]) {
 
               echo "<tr>\n";
 
@@ -538,7 +554,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=cougarsscheduleadmin\" class=\"menu\">Schedule Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=cougarsscheduleadmin\" class=\"menu\">Schedule Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -550,7 +566,7 @@ $jscript = "";
             
             // Cougars Players Administration
 
-            if ($USER[flags][$f_cougarsplayers_admin]) {
+            if ($USER['flags'][$f_cougarsplayers_admin]) {
 
               echo "<tr>\n";
 
@@ -560,7 +576,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=cougarsplayersadmin\" class=\"menu\">Players Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=cougarsplayersadmin\" class=\"menu\">Players Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -572,7 +588,7 @@ $jscript = "";
 
             // Cougars Clubs Administration
 
-            if ($USER[flags][$f_cougarsclubs_admin]) {
+            if ((count($USER['flags']) > $f_cougarsclubs_admin) && $USER['flags'][$f_cougarsclubs_admin]) {
 
               echo "<tr>\n";
 
@@ -582,7 +598,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=cougarsclubsadmin\" class=\"menu\">Clubs Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=cougarsclubsadmin\" class=\"menu\">Clubs Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -594,7 +610,7 @@ $jscript = "";
 
             // Cougars Teams Administration
 
-            if ($USER[flags][$f_cougarsteams_admin]) {
+            if ($USER['flags'][$f_cougarsteams_admin]) {
 
               echo "<tr>\n";
 
@@ -604,7 +620,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=cougarsteamsadmin\" class=\"menu\">Teams Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=cougarsteamsadmin\" class=\"menu\">Teams Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -616,7 +632,7 @@ $jscript = "";
             
             // Cougars Grounds Administration
 
-            if ($USER[flags][$f_cougarsgrounds_admin]) {
+            if ((count($USER['flags']) > $f_cougarsgrounds_admin) && $USER['flags'][$f_cougarsgrounds_admin]) {
 
               echo "<tr>\n";
 
@@ -626,7 +642,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=cougarsgroundsadmin\" class=\"menu\">Grounds Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=cougarsgroundsadmin\" class=\"menu\">Grounds Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -642,7 +658,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER[flags][$f_tennisdocuments_admin]) || ($USER[flags][$f_tennisnews_admin]) || ($USER[flags][$f_tennisschedule_admin]) || ($USER[flags][$f_tennisplayers_admin]) || ($USER[flags][$f_tennisteams_admin])) {
+            if (($USER['flags'][$f_tennisdocuments_admin]) || ($USER['flags'][$f_tennisnews_admin]) || ($USER['flags'][$f_tennisschedule_admin]) || ($USER['flags'][$f_tennisplayers_admin]) || ($USER['flags'][$f_tennisteams_admin])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#DE9C06\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;TENNIS SETTINGS\n";
@@ -658,7 +674,7 @@ $jscript = "";
 
             // Tennis News Administration
 
-            if ($USER[flags][$f_tennisnews_admin]) {
+            if ($USER['flags'][$f_tennisnews_admin]) {
 
               echo "<tr>\n";
 
@@ -668,7 +684,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisnewsadmin\" class=\"menu\">News Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisnewsadmin\" class=\"menu\">News Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -680,7 +696,7 @@ $jscript = "";
 
             // Tennis Documents Administration
 
-            if ($USER[flags][$f_tennisdocuments_admin]) {
+            if ($USER['flags'][$f_tennisdocuments_admin]) {
 
               echo "<tr>\n";
 
@@ -690,7 +706,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisdocumentsadmin\" class=\"menu\">Documents Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisdocumentsadmin\" class=\"menu\">Documents Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -703,7 +719,7 @@ $jscript = "";
 
             // Tennis Schedule Administration
 
-            if ($USER[flags][$f_tennisschedule_admin]) {
+            if ($USER['flags'][$f_tennisschedule_admin]) {
 
               echo "<tr>\n";
 
@@ -713,7 +729,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisscheduleadmin\" class=\"menu\">Schedule Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisscheduleadmin\" class=\"menu\">Schedule Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -725,7 +741,7 @@ $jscript = "";
             
             // Tennis Players Administration
 
-            if ($USER[flags][$f_tennisplayers_admin]) {
+            if ($USER['flags'][$f_tennisplayers_admin]) {
 
               echo "<tr>\n";
 
@@ -735,7 +751,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisplayersadmin\" class=\"menu\">Players Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisplayersadmin\" class=\"menu\">Players Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -747,7 +763,7 @@ $jscript = "";
 
             // Tennis Clubs Administration
 
-            if ($USER[flags][$f_tennisclubs_admin]) {
+            if ((count($USER['flags']) > $f_tennisclubs_admin) && $USER['flags'][$f_tennisclubs_admin]) {
 
               echo "<tr>\n";
 
@@ -757,7 +773,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisclubsadmin\" class=\"menu\">Clubs Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisclubsadmin\" class=\"menu\">Clubs Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -769,7 +785,7 @@ $jscript = "";
             
             // Tennis Teams Administration
 
-            if ($USER[flags][$f_tennisteams_admin]) {
+            if ($USER['flags'][$f_tennisteams_admin]) {
 
               echo "<tr>\n";
 
@@ -779,7 +795,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisteamsadmin\" class=\"menu\">Teams Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisteamsadmin\" class=\"menu\">Teams Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -791,7 +807,7 @@ $jscript = "";
             
             // Tennis Points Table Administration
 
-            if ($USER[flags][$f_tennisladder_admin]) {
+            if ($USER['flags'][$f_tennisladder_admin]) {
 
               echo "<tr>\n";
 
@@ -801,7 +817,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisladderadmin\" class=\"menu\">Standings Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisladderadmin\" class=\"menu\">Standings Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -815,7 +831,7 @@ $jscript = "";
             
             // Tennis Groups Administration
 
-            if ($USER[flags][$f_tennisgroups_admin]) {
+            if ($USER['flags'][$f_tennisgroups_admin]) {
 
               echo "<tr>\n";
 
@@ -825,7 +841,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=tennisgroupsadmin\" class=\"menu\">Groups Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=tennisgroupsadmin\" class=\"menu\">Groups Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -842,7 +858,7 @@ $jscript = "";
 
 	    $execute_it_always=false;
 
-            if (($execute_it_always) || ($USER[flags][$f_seasons_admin])) {
+            if (($execute_it_always) || ($USER['flags'][$f_seasons_admin])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;MISCELLANOUS SETTINGS\n";
@@ -857,7 +873,7 @@ $jscript = "";
 
             // Seasons Administration
 
-            if ($execute_it_always || (($USER[flags][$f_seasons_admin]) || ($USER[flags][$f_leagues_admin]))) {
+            if ($execute_it_always || ((count($USER['flags']) > $f_seasons_admin) && ($USER['flags'][$f_seasons_admin]) || ((count($USER['flags']) > $f_leagues_admin) && $USER['flags'][$f_leagues_admin]))) {
 
               echo "<tr>\n";
 
@@ -867,7 +883,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=seasonsadmin\" class=\"menu\">Seasons Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=seasonsadmin\" class=\"menu\">Seasons Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -879,7 +895,7 @@ $jscript = "";
 
             // League Management Administration
 
-            if ($$execute_it_always || $USER[flags][$f_leagues_admin]) {
+            if ($execute_it_always || (count($USER['flags']) > $f_leagues_admin) && $USER['flags'][$f_leagues_admin]) {
 
               echo "<tr>\n";
 
@@ -889,7 +905,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=leaguesadmin\" class=\"menu\">League Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=leaguesadmin\" class=\"menu\">League Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -905,7 +921,7 @@ $jscript = "";
 
 
 
-            if ($USER[flags][$f_cal_event_admin]) {
+            if ($USER['flags'][$f_cal_event_admin]) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;CALENDAR SETTINGS\n";
@@ -920,7 +936,7 @@ $jscript = "";
 
             // Category Administration
 
-            if ($USER[flags][$f_cal_cat_admin]) {
+            if ($USER['flags'][$f_cal_cat_admin]) {
 
               echo "<tr>\n";
 
@@ -930,7 +946,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=calendarcatadmin\" class=\"menu\">Category Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=calendarcatadmin\" class=\"menu\">Category Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -942,7 +958,7 @@ $jscript = "";
 
             // Event Administration
 
-            if ($USER[flags][$f_cal_event_admin]) {
+            if ($USER['flags'][$f_cal_event_admin]) {
 
               echo "<tr>\n";
 
@@ -952,7 +968,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=calendareventadmin\" class=\"menu\">Event Admin</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=calendareventadmin\" class=\"menu\">Event Admin</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -968,7 +984,7 @@ $jscript = "";
 
 /*
 
-            if (($USER[flags][$f_image_gallery]) || ($USER[flags][$f_image_photos])) {
+            if (($USER['flags'][$f_image_gallery]) || ($USER['flags'][$f_image_photos])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;PHOTO GALLERIES\n";
@@ -983,7 +999,7 @@ $jscript = "";
 
             // Gallery Administration
 
-            if ($USER[flags][$f_image_gallery]) {
+            if ($USER['flags'][$f_image_gallery]) {
 
               echo "<tr>\n";
 
@@ -993,7 +1009,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=imagegallery\">GALLERY ADMIN</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=imagegallery\">GALLERY ADMIN</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1005,7 +1021,7 @@ $jscript = "";
 
             // Photo Administration
 
-            if ($USER[flags][$f_image_photos]) {
+            if ($USER['flags'][$f_image_photos]) {
 
               echo "<tr>\n";
 
@@ -1015,7 +1031,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=imagephotos\">PHOTO ADMIN</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=imagephotos\">PHOTO ADMIN</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1033,7 +1049,7 @@ $jscript = "";
 
 /*
 
-            if (($USER[flags][$f_ml_lists]) || ($USER[flags][$f_ml_emails]) || ($USER[flags][$f_ml_archive]) || ($USER[flags][$f_ml_send])) {
+            if (($USER['flags'][$f_ml_lists]) || ($USER['flags'][$f_ml_emails]) || ($USER['flags'][$f_ml_archive]) || ($USER['flags'][$f_ml_send])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;MAILING LIST\n";
@@ -1048,7 +1064,7 @@ $jscript = "";
 
             // Mailing Lists Administration
 
-            if ($USER[flags][$f_ml_lists]) {
+            if ($USER['flags'][$f_ml_lists]) {
 
               echo "<tr>\n";
 
@@ -1058,7 +1074,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=ml_lists\">LIST ADMIN</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=ml_lists\">LIST ADMIN</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1070,7 +1086,7 @@ $jscript = "";
 
             // Mailing Emails Administration
 
-            if ($USER[flags][$f_ml_emails]) {
+            if ($USER['flags'][$f_ml_emails]) {
 
               echo "<tr>\n";
 
@@ -1080,7 +1096,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=ml_emails\">EMAIL ADMIN</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=ml_emails\">EMAIL ADMIN</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1093,7 +1109,7 @@ $jscript = "";
 
             // Mailing Send Administration
 
-            if ($USER[flags][$f_ml_send]) {
+            if ($USER['flags'][$f_ml_send]) {
 
               echo "<tr>\n";
 
@@ -1103,7 +1119,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=ml_send\">SEND EMAIL</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=ml_send\">SEND EMAIL</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1115,7 +1131,7 @@ $jscript = "";
 
             // Mailing Archives Administration
 
-            if ($USER[flags][$f_ml_archive]) {
+            if ($USER['flags'][$f_ml_archive]) {
 
               echo "<tr>\n";
 
@@ -1125,7 +1141,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=$SID&action=ml_archive\">ARCHIVE ADMIN</a>\n";
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=ml_archive\">ARCHIVE ADMIN</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1153,13 +1169,13 @@ $jscript = "";
 
               echo "<tr>\n";
 
-              if($page == "viewhelp") {
+              if(isset($page) && $page == "viewhelp") {
               echo "  <td bgcolor=\"#dddddd\" height=\"20\">\n";
               } else {
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"javascript:popUp('viewhelp.php?show=$action');\" class=\"menu\">Help</a>\n";
+              echo "  &nbsp;- <a href=\"javascript:popUp('viewhelp.php?show=');\" class=\"menu\">Help</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1173,7 +1189,7 @@ $jscript = "";
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"main.php?SID=$SID&action=cpasswd\" class=\"menu\">Change Password</a>\n";
+              echo "  &nbsp;- <a href=\"main.php?SID=".$SID."&action=cpasswd\" class=\"menu\">Change Password</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1181,13 +1197,13 @@ $jscript = "";
 
               echo "<tr>\n";
 
-              if($page == "logout") {
+              if(isset($page) && $page == "logout") {
               echo "  <td bgcolor=\"#dddddd\" height=\"20\">\n";
               } else {
               echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
               }
 
-              echo "  &nbsp;- <a href=\"logout.php?SID=$SID\" class=\"menu\">Logout</a>\n";
+              echo "  &nbsp;- <a href=\"logout.php?SID=".$SID."\" class=\"menu\">Logout</a>\n";
               echo "  </td>\n";
               echo "</tr>\n";
 
@@ -1198,7 +1214,7 @@ $jscript = "";
           </td>
         </tr>
         <tr>
-          <td><img src="/images/nav-base.gif" width="150" height="20"></td>
+          <td><img src="/images/nav-base.gif" width="180" height="20"></td>
         </tr>
       </table>
       <br>
@@ -1218,10 +1234,10 @@ $jscript = "";
 
           // process the action
 
-          if (!isset($action) || $action == "") {
+          if ($action == "") {
 
-            echo "<p>Logged in as: <b>" . $USER[email] . "</b>.<br>\n";
-            echo "Last logged in at: <b>" . $USER[laston] . "</b>.</p>\n";
+            echo "<p>Logged in as: <b>" . $USER['email'] . "</b>.<br>\n";
+            echo "Last logged in at: <b>" . $USER['laston'] . "</b>.</p>\n";
 
             echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
             echo "<tr>\n";
@@ -1234,7 +1250,7 @@ $jscript = "";
             echo "  <tr>\n";
             echo "    <td>\n";
 
-            echo "<p>" . $USER[fname] . ", welcome to the  Admin Panel. If you are a new user, please read on below.</p>\n";
+            echo "<p>" . $USER['fname'] . ", welcome to the  Admin Panel. If you are a new user, please read on below.</p>\n";
             echo "<p>Otherwise, please make your selection from the menu on the left.</p>\n";
 
             echo "  </td>\n";

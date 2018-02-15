@@ -46,7 +46,7 @@ function show_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data[GroupName]));
 			$id = htmlentities(stripslashes($db->data[GroupID]));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -245,7 +245,7 @@ function do_update_category($db,$id,$GroupName)
 
 // main program
 
-if (!$USER[flags][$f_tennisgroups_admin]) {
+if (!$USER['flags'][$f_tennisgroups_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

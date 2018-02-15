@@ -38,7 +38,7 @@ function show_main_menu($db)
 
 		// query the database
 
-		$db->Query("SELECT * FROM admin WHERE email<>'$USER[email]' ORDER BY lname,fname");
+		$db->Query("SELECT * FROM admin WHERE email<>'$USER['email']' ORDER BY lname,fname");
 		for ($x=0; $x<$db->rows; $x++) {
 			$db->GetRow($x);
 
@@ -584,7 +584,7 @@ function do_update_user($db,$id,$email,$fname,$lname,$p,$flags)
 
 // main program
 
-if (!$USER[flags][$f_user_admin]) {
+if (!$USER['flags'][$f_user_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

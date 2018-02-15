@@ -243,13 +243,13 @@ function edit_category_form($db,$id)
 	$th = htmlentities(stripslashes($db->data['title']));
 	$au = htmlentities(stripslashes($db->data['author']));
 	$a  = htmlentities(stripslashes($db->data['article']));
-	$pd  = htmlentities(stripslashes($db->data[picdesc]));
+	$pd  = htmlentities(stripslashes($db->data['picdesc']));
 
-	$is = stripslashes($db->data[IsFeature]);
+	$is = stripslashes($db->data['IsFeature']);
 	$isyes = 'yes';
 	$isno = 'no';
-	if ($db->data[IsFeature] ==1) $is1 = $isyes;
-	if ($db->data[IsFeature] ==0) $is1 = $isno;
+	if ($db->data['IsFeature'] ==1) $is1 = $isyes;
+	if ($db->data['IsFeature'] ==0) $is1 = $isno;
 
 	$ip = stripslashes($db->data[IsPending]);
 	$ipyes = 'yes';
@@ -387,7 +387,7 @@ if ($userpic_name != "") {
 
 // main program
 
-if (!$USER[flags][$f_news_admin]) {
+if (!$USER['flags'][$f_news_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }
@@ -397,7 +397,7 @@ echo "<p class=\"16px\"><b>Featured Article Administration</b></p>\n";
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$USER[email],$title,$author,$article,$IsFeature,$DiscussID,$picdesc,$picture);
+	else do_add_category($db,$USER['email'],$title,$author,$article,$IsFeature,$DiscussID,$picdesc,$picture);
 	break;
 case "sdel":
                      //Per Kervyn's request -- taking off the confirmation option

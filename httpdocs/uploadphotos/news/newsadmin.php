@@ -64,7 +64,7 @@ function show_recent_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -102,9 +102,9 @@ function show_recent_main_menu($db)
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
+			$ty = $db->data['theyear'];
+			$tm = $db->data['themonth'];
+			$mi = $db->data['monthid'];
 
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
@@ -188,7 +188,7 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -226,9 +226,9 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
+			$ty = $db->data['theyear'];
+			$tm = $db->data['themonth'];
+			$mi = $db->data['monthid'];
 
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
@@ -312,7 +312,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 			$a = sqldate_to_string($db->data['added']);
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($i % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -362,9 +362,9 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
+			$ty = $db->data['theyear'];
+			$tm = $db->data['themonth'];
+			$mi = $db->data['monthid'];
 
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
@@ -448,7 +448,7 @@ function show_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -486,9 +486,9 @@ function show_main_menu($db)
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
+			$ty = $db->data['theyear'];
+			$tm = $db->data['themonth'];
+			$mi = $db->data['monthid'];
 
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
@@ -711,13 +711,13 @@ function edit_category_form($db,$id)
 	$th = htmlentities(stripslashes($db->data['title']));
 	$au = htmlentities(stripslashes($db->data['author']));
 	$a  = htmlentities(stripslashes($db->data['article']));
-	$pd  = htmlentities(stripslashes($db->data[picdesc]));
+	$pd  = htmlentities(stripslashes($db->data['picdesc']));
 
-	$is = stripslashes($db->data[IsFeature]);
+	$is = stripslashes($db->data['IsFeature']);
 	$isyes = 'yes';
 	$isno = 'no';
-	if ($db->data[IsFeature] ==1) $is1 = $isyes;
-	if ($db->data[IsFeature] ==0) $is1 = $isno;
+	if ($db->data['IsFeature'] ==1) $is1 = $isyes;
+	if ($db->data['IsFeature'] ==0) $is1 = $isno;
 
 
 
@@ -878,7 +878,7 @@ else
 
 // main program
 
-if (!$USER[flags][$f_news_admin]) {
+if (!$USER['flags'][$f_news_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }
@@ -897,7 +897,7 @@ case "search":
 	break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$USER[email],$featureexpire,$title,$author,$article,$IsFeature,$DiscussID,$MasterID,$SubTitle,$picdesc,$picture);
+	else do_add_category($db,$USER['email'],$featureexpire,$title,$author,$article,$IsFeature,$DiscussID,$MasterID,$SubTitle,$picdesc,$picture);
 	break;
 case "sdel":
 	if (!isset($doit)) delete_category_check($db,$id);

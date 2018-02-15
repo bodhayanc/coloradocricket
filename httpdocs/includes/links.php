@@ -126,7 +126,7 @@
               }
           } // while
           } // function
-        show_grey_bars($page);
+		if (isset($page)) show_grey_bars($page);
         
         echo "</table>\n";
         echo "  </td>\n";

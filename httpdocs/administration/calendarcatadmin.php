@@ -349,7 +349,7 @@ function do_update_category($db,$cat_id,$cat_name,$description,$color)
 // MAIN PROGRAM
 //////////////////////////////////////////////////////////////////////////////////////////
 
-if (!$USER[flags][$f_cal_cat_admin]) {
+if (!$USER['flags'][$f_cal_cat_admin]) {
     header("Location: main.php?SID=$SID");
     exit;
 }

@@ -304,7 +304,7 @@ if ($userpic_name != "") {
 
 // main program
 
-if (!$USER[flags][$f_clubs_admin]) {
+if (!$USER['flags'][$f_clubs_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

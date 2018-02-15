@@ -423,7 +423,7 @@ $te3 = addslashes(trim($ChampTeam3));
 
 // main program
 
-if (!$USER[flags][$f_champions_admin]) {
+if (!$USER['flags'][$f_champions_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

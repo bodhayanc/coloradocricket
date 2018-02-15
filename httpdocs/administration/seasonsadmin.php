@@ -46,7 +46,7 @@ function show_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data['SeasonName']));
 			$id = htmlentities(stripslashes($db->data['SeasonID']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -242,7 +242,7 @@ function do_update_category($db,$id,$SeasonName)
 
 // main program
 
-if (!$USER[flags][$f_seasons_admin]) {
+if (!$USER['flags'][$f_seasons_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

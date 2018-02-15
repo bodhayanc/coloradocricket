@@ -542,7 +542,7 @@ function do_update_category($db,$id,$CougarPlayer,$NotCougarPlayer,$CougarTeam,$
 
 // main program
 
-if (!$USER[flags][$f_cougarsplayers_admin]) {
+if (!$USER['flags'][$f_cougarsplayers_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

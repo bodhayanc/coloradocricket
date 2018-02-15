@@ -286,7 +286,7 @@ if ($userpic_name != "") {
 
 // main program
 
-if (!$USER[flags][$f_cougars_admin]) {
+if (!$USER['flags'][$f_cougars_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }
@@ -296,7 +296,7 @@ echo "<p class=\"14px\"><b>Site Cougars Administration</b></p>\n";
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$USER[email],$title,$author,$article,$picture);
+	else do_add_category($db,$USER['email'],$title,$author,$article,$picture);
 	break;
 case "sdel":
 	if (!isset($doit)) delete_category_check($db,$id);

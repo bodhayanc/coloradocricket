@@ -49,7 +49,7 @@ else {
 	}
 	if ($ok_form) {
 		$encpass = crypt($p[0],$p[0][0].$p[0][1]);
-		$db->Update("UPDATE $tbcfg[admin] SET pword='$encpass' WHERE email='$USER[email]'");
+		$db->Update("UPDATE $tbcfg[admin] SET pword='$encpass' WHERE email='$USER['email']'");
 		if ($db->a_rows != -1) echo"<p>Your password has now been changed.</p>\n";
 		else echo"<p>Your password could not be changed at this time.</p>\n";
 	}

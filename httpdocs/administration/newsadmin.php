@@ -37,7 +37,8 @@ function show_recent_main_menu($db)
 	echo "<input type=\"hidden\" name=\"SID\" value=\"$SID\" ID=\"hidden\"1>\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\" ID='\"hidden\"1'2>\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"search\" ID='\"hidden\"2'3>\n";
-	echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" ID=\"text\"1> <input type=\"submit\" value=\"Search\" ID=\"submit\"1 NAME=\"submit\"1></form></p>\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"".$search."\" size=\"20\" ID=\"text\"1> <input type=\"submit\" value=\"Search\" ID=\"submit\"1 NAME=\"submit\"1></form></p>\n";
 
 	echo "    </td>\n";
 	echo "  </tr>\n";
@@ -64,7 +65,7 @@ function show_recent_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -105,10 +106,8 @@ echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&i
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
-
+			$ty = $db->data['theyear'];
+			
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=2&monthname=February&ccl_mode=5\">Feb</a>|";
@@ -191,7 +190,7 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -229,9 +228,9 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
+			$ty = $db->data['theyear'];
+			$tm = $db->data['themonth'];
+			$mi = $db->data['monthid'];
 
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
@@ -260,9 +259,9 @@ function show_months_main_menu($db,$theyear,$themonth,$monthname)
 }
 
 
-function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
+function show_search_main_menu($db,$search="")
 {
-         global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+         global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
          if (!$db->Exists("SELECT * FROM news")) {
                  echo "<p>There are currently no news.</p>\n";
@@ -315,7 +314,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 			$a = sqldate_to_string($db->data['added']);
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($i % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -365,9 +364,9 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
+			$ty = $db->data['theyear'];
+			$tm = $db->data['themonth'];
+			$mi = $db->data['monthid'];
 
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
@@ -398,7 +397,7 @@ function show_search_main_menu($db,$search="",$theyear,$themonth,$monthname)
 
 function show_main_menu($db)
 {
-	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+	global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
 	echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">Add a news article</a></p>\n";
 
@@ -451,7 +450,7 @@ function show_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$fe = $db->data[IsFeature];
+			$fe = $db->data['IsFeature'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -489,9 +488,9 @@ function show_main_menu($db)
 
 		for ($y=0; $y<$db->rows; $y++) {
 			$db->GetRow($y);
-			$ty = $db->data[theyear];
-			$tm = $db->data[themonth];
-			$mi = $db->data[monthid];
+			$ty = $db->data['theyear'];
+			$tm = $db->data['themonth'];
+			$mi = $db->data['monthid'];
 
 			echo "$ty&nbsp;&nbsp;";
 			echo "<a href=\"main.php?SID=$SID&action=$action&do=months&theyear=$ty&themonth=1&monthname=January\">Jan</a>|";
@@ -571,7 +570,7 @@ function add_category_form($db)
 		$db->Query("SELECT id, LEFT(title,50) AS mastertitle FROM news WHERE MasterID = '' ORDER BY added DESC, id DESC");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			echo "<option value=\"" . $db->data['id'] . "\">" . $db->data[mastertitle] . "...</option>\n";
+			echo "<option value=\"" . $db->data['id'] . "\">" . $db->data['mastertitle'] . "...</option>\n";
 		}
 	}
 
@@ -627,7 +626,6 @@ function do_add_category($db,$uid,$featureexpire,$title,$author,$article,$IsFeat
 	$st = addslashes(trim($SubTitle));
 	$pd = addslashes(trim($picdesc));
 	$d = date("Y",time()) . "-" . date("m",time()) . "-" . date("j",time());
-	$pa = eregi_replace("\r","",$photo);
 	$ex = addslashes(trim($featureexpire));
 
 	// check for duplicates
@@ -714,13 +712,13 @@ function edit_category_form($db,$id)
 	$th = htmlentities(stripslashes($db->data['title']));
 	$au = htmlentities(stripslashes($db->data['author']));
 	$a  = htmlentities(stripslashes($db->data['article']));
-	$pd  = htmlentities(stripslashes($db->data[picdesc]));
+	$pd  = htmlentities(stripslashes($db->data['picdesc']));
 
-	$is = stripslashes($db->data[IsFeature]);
+	$is = stripslashes($db->data['IsFeature']);
 	$isyes = 'yes';
 	$isno = 'no';
-	if ($db->data[IsFeature] ==1) $is1 = $isyes;
-	if ($db->data[IsFeature] ==0) $is1 = $isno;
+	if ($db->data['IsFeature'] ==1) $is1 = $isyes;
+	if ($db->data['IsFeature'] ==0) $is1 = $isno;
 
 
 
@@ -800,7 +798,7 @@ function edit_category_form($db,$id)
 }
 
 
-function do_update_category($db,$id,$featureexpire,$title,$author,$article,$IsFeature,$DiscussID,$MasterID,$SubTitle,$picdesc,$setpic)
+function do_update_category($db,$id,$featureexpire,$title,$author,$article,$IsFeature,$DiscussID,$MasterID,$picdesc,$picture)
 {
 	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -809,29 +807,26 @@ function do_update_category($db,$id,$featureexpire,$title,$author,$article,$IsFe
 // setup the variables
 
 	$t = addslashes(trim($title));
-	$pa = eregi_replace("\r","",$photo);
-	$o = addslashes(trim($old));
 	$au = addslashes(trim($author));
 	$if = addslashes(trim($IsFeature));
 	$di = addslashes(trim($DiscussID));
 	$pd = addslashes(trim($picdesc));
 	$ex = addslashes(trim($featureexpire));
 	$mi = addslashes(trim($MasterID));
-	$st = addslashes(trim($SubTitle));
-
+	
 // prevent the need for using escape sequences with apostrophe's
 
-	$a = eregi_replace("\r","",$article);
-	$a = addslashes(trim($a));
-
+	$a = addslashes(trim($article));
+	
 	// query database
 
-	if($ex == "7")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 7 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',SubTitle='$st',picdesc='$pd'$setpic WHERE id=$id");
-	} else if($ex == "14")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 14 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',SubTitle='$st',picdesc='$pd'$setpic WHERE id=$id");
-	} else if($ex == "21")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 21 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',SubTitle='$st',picdesc='$pd'$setpic WHERE id=$id");
-	} else if($ex == "28")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 28 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',SubTitle='$st',picdesc='$pd'$setpic WHERE id=$id");
-	} else if($ex == "0")   { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_SUB(CURDATE(),INTERVAL 28 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',SubTitle='$st',picdesc='$pd'$setpic WHERE id=$id");
-	} else { $db->Update("UPDATE news SET newstype=1,featureexpire=CURDATE(),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',SubTitle='$st',picdesc='$pd'$setpic WHERE id=$id");
+	$pictureSql = $picture != "" ? ", picture='$picture'" : "";
+	if($ex == "7")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 7 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',picdesc='$pd'$pictureSql WHERE id=$id");
+	} else if($ex == "14")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 14 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',picdesc='$pd'$pictureSql WHERE id=$id");
+	} else if($ex == "21")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 21 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',picdesc='$pd'$pictureSql WHERE id=$id");
+	} else if($ex == "28")  { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_ADD(CURDATE(),INTERVAL 28 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',picdesc='$pd'$pictureSql WHERE id=$id");
+	} else if($ex == "0")   { $db->Update("UPDATE news SET newstype=1,featureexpire=DATE_SUB(CURDATE(),INTERVAL 28 DAY),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',picdesc='$pd'$pictureSql WHERE id=$id");
+	} else { $db->Update("UPDATE news SET newstype=1,featureexpire=CURDATE(),title='$t',author='$au',article='$a',IsFeature='$if',DiscussID='$di',MasterID='$mi',picdesc='$pd'$pictureSql WHERE id=$id");
 	}
 
 	echo "<p>You have now updated that news article.</p>\n";
@@ -841,13 +836,14 @@ function do_update_category($db,$id,$featureexpire,$title,$author,$article,$IsFe
 
 
 // do picture stuff here - doesn't like being passed to a function!
-if ($_FILES['userpic']['name'] != "") {
+if (isset($_FILES['userpic']) && $_FILES['userpic']['name'] != "") {
   $uploaddir = "../uploadphotos/news/";
   $basename = basename($_FILES['userpic']['name']);
   $uploadfile = $uploaddir . $basename;
 
   if (move_uploaded_file($_FILES['userpic']['tmp_name'], $uploadfile)) {
-    $setpic = ",picture='$basename'";
+    $setpic = "";
+	$picture=$basename;
   } else {
     echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
   }
@@ -881,13 +877,21 @@ else
 
 // main program
 
-if (!$USER[flags][$f_news_admin]) {
+if (!$USER['flags'][$f_news_admin]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }
 
 echo "<p class=\"16px\"><b>Site News Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+} else {
+	$do = "menu";
+}
+	
 switch($do) {
 case "menu":
 	show_main_menu($db);
@@ -896,19 +900,19 @@ case "months":
 	show_months_main_menu($db,$theyear,$themonth,$monthname);
 	break;
 case "search":
-	show_search_main_menu($db,$search,$theyear,$themonth,$monthname);
+	show_search_main_menu($db,$_GET['search']);
 	break;
 case "sadd":
-	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$USER[email],$featureexpire,$title,$author,$article,$IsFeature,$DiscussID,$MasterID,$SubTitle,$picdesc,$picture);
+	if (!isset($_POST['doit'])) add_category_form($db);
+	else do_add_category($db,$USER['email'],$_POST['featureexpire'],$_POST['title'],$_POST['author'],$_POST['article'],$_POST['IsFeature'],0,0,$_POST['SubTitle'],$_POST['picdesc'],$picture);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($_GET['doit'])) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$_GET['doit']);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$featureexpire,$title,$author,$article,$IsFeature,$DiscussID,$MasterID,$SubTitle,$picdesc,$setpic);
+	if (!isset($_POST['doit'])) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],'',$_POST['title'],$_POST['author'],$_POST['article'],$_POST['IsFeature'],0,0,$_POST['picdesc'],$picture);
 	break;
 default:
 	show_recent_main_menu($db);

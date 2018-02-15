@@ -198,7 +198,7 @@ function do_update_category($db,$id,$title,$my,$old)
 
 // main program
 
-if (!$USER[flags][$f_image_gallery]) {
+if (!$USER['flags'][$f_image_gallery]) {
 	header("Location: main.php?SID=$SID");
 	exit;
 }

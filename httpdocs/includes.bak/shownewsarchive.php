@@ -56,7 +56,7 @@ function show_top20_news_listing($db,$s,$id,$pr,$mn)
         $db->Query("SELECT year(`added`) AS theyear FROM news GROUP BY theyear ORDER BY 1 Desc");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $ty = $db->data[theyear];
+            $ty = $db->data['theyear'];
             echo "  <option value=\"$ty\">$ty</option>\n";
         }
     }
@@ -74,7 +74,7 @@ function show_top20_news_listing($db,$s,$id,$pr,$mn)
         $db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $mi = $db->data[themonth];
+            $mi = $db->data['themonth'];
             $mn = $db->data[monthname];
             $ma = $db->data[abbrev];
             echo "  <option value=\"$mi\">$mn</option>\n";
@@ -290,7 +290,7 @@ function show_popular_news_listing($db,$s,$id,$pr)
         $db->Query("SELECT year(`added`) AS theyear FROM news GROUP BY theyear");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $ty = $db->data[theyear];
+            $ty = $db->data['theyear'];
             echo "  <option value=\"$ty\">$ty</option>\n";
         }
     }
@@ -308,7 +308,7 @@ function show_popular_news_listing($db,$s,$id,$pr)
         $db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $mi = $db->data[themonth];
+            $mi = $db->data['themonth'];
             $mn = $db->data[monthname];
             $ma = $db->data[abbrev];
             echo "  <option value=\"$mi\">$mn</option>\n";
@@ -489,7 +489,7 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
         $db->Query("SELECT year(`added`) AS theyear FROM news GROUP BY theyear");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $ty = $db->data[theyear];
+            $ty = $db->data['theyear'];
             echo "  <option value=\"$ty\">$ty</option>\n";
         }
     }
@@ -507,7 +507,7 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
         $db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $mi = $db->data[themonth];
+            $mi = $db->data['themonth'];
             $mn = $db->data[monthname];
             $ma = $db->data[abbrev];
             echo "  <option value=\"$mi\">$mn</option>\n";
@@ -691,7 +691,7 @@ function show_full_news_listing($db,$s,$id,$pr)
         $db->Query("SELECT year(`added`) AS theyear FROM news GROUP BY theyear");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $ty = $db->data[theyear];
+            $ty = $db->data['theyear'];
             echo "  <option value=\"$ty\">$ty</option>\n";
         }
     }
@@ -709,7 +709,7 @@ function show_full_news_listing($db,$s,$id,$pr)
         $db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $mi = $db->data[themonth];
+            $mi = $db->data['themonth'];
             $mn = $db->data[monthname];
             $ma = $db->data[abbrev];
             echo "  <option value=\"$mi\">$mn</option>\n";
@@ -884,7 +884,7 @@ function show_full_news($db,$s,$id,$pr)
     $t = $db->data['title'];
     $vw = $db->data['views'];
     $di = $db->data['DiscussID'];
-    $pd = $db->data[picdesc];
+    $pd = $db->data['picdesc'];
         
     $db->Update("UPDATE news SET views=$vw+1 WHERE id=$pr");
 
@@ -1091,7 +1091,7 @@ function search_news($db,$search="")
         $db->Query("SELECT year(`added`) AS theyear FROM news GROUP BY theyear");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $ty = $db->data[theyear];
+            $ty = $db->data['theyear'];
             echo "  <option value=\"$ty\">$ty</option>\n";
         }
     }
@@ -1109,7 +1109,7 @@ function search_news($db,$search="")
         $db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $mi = $db->data[themonth];
+            $mi = $db->data['themonth'];
             $mn = $db->data[monthname];
             $ma = $db->data[abbrev];
             echo "  <option value=\"$mi\">$mn</option>\n";
@@ -1366,7 +1366,7 @@ function show_type_news_listing($db,$s,$id,$pr,$type)
         $db->Query("SELECT year(`added`) AS theyear FROM news GROUP BY theyear");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $ty = $db->data[theyear];
+            $ty = $db->data['theyear'];
             echo "  <option value=\"$ty\">$ty</option>\n";
         }
     }
@@ -1384,7 +1384,7 @@ function show_type_news_listing($db,$s,$id,$pr,$type)
         $db->Query("SELECT monthid AS themonth, abbrev, title AS monthname FROM month ORDER BY monthid");
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
-            $mi = $db->data[themonth];
+            $mi = $db->data['themonth'];
             $mn = $db->data[monthname];
             $ma = $db->data[abbrev];
             echo "  <option value=\"$mi\">$mn</option>\n";

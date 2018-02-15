@@ -61,7 +61,7 @@ window.external.AddFavorite(url,title)
       </div>
     </td>
   </tr>
-<?php if($page == "scorecardfull") { ?>
+<?php if(isset($page) && ($page == "scorecardfull")) { ?>
   <tr>
     <td colspan="2" height="20" valign="top"><img src="/images/bar_1.gif" width="700" height="20"></td>
   </tr>
