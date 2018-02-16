@@ -216,7 +216,7 @@ function edit_photo_form($db,$id)
 
 	$a = htmlentities(stripslashes($db->data[photo]));
 	$t = htmlentities(stripslashes($db->data['title']));
-	$de = htmlentities(stripslashes($db->data[description]));
+	$de = htmlentities(stripslashes($db->data['description']));
 	$l = htmlentities(stripslashes($db->data[location]));
 	$da = htmlentities(stripslashes($db->data[date]));
 	$nd = htmlentities(stripslashes($db->data[numdate]));

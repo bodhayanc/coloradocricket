@@ -181,7 +181,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -199,7 +199,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -217,7 +217,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -283,7 +283,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$teams[$db->data[TeamID]] = $db->data['teamname'];
+		$teams[$db->data['TeamID']] = $db->data['teamname'];
 	}	
 
 	// query database

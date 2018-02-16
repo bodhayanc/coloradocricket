@@ -248,7 +248,7 @@ function edit_category_form($db,$cat_id)
 //----------------------------------------------------------------------------------------
 
     $ti = htmlentities(stripslashes($db->data[cat_name]));
-    $de  = htmlentities(stripslashes($db->data[description]));
+    $de  = htmlentities(stripslashes($db->data['description']));
     $co  = htmlentities(stripslashes($db->data[color]));
 
 //----------------------------------------------------------------------------------------

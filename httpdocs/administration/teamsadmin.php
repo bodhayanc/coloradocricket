@@ -62,9 +62,9 @@ function show_main_menu($db)
 			}
 			if ($db->data['picture'] != "" ) echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">&nbsp;";
 			echo "</td>\n";
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['TeamID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -150,9 +150,6 @@ function do_add_category($db,$ClubID,$TeamName,$TeamAbbrev,$TeamURL,$TeamColour,
 	$tc = addslashes(trim($TeamColour));
 	$tv = addslashes(trim($TeamActive));
 	$td = addslashes(trim($TeamDesc));
-
-	$pa = eregi_replace("\r","",$photo);
-
 
 	// check for duplicates
 
@@ -250,7 +247,6 @@ function edit_category_form($db,$id)
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"sedit\">\n";
 	echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
-	echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 
 	echo "<p>select club this team belongs to<br>\n";
@@ -306,8 +302,7 @@ function do_update_category($db,$id,$ClubID,$TeamName,$TeamAbbrev,$TeamURL,$Team
 	$tc = addslashes(trim($TeamColour));
 	$tv = addslashes(trim($TeamActive));
 	$td = addslashes(trim($TeamDesc));
-	$pa = eregi_replace("\r","",$photo);
-
+	
 // query database
 
 	$db->Update("UPDATE teams SET ClubID='$cl',LeagueID=1,TeamName='$tn',TeamAbbrev='$ta',TeamURL='$ur',TeamColour='$tc',TeamActive='$tv',TeamDesc='$td'$setpic WHERE TeamID=$id");
@@ -318,7 +313,7 @@ function do_update_category($db,$id,$ClubID,$TeamName,$TeamAbbrev,$TeamURL,$Team
 
 
 // do picture stuff here - doesn't like being passed to a function!
-if ($_FILES['userpic']['name'] != "") {
+if (isset($_FILES['userpic']) && $_FILES['userpic']['name'] != "") {
 	
   $uploaddir1 = "../uploadphotos/teams/";
   $basename1 = basename($_FILES['userpic']['name']);
@@ -326,6 +321,7 @@ if ($_FILES['userpic']['name'] != "") {
   
   if (move_uploaded_file($_FILES['userpic']['tmp_name'], $uploadfile1)) {
     $setpic = ",picture='$basename1'";
+	$picture = "$basename1";
   } else {
     echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
   }
@@ -345,18 +341,33 @@ if (!$USER['flags'][$f_teams_admin]) {
 
 echo "<p class=\"16px\"><b>Teams Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$ClubID,$TeamName,$TeamAbbrev,$TeamURL,$TeamColour,$TeamActive,$TeamDesc,$picture);
+	else do_add_category($db,$_POST['ClubID'],$_POST['TeamName'],$_POST['TeamAbbrev'],$_POST['TeamURL'],$_POST['TeamColour'],$_POST['TeamActive'],$_POST['TeamDesc'],$picture);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$ClubID,$TeamName,$TeamAbbrev,$TeamURL,$TeamColour,$TeamActive,$TeamDesc,$setpic);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['ClubID'],$_POST['TeamName'],$_POST['TeamAbbrev'],$_POST['TeamURL'],$_POST['TeamColour'],$_POST['TeamActive'],$_POST['TeamDesc'],$setpic);
 	break;
 default:
 	show_main_menu($db);

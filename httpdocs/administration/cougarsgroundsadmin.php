@@ -42,8 +42,8 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$gn = htmlentities(stripslashes($db->data[GroundName]));
-			$ga = htmlentities(stripslashes($db->data[GroundActive]));
+			$gn = htmlentities(stripslashes($db->data['GroundName']));
+			$ga = htmlentities(stripslashes($db->data['GroundActive']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -60,7 +60,7 @@ function show_main_menu($db)
 			}
 			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
 			echo "  </td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[GroundID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[GroundID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['GroundID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['GroundID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -274,22 +274,22 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$gn = htmlentities(stripslashes($db->data[GroundName]));
-	$gb = htmlentities(stripslashes($db->data[GroundAbbrev]));
-	$gl = htmlentities(stripslashes($db->data[GroundLoc]));
-	$gd = htmlentities(stripslashes($db->data[GroundDirections]));
-	$gz = htmlentities(stripslashes($db->data[GroundZip]));
-	$ga = htmlentities(stripslashes($db->data[GroundActive]));
-	$de = htmlentities(stripslashes($db->data[description]));
-	$pa = htmlentities(stripslashes($db->data[parking]));
-	$cp = htmlentities(stripslashes($db->data[coveredparking]));
-	$sh = htmlentities(stripslashes($db->data[shelter]));
-	$ha = htmlentities(stripslashes($db->data[handicapped]));
-	$ss = htmlentities(stripslashes($db->data[stadiumseating]));
-	$rr = htmlentities(stripslashes($db->data[restrooms]));
-	$cs = htmlentities(stripslashes($db->data[conveniencestore]));
-	$dw = htmlentities(stripslashes($db->data[drinkingwater]));
-	$pt = htmlentities(stripslashes($db->data[publictransport]));
+	$gn = htmlentities(stripslashes($db->data['GroundName']));
+	$gb = htmlentities(stripslashes($db->data['GroundAbbrev']));
+	$gl = htmlentities(stripslashes($db->data['GroundLoc']));
+	$gd = htmlentities(stripslashes($db->data['GroundDirections']));
+	$gz = htmlentities(stripslashes($db->data['GroundZip']));
+	$ga = htmlentities(stripslashes($db->data['GroundActive']));
+	$de = htmlentities(stripslashes($db->data['description']));
+	$pa = htmlentities(stripslashes($db->data['parking']));
+	$cp = htmlentities(stripslashes($db->data['coveredparking']));
+	$sh = htmlentities(stripslashes($db->data['shelter']));
+	$ha = htmlentities(stripslashes($db->data['handicapped']));
+	$ss = htmlentities(stripslashes($db->data['stadiumseating']));
+	$rr = htmlentities(stripslashes($db->data['restrooms']));
+	$cs = htmlentities(stripslashes($db->data['conveniencestore']));
+	$dw = htmlentities(stripslashes($db->data['drinkingwater']));
+	$pt = htmlentities(stripslashes($db->data['publictransport']));
 
 
       	echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";

@@ -43,7 +43,7 @@ function show_main_menu($db)
 			// setup variables
 
 			$cn = htmlentities(stripslashes($db->data['ClubName']));
-			$ca = htmlentities(stripslashes($db->data[ClubActive]));
+			$ca = htmlentities(stripslashes($db->data['ClubActive']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -61,16 +61,16 @@ function show_main_menu($db)
 			}
                        
                         // 17-Jan-2010
-                        if ($db->data[clublogo] != "" ) {
+                        if ($db->data['clublogo'] != "" ) {
                             echo " <td &nbsp;<img src=\"/images/icons/icon_picture.gif\">&nbsp;</td>\n";
                         } else {
                                  echo "<td> </td>\n";
                        }
 
 
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['ClubID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -116,7 +116,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM grounds ORDER BY GroundID");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			echo "<option value=\"" . $db->data[GroundID] . "\">" . $db->data[GroundName] . "</option>\n";
+			echo "<option value=\"" . $db->data['GroundID'] . "\">" . $db->data['GroundName'] . "</option>\n";
 		}
 	}
 
@@ -213,7 +213,7 @@ function edit_category_form($db,$id)
 	for ($g=0; $g<$db->rows; $g++) {
 		$db->GetRow($g);
         $db->BagAndTag();
-		$grounds[$db->data[GroundID]] = $db->data[GroundName];
+		$grounds[$db->data['GroundID']] = $db->data['GroundName'];
 	}
 
 	// query database
@@ -223,9 +223,9 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$cn = htmlentities(stripslashes($db->data['ClubName']));
-	$ur = htmlentities(stripslashes($db->data[ClubURL]));
-	$cc = htmlentities(stripslashes($db->data[ClubColour]));
-	$ca = htmlentities(stripslashes($db->data[ClubActive]));
+	$ur = htmlentities(stripslashes($db->data['ClubURL']));
+	$cc = htmlentities(stripslashes($db->data['ClubColour']));
+	$ca = htmlentities(stripslashes($db->data['ClubActive']));
 
         echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
         echo "<tr>\n";
@@ -243,7 +243,6 @@ function edit_category_form($db,$id)
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"sedit\">\n";
 	echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
-	echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	echo "<p>enter the club name<br><input type=\"text\" name=\"ClubName\" size=\"40\" maxlength=\"255\" value=\"$cn\"></p>\n";
 	echo "<p>enter the club website<br><input type=\"text\" name=\"ClubURL\" size=\"40\" maxlength=\"255\" value=\"$ur\"></p>\n";
@@ -293,28 +292,6 @@ function do_update_category($db,$id,$ClubName,$ClubURL,$ClubColour,$ClubActive,$
 		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sedit&id=$id\">update $cn some more</a></p>\n";
 }
 
-
-// do picture stuff here - doesn't like being passed to a function!
-
-if ($userpic_name != "") {
-	$picture = urldecode($userpic_name);
-	$picture = ereg_replace(" ","_",$picture);
-	$picture = ereg_replace("&","_and_",$picture);
-
-// put picture in right place
-
-	if (!copy($userpic,"../uploadphotos/clubs/$picture")) {
-		echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
-		unlink($userpic);
-		return;
-	}
-	unlink($userpic);
-	$setpic = ",picture='$picture'";
-} else {
-	$picture = "";
-	$setpic = "";
-}
-
 // main program
 
 if (!$USER['flags'][$f_clubs_admin]) {
@@ -324,18 +301,33 @@ if (!$USER['flags'][$f_clubs_admin]) {
 
 echo "<p class=\"16px\"><b>Clubs Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$ClubName,$ClubURL,$ClubColour,$ClubActive,$GroundID);
+	else do_add_category($db,$_POST['ClubName'],$_POST['ClubURL'],$_POST['ClubColour'],$_POST['ClubActive'],$_POST['GroundID']);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$ClubName,$ClubURL,$ClubColour,$ClubActive,$GroundID);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['ClubName'],$_POST['ClubURL'],$_POST['ClubColour'],$_POST['ClubActive'],$_POST['GroundID']);
 	break;
 default:
 	show_main_menu($db);

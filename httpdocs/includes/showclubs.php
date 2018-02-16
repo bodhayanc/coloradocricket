@@ -9,7 +9,7 @@
 
 
 
-function show_clubs_listing($db,$s,$id,$pr)
+function show_clubs_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -48,9 +48,8 @@ function show_clubs_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['ClubID']));
         $na = htmlentities(stripslashes($db->data['ClubName']));
-        $di = htmlentities(stripslashes($db->data[ClubDirections]));
-        $cs = htmlentities(stripslashes($db->data[ClubActive]));
-        $clublogo =  htmlentities(stripslashes($db->data[clublogo]));
+        $cs = htmlentities(stripslashes($db->data['ClubActive']));
+        $clublogo =  htmlentities(stripslashes($db->data['clublogo']));
        
 	if($cs == "1"){
         // output article
@@ -92,9 +91,8 @@ function show_clubs_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['ClubID']));
         $na = htmlentities(stripslashes($db->data['ClubName']));
-        $di = htmlentities(stripslashes($db->data[ClubDirections]));
-        $cs = htmlentities(stripslashes($db->data[ClubActive]));
-        $clublogo =  htmlentities(stripslashes($db->data[clublogo]));
+        $cs = htmlentities(stripslashes($db->data['ClubActive']));
+        $clublogo =  htmlentities(stripslashes($db->data['clublogo']));
         if($cs == "0"){
         // output article
 		
@@ -132,33 +130,23 @@ function show_clubs_listing($db,$s,$id,$pr)
 }
 
 
-function show_full_clubs($db,$s,$id,$pr,$tid)
+function show_full_clubs($db,$pr)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
 
     //$db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, pl.PlayerID, pl.PlayerFName, pl.PlayerLName FROM (clubs cl INNER JOIN players pl ON cl.ClubID = pl.PlayerClub) INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE cl.ClubID = $pr");
-    $db->QueryRow("SELECT cl.clublogo, cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, pl.PlayerID, pl.PlayerFName, pl.PlayerLName, gr.GroundName, gr.GroundID FROM (clubs cl INNER JOIN players pl ON cl.ClubID = pl.PlayerClub) INNER JOIN teams te ON pl.PlayerTeam = te.TeamID INNER JOIN grounds gr ON cl.GroundID = gr.GroundID WHERE cl.ClubID = $pr");
+    $db->QueryRow("SELECT cl.clublogo, cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, gr.GroundName, gr.GroundID FROM clubs cl INNER JOIN grounds gr ON cl.GroundID = gr.GroundID WHERE cl.ClubID = $pr");
     $db->BagAndTag();
 
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
-    $cab = $db->data[ClubAbbrev];
-    $cur = $db->data[ClubURL];
-    $cco = $db->data[ClubColour];
-
-    $tid = $db->data['TeamID'];
-    $tna = $db->data['TeamName'];
-    $tab = $db->data['TeamAbbrev'];
-    $tco = $db->data['TeamColour'];
-
-    $pid = $db->data['PlayerID'];
-    $pfn = $db->data['PlayerFName'];
-    $pln = $db->data['PlayerLName'];
+    $cur = $db->data['ClubURL'];
+    $cco = $db->data['ClubColour'];
 
     $gri = $db->data['GroundID'];
     $grn = $db->data['GroundName'];
-    $clublogo = $db->data[clublogo];
+    $clublogo = $db->data['clublogo'];
 
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -385,7 +373,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     echo "</tr>\n";
     echo "</table><br>\n";
 
-
+	if ($db->Exists("SELECT cl.ClubID, cl.ClubName, te.TeamID, te.TeamName, te.TeamAbbrev, te.picture FROM clubs cl INNER JOIN teams te ON cl.ClubID = te.ClubID WHERE cl.ClubID = $pr")) {
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, te.TeamID, te.TeamName, te.TeamAbbrev, te.picture FROM clubs cl INNER JOIN teams te ON cl.ClubID = te.ClubID WHERE cl.ClubID = $pr");
     //$db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, pl.PlayerID, pl.PlayerFName, pl.PlayerLName FROM (clubs cl INNER JOIN players pl ON cl.ClubID = pl.PlayerClub) INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE cl.ClubID = $pr");
     $db->BagAndTag();
@@ -405,18 +393,11 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
-    $cur = $db->data[ClubURL];
-    $cco = $db->data[ClubColour];
-
+    
     $tid = $db->data['TeamID'];
     $tna = $db->data['TeamName'];
     $tab = $db->data['TeamAbbrev'];
-    $tco = $db->data['TeamColour'];
     $pic = $db->data['picture'];
-
-    $pid = $db->data['PlayerID'];
-    $pfn = $db->data['PlayerFName'];
-    $pln = $db->data['PlayerLName'];
 
     if($i % 2) {
       echo "<tr class=\"trrow2\">\n";
@@ -436,17 +417,17 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
     echo "  </td>\n";
     echo "</tr>\n";
     echo "</table><br>\n";
-
+	}
     // Clubs Box
 
+	if ($db->Exists("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, pl.PlayerID, pl.PlayerFName, pl.PlayerLName FROM (clubs cl INNER JOIN players pl ON cl.ClubID = pl.PlayerClub) INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE cl.ClubID = $pr")) {
     $db->QueryRow("SELECT cl.ClubID, cl.ClubName, cl.ClubURL, cl.ClubColour, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, pl.PlayerID, pl.PlayerFName, pl.PlayerLName FROM (clubs cl INNER JOIN players pl ON cl.ClubID = pl.PlayerClub) INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE cl.ClubID = $pr");
     $db->BagAndTag();
 
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
-    $cab = $db->data[ClubAbbrev];
-    $cur = $db->data[ClubURL];
-    $cco = $db->data[ClubColour];
+    $cur = $db->data['ClubURL'];
+    $cco = $db->data['ClubColour'];
 
     $tid = $db->data['TeamID'];
     $tna = $db->data['TeamName'];
@@ -500,11 +481,11 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
         echo "  </td>\n";
         echo "</tr>\n";
         echo "</table>\n";
-
+	}
 
     // output link back
-    $sitevar = "/clubs.php?clubs=$pr&ccl_mode=1";
-    echo "<p>&laquo; <a href=\"$PHP_SELF\">back to clubs listing</a></p>\n";
+    //$sitevar = "/clubs.php?clubs=$pr&ccl_mode=1";
+    echo "<p>&laquo; <a href=\"/clubs.php\">back to clubs listing</a></p>\n";
 
     // finish off
     echo "  </td>\n";
@@ -522,16 +503,20 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_clubs_listing($db,$s,$id,$clubs);
-    break;
-case 1:
-    show_full_clubs($db,$s,$id,$clubs,$tid);
-    break;
-default:
-    show_clubs_listing($db,$s,$id,$clubs);
-    break;
+if(isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_clubs_listing($db);
+		break;
+	case 1:
+		show_full_clubs($db,$_GET['clubs']);
+		break;
+	default:
+		show_clubs_listing($db);
+		break;
+	}
+} else {
+	show_clubs_listing($db);
 }
 
 

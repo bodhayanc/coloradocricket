@@ -49,8 +49,8 @@ function show_grounds_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['GroundID']));
         $na = htmlentities(stripslashes($db->data['GroundName']));
-        $di = htmlentities(stripslashes($db->data[GroundDirections]));
-		$gl = htmlentities(stripslashes($db->data[GroundLoc]));  // Added this 10-Aug-2015 11:10pm
+        $di = htmlentities(stripslashes($db->data['GroundDirections']));
+		$gl = htmlentities(stripslashes($db->data['GroundLoc']));  // Added this 10-Aug-2015 11:10pm
 
         // output article
 
@@ -92,19 +92,19 @@ function show_full_grounds($db,$s,$id,$pr)
 
     $id = $db->data['GroundID'];
     $na = $db->data['GroundName'];
-    $gl = $db->data[GroundLoc];
-    $di = $db->data[GroundDirections];
-    $zi = $db->data[GroundZip];
-    $de = $db->data[description];
-    $pa = $db->data[parking];
-    $cp = $db->data[coveredparking];
-    $sh = $db->data[shelter];
-    $ha = $db->data[handicapped];
-    $ss = $db->data[stadiumseating];
-    $rr = $db->data[restrooms];
-    $cs = $db->data[conveniencestore];
-    $dw = $db->data[drinkingwater];
-    $pt = $db->data[publictransport];
+    $gl = $db->data['GroundLoc'];
+    $di = $db->data['GroundDirections'];
+    $zi = $db->data['GroundZip'];
+    $de = $db->data['description'];
+    $pa = $db->data['parking'];
+    $cp = $db->data['coveredparking'];
+    $sh = $db->data['shelter'];
+    $ha = $db->data['handicapped'];
+    $ss = $db->data['stadiumseating'];
+    $rr = $db->data['restrooms'];
+    $cs = $db->data['conveniencestore'];
+    $dw = $db->data['drinkingwater'];
+    $pt = $db->data['publictransport'];
     $pi = $db->data['picture'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -225,7 +225,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT COUNT(game_id) AS MatchesPlayed FROM scorecard_game_details WHERE ground_id=$pr");
     $db->BagAndTag();
     
-    $cou = $db->data[MatchesPlayed];
+    $cou = $db->data['MatchesPlayed'];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\"><b>Matches played</b></td>\n";
@@ -514,7 +514,7 @@ function show_full_grounds($db,$s,$id,$pr)
     echo "  <table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">\n";
     echo "  <tr>\n";
     echo "    <td><p>";
-    if ($db->data[GroundZip] != "0") {
+    if ($db->data['GroundZip'] != "0") {
     echo "    <script src='http://voap.weather.com/weather/oap/$zi?template=GENXH&par=1004982138&unit=0&key=dd43509d7e444c1c1f5c322975a6adaf'></script>\n";
     } else {
     echo "";

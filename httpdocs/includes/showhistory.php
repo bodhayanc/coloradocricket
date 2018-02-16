@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_history_listing($db,$s,$id,$pr)
+function show_history_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr, $redbdr, $blackbdr;
 
@@ -46,7 +46,8 @@ function show_history_listing($db,$s,$id,$pr)
 
     echo "<form action=\"$PHP_SELF\">";
     echo "<input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
-    echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 
     echo "    </td>\n";
     echo "  </tr>\n";
@@ -70,7 +71,6 @@ function show_history_listing($db,$s,$id,$pr)
     $t = htmlentities(stripslashes($db->data['title']));
     $pr = htmlentities(stripslashes($db->data['id']));
     $fi = $db->data['picture'];
-    $a = $db->data['added'];
     $id = $db->data['id'];
 
     // output article
@@ -105,7 +105,7 @@ function show_history_listing($db,$s,$id,$pr)
 }
 
 
-function show_history($db,$s,$id,$pr)
+function show_history($db,$pr)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr, $redbdr, $blackbdr;
 
@@ -141,7 +141,7 @@ function show_history($db,$s,$id,$pr)
     // output link back
     echo "<hr color=\"#FCDC00\" width=\"100%\" size=\"1\" align=\"center\">\n\n";
     if ($db->data['picture'] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;download this file</a>\n";
-    echo "<p>&laquo; <a href=\"$PHP_SELF\">back to history listing</a></p>\n";
+    echo "<p>&laquo; <a href=\"/history.php\">back to history listing</a></p>\n";
 
     // finish off
     echo "  </td>\n";
@@ -219,9 +219,9 @@ function search_history($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data['added']);
             $t = $db->data['title'];
             $id = $db->data['id'];
+			$fi = $db->data['picture'];
 
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";
@@ -230,7 +230,7 @@ function search_history($db,$search="")
             }
 
         echo "    <td><a href=\"$PHP_SELF?history=$id&ccl_mode=1\">$t</a>&nbsp;\n";
-        if ($db->data['picture'] != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
+        if ($fi != "") echo "<a href=\"/uploadphotos/history/$fi\"><img src=\"/images/icons/icon_pdf_sm.gif\" border=\"0\"></a>\n";
         echo "    </td>\n";
         echo "  </tr>\n";
 
@@ -272,19 +272,23 @@ function search_history($db,$search="")
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_history_listing($db,$s,$id,$history);
-    break;
-case 1:
-    show_history($db,$s,$id,$history);
-    break;
-case 2:
-    search_history($db,$search);
-    break;
-default:
-    show_history_listing($db,$s,$id,$history);
-    break;
+if(isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_history_listing($db);
+		break;
+	case 1:
+		show_history($db,$_GET['history']);
+		break;
+	case 2:
+		search_history($db,$_GET['search']);
+		break;
+	default:
+		show_history_listing($db);
+		break;
+	}
+} else {
+	show_history_listing($db);
 }
 
 

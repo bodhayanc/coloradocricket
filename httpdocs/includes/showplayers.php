@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_players_listing($db,$s,$id,$pr)
+function show_players_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -45,7 +45,8 @@ function show_players_listing($db,$s,$id,$pr)
 
     echo "<form action=\"$PHP_SELF\">";
     echo "<input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
-    echo "<br><p>Enter first or last name &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "<br><p>Enter first or last name &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 
     echo "    </td>\n";
     echo "  </tr>\n";
@@ -107,8 +108,7 @@ function show_players_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
-        $di = htmlentities(stripslashes($db->data['TeamDirections']));
-
+        
         // output article
 
         if($i % 2) {
@@ -1596,8 +1596,7 @@ function search_players($db,$search="")
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
-        $di = htmlentities(stripslashes($db->data['TeamDirections']));
-
+        
         // output article
 
         if($i % 2) {
@@ -1850,19 +1849,19 @@ $db->SelectDB($dbcfg['db']);
 if (isset($_GET['ccl_mode'])) {
 	switch($_GET['ccl_mode']) {
 	case 0:
-		show_players_listing($db,$s,$id,$players);
+		show_players_listing($db);
 		break;
 	case 1:
 		show_full_players($db,$_GET['players']);
 		break;
 	case 2:
-		search_players($db,$search);
+		search_players($db,$_GET['search']);
 		break;
 	case 3:
-		show_alpha_listing($db,$s,$id,$players,$letter);
+		show_alpha_listing($db,$_GET['letter']);
 		break;
 	default:
-		show_players_listing($db,$s,$id,$players);
+		show_players_listing($db);
 		break;
 	}
 } else {

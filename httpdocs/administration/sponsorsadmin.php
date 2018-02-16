@@ -46,7 +46,7 @@ function show_main_menu($db)
 
 			$t = htmlentities(stripslashes($db->data['title']));
 			$id = htmlentities(stripslashes($db->data['id']));
-			$sa = $db->data[isActive];
+			$sa = $db->data['isActive'];
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -63,9 +63,9 @@ function show_main_menu($db)
 			echo "	<td align=\"left\">$t<b><font color=\"red\"> (not active)</font></b></td>\n";
 			}
 
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+			//echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -137,8 +137,7 @@ function do_add_category($db,$title,$url,$promised,$article,$picture)
 	$p = addslashes(trim($promised));
 	
 	$d = date("Y",time()) . "-" . date("m",time()) . "-" . date("j",time());
-	$pa = eregi_replace("\r","",$photo);
-
+	
 	// check for duplicates
 
 	if ($db->Exists("SELECT * FROM sponsors WHERE title='$t'")) {
@@ -214,7 +213,7 @@ function edit_category_form($db,$id)
 	$a  = htmlentities(stripslashes($db->data['article']));
 	$p  = htmlentities(stripslashes($db->data['promised']));
         // 9-Jan-2010
-        $act = htmlentities(stripslashes($db->data[isActive]));
+        $act = htmlentities(stripslashes($db->data['isActive']));
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";
@@ -280,8 +279,6 @@ function do_update_category($db,$id,$title,$url,$promised,$article,$setpic, $isa
 // setup the variables
 
 	$t = addslashes(trim($title));
-	$pa = eregi_replace("\r","",$photo);
-	$o = addslashes(trim($old));
 	$u = addslashes(trim($url));
 	$p = addslashes(trim($promised));
         $act = addslashes(trim($isactive));
@@ -289,8 +286,7 @@ function do_update_category($db,$id,$title,$url,$promised,$article,$setpic, $isa
 
 // prevent the need for using escape sequences with apostrophe's
 
-	$a = eregi_replace("\r","",$article);
-	$a = addslashes(trim($a));
+	$a = addslashes(trim($article));
 
 	// query database
 
@@ -322,17 +318,15 @@ function do_update_category($db,$id,$title,$url,$promised,$article,$setpic, $isa
 //	$setpic = "";
 //}
 
-
 // do picture stuff here - doesn't like being passed to a function!
-if ($_FILES['userpic']['name'] != "") {
-// 9-Jan-2010
-$uploaddir = "../uploadphotos/sponsors/";
-//  $uploaddir = "../uploadphotos/players/";
+if (isset($_FILES['userpic']) && $_FILES['userpic']['name'] != "") {
+  $uploaddir = "../uploadphotos/sponsors/";
   $basename = basename($_FILES['userpic']['name']);
   $uploadfile = $uploaddir . $basename;
 
   if (move_uploaded_file($_FILES['userpic']['tmp_name'], $uploadfile)) {
     $setpic = ",picture='$basename'";
+	$picture=$basename;
   } else {
     echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
   }
@@ -343,7 +337,6 @@ else
   $setpic = "";
 }
 
-
 // main program
 
 if (!$USER['flags'][$f_sponsors_admin]) {
@@ -353,21 +346,36 @@ if (!$USER['flags'][$f_sponsors_admin]) {
 
 echo "<p class=\"16px\"><b>Sponsors Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "menu":
 	show_main_menu($db);
 	break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$title,$url,$promised,$article,$picture);
+	else do_add_category($db,$_POST['title'],$_POST['url'],$_POST['promised'],$_POST['article'],$picture);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$title,$url,$promised,$article,$setpic,$isactive);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['title'],$_POST['url'],$_POST['promised'],$_POST['article'],$setpic,$_POST['isactive']);
 	break;
 default:
 	show_main_menu($db);

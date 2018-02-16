@@ -129,7 +129,7 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
             $iem = $db->data[contact_email];
             $iad = $db->data[added_on];
 
-            $iac = $db->data[isactive];
+            $iac = $db->data['isactive'];
             $iap = $db->data[isapproved];
 
            // output article

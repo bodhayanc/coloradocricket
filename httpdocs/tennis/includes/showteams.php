@@ -574,7 +574,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
         $pa = $db->data['picture1'];
-        $ia = $db->data[isactive];
+        $ia = $db->data['isactive'];
 
     // output story
 

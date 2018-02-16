@@ -80,7 +80,7 @@ function show_main_menu_season($db,$season,$sename)
                 $db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
                 for ($i=0; $i<$db->rows; $i++) {
                         $db->GetRow($i);
-                        $teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+                        $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                 }
 
       		echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
@@ -199,7 +199,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -212,7 +212,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 		echo "</select></p>\n";
@@ -224,7 +224,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 
@@ -286,13 +286,13 @@ function delete_category_check($db,$id)
 	$db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$teams[$db->data[TeamID]] = $db->data['TeamAbbrev'];
+		$teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
 	}
 
 	$db->Query("SELECT * FROM grounds ORDER BY GroundName");
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$grounds[$db->data[GroundID]] = $db->data[GroundName];
+		$grounds[$db->data['GroundID']] = $db->data['GroundName'];
 	}
 
 	$db->QueryItem("SELECT * FROM cougarsschedule WHERE id=$id");
@@ -338,7 +338,7 @@ function edit_category_form($db,$id)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
         $db->BagAndTag();
-		$teams[$db->data[TeamID]] = $db->data['teamname'];
+		$teams[$db->data['TeamID']] = $db->data['teamname'];
 		$teams2 = $teams;
 		$umpires = $teams;
 	}
@@ -347,7 +347,7 @@ function edit_category_form($db,$id)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
         $db->BagAndTag();
-		$grounds[$db->data[GroundID]] = $db->data[GroundName];
+		$grounds[$db->data['GroundID']] = $db->data['GroundName'];
 	}
 
 	// get article details

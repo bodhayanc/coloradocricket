@@ -120,7 +120,7 @@ function show_main_menu_season($db,$season)
 	
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$id = htmlentities(stripslashes($db->data[TeamID]));
+		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['teamname']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 		$di = htmlentities(stripslashes($db->data['TeamDirections']));
@@ -337,7 +337,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM cougarsteams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
 		}
 	}
 	echo "</select></p>\n";		
@@ -409,7 +409,7 @@ function edit_category_form($db,$id,$team)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
         $db->BagAndTag();
-		$teams[$db->data[TeamID]] = $db->data['teamname'];
+		$teams[$db->data['TeamID']] = $db->data['teamname'];
 	}
 
 

@@ -868,7 +868,7 @@ function edit_category_form($db,$id)
 //----------------------------------------------------------------------------------------
 
 	$ti  = htmlentities(stripslashes($db->data['title']));
-	$de  = htmlentities(stripslashes($db->data[description]));
+	$de  = htmlentities(stripslashes($db->data['description']));
 	$ca  = htmlentities(stripslashes($db->data[cat]));
 	$co  = htmlentities(stripslashes($db->data[contact]));
 	$el  = htmlentities(stripslashes($db->data[email]));

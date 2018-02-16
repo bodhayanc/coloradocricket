@@ -85,7 +85,7 @@ $db->Query("SELECT * FROM teams WHERE TeamActive=1 AND LeagueID=1 ORDER BY TeamA
         $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
         $pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
         $ptn = htmlentities(stripslashes($db->data['TeamName']));
-        $l1ump = htmlentities(stripslashes($db->data[IsL1Umpire]));
+        $l1ump = htmlentities(stripslashes($db->data['IsL1Umpire']));
 
     if($l1ump == 1) {
 		$l1UmpText = "Yes";

@@ -128,7 +128,7 @@ function show_full_teams($db,$pr)
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
     echo "  <td align=\"left\" valign=\"top\">\n";
-    echo "  <a href=\"/index.php\">Home</a> &raquo; <a href=\"/teamdetails.php\">Teams</a> &raquo; <font class=\"10px\">Team Page</font></p>\n";
+    echo "  <a href=\"/index.php\">Home</a> &raquo; <a href=\"/teams.php\">Teams</a> &raquo; <font class=\"10px\">Team Page</font></p>\n";
     echo "  </td>\n";
     //echo "  <td align=\"right\" valign=\"top\">\n";
     //require ("navtop.php");
@@ -570,7 +570,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
         $pa = $db->data['picture1'];
-        $ia = $db->data[isactive];
+        $ia = $db->data['isactive'];
 
     // output story
 

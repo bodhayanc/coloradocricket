@@ -4,7 +4,7 @@
     require ("includes/class.fasttemplate.inc");
     require ("includes/general.functions.inc");
 
-    $page = teams;
+    $page = 'teams';
 
 ?>
 
@@ -128,9 +128,15 @@ document.onmouseup=new Function("dragapproved=false")
 
     </td>
     <td bgcolor="#FFFFFF" valign="top">
-<br>
+	<?php include("includes/showrandomsponsor.php");?>
     <?php include("includes/showteams.php"); ?>
+	<?php include("includes/showrandomsponsor_bottom.php");?>
     </td>
+	    <td width="450" bgcolor="#D0C7C0" valign="top">
+
+    <?php include("includes/right.php"); ?>
+
+
   </tr>
 
 <?php include("includes/footer.php"); ?>

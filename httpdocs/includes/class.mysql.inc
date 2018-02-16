@@ -247,7 +247,7 @@ class mysql_class{
 					$val = preg_replace("/\[tr\](.*?)\[\/tr\]/is", "<tr>\\1</tr>",$val);
 					$val = preg_replace("/\[td\](.*?)\[\/td\]/is", "<td valign=\"top\">\\1</td>",$val);
 					$val = preg_replace("/\[pre\](.*?)\[\/pre\]/is", "<pre>\\1</pre>",$val);
-					$val = preg_replace("[list]","<li type=\"square\">",$val);
+					$val = preg_replace("/\[list\]/is","<li type=\"square\">",$val);
 					$this->data[$key] = nl2br($val);
 				}
 			} else {
@@ -262,7 +262,7 @@ class mysql_class{
 				$val = preg_replace("/\[tr\](.*?)\[\/tr\]/is", "<tr>\\1</tr>",$val);
 				$val = preg_replace("/\[td\](.*?)\[\/td\]/is", "<td valign=\"top\">\\1</td>",$val);				
 				$val = preg_replace("/\[pre\](.*?)\[\/pre\]/is", "<pre>\\1</pre>",$val);
-				$val = preg_replace("\[list\]","<li type=\"square\">",$val);
+				$val = preg_replace("/\[list\]/is","<li type=\"square\">",$val);
 				$this->data[$field] = nl2br($val);
 			}
 		}	

@@ -237,7 +237,7 @@ function show_full_teams($db,$s,$id,$pr)
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
         $pa = $db->data['picture1'];
-		$ps = $db->data[isactive];  // 29-Oct-2014 10:26pm player status
+		$ps = $db->data['isactive'];  // 29-Oct-2014 10:26pm player status
 
     // output story
 
@@ -392,7 +392,7 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
         $pi = $db->data['PlayerID'];
         $pc = $db->data['picture'];
         $pa = $db->data['picture1'];
-        $ia = $db->data[isactive];
+        $ia = $db->data['isactive'];
 
     // output story
 

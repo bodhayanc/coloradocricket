@@ -55,9 +55,9 @@ function show_main_menu($db)
 
 			echo "	<td align=\"left\">$id</td>\n";
 			echo "	<td align=\"left\">$t</td>\n";
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+//echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -118,8 +118,7 @@ function do_add_category($db,$title,$article,$picture)
 	$t = addslashes(trim($title));
 	$a = addslashes(trim($article));
 	$d = date("Y",time()) . "-" . date("m",time()) . "-" . date("j",time());
-	$pa = eregi_replace("\r","",$photo);
-
+	
 	// check for duplicates
 
 	if ($db->Exists("SELECT * FROM history WHERE title='$t'")) {
@@ -240,14 +239,11 @@ function do_update_category($db,$id,$title,$article,$setpic)
 // setup the variables
 
 	$t = addslashes(trim($title));
-	$pa = eregi_replace("\r","",$photo);
-	$o = addslashes(trim($old));
-
+	
 // prevent the need for using escape sequences with apostrophe's
 
-	$a = eregi_replace("\r","",$article);
-	$a = addslashes(trim($a));
-
+	$a = addslashes(trim($article));
+	
 	// query database
 
 	$db->Update("UPDATE history SET title='$t',article='$a'$setpic WHERE id=$id");
@@ -259,19 +255,19 @@ function do_update_category($db,$id,$title,$article,$setpic)
 
 // do picture stuff here - doesn't like being passed to a function!
 
-if ($userpic_name != "") {
-	$picture = urldecode($userpic_name);
-	$picture = ereg_replace(" ","_",$picture);
-	$picture = ereg_replace("&","_and_",$picture);
-
-// put picture in right place
-
-	if (!copy($userpic,"../uploadphotos/history/$picture")) {
+if (isset($_FILES['userpic']) && $_FILES['userpic']['name'] != "") {
+	
+	$uploaddir = "../uploadphotos/history/";
+	$basename = basename($_FILES['userpic']['name']);
+	$uploadfile = $uploaddir . $basename;
+	// put picture in right place
+	if (move_uploaded_file($_FILES['userpic']['tmp_name'], $uploadfile)) {
+		$setpic = "";
+		$picture=$basename;
+	} else {
 		echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
-		unlink($userpic);
-		return;
 	}
-	unlink($userpic);
+	
 	$setpic = ",picture='$picture'";
 } else {
 	$picture = "";
@@ -287,18 +283,33 @@ if (!$USER['flags'][$f_history_admin]) {
 
 echo "<p class=\"16px\"><b>Site History Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$title,$article,$picture);
+	else do_add_category($db,$_POST['title'],$_POST['article'],$picture);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$title,$article,$setpic);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['title'],$_POST['article'],$setpic);
 	break;
 default:
 	show_main_menu($db);

@@ -43,7 +43,7 @@ function show_main_menu($db)
 			// setup variables
 
 			$cn = htmlentities(stripslashes($db->data['ClubName']));
-			$ca = htmlentities(stripslashes($db->data[ClubActive]));
+			$ca = htmlentities(stripslashes($db->data['ClubActive']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -103,7 +103,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM grounds ORDER BY GroundID");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			echo "<option value=\"" . $db->data[GroundID] . "\">" . $db->data[GroundName] . "</option>\n";
+			echo "<option value=\"" . $db->data['GroundID'] . "\">" . $db->data['GroundName'] . "</option>\n";
 		}
 	}
 
@@ -200,7 +200,7 @@ function edit_category_form($db,$id)
 	for ($g=0; $g<$db->rows; $g++) {
 		$db->GetRow($g);
         $db->BagAndTag();
-		$grounds[$db->data[GroundID]] = $db->data[GroundName];
+		$grounds[$db->data['GroundID']] = $db->data['GroundName'];
 	}
 
 	// query database
@@ -210,9 +210,9 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$cn = htmlentities(stripslashes($db->data['ClubName']));
-	$ur = htmlentities(stripslashes($db->data[ClubURL]));
-	$cc = htmlentities(stripslashes($db->data[ClubColour]));
-	$ca = htmlentities(stripslashes($db->data[ClubActive]));
+	$ur = htmlentities(stripslashes($db->data['ClubURL']));
+	$cc = htmlentities(stripslashes($db->data['ClubColour']));
+	$ca = htmlentities(stripslashes($db->data['ClubActive']));
 
         echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
         echo "<tr>\n";

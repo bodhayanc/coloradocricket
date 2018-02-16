@@ -42,8 +42,8 @@ function show_main_menu($db)
 
 			// setup variables
 
-			$gn = htmlentities(stripslashes($db->data[GroundName]));
-			$ga = htmlentities(stripslashes($db->data[GroundActive]));
+			$gn = htmlentities(stripslashes($db->data['GroundName']));
+			$ga = htmlentities(stripslashes($db->data['GroundActive']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -60,9 +60,9 @@ function show_main_menu($db)
 			}
 			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
 			echo "  </td>\n";
-//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[GroundID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data[GroundID] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['GroundID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a //href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['GroundID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[GroundID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+//			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['GroundID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 
 			echo "</tr>\n";
 		}
@@ -96,7 +96,7 @@ function add_category_form($db)
 	echo "<input type=\"hidden\" name=\"do\" value=\"sadd\">\n";
 	echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
 	echo "<p>enter the ground name<br><input type=\"text\" name=\"GroundName\" size=\"50\" maxlength=\"255\"></p>\n";
-	echo "<p>enter the ground abbreviation<br><input type=\"text\" name=\"Groundabbrev\" size=\"50\" maxlength=\"255\"></p>\n";
+	echo "<p>enter the ground abbreviation<br><input type=\"text\" name=\"GroundAbbrev\" size=\"50\" maxlength=\"255\"></p>\n";
 	echo "<p>enter the city the ground is located<br><input type=\"text\" name=\"GroundLoc\" size=\"50\" maxlength=\"255\"></p>\n";
 	echo "<p>enter the ground zip code<br><input type=\"text\" name=\"GroundZip\" size=\"50\" maxlength=\"5\"></p>\n";
 	echo "<p>enter the ground directions<br><textarea name=\"GroundDirections\" cols=\"70\" rows=\"15\" wrap=\"virtual\"></textarea></p>\n";
@@ -193,11 +193,10 @@ function do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirecti
 	// setup variables
 
 	$gn = addslashes(trim($GroundName));
-	$ga = addslashes(trim($GroundAbbrev));
+	$gv = addslashes(trim($GroundAbbrev));
 	$gl = addslashes(trim($GroundLoc));
 	$gz = addslashes(trim($GroundZip));
 	$gd = addslashes(trim($GroundDirections));
-	$cc = addslashes(trim($GroundColour));
 	$ga = addslashes(trim($GroundActive));
 	$de = addslashes(trim($description));
 	$pa = addslashes(trim($parking));
@@ -209,8 +208,7 @@ function do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirecti
 	$cs = addslashes(trim($conveniencestore));
 	$dw = addslashes(trim($drinkingwater));
 	$pt = addslashes(trim($publictransport));
-	$ph = eregi_replace("\r","",$photo);
-
+	
 
 	// check for duplicates
 
@@ -221,7 +219,7 @@ function do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirecti
 
 	// all okay
 
-	$db->Insert("INSERT INTO grounds (LeagueID,GroundName,GroundAbbrev,GroundLoc,GroundDirections,GroundZip,description,parking,coveredparking,shelter,handicapped,stadiumseating,restrooms,conveniencestore,drinkingwater,publictransport,GroundActive,picture) VALUES (1,'$gn','$ga','$gl','$gd','$gz','$de','$pa','$cp','$sh','$ha','$ss','$rr','$cs','$dw','$pt','$ga','$picture')");
+	$db->Insert("INSERT INTO grounds (LeagueID,GroundName,GroundAbbrev,GroundLoc,GroundDirections,GroundZip,description,parking,coveredparking,shelter,handicapped,stadiumseating,restrooms,conveniencestore,drinkingwater,publictransport,GroundActive,picture) VALUES (1,'$gn','$gv','$gl','$gd','$gz','$de','$pa','$cp','$sh','$ha','$ss','$rr','$cs','$dw','$pt','$ga','$picture')");
 	if ($db->a_rows != -1) {
 		echo "<p>You have now added a new ground</p>\n";
 		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">add another ground</a></p>\n";
@@ -277,22 +275,22 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$gn = htmlentities(stripslashes($db->data[GroundName]));
-	$gb = htmlentities(stripslashes($db->data[GroundAbbrev]));
-	$gl = htmlentities(stripslashes($db->data[GroundLoc]));
-	$gd = htmlentities(stripslashes($db->data[GroundDirections]));
-	$gz = htmlentities(stripslashes($db->data[GroundZip]));
-	$ga = htmlentities(stripslashes($db->data[GroundActive]));
-	$de = htmlentities(stripslashes($db->data[description]));
-	$pa = htmlentities(stripslashes($db->data[parking]));
-	$cp = htmlentities(stripslashes($db->data[coveredparking]));
-	$sh = htmlentities(stripslashes($db->data[shelter]));
-	$ha = htmlentities(stripslashes($db->data[handicapped]));
-	$ss = htmlentities(stripslashes($db->data[stadiumseating]));
-	$rr = htmlentities(stripslashes($db->data[restrooms]));
-	$cs = htmlentities(stripslashes($db->data[conveniencestore]));
-	$dw = htmlentities(stripslashes($db->data[drinkingwater]));
-	$pt = htmlentities(stripslashes($db->data[publictransport]));
+	$gn = htmlentities(stripslashes($db->data['GroundName']));
+	$gb = htmlentities(stripslashes($db->data['GroundAbbrev']));
+	$gl = htmlentities(stripslashes($db->data['GroundLoc']));
+	$gd = htmlentities(stripslashes($db->data['GroundDirections']));
+	$gz = htmlentities(stripslashes($db->data['GroundZip']));
+	$ga = htmlentities(stripslashes($db->data['GroundActive']));
+	$de = htmlentities(stripslashes($db->data['description']));
+	$pa = htmlentities(stripslashes($db->data['parking']));
+	$cp = htmlentities(stripslashes($db->data['coveredparking']));
+	$sh = htmlentities(stripslashes($db->data['shelter']));
+	$ha = htmlentities(stripslashes($db->data['handicapped']));
+	$ss = htmlentities(stripslashes($db->data['stadiumseating']));
+	$rr = htmlentities(stripslashes($db->data['restrooms']));
+	$cs = htmlentities(stripslashes($db->data['conveniencestore']));
+	$dw = htmlentities(stripslashes($db->data['drinkingwater']));
+	$pt = htmlentities(stripslashes($db->data['publictransport']));
 
 
       	echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
@@ -311,7 +309,6 @@ function edit_category_form($db,$id)
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"sedit\">\n";
 	echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
-	echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	echo "<p>enter the ground name<br><input type=\"text\" name=\"GroundName\" size=\"50\" maxlength=\"255\" value=\"$gn\"></p>\n";
 	echo "<p>enter the ground abbreviation<br><input type=\"text\" name=\"GroundAbbrev\" size=\"50\" maxlength=\"255\" value=\"$gb\"></p>\n";
@@ -450,8 +447,7 @@ function do_update_category($db,$id,$GroundName,$GroundAbbrev,$GroundLoc,$Ground
 	$cs = addslashes(trim($conveniencestore));
 	$dw = addslashes(trim($drinkingwater));
 	$pt = addslashes(trim($publictransport));
-	$ph = eregi_replace("\r","",$photo);
-
+	
 	// query database
 
 	$db->Update("UPDATE grounds SET LeagueID=1,GroundName='$gn',GroundAbbrev='$gb',GroundLoc='$gl',GroundDirections='$gd',GroundZip='$gz',description='$de',parking='$pa',coveredparking='$cp',shelter='$sh',handicapped='$ha',stadiumseating='$ss',restrooms='$rr',conveniencestore='$cs',drinkingwater='$dw',publictransport='$pt',GroundActive='$ga'$setpic WHERE GroundID=$id");
@@ -463,23 +459,22 @@ function do_update_category($db,$id,$GroundName,$GroundAbbrev,$GroundLoc,$Ground
 
 // do picture stuff here - doesn't like being passed to a function!
 
-if ($userpic_name != "") {
-	$picture = urldecode($userpic_name);
-	$picture = ereg_replace(" ","_",$picture);
-	$picture = ereg_replace("&","_and_",$picture);
+if (isset($_FILES['userpic']) && $_FILES['userpic']['name'] != "") {
+  $uploaddir = "../uploadphotos/grounds/";
+  $basename = basename($_FILES['userpic']['name']);
+  $uploadfile = $uploaddir . $basename;
 
-// put picture in right place
-
-	if (!copy($userpic,"../uploadphotos/grounds/$picture")) {
-		echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
-		unlink($userpic);
-		return;
-	}
-	unlink($userpic);
-	$setpic = ",picture='$picture'";
-} else {
-	$picture = "";
-	$setpic = "";
+  if (move_uploaded_file($_FILES['userpic']['tmp_name'], $uploadfile)) {
+    $setpic = ",picture='$basename'";
+	$picture=$basename;
+  } else {
+    echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
+  }
+}
+else
+{
+  $picture = "";
+  $setpic = "";
 }
 
 // main program
@@ -491,18 +486,33 @@ if (!$USER['flags'][$f_grounds_admin]) {
 
 echo "<p class=\"16px\"><b>Grounds Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirections,$GroundZip,$description,$parking,$coveredparking,$shelter,$handicapped,$stadiumseating,$restrooms,$conveniencestore,$drinkingwater,$publictransport,GroundActive,$picture);
+	else do_add_category($db,$_POST['GroundName'],$_POST['GroundAbbrev'],$_POST['GroundLoc'],$_POST['GroundDirections'],$_POST['GroundZip'],$_POST['description'],$_POST['parking'],$_POST['coveredparking'],$_POST['shelter'],$_POST['handicapped'],$_POST['stadiumseating'],$_POST['restrooms'],$_POST['conveniencestore'],$_POST['drinkingwater'],$_POST['publictransport'],$_POST['GroundActive'],$picture);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirections,$GroundZip,$description,$parking,$coveredparking,$shelter,$handicapped,$stadiumseating,$restrooms,$conveniencestore,$drinkingwater,$publictransport,$GroundActive,$setpic);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['GroundName'],$_POST['GroundAbbrev'],$_POST['GroundLoc'],$_POST['GroundDirections'],$_POST['GroundZip'],$_POST['description'],$_POST['parking'],$_POST['coveredparking'],$_POST['shelter'],$_POST['handicapped'],$_POST['stadiumseating'],$_POST['restrooms'],$_POST['conveniencestore'],$_POST['drinkingwater'],$_POST['publictransport'],$_POST['GroundActive'],$setpic);
 	break;
 default:
 	show_main_menu($db);

@@ -459,7 +459,7 @@ function show_byletter_menu($db,$letter)
 		$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 		$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 		$pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$ia = htmlentities(stripslashes($db->data[isactive]));
+		$ia = htmlentities(stripslashes($db->data['isactive']));
 
 		// output article
 
@@ -472,7 +472,7 @@ function show_byletter_menu($db,$letter)
 		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
 		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
 		if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
-		if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
+		if ($db->data['isactive'] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 		echo "    </td>\n";
 //		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
 
@@ -652,7 +652,7 @@ function show_byteam_menu($db,$team,$teamname)
 
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-			$ia = htmlentities(stripslashes($db->data[isactive]));
+			$ia = htmlentities(stripslashes($db->data['isactive']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -665,7 +665,7 @@ function show_byteam_menu($db,$team,$teamname)
 			echo "	<td align=\"left\">$pln, $pfn";
 			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
 			if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">";
-			if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
+			if ($db->data['isactive'] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 			
 			echo "  </td>\n";
 //			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a></td>\n";
@@ -932,23 +932,23 @@ function edit_category_form($db,$id)
 	$pem = htmlentities(stripslashes($db->data['PlayerEmail']));
 	$spr = htmlentities(stripslashes($db->data['shortprofile']));
 
-	$ump = $db->data[IsUmpire];
-	$pre = $db->data[IsPresident];
-	$vpr = $db->data[IsVicePresident];
-	$sec = $db->data[IsSecretary];
-	$tre = $db->data[IsTreasurer];
-	$cap = $db->data[IsCaptain];
-	$vca = $db->data[IsViceCaptain];
+	$ump = $db->data['IsUmpire'];
+	$pre = $db->data['IsPresident'];
+	$vpr = $db->data['IsVicePresident'];
+	$sec = $db->data['IsSecretary'];
+	$tre = $db->data['IsTreasurer'];
+	$cap = $db->data['IsCaptain'];
+	$vca = $db->data['IsViceCaptain'];
 
 	$bor = $db->data['Born'];
 	$bat = $db->data['BattingStyle'];
 	$bow = $db->data['BowlingStyle'];
 	
-	$ip = stripslashes($db->data[isactive]);
+	$ip = stripslashes($db->data['isactive']);
 	$ipyes = 'yes';
 	$ipno = 'no';
-	if ($db->data[isactive] ==0) $ip1 = $ipyes;
-	if ($db->data[isactive] ==1) $ip1 = $ipno;	
+	if ($db->data['isactive'] ==0) $ip1 = $ipyes;
+	if ($db->data['isactive'] ==1) $ip1 = $ipno;	
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";
@@ -1012,7 +1012,7 @@ function edit_category_form($db,$id)
 	echo "	<option value=\"\">--------------------------</option>\n";
 
 		for ($i=1; $i<=count($teams); $i++) {
-			echo "<option value=\"$i\"" . ($i==$db->data[PlayerTeam]?" selected":"") . ">" . $teams[$i] . "</option>\n";
+			echo "<option value=\"$i\"" . ($i==$db->data['PlayerTeam']?" selected":"") . ">" . $teams[$i] . "</option>\n";
 		}
 
 	echo "</select></p>\n";

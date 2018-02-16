@@ -11,7 +11,7 @@
 
 function show_main_menu($db)
 {
-	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+	global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
 	echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">Add a player</a></p>\n";
 
@@ -35,6 +35,7 @@ function show_main_menu($db)
 	echo "<input type=\"hidden\" name=\"SID\" value=\"$SID\">\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"search\">\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
 	echo "<br><p>Enter first or last name &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 
 	echo "    </td>\n";
@@ -98,11 +99,10 @@ function show_main_menu($db)
 	
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$id = htmlentities(stripslashes($db->data[TeamID]));
-		$na = htmlentities(stripslashes($db->data['teamname']));
+		$id = htmlentities(stripslashes($db->data['TeamID']));
+		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data['TeamDirections']));
-
+		
 		// output article
 
 		if($i % 2) {
@@ -130,7 +130,7 @@ function show_main_menu($db)
 
 function show_search_menu($db,$search="")
 {
-         global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+         global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
          if (!$db->Exists("SELECT * FROM players")) {
                  echo "<p>There are currently no players.</p>\n";
@@ -235,8 +235,7 @@ function show_search_menu($db,$search="")
 		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
 		if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
 		echo "    </td>\n";
-		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
-		<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
+		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>
 </td>\n";
 		echo "  </tr>\n";
 
@@ -266,10 +265,9 @@ function show_search_menu($db,$search="")
 	
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$id = htmlentities(stripslashes($db->data[TeamID]));
-		$na = htmlentities(stripslashes($db->data['teamname']));
-		$di = htmlentities(stripslashes($db->data['TeamDirections']));
-
+		$id = htmlentities(stripslashes($db->data['TeamID']));
+		$na = htmlentities(stripslashes($db->data['TeamName']));
+		
 		// output article
 
 		if($i % 2) {
@@ -324,7 +322,7 @@ function show_search_menu($db,$search="")
 	
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$id = htmlentities(stripslashes($db->data[TeamID]));
+		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['teamname']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 		$di = htmlentities(stripslashes($db->data['TeamDirections']));
@@ -357,7 +355,7 @@ function show_search_menu($db,$search="")
 
 function show_byletter_menu($db,$letter)
 {
-         global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+         global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
          
 	echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">Add a player</a></p>\n";
 
@@ -443,7 +441,7 @@ function show_byletter_menu($db,$letter)
 		$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 		$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 		$pte = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$ia = htmlentities(stripslashes($db->data[isactive]));
+		$ia = htmlentities(stripslashes($db->data['isactive']));
 
 		// output article
 
@@ -456,10 +454,9 @@ function show_byletter_menu($db,$letter)
 		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
 		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
 		if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
-		if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
+		if ($db->data['isactive'] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 		echo "    </td>\n";
-		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
-<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
+		echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>
 </td>\n";
 		echo "  </tr>\n";
 	}
@@ -489,7 +486,7 @@ function show_byletter_menu($db,$letter)
 	
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$id = htmlentities(stripslashes($db->data[TeamID]));
+		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['teamname']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 		$di = htmlentities(stripslashes($db->data['TeamDirections']));
@@ -533,7 +530,7 @@ function show_byletter_menu($db,$letter)
 
 function show_byteam_menu($db,$team,$teamname)
 {
-	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+	global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
 	echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">Add a player</a></p>\n";
 
@@ -557,6 +554,7 @@ function show_byteam_menu($db,$team,$teamname)
 	echo "<input type=\"hidden\" name=\"SID\" value=\"$SID\">\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"search\">\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
 	echo "<br><p>Enter first or last name &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 
 	echo "    </td>\n";
@@ -636,14 +634,14 @@ function show_byteam_menu($db,$team,$teamname)
 
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
-			$ia = htmlentities(stripslashes($db->data[isactive]));
+			$ia = htmlentities(stripslashes($db->data['isactive']));
 			
-			$ip = htmlentities(stripslashes($db->data[IsPresident]));
-			$iv = htmlentities(stripslashes($db->data[IsVicePresident]));
-			$is = htmlentities(stripslashes($db->data[IsSecretary]));
-			$it = htmlentities(stripslashes($db->data[IsTreasurer]));
-			$ic = htmlentities(stripslashes($db->data[IsCaptain]));
-			$vc = htmlentities(stripslashes($db->data[IsViceCaptain]));
+			$ip = htmlentities(stripslashes($db->data['IsPresident']));
+			$iv = htmlentities(stripslashes($db->data['IsVicePresident']));
+			$is = htmlentities(stripslashes($db->data['IsSecretary']));
+			$it = htmlentities(stripslashes($db->data['IsTreasurer']));
+			$ic = htmlentities(stripslashes($db->data['IsCaptain']));
+			$vc = htmlentities(stripslashes($db->data['IsViceCaptain']));
 
 			if($x % 2) {
 			  echo "<tr bgcolor=\"#F5F6F6\">\n";
@@ -656,18 +654,17 @@ function show_byteam_menu($db,$team,$teamname)
 			echo "	<td align=\"left\">$pln, $pfn";
 			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
 			if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">";
-			if ($db->data[isactive] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
+			if ($db->data['isactive'] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
 			
-			if ($db->data[IsPresident] != 0) echo "&nbsp;<font color=\"green\"><b>President</b></font>\n";
-			if ($db->data[IsVicePresident] != 0) echo "&nbsp;<font color=\"green\"><b>Vice President</b></font>\n";
-			if ($db->data[IsSecretary] != 0) echo "&nbsp;<font color=\"green\"><b>Secretary</b></font>\n";
-			if ($db->data[IsTreasurer] != 0) echo "&nbsp;<font color=\"green\"><b>Treasurer</b></font>\n";
-			if ($db->data[IsCaptain] != 0) echo "&nbsp;<font color=\"green\"><b>Captain</b></font>\n";
-			if ($db->data[IsViceCaptain] != 0) echo "&nbsp;<font color=\"green\"><b>Vice Captain</b></font>\n";
+			if ($db->data['IsPresident'] != 0) echo "&nbsp;<font color=\"green\"><b>President</b></font>\n";
+			if ($db->data['IsVicePresident'] != 0) echo "&nbsp;<font color=\"green\"><b>Vice President</b></font>\n";
+			if ($db->data['IsSecretary'] != 0) echo "&nbsp;<font color=\"green\"><b>Secretary</b></font>\n";
+			if ($db->data['IsTreasurer'] != 0) echo "&nbsp;<font color=\"green\"><b>Treasurer</b></font>\n";
+			if ($db->data['IsCaptain'] != 0) echo "&nbsp;<font color=\"green\"><b>Captain</b></font>\n";
+			if ($db->data['IsViceCaptain'] != 0) echo "&nbsp;<font color=\"green\"><b>Vice Captain</b></font>\n";
 						
 			echo "  </td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a>
-<!--<a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>-->
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=" . $db->data['PlayerID'] . "\"><img src=\"/images/icons/icon_delete.gif\" border=\"0\" alt=\"Delete\"></a>
 </td>\n";
 			echo "</tr>\n";
 			}
@@ -693,7 +690,7 @@ function show_byteam_menu($db,$team,$teamname)
 	
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$id = htmlentities(stripslashes($db->data[TeamID]));
+		$id = htmlentities(stripslashes($db->data['TeamID']));
 		$na = htmlentities(stripslashes($db->data['teamname']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
 		$di = htmlentities(stripslashes($db->data['TeamDirections']));
@@ -790,7 +787,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM teams ORDER BY LeagueID ASC, TeamActive DESC, TeamName ASC");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data[TeamID] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 		}
 	}
 	echo "</select></p>\n";
@@ -833,7 +830,7 @@ function add_category_form($db)
 }
 
 
-function do_add_category($db,$id,$PlayerLName,$PlayerFName,$PlayerClub,$PlayerTeam,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$picture,$picture1)
+function do_add_category($db,$PlayerLName,$PlayerFName,$PlayerClub,$PlayerTeam,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$picture,$picture1)
 {
 	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -858,9 +855,6 @@ function do_add_category($db,$id,$PlayerLName,$PlayerFName,$PlayerClub,$PlayerTe
 	$bor = addslashes(trim($Born));
 	$bat = addslashes(trim($BattingStyle));
 	$bow = addslashes(trim($BowlingStyle));
-
-
-	$pa = eregi_replace("\r","",$photo);
 
 	// all okay
 
@@ -929,26 +923,28 @@ function edit_category_form($db,$id)
 	$pem = htmlentities(stripslashes($db->data['PlayerEmail']));
 	$spr = htmlentities(stripslashes($db->data['shortprofile']));
 
-	$ump = $db->data[IsUmpire];
-	$l1ump = $db->data[IsL1Umpire];
-	$pre = $db->data[IsPresident];
-	$vpr = $db->data[IsVicePresident];
-	$sec = $db->data[IsSecretary];
-	$tre = $db->data[IsTreasurer];
-	$cap = $db->data[IsCaptain];
-	$vca = $db->data[IsViceCaptain];
-	$pcl = $db->data[PlayerClub];
-	$ptm = $db->data[PlayerTeam];
+	$ump = $db->data['IsUmpire'];
+	$l1ump = $db->data['IsL1Umpire'];
+	$pre = $db->data['IsPresident'];
+	$vpr = $db->data['IsVicePresident'];
+	$sec = $db->data['IsSecretary'];
+	$tre = $db->data['IsTreasurer'];
+	$cap = $db->data['IsCaptain'];
+	$vca = $db->data['IsViceCaptain'];
+	$pcl = $db->data['PlayerClub'];
+	$ptm = $db->data['PlayerTeam'];
 
 	$bor = $db->data['Born'];
 	$bat = $db->data['BattingStyle'];
 	$bow = $db->data['BowlingStyle'];
+	$picture = $db->data['picture'];
+	$picture1 = $db->data['picture1'];
 	
-	$ip = stripslashes($db->data[isactive]);
+	$ip = stripslashes($db->data['isactive']);
 	$ipyes = 'yes';
 	$ipno = 'no';
-	if ($db->data[isactive] ==0) $ip1 = $ipyes;
-	if ($db->data[isactive] ==1) $ip1 = $ipno;	
+	if ($db->data['isactive'] ==0) $ip1 = $ipyes;
+	if ($db->data['isactive'] ==1) $ip1 = $ipno;	
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";
@@ -966,7 +962,6 @@ function edit_category_form($db,$id)
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"sedit\">\n";
 	echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
-	echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	
 	echo "<p>enter the players first name<br><input type=\"text\" name=\"PlayerFName\" size=\"40\" maxlength=\"255\" value=\"$pfn\"></p>\n";
@@ -1033,8 +1028,8 @@ function edit_category_form($db,$id)
 		for ($j=0; $j<$dbb->rows; $j++) {
 			$dbb->GetRow($j);
 	        $dbb->BagAndTag();
-			$team_id = $dbb->data[TeamID];
-			echo "<option value=\"$team_id\"" . ($team_id==$ptm?" selected":"") . ">" . $dbb->data['teamname'] . "</option>\n";
+			$team_id = $dbb->data['TeamID'];
+			echo "<option value=\"$team_id\"" . ($team_id==$ptm?" selected":"") . ">" . $dbb->data['TeamName'] . "</option>\n";
 		}
 
 	echo "</select></p>\n";
@@ -1051,9 +1046,9 @@ function edit_category_form($db,$id)
 	echo "<input type=\"checkbox\" name=\"IsCaptain\" value=\"1\"" . ($cap==1?" checked":"") . "> Is this player captain?<br>\n";
 	echo "<input type=\"checkbox\" name=\"IsViceCaptain\" value=\"1\"" . ($vca==1?" checked":"") . "> Is this player vice captain?<br>\n";
 
-	if ($db->data['picture']) {
+	if ($picture) {
 		echo "<p>current player photo</p>\n";
-		echo "<p><img src=\"../uploadphotos/players/" . $db->data['picture'] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/players/" . $picture . "\"></p>\n";
 		echo "<p>upload a player photo (if you want to change the current one)";
 	} else {
 		echo "<p>upload a player photo";
@@ -1063,9 +1058,9 @@ function edit_category_form($db,$id)
 	echo "<li>only GIF and JPG files only please.</ul></p>\n";
 	echo "<br><input type=\"file\" name=\"userpic\" size=\"40\"></p>\n";
 
-	if ($db->data['picture1']) {
+	if ($picture1) {
 		echo "<p>current player action photo</p>\n";
-		echo "<p><img src=\"../uploadphotos/players/action/" . $db->data['picture1'] . "\"></p>\n";
+		echo "<p><img src=\"../uploadphotos/players/action/" . $picture1 . "\"></p>\n";
 		echo "<p>upload a player action photo (if you want to change the current one)";
 	} else {
 		echo "<p>upload a player action photo";
@@ -1116,8 +1111,6 @@ function do_update_category($db,$id,$PlayerLName,$PlayerFName,$PlayerClub,$Playe
 	
 	$ip = addslashes(trim($isactive));
 
-	$pa = eregi_replace("\r","",$photo);
-
 	// query database
 
 	$db->Update("UPDATE players SET PlayerLName='$pln',PlayerFName='$pfn',PlayerClub='$pcl',PlayerTeam='$pte',PlayerEmail='$pem',shortprofile='$spr',IsUmpire='$ump',IsL1Umpire='$l1ump',IsPresident='$pre',IsVicePresident='$vpr',IsSecretary='$sec',IsTreasurer='$tre',IsCaptain='$cap',IsViceCaptain='$vca',Born='$bor',BattingStyle='$bat',BowlingStyle='$bow',isactive='$ip'$setpic$setpic1 WHERE PlayerID=$id");
@@ -1128,13 +1121,14 @@ function do_update_category($db,$id,$PlayerLName,$PlayerFName,$PlayerClub,$Playe
 
 
 // do picture stuff here - doesn't like being passed to a function!
-if ($_FILES['userpic']['name'] != "") {
+if (isset($_FILES['userpic']) && $_FILES['userpic']['name'] != "") {
   $uploaddir = "../uploadphotos/players/";
   $basename = basename($_FILES['userpic']['name']);
   $uploadfile = $uploaddir . $basename;
 
   if (move_uploaded_file($_FILES['userpic']['tmp_name'], $uploadfile)) {
     $setpic = ",picture='$basename'";
+	$picture=$basename;
   } else {
     echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
   }
@@ -1146,13 +1140,14 @@ else
 }
 
 // do picture stuff here - doesn't like being passed to a function!
-if ($_FILES['userpic1']['name'] != "") {
+if (isset($_FILES['userpic1']) && $_FILES['userpic1']['name'] != "") {
   $uploaddir1 = "../uploadphotos/players/action/";
   $basename1 = basename($_FILES['userpic1']['name']);
   $uploadfile1 = $uploaddir1 . $basename1;
 
   if (move_uploaded_file($_FILES['userpic1']['tmp_name'], $uploadfile1)) {
     $setpic1 = ",picture1='$basename1'";
+	$picture1=$basename1;
   } else {
     echo "<p>That photo could not be uploaded at this time - no photo was added to the database.</p>\n";
   }
@@ -1172,27 +1167,42 @@ if (!$USER['flags'][$f_player_admin]) {
 
 echo "<p class=\"16px\"><b>Player Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "search":
-	show_search_menu($db,$search);
+	show_search_menu($db,$_GET['search']);
 	break;
 case "byteam":
-	show_byteam_menu($db,$team,$teamname);
+	show_byteam_menu($db,$_GET['team'],$_GET['teamname']);
 	break;
 case "byletter":
-	show_byletter_menu($db,$letter);
+	show_byletter_menu($db,$_GET['letter']);
 	break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$id,$PlayerLName,$PlayerFName,$PlayerClub,$PlayerTeam,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$picture,$picture1);
+	else do_add_category($db,isset($_POST['PlayerLName']) ? $_POST['PlayerLName'] : '',isset($_POST['PlayerFName']) ? $_POST['PlayerFName']: '',isset($_POST['PlayerClub']) ? $_POST['PlayerClub'] : 0,isset($_POST['PlayerTeam']) ? $_POST['PlayerTeam'] : 0,isset($_POST['PlayerEmail']) ? $_POST['PlayerEmail'] : '',isset($_POST['shortprofile']) ? $_POST['shortprofile'] : '',isset($_POST['IsUmpire']) ? $_POST['IsUmpire'] : 0,isset($_POST['IsL1Umpire']) ? $_POST['IsL1Umpire'] : 0,isset($_POST['IsPresident']) ? $_POST['IsPresident'] : 0,isset($_POST['IsVicePresident']) ? $_POST['IsVicePresident'] : 0,isset($_POST['IsSecretary']) ? $_POST['IsSecretary'] : 0,isset($_POST['IsTreasurer']) ? $_POST['IsTreasurer'] : 0,isset($_POST['IsCaptain']) ? $_POST['IsCaptain'] : 0,isset($_POST['IsViceCaptain']) ? $_POST['IsViceCaptain'] : 0,isset($_POST['Born']) ? $_POST['Born'] : '',isset($_POST['BattingStyle']) ? $_POST['BattingStyle'] : '',isset($_POST['BowlingStyle']) ? $_POST['BowlingStyle'] : '',$picture,$picture1);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$PlayerLName,$PlayerFName,$PlayerClub,$PlayerTeam,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$isactive,$setpic,$setpic1);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],isset($_POST['PlayerLName']) ? $_POST['PlayerLName'] : '',isset($_POST['PlayerFName']) ? $_POST['PlayerFName']: '',isset($_POST['PlayerClub']) ? $_POST['PlayerClub'] : 0,isset($_POST['PlayerTeam']) ? $_POST['PlayerTeam'] : 0,isset($_POST['PlayerEmail']) ? $_POST['PlayerEmail'] : '',isset($_POST['shortprofile']) ? $_POST['shortprofile'] : '',isset($_POST['IsUmpire']) ? $_POST['IsUmpire'] : 0,isset($_POST['IsL1Umpire']) ? $_POST['IsL1Umpire'] : 0,isset($_POST['IsPresident']) ? $_POST['IsPresident'] : 0,isset($_POST['IsVicePresident']) ? $_POST['IsVicePresident'] : 0,isset($_POST['IsSecretary']) ? $_POST['IsSecretary'] : 0,isset($_POST['IsTreasurer']) ? $_POST['IsTreasurer'] : 0,isset($_POST['IsCaptain']) ? $_POST['IsCaptain'] : 0,isset($_POST['IsViceCaptain']) ? $_POST['IsViceCaptain'] : 0,isset($_POST['Born']) ? $_POST['Born'] : '',isset($_POST['BattingStyle']) ? $_POST['BattingStyle'] : '',isset($_POST['BowlingStyle']) ? $_POST['BowlingStyle'] : '',$_POST['isactive'],$setpic,$setpic1);
 	break;
 default:
 	show_main_menu($db);

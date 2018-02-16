@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_grounds_listing($db,$s,$id,$pr)
+function show_grounds_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -49,8 +49,8 @@ function show_grounds_listing($db,$s,$id,$pr)
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['GroundID']));
         $na = htmlentities(stripslashes($db->data['GroundName']));
-        $di = htmlentities(stripslashes($db->data[GroundDirections]));
-		$gl = htmlentities(stripslashes($db->data[GroundLoc]));  // Added this 10-Aug-2015 11:10pm
+        $di = htmlentities(stripslashes($db->data['GroundDirections']));
+		$gl = htmlentities(stripslashes($db->data['GroundLoc']));  // Added this 10-Aug-2015 11:10pm
 
         // output article
 
@@ -83,7 +83,7 @@ function show_grounds_listing($db,$s,$id,$pr)
 }
 
 
-function show_full_grounds($db,$s,$id,$pr)
+function show_full_grounds($db,$pr)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -92,19 +92,19 @@ function show_full_grounds($db,$s,$id,$pr)
 
     $id = $db->data['GroundID'];
     $na = $db->data['GroundName'];
-    $gl = $db->data[GroundLoc];
-    $di = $db->data[GroundDirections];
-    $zi = $db->data[GroundZip];
-    $de = $db->data[description];
-    $pa = $db->data[parking];
-    $cp = $db->data[coveredparking];
-    $sh = $db->data[shelter];
-    $ha = $db->data[handicapped];
-    $ss = $db->data[stadiumseating];
-    $rr = $db->data[restrooms];
-    $cs = $db->data[conveniencestore];
-    $dw = $db->data[drinkingwater];
-    $pt = $db->data[publictransport];
+    $gl = $db->data['GroundLoc'];
+    $di = $db->data['GroundDirections'];
+    $zi = $db->data['GroundZip'];
+    $de = $db->data['description'];
+    $pa = $db->data['parking'];
+    $cp = $db->data['coveredparking'];
+    $sh = $db->data['shelter'];
+    $ha = $db->data['handicapped'];
+    $ss = $db->data['stadiumseating'];
+    $rr = $db->data['restrooms'];
+    $cs = $db->data['conveniencestore'];
+    $dw = $db->data['drinkingwater'];
+    $pt = $db->data['publictransport'];
     $pi = $db->data['picture'];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -225,7 +225,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $db->QueryRow("SELECT COUNT(game_id) AS MatchesPlayed FROM scorecard_game_details WHERE ground_id=$pr");
     $db->BagAndTag();
     
-    $cou = $db->data[MatchesPlayed];
+    $cou = $db->data['MatchesPlayed'];
     
     echo "  <tr>\n";
     echo "    <td width=\"40%\"><b>Matches played</b></td>\n";
@@ -281,7 +281,7 @@ function show_full_grounds($db,$s,$id,$pr)
     $run = $db->data['BRuns'];
     $pfn = $db->data['PlayerFName'];
     $pln = $db->data['PlayerLName'];
-    $wic = $db->data['wickets'];
+    $wic = $db->data['Wickets'];
     $dat = $db->data['game_date'];
     
     echo "  <tr>\n";
@@ -514,8 +514,9 @@ function show_full_grounds($db,$s,$id,$pr)
     echo "  <table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">\n";
     echo "  <tr>\n";
     echo "    <td><p>";
-    if ($db->data[GroundZip] != "0") {
-    echo "    <script src='http://voap.weather.com/weather/oap/$zi?template=GENXH&par=1004982138&unit=0&key=dd43509d7e444c1c1f5c322975a6adaf'></script>\n";
+    if ($zi != "0") {
+		echo "<script src='http://voap.weather.com/weather/oap/$zi?template=DRIVV&par=null&unit=0&key=3dc6c226f523c9e82075f7b42caca1b1'></script>";
+    //echo "<a href=\"https://www.accuweather.com/en/us/$zi/weather-forecast\" class=\"aw-widget-legal\"></a><div id=\"awcc1518760826121\" class=\"aw-widget-current\"  data-locationkey=\"80134\" data-unit=\"f\" data-language=\"en-us\" data-useip=\"false\" data-uid=\"awcc1518760826121\"></div><script type=\"text/javascript\" src=\"https://oap.accuweather.com/launch.js\"></script>";
     } else {
     echo "";
     }
@@ -541,7 +542,7 @@ function show_full_grounds($db,$s,$id,$pr)
 }
 
 
-function show_grounds_games($db,$s,$id,$pr)
+function show_grounds_games($db,$pr)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -675,7 +676,7 @@ function show_grounds_games($db,$s,$id,$pr)
 }
 
 
-function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
+function show_grounds_mostruns($db,$pr,$sort,$sort2)
 {
         global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -770,7 +771,7 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
     $db->BagAndTag();
 
     // instantiate new db class
-    $subdb =& new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+    $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
     for ($r=0; $r<$db->rows; $r++) {
@@ -960,22 +961,26 @@ function show_grounds_mostruns($db,$s,$id,$pr,$sort,$sort2)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_grounds_listing($db,$s,$id,$grounds);
-    break;
-case 1:
-    show_full_grounds($db,$s,$id,$grounds);
-    break;
-case 2:
-    show_grounds_games($db,$s,$id,$grounds);
-    break;
-case 3:
-    show_grounds_mostruns($db,$s,$id,$grounds,$sort,$sort2);
-    break;  
-default:
-    show_grounds_listing($db,$s,$id,$grounds);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_grounds_listing($db);
+		break;
+	case 1:
+		show_full_grounds($db,$_GET['grounds']);
+		break;
+	case 2:
+		show_grounds_games($db,$_GET['grounds']);
+		break;
+	case 3:
+		show_grounds_mostruns($db,$_GET['grounds'],$_GET['sort'],$_GET['sort2']);
+		break;  
+	default:
+		show_grounds_listing($db);
+		break;
+	}
+} else {
+	show_grounds_listing($db);
 }
 
 

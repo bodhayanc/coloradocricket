@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_documents_listing($db,$s,$id,$pr)
+function show_documents_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr, $redbdr, $blackbdr;
 
@@ -48,7 +48,8 @@ function show_documents_listing($db,$s,$id,$pr)
 
     echo "<form action=\"$PHP_SELF\">";
     echo "<input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
-    echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "<br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 
     echo "    </td>\n";
     echo "  </tr>\n";
@@ -123,7 +124,7 @@ function show_documents_listing($db,$s,$id,$pr)
 }
 
 
-function show_documents($db,$s,$id,$pr)
+function show_documents($db,$pr)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr, $redbdr, $blackbdr;
 
@@ -242,8 +243,7 @@ function search_documents($db,$search="")
 
             for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            $a = sqldate_to_string($db->data['added']);
-
+            
             if($i % 2) {
               echo "<tr class=\"trrow2\">\n";
             } else {
@@ -289,19 +289,23 @@ function search_documents($db,$search="")
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_documents_listing($db,$s,$id,$documents);
-    break;
-case 1:
-    show_documents($db,$s,$id,$documents);
-    break;
-case 2:
-    search_documents($db,$search);
-    break;
-default:
-    show_documents_listing($db,$s,$id,$documents);
-    break;
+if(isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_documents_listing($db);
+		break;
+	case 1:
+		show_documents($db,$_GET['documents']);
+		break;
+	case 2:
+		search_documents($db,$_GET['search']);
+		break;
+	default:
+		show_documents_listing($db);
+		break;
+	}
+} else {
+	show_documents_listing($db);
 }
 
 
