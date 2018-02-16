@@ -7,7 +7,7 @@
 // (c) Michael Doig      - michael@mike250.com
 //------------------------------------------------------------------------------
 
-function show_top20_news_listing($db,$s,$id,$pr,$mn)
+function show_top20_news_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -121,7 +121,8 @@ function show_top20_news_listing($db,$s,$id,$pr,$mn)
     echo "  <input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
     echo "  <td align=\"left\" valign=\"center\">\n";
     echo "  <img src=\"http://coloradocricket.org/images/newsoptionsearch.gif\"><br>\n";  
-    echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
     echo "  </td>\n";
     echo "  <script src=\"/includes/javascript/validation.js\" language=\"JScript\"></SCRIPT>\n";
     echo "  </form>\n";
@@ -242,7 +243,7 @@ function show_top20_news_listing($db,$s,$id,$pr,$mn)
 
 
 
-function show_popular_news_listing($db,$s,$id,$pr)
+function show_popular_news_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -355,7 +356,8 @@ function show_popular_news_listing($db,$s,$id,$pr)
     echo "  <input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
     echo "  <td align=\"left\" valign=\"center\">\n";
     echo "  <img src=\"http://coloradocricket.org/images/newsoptionsearch.gif\"><br>\n";  
-    echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
     echo "  </td>\n";
     echo "  <script src=\"/includes/javascript/validation.js\" language=\"JScript\"></SCRIPT>\n";
     echo "  </form>\n";
@@ -427,7 +429,7 @@ function show_popular_news_listing($db,$s,$id,$pr)
 }
 
 
-function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
+function show_monthly_news_listing($db,$theyear,$themonth)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -508,8 +510,8 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
         for ($g=0; $g<$db->rows; $g++) {
             $db->GetRow($g);
             $mi = $db->data['themonth'];
-            $mn = $db->data[monthname];
-            $ma = $db->data[abbrev];
+            $mn = $db->data['monthname'];
+            $ma = $db->data['abbrev'];
             echo "  <option value=\"$mi\">$mn</option>\n";
         }
         
@@ -554,7 +556,8 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
     echo "  <input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
     echo "  <td align=\"left\" valign=\"center\">\n";
     echo "  <img src=\"http://coloradocricket.org/images/newsoptionsearch.gif\"><br>\n";  
-    echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
     echo "  </td>\n";
     echo "  <script src=\"/includes/javascript/validation.js\" language=\"JScript\"></SCRIPT>\n";
     echo "  </form>\n";
@@ -1318,7 +1321,7 @@ function search_news($db,$search="")
 }
 
 
-function show_type_news_listing($db,$s,$id,$pr,$type)
+function show_type_news_listing($db,$type)
 {
     global $PHP_SELF,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -1431,7 +1434,8 @@ function show_type_news_listing($db,$s,$id,$pr,$type)
     echo "  <input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
     echo "  <td align=\"left\" valign=\"center\">\n";
     echo "  <img src=\"http://coloradocricket.org/images/newsoptionsearch.gif\"><br>\n";  
-    echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "  <input type=\"text\" name=\"search\" value=\"$search\" size=\"20\" required msg=\"Please enter a search phrase\"> <input type=\"submit\" class=\"go\" value=\"go\">\n";
     echo "  </td>\n";
     echo "  <script src=\"/includes/javascript/validation.js\" language=\"JScript\"></SCRIPT>\n";
     echo "  </form>\n";
@@ -1513,13 +1517,13 @@ $db->SelectDB($dbcfg['db']);
 if (isset($_GET['ccl_mode'])) {
 	switch($_GET['ccl_mode']) {
     case 0:
-        show_top20_news_listing($db,$s,$id,$news,$mn);
+        show_top20_news_listing($db);
         break;
     case 1:
         show_full_news($db,$_GET['news']);
         break;
     case 2:
-        search_news($db,$search);
+        search_news($db,$_GET['search']);
         break;
     case 3:
         show_email($db,$s,$id,$news);
@@ -1528,20 +1532,20 @@ if (isset($_GET['ccl_mode'])) {
         show_full_news_listing($db,$s,$id,$news);
         break;
     case 5:
-        show_monthly_news_listing($db,$s,$id,$news,$theyear,$themonth,$monthname);
+        show_monthly_news_listing($db,$_GET['theyear'],$_GET['themonth']);
         break;
     case 6:
-        show_popular_news_listing($db,$s,$id,$news);
+        show_popular_news_listing($db);
         break;
     case 7:
-        show_type_news_listing($db,$s,$id,$news,$type);
+        show_type_news_listing($db,$_GET['type']);
         break;  
     default:
         show_top20_news_listing($db,$s,$id,$_GET['news']);
         break;
     }
 } else {
-    show_top20_news_listing($db,$s,$id,$_GET['news']);
+    show_top20_news_listing($db);
 }
 
 

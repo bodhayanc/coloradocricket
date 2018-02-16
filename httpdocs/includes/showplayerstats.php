@@ -276,8 +276,8 @@ function show_breakdown_year($db,$pr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     $db->Query("SELECT * FROM seasons ORDER BY SeasonName");
-    for ($i=0; $i<$db->rows; $i++) {
-        $db->GetRow($i);
+    for ($j=0; $j<$db->rows; $j++) {
+        $db->GetRow($j);
         $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
     }
                 
@@ -304,6 +304,7 @@ function show_breakdown_year($db,$pr)
     echo " </tr>\n";
     $scinn = 0;
 	$scrun = 0;
+	$f = 0;
         for ($i=1; $i<=count($seasons)+1; $i++) {
 
     if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName")) {
@@ -388,13 +389,13 @@ function show_breakdown_year($db,$pr)
     }
     
     if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND season=$i")) {
-    
-    if($i % 2) {
+    if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
     }
-            
+    $f = $f + 1;
+           
     echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($seasons[$i])) . "</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
@@ -452,6 +453,7 @@ function show_breakdown_year($db,$pr)
     echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
+	$f = 0;
         for ($i=1; $i<=count($seasons)+1; $i++) {
 
     if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName")) {   
@@ -528,12 +530,13 @@ function show_breakdown_year($db,$pr)
     
     if ($db->Exists("SELECT * FROM scorecard_bowling_details WHERE player_id = $pr AND season=$i")) {
     
-    if($i % 2) {
+    if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
     }
-    
+    $f = $f + 1;
+	
     echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($seasons[$i])) . "</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
@@ -2418,9 +2421,9 @@ function show_breakdown_innno($db,$pr)
 
 
 
-function show_breakdown_batprogress($db,$pr,$dbcfg)
+function show_breakdown_batprogress($db,$pr)
 {
-    global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
+    global $PHP_SELF, $dbcfg, $bluebdr, $greenbdr, $yellowbdr;
 	$dbb = $db;
 	$dbb1 = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 	$dbb1->SelectDB($dbcfg['db']);
@@ -2642,7 +2645,7 @@ function show_breakdown_batprogress($db,$pr,$dbcfg)
         $not = $db->data['notout'];
 
     
-    if($r % 2) {
+    if($t % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
@@ -3195,7 +3198,7 @@ if (isset($_GET['ccl_mode'])) {
 		show_breakdown_innno($db,$_GET['players']);
 		break;  
 	case 6:
-		show_breakdown_batprogress($db,$_GET['players'],$dbcfg);
+		show_breakdown_batprogress($db,$_GET['players']);
 		break;  
 	case 7:
 		show_breakdown_bowlprogress($db,$_GET['players']);
