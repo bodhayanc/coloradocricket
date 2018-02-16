@@ -99,6 +99,7 @@ function add_category_form($db)
 	echo "<p>enter the ground abbreviation<br><input type=\"text\" name=\"GroundAbbrev\" size=\"50\" maxlength=\"255\"></p>\n";
 	echo "<p>enter the city the ground is located<br><input type=\"text\" name=\"GroundLoc\" size=\"50\" maxlength=\"255\"></p>\n";
 	echo "<p>enter the ground zip code<br><input type=\"text\" name=\"GroundZip\" size=\"50\" maxlength=\"5\"></p>\n";
+	echo "<p>enter the weather location key code (Get it from accuweather.com for the zip code)<br><input type=\"text\" name=\"WeatherLocationKey\" size=\"50\" maxlength=\"20\"></p>\n";
 	echo "<p>enter the ground directions<br><textarea name=\"GroundDirections\" cols=\"70\" rows=\"15\" wrap=\"virtual\"></textarea></p>\n";
 
 	echo "<p>enter the ground description<br><textarea name=\"description\" cols=\"70\" rows=\"15\" wrap=\"virtual\"></textarea></p>\n";
@@ -186,7 +187,7 @@ function add_category_form($db)
 }
 
 
-function do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirections,$GroundZip,$description,$parking,$coveredparking,$shelter,$handicapped,$stadiumseating,$restrooms,$conveniencestore,$drinkingwater,$publictransport,$GroundActive,$picture)
+function do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirections,$GroundZip,$WeatherLocationKey,$description,$parking,$coveredparking,$shelter,$handicapped,$stadiumseating,$restrooms,$conveniencestore,$drinkingwater,$publictransport,$GroundActive,$picture)
 {
 	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -196,6 +197,7 @@ function do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirecti
 	$gv = addslashes(trim($GroundAbbrev));
 	$gl = addslashes(trim($GroundLoc));
 	$gz = addslashes(trim($GroundZip));
+	$wc = addslashes(trim($WeatherLocationKey));
 	$gd = addslashes(trim($GroundDirections));
 	$ga = addslashes(trim($GroundActive));
 	$de = addslashes(trim($description));
@@ -219,7 +221,7 @@ function do_add_category($db,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirecti
 
 	// all okay
 
-	$db->Insert("INSERT INTO grounds (LeagueID,GroundName,GroundAbbrev,GroundLoc,GroundDirections,GroundZip,description,parking,coveredparking,shelter,handicapped,stadiumseating,restrooms,conveniencestore,drinkingwater,publictransport,GroundActive,picture) VALUES (1,'$gn','$gv','$gl','$gd','$gz','$de','$pa','$cp','$sh','$ha','$ss','$rr','$cs','$dw','$pt','$ga','$picture')");
+	$db->Insert("INSERT INTO grounds (LeagueID,GroundName,GroundAbbrev,GroundLoc,GroundDirections,GroundZip,WeatherLocationKey,description,parking,coveredparking,shelter,handicapped,stadiumseating,restrooms,conveniencestore,drinkingwater,publictransport,GroundActive,picture) VALUES (1,'$gn','$gv','$gl','$gd','$gz','$wc','$de','$pa','$cp','$sh','$ha','$ss','$rr','$cs','$dw','$pt','$ga','$picture')");
 	if ($db->a_rows != -1) {
 		echo "<p>You have now added a new ground</p>\n";
 		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">add another ground</a></p>\n";
@@ -280,6 +282,7 @@ function edit_category_form($db,$id)
 	$gl = htmlentities(stripslashes($db->data['GroundLoc']));
 	$gd = htmlentities(stripslashes($db->data['GroundDirections']));
 	$gz = htmlentities(stripslashes($db->data['GroundZip']));
+	$wc = htmlentities(stripslashes($db->data['WeatherLocationKey']));
 	$ga = htmlentities(stripslashes($db->data['GroundActive']));
 	$de = htmlentities(stripslashes($db->data['description']));
 	$pa = htmlentities(stripslashes($db->data['parking']));
@@ -314,6 +317,7 @@ function edit_category_form($db,$id)
 	echo "<p>enter the ground abbreviation<br><input type=\"text\" name=\"GroundAbbrev\" size=\"50\" maxlength=\"255\" value=\"$gb\"></p>\n";
 	echo "<p>enter the city the ground is located in<br><input type=\"text\" name=\"GroundLoc\" size=\"50\" maxlength=\"255\" value=\"$gl\"></p>\n";
 	echo "<p>enter the ground zip<br><input type=\"text\" name=\"GroundZip\" size=\"50\" maxlength=\"255\" value=\"$gz\"></p>\n";
+	echo "<p>enter the weather location key code (Get it from accuweather.com for the zip code)<br><input type=\"text\" name=\"WeatherLocationKey\" size=\"50\" maxlength=\"255\" value=\"$wc\"></p>\n";
 	echo "<p>enter the ground directions<br><textarea name=\"GroundDirections\" cols=\"70\" rows=\"15\" wrap=\"virtual\">$gd</textarea></p>\n";
 	echo "<p>enter the ground description<br><textarea name=\"description\" cols=\"70\" rows=\"15\" wrap=\"virtual\">$de</textarea></p>\n";
 
@@ -425,7 +429,7 @@ function edit_category_form($db,$id)
 }
 
 
-function do_update_category($db,$id,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirections,$GroundZip,$description,$parking,$coveredparking,$shelter,$handicapped,$stadiumseating,$restrooms,$conveniencestore,$drinkingwater,$publictransport,$GroundActive,$setpic)
+function do_update_category($db,$id,$GroundName,$GroundAbbrev,$GroundLoc,$GroundDirections,$GroundZip,$WeatherLocationKey,$description,$parking,$coveredparking,$shelter,$handicapped,$stadiumseating,$restrooms,$conveniencestore,$drinkingwater,$publictransport,$GroundActive,$setpic)
 {
 	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -435,6 +439,7 @@ function do_update_category($db,$id,$GroundName,$GroundAbbrev,$GroundLoc,$Ground
 	$gb = addslashes(trim($GroundAbbrev));
 	$gl = addslashes(trim($GroundLoc));
 	$gz = addslashes(trim($GroundZip));
+	$wc = addslashes(trim($WeatherLocationKey));
 	$gd = addslashes(trim($GroundDirections));
 	$ga = addslashes(trim($GroundActive));
 	$de = addslashes(trim($description));
@@ -450,7 +455,7 @@ function do_update_category($db,$id,$GroundName,$GroundAbbrev,$GroundLoc,$Ground
 	
 	// query database
 
-	$db->Update("UPDATE grounds SET LeagueID=1,GroundName='$gn',GroundAbbrev='$gb',GroundLoc='$gl',GroundDirections='$gd',GroundZip='$gz',description='$de',parking='$pa',coveredparking='$cp',shelter='$sh',handicapped='$ha',stadiumseating='$ss',restrooms='$rr',conveniencestore='$cs',drinkingwater='$dw',publictransport='$pt',GroundActive='$ga'$setpic WHERE GroundID=$id");
+	$db->Update("UPDATE grounds SET LeagueID=1,GroundName='$gn',GroundAbbrev='$gb',GroundLoc='$gl',GroundDirections='$gd',GroundZip='$gz',WeatherLocationKey='$wc',description='$de',parking='$pa',coveredparking='$cp',shelter='$sh',handicapped='$ha',stadiumseating='$ss',restrooms='$rr',conveniencestore='$cs',drinkingwater='$dw',publictransport='$pt',GroundActive='$ga'$setpic WHERE GroundID=$id");
 		echo "<p>You have now updated that ground.</p>\n";
 		echo "<p>&laquo; <a href=\"main.php?SID=$SID&action=$action\">return to the grounds listing</a></p>\n";
 		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sedit&id=$id\">update $gn some more</a></p>\n";
@@ -504,7 +509,7 @@ if(isset($_GET['doit'])) {
 switch($do) {
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$_POST['GroundName'],$_POST['GroundAbbrev'],$_POST['GroundLoc'],$_POST['GroundDirections'],$_POST['GroundZip'],$_POST['description'],$_POST['parking'],$_POST['coveredparking'],$_POST['shelter'],$_POST['handicapped'],$_POST['stadiumseating'],$_POST['restrooms'],$_POST['conveniencestore'],$_POST['drinkingwater'],$_POST['publictransport'],$_POST['GroundActive'],$picture);
+	else do_add_category($db,$_POST['GroundName'],$_POST['GroundAbbrev'],$_POST['GroundLoc'],$_POST['GroundDirections'],$_POST['GroundZip'],$_POST['WeatherLocationKey'],$_POST['description'],$_POST['parking'],$_POST['coveredparking'],$_POST['shelter'],$_POST['handicapped'],$_POST['stadiumseating'],$_POST['restrooms'],$_POST['conveniencestore'],$_POST['drinkingwater'],$_POST['publictransport'],$_POST['GroundActive'],$picture);
 	break;
 case "sdel":
 	if (!isset($doit)) delete_category_check($db,$_GET['id']);
@@ -512,7 +517,7 @@ case "sdel":
 	break;
 case "sedit":
 	if (!isset($doit)) edit_category_form($db,$_GET['id']);
-	else do_update_category($db,$_POST['id'],$_POST['GroundName'],$_POST['GroundAbbrev'],$_POST['GroundLoc'],$_POST['GroundDirections'],$_POST['GroundZip'],$_POST['description'],$_POST['parking'],$_POST['coveredparking'],$_POST['shelter'],$_POST['handicapped'],$_POST['stadiumseating'],$_POST['restrooms'],$_POST['conveniencestore'],$_POST['drinkingwater'],$_POST['publictransport'],$_POST['GroundActive'],$setpic);
+	else do_update_category($db,$_POST['id'],$_POST['GroundName'],$_POST['GroundAbbrev'],$_POST['GroundLoc'],$_POST['GroundDirections'],$_POST['GroundZip'],$_POST['WeatherLocationKey'],$_POST['description'],$_POST['parking'],$_POST['coveredparking'],$_POST['shelter'],$_POST['handicapped'],$_POST['stadiumseating'],$_POST['restrooms'],$_POST['conveniencestore'],$_POST['drinkingwater'],$_POST['publictransport'],$_POST['GroundActive'],$setpic);
 	break;
 default:
 	show_main_menu($db);

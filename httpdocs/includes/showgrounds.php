@@ -95,6 +95,7 @@ function show_full_grounds($db,$pr)
     $gl = $db->data['GroundLoc'];
     $di = $db->data['GroundDirections'];
     $zi = $db->data['GroundZip'];
+    $wc = $db->data['WeatherLocationKey'];
     $de = $db->data['description'];
     $pa = $db->data['parking'];
     $cp = $db->data['coveredparking'];
@@ -514,9 +515,9 @@ function show_full_grounds($db,$pr)
     echo "  <table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">\n";
     echo "  <tr>\n";
     echo "    <td><p>";
-    if ($zi != "0") {
-		echo "<script src='http://voap.weather.com/weather/oap/$zi?template=DRIVV&par=null&unit=0&key=3dc6c226f523c9e82075f7b42caca1b1'></script>";
-    //echo "<a href=\"https://www.accuweather.com/en/us/$zi/weather-forecast\" class=\"aw-widget-legal\"></a><div id=\"awcc1518760826121\" class=\"aw-widget-current\"  data-locationkey=\"80134\" data-unit=\"f\" data-language=\"en-us\" data-useip=\"false\" data-uid=\"awcc1518760826121\"></div><script type=\"text/javascript\" src=\"https://oap.accuweather.com/launch.js\"></script>";
+    if ($wc != "0") {
+	//	echo "<script src='http://voap.weather.com/weather/oap/$zi?template=DRIVV&par=null&unit=0&key=3dc6c226f523c9e82075f7b42caca1b1'></script>";
+        echo "<a href=\"\" class=\"aw-widget-legal\"></a><div id=\"awcc1518807034145\" class=\"aw-widget-36hour\"  data-locationkey=\"$wc\" data-unit=\"f\" data-language=\"en-us\" data-useip=\"false\" data-uid=\"awtd1518809108583\"></div><script type=\"text/javascript\" src=\"https://oap.accuweather.com/launch.js\"></script>";
     } else {
     echo "";
     }
