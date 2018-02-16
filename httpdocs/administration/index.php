@@ -19,7 +19,7 @@ require "../includes/general.functions.inc";
 <meta name="description" content="Home of the Colorado Cricket League.">
 <meta name="keywords" content="colorado, cricket">
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="/includes/css/cricket.css" type="text/css">
+<link rel="stylesheet" href="../includes/css/cricket.css" type="text/css">
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">

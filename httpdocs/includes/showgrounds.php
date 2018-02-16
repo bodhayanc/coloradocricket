@@ -515,7 +515,7 @@ function show_full_grounds($db,$pr)
     echo "  <table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">\n";
     echo "  <tr>\n";
     echo "    <td><p>";
-    if ($wc != "0") {
+    if ($wc != "") {
 	//	echo "<script src='http://voap.weather.com/weather/oap/$zi?template=DRIVV&par=null&unit=0&key=3dc6c226f523c9e82075f7b42caca1b1'></script>";
         echo "<a href=\"\" class=\"aw-widget-legal\"></a><div id=\"awcc1518807034145\" class=\"aw-widget-36hour\"  data-locationkey=\"$wc\" data-unit=\"f\" data-language=\"en-us\" data-useip=\"false\" data-uid=\"awtd1518809108583\"></div><script type=\"text/javascript\" src=\"https://oap.accuweather.com/launch.js\"></script>";
     } else {
@@ -533,7 +533,7 @@ function show_full_grounds($db,$pr)
 
     // output link back
     $sitevar = "/grounds.php?grounds=$pr&ccl_mode=1";
-    echo "<p><a href=\"$PHP_SELF\">&laquo; back to grounds listing</a></p>\n";
+    echo "<p><a href=\"/grounds.php\">&laquo; back to grounds listing</a></p>\n";
 
     // finish off
     echo "  </td>\n";

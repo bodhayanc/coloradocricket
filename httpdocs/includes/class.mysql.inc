@@ -236,7 +236,7 @@ class mysql_class{
 		if ($this->data) {
 			if ($field=="") {
 				foreach($this->data as $key => $val) {
-					$val = htmlentities($val);
+					$val = htmlentities($val, ENT_SUBSTITUTE, 'cp1252');
 					$val = preg_replace("~[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}~", "<a href=\"mailto:\\0\">\\0</a>",$val);
 					$val = preg_replace("/\[link=(\S+?)\](.*?)\[\/link\]/is", "<a href=\"\\1\" class=\"news\">\\2</a>",$val);
 					$val = preg_replace("/\[img=(\S+?)\]/is", "<img src=\"\\1\">",$val);					
@@ -251,7 +251,7 @@ class mysql_class{
 					$this->data[$key] = nl2br($val);
 				}
 			} else {
-				$val = htmlentities($this->data[$field]);
+				$val = htmlentities($this->data[$field], ENT_SUBSTITUTE, 'cp1252');
 				$val = preg_replace("[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}", "<a href=\"mailto:\\0\">\\0</a>",$val);
 				$val = preg_replace("/\[link=(\S+?)\](.*?)\[\/link\]/is", "<a href=\"\\1\" class=\"news\">\\2</a>",$val);
 				$val = preg_replace("/\[img=(\S+?)\]/is", "<img src=\"\\1\">",$val);					

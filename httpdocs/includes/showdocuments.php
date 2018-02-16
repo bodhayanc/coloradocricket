@@ -163,7 +163,7 @@ function show_documents($db,$pr)
     
 
     if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_pdf_lg.gif\" border=\"0\">&nbsp;<a href=\"/uploadphotos/documents/$fi\">download this file</a>\n";
-    echo "<p>&laquo; <a href=\"$PHP_SELF\">back to documents listing</a></p>\n";
+    echo "<p>&laquo; <a href=\"/documents.php\">back to documents listing</a></p>\n";
 
     // finish off
     echo "  </td>\n";

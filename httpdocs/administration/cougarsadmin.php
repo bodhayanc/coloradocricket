@@ -187,9 +187,9 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$t  = stripslashes($db->data['title']);
-	$th = htmlentities(stripslashes($db->data['title']));
+	$th = htmlentities(stripslashes($db->data['title']), ENT_SUBSTITUTE, 'cp1252');
 	$au = htmlentities(stripslashes($db->data['author']));
-	$a  = htmlentities(stripslashes($db->data['article']));
+	$a  = htmlentities(stripslashes($db->data['article']), ENT_SUBSTITUTE, 'cp1252');
 
       echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
       echo "<tr>\n";
