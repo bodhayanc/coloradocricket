@@ -1193,9 +1193,13 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
 function show_statistics_mostruns_rookies($db,$statistics,$sort,$sort2,$option,$team)
 {
     global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
-	$db_roo_all = $db;
-	$db_roo_min = $db;
-	$db_roo_sea = $db;
+	$db_roo_all = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$db_roo_all->SelectDB($dbcfg['db']);
+	$db_roo_sea = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$db_roo_sea->SelectDB($dbcfg['db']);
+	$db_roo_min = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$db_roo_min->SelectDB($dbcfg['db']);
+		
     $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
@@ -1346,34 +1350,32 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     $season_year = substr($statistics, 0, 4);
 	$final_players = '';
 	$db_roo_all->Query(" SELECT DISTINCT playerid, sum(bat.runs) as sum_runs FROM scorecard_game_details gd, scorecard_batting_details bat, players p WHERE gd.game_id = bat.game_id AND bat.player_id = p.playerid AND YEAR( game_date ) = $season_year group by 1 order by sum_runs desc");
-	$db_roo_all->BagAndTag();
 	for ($i=0; $i<$db_roo_all->rows; $i++) {
 		$db_roo_all->GetRow($i);
-		$playerid_all = $db_roo_all->data['PlayerID'];
+		$db_roo_all->BagAndTag();
+		$playerid_all = $db_roo_all->data['playerid'];
 		//echo $db_roo_all->data[sum_runs]."<BR>";
 		$db_roo_min->Query(" SELECT MIN( gd1.game_date ) as min_date  FROM scorecard_game_details gd1, scorecard_batting_details bat1 WHERE gd1.game_id = bat1.game_id AND bat1.player_id = $playerid_all ");
-		$db_roo_min->BagAndTag();
 		$j = 0;
 		$db_roo_min->GetRow($j);
-		$min_date = $db_roo_min->data[min_date];
-			if(substr($min_date,0,4) == $season_year) {
-				if($final_players == '') {
-					$final_players = $playerid_all;
-				}else{
-					$final_players .= ",". $playerid_all;
-				}
+		$db_roo_min->BagAndTag();
+		$min_date = $db_roo_min->data['min_date'];
+		if(substr($min_date,0,4) == $season_year) {
+			if($final_players == '') {
+				$final_players = $playerid_all;
+			}else{
+				$final_players .= ",". $playerid_all;
 			}
+		}
 	}
-	
 	$array_final_player = explode(",", $final_players);
 	
-	$db_roo_sea->Query("Select player_id, sum(runs) from scorecard_batting_details, seasons where seasons.seasonid=scorecard_batting_details.season AND SeasonName LIKE '%{$statistics}%' AND player_id in (".$final_players.") group by 1 order by 2 desc");
-	$db_roo_sea->BagAndTag();
-	
+	$db_roo_sea->Query("Select player_id, sum(runs) from scorecard_batting_details, seasons where seasons.seasonid=scorecard_batting_details.season AND SeasonName LIKE '%{$statistics}%' AND player_id in (".$final_players.") group by 1 order by 2 desc");	
 	
 	$i = 0;
     for ($k=0; $k<$db_roo_sea->rows; $k++) {
         $db_roo_sea->GetRow($k);
+		$db_roo_sea->BagAndTag();
         $playerid = $db_roo_sea->data['player_id'];
        
   
@@ -1396,7 +1398,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     $lname = $db->data['PlayerLName'];
     $labbr = $db->data['PlayerLAbbrev'];
     $scinn = $db->data['Matches'];
-    $scrun = $db->data['runs'];
+    $scrun = $db->data['Runs'];
     //$schig = $db->data['HS'];   
     $teama = $db->data['TeamAbbrev'];
     $teamid = $db->data['TeamID'];
@@ -1534,6 +1536,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
 
     }
     }
+
     echo "</table>\n";
 
     echo "</td>\n";
@@ -2133,10 +2136,13 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option, $team
 // Adding This for Rookies
 function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$option,$team)
 {
-     global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
-     $db_roo_all = $db;
-	 $db_roo_min = $db; 
-	 $db_roo_sea = $db; 
+    global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
+    $db_roo_all = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$db_roo_all->SelectDB($dbcfg['db']);
+	$db_roo_min = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$db_roo_min->SelectDB($dbcfg['db']);
+	$db_roo_sea = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$db_roo_sea->SelectDB($dbcfg['db']);
 	 
     $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
     for ($i=0; $i<$db->rows; $i++) {
@@ -2294,16 +2300,16 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
     $season_year = substr($statistics, 0, 4);
 	$final_players = '';
 	$db_roo_all->Query(" SELECT DISTINCT playerid FROM scorecard_game_details gd, scorecard_bowling_details bowl, players p WHERE gd.game_id = bowl.game_id AND bowl.player_id = p.playerid AND YEAR( game_date ) = $season_year ");
-	$db_roo_all->BagAndTag();
 	for ($i=0; $i<$db_roo_all->rows; $i++) {
 		$db_roo_all->GetRow($i);
-		$playerid_all = $db_roo_all->data['PlayerID'];
+		$db_roo_all->BagAndTag();
+		$playerid_all = $db_roo_all->data['playerid'];
 		//echo $db_roo_all->data[sum_runs]."<BR>";
 		$db_roo_min->Query(" SELECT MIN( gd1.game_date ) as min_date  FROM scorecard_game_details gd1, scorecard_bowling_details bowl1 WHERE gd1.game_id = bowl1.game_id AND bowl1.player_id = $playerid_all ");
-		$db_roo_min->BagAndTag();
 		$j = 0;
 		$db_roo_min->GetRow($j);
-		$min_date = $db_roo_min->data[min_date];
+		$db_roo_min->BagAndTag();
+		$min_date = $db_roo_min->data['min_date'];
 			if(substr($min_date,0,4) == $season_year) {
 				if($final_players == '') {
 					$final_players = $playerid_all;
@@ -2316,13 +2322,13 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
 	$array_final_player = explode(",", $final_players);
 	
 	$db_roo_sea->Query("Select player_id, sum(wickets) from scorecard_bowling_details, seasons where seasons.seasonid=scorecard_bowling_details.season AND SeasonName LIKE '%{$statistics}%' AND player_id in (".$final_players.") group by 1 order by 2 desc");
-	$db_roo_sea->BagAndTag();
 	
 	
 	$i = 0;
     for ($k=0; $k<$db_roo_sea->rows; $k++) {
         $db_roo_sea->GetRow($k);
-        $playerid = $db_roo_sea->data['player_id'];
+        $db_roo_sea->BagAndTag();
+		$playerid = $db_roo_sea->data['player_id'];
     
     
     
@@ -2350,21 +2356,19 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
       $fname = $db->data['PlayerFName'];
       $lname = $db->data['PlayerLName'];
       $labbr = $db->data['PlayerLAbbrev'];
-      $scmai = $db->data['maidens'];
+      $scmai = $db->data['Maidens'];
       $scbru = $db->data['BRuns'];
-      $scwic = $db->data['wickets'];
+      $scwic = $db->data['Wickets'];
       $teama = $db->data['TeamAbbrev'];
       $teamid = $db->data['TeamID']; 
       
-      
-
       if($db->data['Average'] != "") {
       $average = $db->data['Average'];
       } else {
         $average = "-";
       }
 
-      $bnum = $db->data['balls']; 
+      $bnum = $db->data['Balls']; 
       $bovers = Round(($bnum / 6), 2); 
       $bfloor = floor($bovers); 
 
@@ -2840,6 +2844,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     $subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
     $subdb->SelectDB($dbcfg['db']);
 
+	$k = 0;
     for ($r=0; $r<$db->rows; $r++) {
     $db->GetRow($r);            
 
@@ -2929,7 +2934,12 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     if($option == "byseason" && $scrun >= "100" && $scwic >= "10") {
 
 
-    echo "<tr>\n";  
+    if($k % 2) {
+      echo "<tr class=\"trrow1\">\n";
+    } else {
+      echo "<tr class=\"trrow2\">\n";
+    }
+	$k = $k + 1;
     echo "  <td align=\"left\" width=\"30%\"><a href=\"players.php?players=$playerid&ccl_mode=1\" class=\"statistics\">";
 
     if($lname == "" && $fname == "") {
@@ -2956,7 +2966,12 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     } else if($option == "allcareer" && $scrun >= "500" && $scwic >= "50") {
     
 
-    echo "<tr class=\"trrow1\">\n";
+    if($k % 2) {
+      echo "<tr class=\"trrow1\">\n";
+    } else {
+      echo "<tr class=\"trrow2\">\n";
+    }
+	$k = $k + 1;
     echo "  <td align=\"left\" width=\"30%\"><a href=\"players.php?players=$playerid&ccl_mode=1\" class=\"statistics\">";
 
     if($lname == "" && $fname == "") {
@@ -3057,10 +3072,10 @@ if (isset($_GET['ccl_mode'])) {
 		show_statistics_allrounders($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['option'],isset($_GET['team']) ? $_GET['team'] : '');
 		break;
 	case 8:
-		show_statistics_mostruns_rookies($db,$statistics,$sort,$sort2,$option,$team);
+		show_statistics_mostruns_rookies($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['sort'],$_GET['sort2'],$_GET['option'],isset($_GET['team']) ? $_GET['team'] : '');
 		break;
 	case 9:
-		show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$option,$team);
+		show_statistics_bowling_rookies($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['sort'],$_GET['direction'],$_GET['option'],isset($_GET['team']) ? $_GET['team'] : '');
 		break;
 	default:
 		show_statistics_listing($db,$statistics,$id,$pr,$team,$week,$game_id);
