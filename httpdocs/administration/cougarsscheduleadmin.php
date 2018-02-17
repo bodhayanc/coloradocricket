@@ -130,12 +130,12 @@ function show_main_menu_season($db,$season,$sename)
 
 				for ($x=0; $x<$db->rows; $x++) {
 					$db->GetRow($x);
-					$t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
-					$t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
-					$um = htmlentities(stripslashes($teams[$db->data[umpires]]));
+					$t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
+					$t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
+					$um = htmlentities(stripslashes($teams[$db->data['umpires']]));
 					$tn = htmlentities(stripslashes($db->data['teamname']));
 					$da = htmlentities(stripslashes($db->data['formatted_date']));
-					$ve = htmlentities(stripslashes($db->data[venue]));
+					$ve = htmlentities(stripslashes($db->data['venue']));
 
 
 					if($x % 2) {
@@ -297,10 +297,10 @@ function delete_category_check($db,$id)
 
 	$db->QueryItem("SELECT * FROM cougarsschedule WHERE id=$id");
 
-	$date = sqldate_to_string($db->data[date]);
-	$t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
-	$t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
-	$ve = htmlentities(stripslashes($grounds[$db->data[venue]]));
+	$date = sqldate_to_string($db->data['date']);
+	$t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
+	$t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
+	$ve = htmlentities(stripslashes($grounds[$db->data['venue']]));
 
 	echo "<p>Are you sure you wish to delete the following scheduled game:</p>\n";
 	echo "<p><b>$date</b></p>\n";
@@ -354,14 +354,14 @@ function edit_category_form($db,$id)
 
 	$db->QueryRow("SELECT * FROM cougarsschedule WHERE id=$id");
 
-	$se = stripslashes($db->data[season]);
-	$we = stripslashes($db->data[week]);
-	$da = stripslashes($db->data[date]);
-	$t1 = stripslashes($db->data[awayteam]);
-	$t2 = stripslashes($db->data[hometeam]);
-	$ve = stripslashes($db->data[venue]);
-	$um = stripslashes($db->data[umpires]);
-	$re = stripslashes($db->data[result]);
+	$se = stripslashes($db->data['season']);
+	$we = stripslashes($db->data['week']);
+	$da = stripslashes($db->data['date']);
+	$t1 = stripslashes($db->data['awayteam']);
+	$t2 = stripslashes($db->data['hometeam']);
+	$ve = stripslashes($db->data['venue']);
+	$um = stripslashes($db->data['umpires']);
+	$re = stripslashes($db->data['result']);
 
 	echo "<p>Edit the scheduled game.</p>\n";
 
@@ -380,7 +380,7 @@ function edit_category_form($db,$id)
 		echo "	<option value=\"\">--------------------------</option>\n";
 
 			for ($i=1; $i<=count($seasons); $i++) {
-				echo "<option value=\"$i\"" . ($i==$db->data[season]?" selected":"") . ">" . $seasons[$i] . "</option>\n";
+				echo "<option value=\"$i\"" . ($i==$db->data['season']?" selected":"") . ">" . $seasons[$i] . "</option>\n";
 			}
 
 		echo "</select></p>\n";
@@ -394,7 +394,7 @@ function edit_category_form($db,$id)
 		echo "	<option value=\"\">--------------------------</option>\n";
 
 			for ($i=1; $i<=count($teams); $i++) {
-				echo "<option value=\"$i\"" . ($i==$db->data[awayteam]?" selected":"") . ">" . $teams[$i] . "</option>\n";
+				echo "<option value=\"$i\"" . ($i==$db->data['awayteam']?" selected":"") . ">" . $teams[$i] . "</option>\n";
 			}
 
 		echo "</select></p>\n";
@@ -405,7 +405,7 @@ function edit_category_form($db,$id)
 		echo "	<option value=\"\">--------------------------</option>\n";
 
 			for ($i=1; $i<=count($teams2); $i++) {
-			echo "<option value=\"$i\"" . ($i==$db->data[hometeam]?" selected":"") . ">" . $teams2[$i] . "</option>\n";
+			echo "<option value=\"$i\"" . ($i==$db->data['hometeam']?" selected":"") . ">" . $teams2[$i] . "</option>\n";
 					}
 
 		echo "</select></p>\n";
@@ -416,7 +416,7 @@ function edit_category_form($db,$id)
 		echo "	<option value=\"\">--------------------------</option>\n";
 
 			for ($i=1; $i<=count($umpires); $i++) {
-			echo "<option value=\"$i\"" . ($i==$db->data[umpires]?" selected":"") . ">" . $umpires[$i] . "</option>\n";
+			echo "<option value=\"$i\"" . ($i==$db->data['umpires']?" selected":"") . ">" . $umpires[$i] . "</option>\n";
 					}
 
 		echo "</select></p>\n";

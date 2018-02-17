@@ -309,8 +309,8 @@ function delete_category_check($db,$id)
     $db->QueryItem("SELECT * FROM tennis_ladder WHERE id=$id");
 
     $date = sqldate_to_string($db->data['date']);
-    $t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
-    $t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
+    $t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
+    $t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
     $ve = htmlentities(stripslashes($grounds[$db->data['venue']]));
 
     echo "<p>Are you sure you wish to delete the following ladder game:</p>\n";

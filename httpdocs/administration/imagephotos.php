@@ -62,7 +62,7 @@ function show_main_menu($db)
 
 					$t = htmlentities(stripslashes($db->data['title']));
 					$num = htmlentities(stripslashes($db->data[setnum]));
-					$d = htmlentities(stripslashes($db->data[date]));
+					$d = htmlentities(stripslashes($db->data['date']));
 
 					// output
 
@@ -218,7 +218,7 @@ function edit_photo_form($db,$id)
 	$t = htmlentities(stripslashes($db->data['title']));
 	$de = htmlentities(stripslashes($db->data['description']));
 	$l = htmlentities(stripslashes($db->data[location]));
-	$da = htmlentities(stripslashes($db->data[date]));
+	$da = htmlentities(stripslashes($db->data['date']));
 	$nd = htmlentities(stripslashes($db->data[numdate]));
 	$num = htmlentities(stripslashes($db->data[setnum]));
 	$by = htmlentities(stripslashes($db->data['author']));

@@ -66,7 +66,7 @@ if (!isset($do)) {
 				$db->GetRow($i);
 				echo "<tr class=\"trbottom\">";
 				echo "<td valign=\"top\"><a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=view&id=" . $db->data['id'] . "\">" . htmlentities($db->data[subject]) . "</a></td>";
-				echo "<td valign=\"top\" align=\"right\">" . $db->data[date] . "</td>";
+				echo "<td valign=\"top\" align=\"right\">" . $db->data['date'] . "</td>";
 				echo "<td valign=\"top\" align=\"right\"><a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=delete&id=" . $db->data['id'] . "\">delete</a></td>";
 				echo "</tr>\n";
 			}
@@ -95,7 +95,7 @@ if ($do == "view") {
 	echo "<p><table border=\"0\" cellpadding=\"1\" cellspacing=\"1\" width=\"100%\">\n";
 	echo "<tr class=\"trtop\"><td><span class=\"white\">field</span></td><td><span class=\"white\">value</span></td></tr>\n";
 	echo "<tr class=\"trbottom\"><td valign=\"top\">Subject</td><td valign=\"top\">" . htmlentities($db->data[subject]) . "</td></tr>\n";
-	echo "<tr class=\"trbottom\"><td valign=\"top\">Date</td><td valign=\"top\">" . $db->data[date] . "</td></tr>\n";
+	echo "<tr class=\"trbottom\"><td valign=\"top\">Date</td><td valign=\"top\">" . $db->data['date'] . "</td></tr>\n";
 	echo "<tr class=\"trbottom\"><td valign=\"top\">Message</td><td valign=\"top\">" . nl2br(htmlentities($db->data[body])) . "</td></tr>\n";
 	echo "</table></p>\n";
 	echo "<p>&laquo; <a href=\"$PHP_SELF?SID=$SID&action=$action\">return to the archive list</a></p>\n";
@@ -110,7 +110,7 @@ if ($do == "delete") {
 
 	if (!isset($stage)) {
 		$db->QueryRow("SELECT a.*,l.name FROM $tbcfg[mlarchive] a LEFT JOIN $tbcfg[mllists] l ON a.listID=l.ID WHERE a.ID=$id");
-		echo "<p>Are you sure you wish to delete the archived message from the <b>" . $db->data[name] . "</b> list type, titled <b>" . htmlentities($db->data[subject]) . "</b> (sent on " . $db->data[date] . ")?</p>\n";
+		echo "<p>Are you sure you wish to delete the archived message from the <b>" . $db->data[name] . "</b> list type, titled <b>" . htmlentities($db->data[subject]) . "</b> (sent on " . $db->data['date'] . ")?</p>\n";
 		echo "<p><a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=delete&id=$id&stage=1&ok=1\">YES</a> | ";
 		echo "<a href=\"$PHP_SELF?SID=$SID&action=ml_archive&do=delete&id=$id&stage=1&ok=0\">NO</a></p>";
 		return;

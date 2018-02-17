@@ -45,7 +45,7 @@ function show_long_guestbook_listing($db)
 			echo "	<td align=\"left\" colspan=\"2\">$c</td>\n";
 			echo "</tr>\n";
 			echo "<tr class=\"trtop\">\n";
-			echo "	<td align=\"left\" class=\"trtopfont\">posted on " . $db->data[date] . "</td>\n";
+			echo "	<td align=\"left\" class=\"trtopfont\">posted on " . $db->data['date'] . "</td>\n";
 			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=del&id=" . $db->data['id'] . "\"><span class=\"trtopfont\">delete</span></a></td>\n";
 			echo "</tr>\n";
 			echo "</table></p>\n";
@@ -167,7 +167,7 @@ function edit_category_form($db,$id)
 	// setup the variables
 
 	$na = htmlentities(stripslashes($db->data[name]));
-	$da = htmlentities(stripslashes($db->data[date]));
+	$da = htmlentities(stripslashes($db->data['date']));
 	$em = htmlentities(stripslashes($db->data[email]));
 	$co = htmlentities(stripslashes($db->data[comment]));
 

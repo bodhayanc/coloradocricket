@@ -135,9 +135,9 @@ function show_main_menu_season($db,$season,$sename)
 
                 for ($x=0; $x<$db->rows; $x++) {
                     $db->GetRow($x);
-                    $t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
-                    $t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
-                    $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
+                    $t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
+                    $t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
+                    $um = htmlentities(stripslashes($teams[$db->data['umpires']]));
                     $tn = htmlentities(stripslashes($db->data['TeamName']));
                     $da = htmlentities(stripslashes($db->data['formatted_date']));
                     $ve = htmlentities(stripslashes($db->data['ground']));
@@ -313,8 +313,8 @@ function delete_category_check($db,$id)
     $db->QueryItem("SELECT * FROM tennisschedule WHERE id=$id");
 
     $date = sqldate_to_string($db->data['date']);
-    $t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
-    $t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
+    $t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
+    $t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
     $ve = htmlentities(stripslashes($grounds[$db->data['venue']]));
 
     echo "<p>Are you sure you wish to delete the following scheduled game:</p>\n";
@@ -373,11 +373,11 @@ function edit_category_form($db,$id)
     $se = stripslashes($db->data['season']);
     $we = stripslashes($db->data['week']);
     $da = stripslashes($db->data['date']);
-    $ti = stripslashes($db->data[time]);
-    $t1 = stripslashes($db->data[awayteam]);
-    $t2 = stripslashes($db->data[hometeam]);
+    $ti = stripslashes($db->data['time']);
+    $t1 = stripslashes($db->data['awayteam']);
+    $t2 = stripslashes($db->data['hometeam']);
     $ve = stripslashes($db->data['venue']);
-    $um = stripslashes($db->data[umpires]);
+    $um = stripslashes($db->data['umpires']);
     $re = stripslashes($db->data['result']);
 
     echo "<p>Edit the scheduled game.</p>\n";
@@ -411,7 +411,7 @@ function edit_category_form($db,$id)
         echo "  <option value=\"\">--------------------------</option>\n";
 
         foreach ($teams as $k => $v) {
-          echo "<option value=\"$k\"" . ($k==$db->data[awayteam]?" selected":"") . ">" . $v . "</option>\n";
+          echo "<option value=\"$k\"" . ($k==$db->data['awayteam']?" selected":"") . ">" . $v . "</option>\n";
         }
         echo "</select></p>\n";
 
@@ -421,7 +421,7 @@ function edit_category_form($db,$id)
         echo "  <option value=\"\">--------------------------</option>\n";
 
         foreach ($teams2 as $k => $v) {
-          echo "<option value=\"$k\"" . ($k==$db->data[hometeam]?" selected":"") . ">" . $v . "</option>\n";
+          echo "<option value=\"$k\"" . ($k==$db->data['hometeam']?" selected":"") . ">" . $v . "</option>\n";
         }
         echo "</select></p>\n";
 
@@ -431,7 +431,7 @@ function edit_category_form($db,$id)
         echo "  <option value=\"\">--------------------------</option>\n";
 
         foreach ($umpires as $k => $v) {
-          echo "<option value=\"$k\"" . ($k==$db->data[umpires]?" selected":"") . ">" . $v . "</option>\n";
+          echo "<option value=\"$k\"" . ($k==$db->data['umpires']?" selected":"") . ">" . $v . "</option>\n";
         }
         echo "</select></p>\n";
 

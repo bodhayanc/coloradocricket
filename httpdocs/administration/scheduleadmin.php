@@ -148,14 +148,12 @@ function show_main_menu_season($db,$season,$sename)
 
 				for ($x=0; $x<$db->rows; $x++) {
 					$db->GetRow($x);
-					$t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
-					$t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
-					$um = htmlentities(stripslashes($teams[$db->data[umpires]]));
-					$tn = htmlentities(stripslashes($db->data['teamname']));
+					$t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
+					$t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
 					$da = htmlentities(stripslashes($db->data['formatted_date']));
-					$ve = htmlentities(stripslashes($db->data[ground]));
-					$u1 = htmlentities(stripslashes($db->data[Ump1Abbrev]));
-					$u2 = htmlentities(stripslashes($db->data[Ump2Abbrev]));
+					$ve = htmlentities(stripslashes($db->data['ground']));
+					$u1 = htmlentities(stripslashes($db->data['Ump1Abbrev']));
+					$u2 = htmlentities(stripslashes($db->data['Ump2Abbrev']));
 
 
 
@@ -172,10 +170,10 @@ function show_main_menu_season($db,$season,$sename)
 					echo "  </td>\n";
 					echo "	<td align=\"left\" width=\"30%\">$ve</td>\n";
 					echo "	<td align=\"right\" width=\"10%\">";
-//					echo "<a href=\"main.php?SID=$SID&action=scheduleadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a>
-//<a href=\"main.php?SID=$SID&action=scheduleadmin&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" alt=\"Delete\" border=\"0\"></a></td>\n";
+					echo "<a href=\"main.php?SID=$SID&action=scheduleadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a>
+<a href=\"main.php?SID=$SID&action=scheduleadmin&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" alt=\"Delete\" border=\"0\"></a></td>\n";
 
-					echo "<a href=\"main.php?SID=$SID&action=scheduleadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a></td>\n";
+//					echo "<a href=\"main.php?SID=$SID&action=scheduleadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a></td>\n";
 
 					echo "</tr>\n";
 				}
@@ -224,7 +222,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 		}
 	}
 
@@ -237,7 +235,7 @@ function add_category_form($db)
 		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 		}
 	}
 		echo "</select></p>\n";
@@ -288,7 +286,7 @@ function add_category_form($db)
 
 function do_add_category($db,$season,$week,$date,$awayteam,$hometeam,$venue,$umpires,$umpire1,$umpire2, $time)
 {
-	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+	global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
 // make sure info is present and correct
 
@@ -349,10 +347,10 @@ function delete_category_check($db,$id)
 
 	$db->QueryItem("SELECT * FROM schedule WHERE id=$id");
 
-	$date = sqldate_to_string($db->data[date]);
-	$t1 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
-	$t2 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
-	$ve = htmlentities(stripslashes($grounds[$db->data[venue]]));
+	$date = sqldate_to_string($db->data['date']);
+	$t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
+	$t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
+	$ve = htmlentities(stripslashes($grounds[$db->data['venue']]));
 
 	echo "<p>Are you sure you wish to delete the following scheduled game:</p>\n";
 	echo "<p><b>$date</b></p>\n";
@@ -376,9 +374,10 @@ function do_delete_category($db,$id,$doit)
 
 function edit_category_form($db,$id)
 {
-	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+	global $dbcfg,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
-        $db_se = $db;
+    $db_se = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$db_se->SelectDB($dbcfg['db']);
 	// get all seasons
 	$db_se->Query("SELECT * FROM seasons ORDER BY SeasonName DESC");
 	
@@ -388,7 +387,7 @@ function edit_category_form($db,$id)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
         $db->BagAndTag();
-		$teams[$db->data['TeamID']] = $db->data['teamname'];
+		$teams[$db->data['TeamID']] = $db->data['TeamName'];
 		$teams2 = $teams;
 		//$umpires = $teams;
 	}
@@ -405,22 +404,21 @@ function edit_category_form($db,$id)
 
 	$db->QueryRow("SELECT s.*,g.GroundName, t1.TeamName AS awayteamname,t2.TeamName as hometeamname,u1.TeamAbbrev AS Ump1Abbrev,u2.TeamAbbrev AS Ump2Abbrev FROM schedule s INNER JOIN teams t1 ON s.awayteam = t1.TeamID INNER JOIN teams t2 ON s.hometeam = t2.TeamID LEFT JOIN teams u1 ON s.umpire1 = u1.TeamID LEFT JOIN teams u2 ON s.umpire2 = u2.TeamID INNER JOIN grounds g ON s.venue = g.GroundID WHERE id=$id");
 
-	$se = stripslashes($db->data[season]);
-	$we = stripslashes($db->data[week]);
-	$da = stripslashes($db->data[date]);
-	$t1 = stripslashes($db->data[awayteam]);
-	$t1n = stripslashes($db->data[awayteamname]);
-	$t2 = stripslashes($db->data[hometeam]);
-	$t2n = stripslashes($db->data[hometeamname]);
-	$ve = stripslashes($db->data[venue]);
+	$se = stripslashes($db->data['season']);
+	$we = stripslashes($db->data['week']);
+	$da = stripslashes($db->data['date']);
+	$t1 = stripslashes($db->data['awayteam']);
+	$t1n = stripslashes($db->data['awayteamname']);
+	$t2 = stripslashes($db->data['hometeam']);
+	$t2n = stripslashes($db->data['hometeamname']);
+	$ve = stripslashes($db->data['venue']);
 	$ven = stripslashes($db->data['GroundName']);
-	$um = stripslashes($db->data[umpires]);
-	$um1 = stripslashes($db->data[umpire1]);
-	$um1a = stripslashes($db->data[Ump1Abbrev]);
-	$um2a = stripslashes($db->data[Ump2Abbrev]);
-	$um2 = stripslashes($db->data[umpire2]);
-	$re = stripslashes($db->data[result]);
-                     $ti = stripslashes($db->data[time]);
+	$um1 = stripslashes($db->data['umpire1']);
+	$um1a = stripslashes($db->data['Ump1Abbrev']);
+	$um2a = stripslashes($db->data['Ump2Abbrev']);
+	$um2 = stripslashes($db->data['umpire2']);
+	$re = stripslashes($db->data['result']);
+    $ti = stripslashes($db->data['time']);
 
 	echo "<p>Edit the scheduled game.</p>\n";
 
@@ -429,7 +427,6 @@ function edit_category_form($db,$id)
 		echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 		echo "<input type=\"hidden\" name=\"do\" value=\"sedit\">\n";
 		echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
-		echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
 		echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 
 
@@ -446,7 +443,7 @@ function edit_category_form($db,$id)
 			$id = $db_se->data['SeasonID'];
 			$season = $db_se->data['SeasonID'];
 			$sename = $db_se->data['SeasonName'];
-				echo "<option value=\"$season\"" . ($season ==$db->data[season]?" selected":"") . ">" . $sename . "</option>\n";
+				echo "<option value=\"$season\"" . ($season ==$db->data['season']?" selected":"") . ">" . $sename . "</option>\n";
 			}
 
 		echo "</select></p>\n";
@@ -466,7 +463,7 @@ function edit_category_form($db,$id)
 			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 			for ($i=0; $i<$db->rows; $i++) {
 				$db->GetRow($i);
-				echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+				echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 			}
 		}
 
@@ -482,7 +479,7 @@ function edit_category_form($db,$id)
 			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
 			for ($i=0; $i<$db->rows; $i++) {
 				$db->GetRow($i);
-				echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+				echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 			}
 		}
 
@@ -562,10 +559,8 @@ function do_update_category($db,$id,$season,$week,$date,$awayteam,$hometeam,$ven
 	$um = addslashes(trim($umpires));
 	$um1 = addslashes(trim($umpire1));
 	$um2 = addslashes(trim($umpire2));
-                     $ti = addslashes(trim($time));
-	$re = addslashes(trim($result));
-	$pa = eregi_replace("\r","",$photo);
-
+    $ti = addslashes(trim($time));
+	
 	// do update
 	$db->Update("UPDATE schedule SET season='$se',league_id='1',week='$we',date='$da',awayteam='$t1',hometeam='$t2',venue='$ve',umpires='$um',umpire1='$um1',umpire2='$um2', time='$ti' WHERE id=$id");
 	if ($db->a_rows != -1) {
@@ -577,30 +572,6 @@ function do_update_category($db,$id,$season,$week,$date,$awayteam,$hometeam,$ven
 	}
 }
 
-
-
-// do scorecard stuff here - doesn't like being passed to a function!
-
-if ($usercard_name != "") {
-	$scorecard = urldecode($usercard_name);
-	$scorecard = ereg_replace(" ","_",$scorecard);
-	$scorecard = ereg_replace("&","_and_",$scorecard);
-
-// put scorecard in right place
-
-	if (!copy($usercard,"../scorecards/$season/$scorecard")) {
-		echo "<p>That scorecard could not be uploaded at this time - no scorecard was added to the database.</p>\n";
-		unlink($usercard);
-		return;
-	}
-	unlink($usercard);
-	$setcard = ",scorecard='$scorecard'";
-} else {
-	$scorecard = "";
-	$setcard = "";
-}
-
-
 // main program
 
 if (!$USER['flags'][$f_schedule_admin]) {
@@ -610,21 +581,36 @@ if (!$USER['flags'][$f_schedule_admin]) {
 
 echo "<p class=\"16px\"><b>Schedule Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "byseason":
-    	show_main_menu_season($db,$season,$sename);
+    	show_main_menu_season($db,$_GET['season'],$_GET['sename']);
     	break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$season,$week,$date,$awayteam,$hometeam,$venue,$umpires,$umpire1,$umpire2, $time);
+	else do_add_category($db,$_POST['season'],$_POST['week'],$_POST['date'],$_POST['awayteam'],$_POST['hometeam'],$_POST['venue'],0,$_POST['umpire1'],$_POST['umpire2'],$_POST['time']);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$season,$week,$date,$awayteam,$hometeam,$venue,$umpires,$umpire1,$umpire2, $time);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['season'],$_POST['week'],$_POST['date'],$_POST['awayteam'],$_POST['hometeam'],$_POST['venue'],0,$_POST['umpire1'],$_POST['umpire2'],$_POST['time']);
 	break;
 default:
 	show_main_menu($db);
