@@ -14,7 +14,7 @@ function show_teams_listing($db)
     
     // Find the current season
 
-    $db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName DESC LIMIT 1");
+    $db->Query("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' AND SeasonName NOT LIKE '%CTCL%' ORDER BY SeasonName DESC LIMIT 1");
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $season = $db->data['SeasonID'];
@@ -495,7 +495,7 @@ function show_full_teams($db,$pr)
     
 }
 
-function show_alpha_listing($db,$s,$id,$pr,$letter)
+function show_alpha_listing($db,$pr,$letter)
 {
     global $PHP_SELF;
 
@@ -507,6 +507,18 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
     $ca = $db->data['TeamAbbrev'];
     $ur = $db->data['TeamURL'];
     $co = $db->data['TeamColour'];
+	$active_status = "0";
+	if (isset($_GET['status'])) {
+		if ($_GET['status'] == '' OR $_GET['status'] == '0') {
+			$active_status = "0";
+		}
+		else if ($_GET['status'] == '1'){
+			$active_status = "1";
+		}
+		else if ($_GET['status'] == '2'){
+			$active_status = "0,1";
+		}
+    }
 	if (($co == null) || ($co == "")) {
 		$co = "000000";
 	}
@@ -684,10 +696,10 @@ if (isset($_GET['ccl_mode'])) {
 		show_full_teams($db,$_GET['teams']);
 		break;
 	case 2:
-		show_alpha_listing($db,$s,$id,$teams,$letter);
+		show_alpha_listing($db,$_GET['teams'],$_GET['letter']);
 		break;  
 	default:
-		show_teams_listing($db,$s,$id,$teams);
+		show_teams_listing($db);
 		break;
 	}
 } else {

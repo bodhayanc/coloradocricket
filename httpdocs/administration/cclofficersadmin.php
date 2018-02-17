@@ -224,12 +224,12 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$ot = htmlentities(stripslashes($db->data['cclofficerTitle']));
-	$otid = htmlentities(stripslashes($db->data[cclofficerPlayerID]));
+	$otid = htmlentities(stripslashes($db->data['cclofficerPlayerID']));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 	$ofid = htmlentities(stripslashes($db->data['cclofficerID']));
-	$det = htmlentities(stripslashes($db->data[cclofficerDetail]));
-	$vie = htmlentities(stripslashes($db->data[cclofficerViews]));
+	$det = htmlentities(stripslashes($db->data['cclofficerDetail']));
+	$vie = htmlentities(stripslashes($db->data['cclofficerViews']));
 
 $sy = htmlentities(stripslashes($db->data['season_year']));
 $sdt= htmlentities(stripslashes($db->data[start_date]));

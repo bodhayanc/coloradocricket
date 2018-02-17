@@ -1688,7 +1688,7 @@ function search_players($db,$search="")
 
 
 
-function show_alpha_listing($db,$s,$id,$pr,$letter)
+function show_alpha_listing($db,$letter)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -1720,7 +1720,8 @@ function show_alpha_listing($db,$s,$id,$pr,$letter)
 
     echo "<form action=\"$PHP_SELF\">";
     echo "<input type=\"hidden\" name=\"ccl_mode\" value=\"2\">";
-    echo "<br><p>Enter first or last name &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+	echo "<br><p>Enter first or last name &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 
     echo "    </td>\n";
     echo "  </tr>\n";

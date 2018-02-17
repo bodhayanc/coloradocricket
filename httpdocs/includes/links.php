@@ -58,8 +58,8 @@
 	  "PlayersAndOfficers" => array("","PLAYERS & OFFICERS"),
 	  "players" => array("players.php","Players"),
 //	  "featuredplayers" => array("featuredmember.php?season=57&sename=2014&ccl_mode=2","Featured Players"),
-	  "featuredplayers" => array("featuredmember.php?season=72&sename=2017&ccl_mode=2","Player Of The Week"),
-	  "awardplayers" => array("awards.php","Player Awards"),
+	  "featuredplayers" => array("featuredmember.php?season=72&sename=2017 Premier&ccl_mode=2","Player Of The Week"),
+	  "awardplayers" => array("awards.php?season=72&sename=2017 Premier&ccl_mode=2","Player Awards"),
 	  // Moved Champions from Archives to here 24-Oct-2014 10:24pm
 	  "champions" => array("champions.php","Champions"),
 	  "cclofficers" => array("cclofficers.php","CCL Officers"),
@@ -70,7 +70,7 @@
 	  "Umpiring" => array("","UMPIRING"),
 	     "umpires" => array("umpires.php","Certified Umpires"),
               "quiz" => array("quiz/CCL_Umpiring.php","Umpiring Quiz"),
-              "grades" => array("umpire_ratings.php","Umpires Grades"),
+              //"grades" => array("umpire_ratings.php","Umpires Grades"),
 
 // 24-Oct-2014 10:22pm	      "Archives" => array("","ARCHIVES"),
 // 24-Oct-2014 10:22pm              "arscorecards" => array("scorecard.php","Scorecards"),    
@@ -91,10 +91,9 @@
               "hcl" => array("/www.houstoncricket.org/","HCL (Houston)"),
               "ntca" => array("/www.ntcricket.com/","NTCA (Dallas)"),
               "hlcl" => array("/www.heartlandcricketleague.com/","Heartland(Nebraska)"),
-              "cwcb" => array("/www.centralwestregion.webs.com","CWCB"),
-              "usaca" => array("/www.usaca.org","USA Cricket (USACA)"),
+              "usaca" => array("/www.usacricket.org/","USA Cricket"),
               "icc" => array("/www.icc-cricket.yahoo.net/","ICC"),
-              "mcc" => array("/www.lords.org/laws-and-spirit/laws-of-cricket/","MCC Cricket Laws"),
+              "mcc" => array("/www.lords.org/mcc/laws-of-cricket/","MCC Cricket Laws"),
           );
 
 

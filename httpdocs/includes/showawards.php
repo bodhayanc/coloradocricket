@@ -7,7 +7,7 @@
 // (c) Michael Doig      - mike250@gmail.com
 //------------------------------------------------------------------------------
 
-function show_awards_listing($db,$id,$fm)
+function show_awards_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -81,9 +81,9 @@ function show_awards_listing($db,$id,$fm)
     }
 }
 
-function show_awards_season($db,$id,$aw,$season,$sename)
+function show_awards_season($db,$season,$sename)
 {
-    global $PHP_SELF,$bluebdr,$greenbdr,$yellowbdr,$sename;
+    global $PHP_SELF,$bluebdr,$greenbdr,$yellowbdr;
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -179,7 +179,6 @@ function show_awards_season($db,$id,$aw,$season,$sename)
         $det = htmlentities(stripslashes($db->data['AwardDetail']));
         $awn = htmlentities(stripslashes($db->data['AwardName']));
         $id = htmlentities(stripslashes($db->data['plaward']));
-        $sn = htmlentities(stripslashes($db->data['SeasonName']));
         $ad = htmlentities(stripslashes($db->data['AwardDetail']));
         $pc = htmlentities(stripslashes($db->data['picture']));
         $a = sqldate_to_string($db->data['added']);
@@ -320,19 +319,22 @@ $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
 
-switch($ccl_mode) {
-case 0:
-    show_awards_listing($db,$id,$aw);
-    break;
-case 1:
-    show_awards($db,$s,$id,$aw,$season,$sename);
-    break;
-case 2:
-    show_awards_season($db,$id,$aw,$season,$sename);
-    break;  
-default:
-    show_awards_listing($db,$s,$id,$aw);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_awards_listing($db);
+		break;
+	case 1:
+		show_awards($db,$_GET['aw']);
+		break;
+	case 2:
+		show_awards_season($db,$_GET['season'],$_GET['sename']);
+		break;  
+	default:
+		show_awards_listing($db);
+		break;
+	}
+} else {
+	show_awards_listing($db);
 }
-
 ?>

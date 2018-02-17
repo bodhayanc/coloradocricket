@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_schedule_listing($db,$schedule,$id,$pr,$team,$week)
+function show_schedule_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -342,11 +342,9 @@ function show_schedule_team($db,$schedule,$team)
                         $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
                         $teamname[$db->data['TeamID']] = $db->data['TeamName'];
                         $teamcolour[$db->data['TeamID']] = $db->data['TeamColour'];
-                        $teamaway = $teams;
-                        $teamhome = $teams;
                 }
 
-
+		if(array_key_exists($team, $teams)) {
         echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\" valign=\"top\">\n";
@@ -540,7 +538,20 @@ function show_schedule_team($db,$schedule,$team)
             echo "  </tr>\n";
             echo "</table>\n";
 
-        }
+        } else {
+			$db->QueryRow("SELECT * FROM teams WHERE TeamID = $team");
+			$tn = $db->data['TeamName']; 
+			echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
+			echo "  <tr>\n";
+			echo "    <td align=\"left\" valign=\"top\">\n";
+			echo "    <font class=\"10px\">You are here: </font><a href=\"/index.php\">Home</a> &raquo; <a href=\"/schedule.php\">Schedule</a> &raquo; <font class=\"10px\">Team Schedule</font></p>\n";
+			echo "    <p>There are currently no scheduled games in the database for the Team <b>$tn</b> and for the season <b>{$seasons[$schedule]}</b>.</p>\n";
+			echo "    <p>&laquo; <a href=\"/index.php\">back to homepage</a></p>\n";
+			echo "    </td>\n";
+			echo "  </tr>\n";
+			echo "</table>\n";
+		}
+		}
 }
 
 
@@ -798,7 +809,7 @@ $db->SelectDB($dbcfg['db']);
 if (isset($_GET['ccl_mode'])) {
 	switch($_GET['ccl_mode']) {
 	case 0:
-		show_schedule_listing($db, $_GET['schedule']);
+		show_schedule_listing($db);
 		break;
 	case 1:
 		show_schedule($db, $_GET['schedule']);
@@ -810,9 +821,11 @@ if (isset($_GET['ccl_mode'])) {
 		show_schedule_week($db, $_GET['schedule'], $_GET['week']);
 		break;
 	default:
-		show_schedule_listing($db, $_GET['schedule']);
+		show_schedule_listing($db);
 		break;
 	}
+} else {
+	show_schedule_listing($db);
 }
 ?>
 

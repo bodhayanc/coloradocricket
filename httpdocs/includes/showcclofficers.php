@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_cclofficers_listing($db,$id,$offid)
+function show_cclofficers_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 	$db_year = $db;
@@ -40,7 +40,7 @@ function show_cclofficers_listing($db,$id,$offid)
         if($k == 0){
         $maxyear =  $db_year->data['season_year'];
         }
-        if($year == $_GET['season_year']) {
+        if(isset($_GET['season_year']) && $year == $_GET['season_year']) {
         	$sel = "selected";
         }
         $str_drop .= "<option value='$year' $sel>$year</option>";
@@ -49,7 +49,7 @@ function show_cclofficers_listing($db,$id,$offid)
     //////////////////////////////////////////////////////////////////////////////////////////
     // CCL Officers Box
     //////////////////////////////////////////////////////////////////////////////////////////
-	if($_GET['season_year'] != '') {
+	if(isset($_GET['season_year']) && $_GET['season_year'] != '') {
     	$maxyear = $_GET['season_year'];
     }
     echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
@@ -76,14 +76,14 @@ function show_cclofficers_listing($db,$id,$offid)
 
         $id = $db->data['cclofficerID'];
         $ti = $db->data['cclofficerTitle'];
-        $pid = $db->data[cclofficerPlayerID];
+        $pid = $db->data['cclofficerPlayerID'];
         $fna = $db->data['PlayerFName'];
         $lna = $db->data['PlayerLName'];
         $pem = $db->data['PlayerEmail'];
         $tab = $db->data['TeamAbbrev'];
         $pc = $db->data['picture'];
-        $detail = $db->data[cclofficerDetail];
-        $cclofficerViews = $db->data[cclofficerViews];
+        $detail = $db->data['cclofficerDetail'];
+        $cclofficerViews = $db->data['cclofficerViews'];
 
         // output article
 
@@ -147,8 +147,8 @@ function show_cclofficers_detail($db,$id,$offid)
         $db->GetRow($d);
         $id = $db->data['cclofficerID'];
         $ti = $db->data['cclofficerTitle'];
-        $de = $db->data[cclofficerDetail];
-        $vi = $db->data[cclofficerViews];
+        $de = $db->data['cclofficerDetail'];
+        $vi = $db->data['cclofficerViews'];
         $fna = $db->data['PlayerFName'];
         $lna = $db->data['PlayerLName'];
         $pem = $db->data['PlayerEmail'];
@@ -227,7 +227,7 @@ function show_cclofficers_views($db,$id,$offid)
         $db->BagAndTag();
         $id = $db->data['cclofficerID'];
         $ti = $db->data['cclofficerTitle'];
-        $vie = $db->data[cclofficerViews];
+        $vie = $db->data['cclofficerViews'];
         $pid = $db->data['PlayerID'];
         $fna = $db->data['PlayerFName'];
         $lna = $db->data['PlayerLName'];
@@ -299,21 +299,24 @@ function show_cclofficers_views($db,$id,$offid)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_cclofficers_listing($db,$id,$cclofficers);
-    break;
-case 1:
-    show_cclofficers_detail($db,$id,$offid);
-    break;
-case 2:
-    show_cclofficers_views($db,$id,$offid);
-    break;
-default:
-    show_cclofficers_listing($db,$id,$cclofficers);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_cclofficers_listing($db);
+		break;
+	case 1:
+		show_cclofficers_detail($db,$id,$offid);
+		break;
+	case 2:
+		show_cclofficers_views($db,$id,$offid);
+		break;
+	default:
+		show_cclofficers_listing($db);
+		break;
+	}
+} else {
+	show_cclofficers_listing($db);
 }
-
 
 
 

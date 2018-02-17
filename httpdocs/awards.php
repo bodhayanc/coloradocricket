@@ -4,7 +4,7 @@
     require ("includes/class.fasttemplate.inc");
     require ("includes/general.functions.inc");
 
-    $page = awardplayers;
+    $page = 'awardplayers';
 
 ?>
 
@@ -28,14 +28,14 @@
 <?php include("includes/header.php"); ?>
 <?php include("includes/links.php"); ?>
     </td>
-    <td width="520" bgcolor="#FFFFFF" valign="top">
+    <td bgcolor="#FFFFFF" valign="top">
 
 <br>
     <?php include("includes/showrandomsponsor.php");?>
     <?php include("includes/showawards.php"); ?>
     <?php include("includes/showrandomsponsor_bottom.php");?>
     </td>
-    <td width="180" bgcolor="#D0C7C0" valign="top">
+    <td width="450" bgcolor="#D0C7C0" valign="top">
 
     <?php include("includes/right.php"); ?>
 

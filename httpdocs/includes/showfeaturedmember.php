@@ -7,7 +7,7 @@
 // (c) Michael Doig      - mike250@gmail.com
 //------------------------------------------------------------------------------
 
-function show_featuredmember_listing($db,$id,$fm)
+function show_featuredmember_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -85,7 +85,7 @@ function show_featuredmember_listing($db,$id,$fm)
 
 function show_featuredmember_season($db,$id,$fm,$season,$sename)
 {
-    global $PHP_SELF,$bluebdr,$greenbdr,$yellowbdr,$sename;
+    global $PHP_SELF,$bluebdr,$greenbdr,$yellowbdr;
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -181,7 +181,6 @@ function show_featuredmember_season($db,$id,$fm,$season,$sename)
 
         $det = htmlentities(stripslashes($db->data['FeaturedDetail']));
         $id = htmlentities(stripslashes($db->data['FeaturedID']));
-        $sn = htmlentities(stripslashes($db->data['SeasonName']));
         $a = sqldate_to_string($db->data['added']);
 
         if($x % 2) {
@@ -317,7 +316,7 @@ $db->SelectDB($dbcfg['db']);
 if (isset($_GET['ccl_mode'])) {
 	switch($_GET['ccl_mode']) {
 	case 0:
-		show_featuredmember_listing($db,$id, isset($_GET['fm']) ? $_GET['fm'] : '');
+		show_featuredmember_listing($db);
 		break;
 	case 1:
 		show_featuredmember($db,isset($_GET['id']) ? $_GET['id'] : '',isset($_GET['fm']) ? $_GET['fm'] : '',isset($_GET['season']) ? $_GET['season'] : '',isset($_GET['sename']) ? $_GET['sename'] : '');
@@ -326,7 +325,7 @@ if (isset($_GET['ccl_mode'])) {
 		show_featuredmember_season($db,isset($_GET['id']) ? $_GET['id'] : '',isset($_GET['fm']) ? $_GET['fm'] : '',isset($_GET['season']) ? $_GET['season'] : '',isset($_GET['sename']) ? $_GET['sename'] : '');
 		break;  
 	default:
-		show_featuredmember_listing($db,isset($_GET['id']) ? $_GET['id'] : '',isset($_GET['fm']) ? $_GET['fm'] : '');
+		show_featuredmember_listing($db);
 		break;
 	}
 } else {

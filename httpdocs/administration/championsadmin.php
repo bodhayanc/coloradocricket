@@ -96,10 +96,10 @@ function show_main_menu($db)
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
                         // 6-Jan-2010
-			$tna2 = htmlentities(stripslashes($db->data[TeamName2]));
-			$tab2 = htmlentities(stripslashes($db->data[TeamAbbrev2]));
-			$tna3 = htmlentities(stripslashes($db->data[TeamName3]));
-			$tab3 = htmlentities(stripslashes($db->data[TeamAbbrev3]));
+			$tna2 = htmlentities(stripslashes($db->data['TeamName2']));
+			$tab2 = htmlentities(stripslashes($db->data['TeamAbbrev2']));
+			$tna3 = htmlentities(stripslashes($db->data['TeamName3']));
+			$tab3 = htmlentities(stripslashes($db->data['TeamAbbrev3']));
 
 			$sn = htmlentities(stripslashes($db->data['SeasonName']));
 
@@ -313,8 +313,8 @@ function edit_category_form($db,$id)
 	$te = htmlentities(stripslashes($db->data['teamname']));
 
 // 6-Jan-2010
-$te2 = htmlentities(stripslashes($db->data[TeamName2]));
-$te3 = htmlentities(stripslashes($db->data[TeamName3]));
+$te2 = htmlentities(stripslashes($db->data['TeamName2']));
+$te3 = htmlentities(stripslashes($db->data['TeamName3']));
 
 	$ch = $db->data[ChampID];
 
