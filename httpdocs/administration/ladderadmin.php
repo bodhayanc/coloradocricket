@@ -128,16 +128,16 @@ function show_main_menu_season($db,$season,$sename)
                 for ($x=0; $x<$db->rows; $x++) {
                     $db->GetRow($x);
 
-                    $te = htmlentities(stripslashes($db->data[team]));
+                    $te = htmlentities(stripslashes($db->data['team']));
                     $pl = htmlentities(stripslashes($db->data['played']));
                     $wo = htmlentities(stripslashes($db->data['won']));
                     $lo = htmlentities(stripslashes($db->data['lost']));
                     $ti = htmlentities(stripslashes($db->data['tied']));
                     $nr = htmlentities(stripslashes($db->data['nrr']));
                     $pt = htmlentities(stripslashes($db->data['points']));
-                    $pe = htmlentities(stripslashes($db->data[penalty]));
-                    $tp = htmlentities(stripslashes($db->data[totalpoints]));
-                    $rs = htmlentities(stripslashes($db->data[rank_sort]));
+                    $pe = htmlentities(stripslashes($db->data['penalty']));
+                    $tp = htmlentities(stripslashes($db->data['totalpoints']));
+                    $rs = htmlentities(stripslashes($db->data['rank_sort']));
 
 
                     if($x % 2) {
@@ -158,10 +158,10 @@ function show_main_menu_season($db,$season,$sename)
                     echo "  <td align=\"center\">$rs</td>\n";
 
                     echo "  <td align=\"right\">";
-//                    echo "<a href=\"main.php?SID=$SID&action=ladderadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a>
-//<a href=\"main.php?SID=$SID&action=ladderadmin&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" alt=\"Delete\" border=\"0\"></a></td>\n";
+                    echo "<a href=\"main.php?SID=$SID&action=ladderadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a>
+<a href=\"main.php?SID=$SID&action=ladderadmin&do=sdel&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_delete.gif\" alt=\"Delete\" border=\"0\"></a></td>\n";
 
-                    echo "<a href=\"main.php?SID=$SID&action=ladderadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a></td>\n";
+//                    echo "<a href=\"main.php?SID=$SID&action=ladderadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a></td>\n";
 
                     echo "</tr>\n";
                 }
@@ -208,7 +208,7 @@ function add_category_form($db)
         $db->Query("SELECT * FROM teams ORDER BY TeamName");
         for ($i=0; $i<$db->rows; $i++) {
             $db->GetRow($i);
-            echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+            echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
         }
     }
 
@@ -232,7 +232,7 @@ function add_category_form($db)
 
 function do_add_category($db,$season,$team,$played,$won,$tied,$lost,$nrr,$points,$penalty,$totalpoints,$rank_sort)
 {
-    global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
+    global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
 // make sure info is present and correct
 
@@ -295,14 +295,10 @@ function delete_category_check($db,$id)
 
     $db->QueryItem("SELECT * FROM ladder WHERE id=$id");
 
-    $date = sqldate_to_string($db->data['date']);
-    $t1 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
-    $t2 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
-    $ve = htmlentities(stripslashes($grounds[$db->data['venue']]));
-
-    echo "<p>Are you sure you wish to delete the following ladder game:</p>\n";
-    echo "<p><b>$date</b></p>\n";
-    echo "<p><b>$t1</b> v <b>$t2</b> at <b>$ve</b></p>\n";
+    $tm = htmlentities(stripslashes($teams[$db->data['team']]));
+    
+    echo "<p>Are you sure you wish to delete the following ladder team:</p>\n";
+    echo "<p><b>$tm</b></p>\n";
     echo "<p><a href=\"main.php?SID=$SID&action=$action&do=sdel&id=$id&doit=1\">YES</a> | <a href=\"main.php?SID=$SID&action=$action&do=sdel&id=$id&doit=0\">NO</a></p>\n";
 }
 
@@ -311,10 +307,10 @@ function do_delete_category($db,$id,$doit)
 {
     global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
-    if (!$doit) echo "<p>You have chosen NOT to delete that ladderd game.</p>\n";
+    if (!$doit) echo "<p>You have chosen NOT to delete that ladderd team.</p>\n";
     else {
         $db->Delete("DELETE FROM ladder WHERE id=$id");
-        echo "<p>You have now deleted that ladderd game.</p>\n";
+        echo "<p>You have now deleted that ladderd team.</p>\n";
     }
     echo "<p>&laquo; <a href=\"main.php?SID=$SID&action=$action\">return to the ladder list</a></p>\n";
 }
@@ -336,7 +332,7 @@ function edit_category_form($db,$id)
     for ($i=0; $i<$db->rows; $i++) {
         $db->GetRow($i);
         $db->BagAndTag();
-        $teams[$db->data['TeamID']] = $db->data['teamname'];
+        $teams[$db->data['TeamID']] = $db->data['TeamName'];
         $teams2 = $teams;
         $umpires = $teams;
     }
@@ -352,16 +348,16 @@ function edit_category_form($db,$id)
 
     $db->QueryRow("SELECT * FROM ladder WHERE id=$id");
 
-    $te = htmlentities(stripslashes($db->data[team]));
+    $te = htmlentities(stripslashes($db->data['team']));
     $pl = htmlentities(stripslashes($db->data['played']));
     $wo = htmlentities(stripslashes($db->data['won']));
     $lo = htmlentities(stripslashes($db->data['lost']));
     $ti = htmlentities(stripslashes($db->data['tied']));
     $nr = htmlentities(stripslashes($db->data['nrr']));
     $pt = htmlentities(stripslashes($db->data['points']));
-    $pe = htmlentities(stripslashes($db->data[penalty]));
-    $tp = htmlentities(stripslashes($db->data[totalpoints]));
-    $rs = htmlentities(stripslashes($db->data[rank_sort]));
+    $pe = htmlentities(stripslashes($db->data['penalty']));
+    $tp = htmlentities(stripslashes($db->data['totalpoints']));
+    $rs = htmlentities(stripslashes($db->data['rank_sort']));
 
     echo "<p>Edit the ladderd game.</p>\n";
 
@@ -370,7 +366,6 @@ function edit_category_form($db,$id)
         echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
         echo "<input type=\"hidden\" name=\"do\" value=\"sedit\">\n";
         echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
-        echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
         echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 
         echo "<p>select season:<br>\n";
@@ -396,12 +391,12 @@ function edit_category_form($db,$id)
 
         /*
             for ($i=0; $i<count($teams); $i++) {
-                echo "<option value=\"$i\"" . ($i==$db->data[team]?" selected":"") . ">" . $teams[$i] . "</option>\n";
+                echo "<option value=\"$i\"" . ($i==$db->data['team']?" selected":"") . ">" . $teams[$i] . "</option>\n";
             }
         */
 
         foreach ($teams as $k => $v) {
-          echo "<option value=\"$k\"" . ($k==$db->data[team]?" selected":"") . ">" . $v . "</option>\n";
+          echo "<option value=\"$k\"" . ($k==$db->data['team']?" selected":"") . ">" . $v . "</option>\n";
         }
         echo "</select></p>\n";
 
@@ -458,30 +453,6 @@ function do_update_category($db,$id,$season,$team,$played,$won,$tied,$lost,$nrr,
     }
 }
 
-
-
-// do scorecard stuff here - doesn't like being passed to a function!
-
-if ($usercard_name != "") {
-    $scorecard = urldecode($usercard_name);
-    $scorecard = ereg_replace(" ","_",$scorecard);
-    $scorecard = ereg_replace("&","_and_",$scorecard);
-
-// put scorecard in right place
-
-    if (!copy($usercard,"../scorecards/$season/$scorecard")) {
-        echo "<p>That scorecard could not be uploaded at this time - no scorecard was added to the database.</p>\n";
-        unlink($usercard);
-        return;
-    }
-    unlink($usercard);
-    $setcard = ",scorecard='$scorecard'";
-} else {
-    $scorecard = "";
-    $setcard = "";
-}
-
-
 // main program
 
 if (!$USER['flags'][$f_ladder_admin]) {
@@ -491,21 +462,36 @@ if (!$USER['flags'][$f_ladder_admin]) {
 
 echo "<p class=\"16px\"><b>Ladder Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "byseason":
-        show_main_menu_season($db,$season,$sename);
+        show_main_menu_season($db,$_GET['season'],$_GET['sename']);
         break;
 case "sadd":
     if (!isset($doit)) add_category_form($db);
-    else do_add_category($db,$season,$team,$played,$won,$tied,$lost,$nrr,$points,$penalty,$totalpoints,$rank_sort);
+    else do_add_category($db,$_POST['season'],$_POST['team'],$_POST['played'],$_POST['won'],$_POST['tied'],$_POST['lost'],$_POST['nrr'],$_POST['points'],$_POST['penalty'],$_POST['totalpoints'],$_POST['rank_sort']);
     break;
 case "sdel":
-    if (!isset($doit)) delete_category_check($db,$id);
-    else do_delete_category($db,$id,$doit);
+    if (!isset($doit)) delete_category_check($db,$_GET['id']);
+    else do_delete_category($db,$_GET['id'],$doit);
     break;
 case "sedit":
-    if (!isset($doit)) edit_category_form($db,$id);
-    else do_update_category($db,$id,$season,$team,$played,$won,$tied,$lost,$nrr,$points,$penalty,$totalpoints,$rank_sort);
+    if (!isset($doit)) edit_category_form($db,$_GET['id']);
+    else do_update_category($db,$_POST['id'],$_POST['season'],$_POST['team'],$_POST['played'],$_POST['won'],$_POST['tied'],$_POST['lost'],$_POST['nrr'],$_POST['points'],$_POST['penalty'],$_POST['totalpoints'],$_POST['rank_sort']);
     break;
 default:
     show_main_menu($db);

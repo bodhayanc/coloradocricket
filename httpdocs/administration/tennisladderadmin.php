@@ -365,7 +365,7 @@ function edit_category_form($db,$id)
 
     $db->QueryRow("SELECT * FROM tennis_ladder WHERE id=$id");
 
-    $te = htmlentities(stripslashes($db->data[team]));
+    $te = htmlentities(stripslashes($db->data['team']));
     $pl = htmlentities(stripslashes($db->data['played']));
     $wo = htmlentities(stripslashes($db->data['won']));
     $lo = htmlentities(stripslashes($db->data['lost']));
@@ -408,12 +408,12 @@ function edit_category_form($db,$id)
 
         /*
             for ($i=1; $i<=count($teams); $i++) {
-                echo "<option value=\"$i\"" . ($i==$db->data[team]?" selected":"") . ">" . $teams[$i] . "</option>\n";
+                echo "<option value=\"$i\"" . ($i==$db->data['team']?" selected":"") . ">" . $teams[$i] . "</option>\n";
             }
         */
 
         foreach ($teams as $k => $v) {
-          echo "<option value=\"$k\"" . ($k==$db->data[team]?" selected":"") . ">" . $v . "</option>\n";
+          echo "<option value=\"$k\"" . ($k==$db->data['team']?" selected":"") . ">" . $v . "</option>\n";
         }
 
         echo "</select></p>\n";
