@@ -239,9 +239,9 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$t  = stripslashes($db->data['title']);
-	$th = htmlentities(stripslashes($db->data['title']), ENT_SUBSTITUTE, 'cp1252');
+	$th = htmlentities(stripslashes($db->data['title']));
 	$au = htmlentities(stripslashes($db->data['author']));
-	$a  = htmlentities(stripslashes($db->data['article']), ENT_SUBSTITUTE, 'cp1252');
+	$a  = htmlentities(stripslashes($db->data['article']));
 	$pd  = htmlentities(stripslashes($db->data['picdesc']));
 
 	$is = stripslashes($db->data['IsFeature']);
