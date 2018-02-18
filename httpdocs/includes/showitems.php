@@ -168,17 +168,20 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-switch($ccl_mode) {
-case 0:
-    show_items_listing($db);
-    break;
-case 1:
-    show_full_items($db,$id);
-    break;
-default:
-    show_items_listing($db);
-    break;
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		show_items_listing($db);
+		break;
+	case 1:
+		show_full_items($db,$_GET['id']);
+		break;
+	default:
+		show_items_listing($db);
+		break;
+	}
+} else {
+	show_items_listing($db);
 }
-
 
 ?>

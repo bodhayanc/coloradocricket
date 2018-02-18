@@ -482,7 +482,7 @@ function show_full_teams($db,$pr)
 
     // output link back
     $sitevar = "/teamdetails.php?teams=$pr&ccl_mode=1";
-    echo "<p>&laquo; <a href=\"teamdetails.php\">back to teams listing</a></p>\n";
+    echo "<p>&laquo; <a href=\"teams.php\">back to teams listing</a></p>\n";
 
     // finish off
     echo "  </td>\n";
