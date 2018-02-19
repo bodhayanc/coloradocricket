@@ -61,12 +61,9 @@ function show_mini_scorecard($db, $season)
                 $db->GetRow($x);
 		$t1 = $db->data['homeabbrev'];
 		$t2 = $db->data['awayabbrev'];
-		$um = $db->data['umpireabbrev'];
 		$t1id = $db->data['homeid'];
 		$t2id = $db->data['awayid'];
-		$umid = $db->data['umpireid'];
 		$d = $db->data['formatted_date'];
-		$sc =  $db->data['scorecard'];
 		$re = $db->data['result'];
 		$id = $db->data['game_id'];
 		$fo = $db->data['forfeit'];

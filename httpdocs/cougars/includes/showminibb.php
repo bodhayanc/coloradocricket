@@ -10,7 +10,7 @@
 
 
 
-function show_mini_bb($db,$schedule,$id,$pr,$team,$date,$sv)
+function show_mini_bb($db)
 {
         global $content,$action,$SID,$USER;
 
@@ -28,13 +28,13 @@ function show_mini_bb($db,$schedule,$id,$pr,$team,$date,$sv)
 			for ($x=0; $x<$db->rows; $x++) {
 				$db->GetRow($x);
 
-				$pid = $db->data[post_id];
-				$tid = $db->data[topic_id];
-				$fid = $db->data[forum_id];
-				$psu = $db->data[post_subject];
-				$uid = $db->data[user_id];
-				$una = $db->data[username];
-				$pun = $db->data[post_username];
+				$pid = $db->data['post_id'];
+				$tid = $db->data['topic_id'];
+				$fid = $db->data['forum_id'];
+				$psu = $db->data['post_subject'];
+				$uid = $db->data['user_id'];
+				$una = $db->data['username'];
+				$pun = $db->data['post_username'];
 
 
 
@@ -81,7 +81,7 @@ $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
 
-show_mini_bb($db,$schedule,$id,$pr,$team,$date,$sv);
+show_mini_bb($db);
 
 
 ?>

@@ -9,8 +9,9 @@
 //------------------------------------------------------------------------------
 
 
-function show_short_news($db,$s=0,$limit=4,$len=250)
+function show_short_news($db,$limit=4)
 {
+	$len = 250;
     global $PHP_SELF;
 
     if (!$db->Exists("SELECT * FROM news WHERE newstype=2")) {
@@ -66,9 +67,9 @@ function show_short_news($db,$s=0,$limit=4,$len=250)
             $date = sqldate_to_string($db->data['added']);
             $vw = $db->data['views'];
             
-            $sid = $db->data[SubID];
-            $smi = $db->data[MasterID];
-            $sst = $db->data[SubTitle];
+            $sid = $db->data['SubID'];
+            $smi = $db->data['MasterID'];
+            $sst = $db->data['SubTitle'];
             
             $nty = $db->data['newstype'];
             
@@ -98,9 +99,9 @@ function show_short_news($db,$s=0,$limit=4,$len=250)
             if($nty == 1) {
               echo "  <a href=\"news.php?news=$pr&ccl_mode=1\">Full Story &raquo;</a>";
             } else if($nty == 2) {
-              echo "  <a href=\"http://cougars.coloradocricket.org/news.php?news=$pr&ccl_mode=1\">Full Story &raquo;</a>";
+              echo "  <a href=\"news.php?news=$pr&ccl_mode=1\">Full Story &raquo;</a>";
             } else if($nty == 3) {
-              echo "  <a href=\"http://tennis.coloradocricket.org/news.php?news=$pr&ccl_mode=1\">Full Story &raquo;</a>";
+              echo "  <a href=\"news.php?news=$pr&ccl_mode=1\">Full Story &raquo;</a>";
             } else {
               echo "  <a href=\"news.php?news=$pr&ccl_mode=1\">Full Story &raquo;</a>";
             }
@@ -124,6 +125,6 @@ function show_short_news($db,$s=0,$limit=4,$len=250)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-show_short_news($db,$s,4);
+show_short_news($db,4);
 
 ?>

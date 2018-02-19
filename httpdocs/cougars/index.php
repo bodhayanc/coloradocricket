@@ -4,7 +4,7 @@
     require ("../includes/class.fasttemplate.inc");
     require ("../includes/general.functions.inc");
 
-    $page = index;
+    $page = 'index';
 
 ?>
 
@@ -22,7 +22,7 @@
 <?php include("includes/header.php"); ?>
 <?php include("includes/links.php"); ?>
     </td>
-    <td width="520" bgcolor="#FFFFFF" valign="top">
+    <td bgcolor="#FFFFFF" valign="top">
 
 <br><center><a href="http://cougars.coloradocricket.org/" ><img src="http://www.coloradocricket.org/images/bannaz/ccl-cougars.jpg" border="0"></a></center><?php //include("includes/showrandomsponsor.php"); ?>
 
@@ -47,7 +47,7 @@
     <img src="http://www.coloradocricket.org/images/bannaz/metlife-2.gif" border="0"></a></p><br>
 
     --></td>
-    <td width="180" bgcolor="#D0C7C0" valign="top">
+    <td width="450" bgcolor="#D0C7C0" valign="top">
 
     <?php include("includes/right.php"); ?>
 

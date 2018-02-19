@@ -4,7 +4,7 @@
     require ("../includes/class.fasttemplate.inc");
     require ("../includes/general.functions.inc");
 
-    $page = news;
+    $page = 'news';
 ?>
 
 <html>
@@ -17,25 +17,25 @@
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<?php include("header.php"); ?>
-<?php include("links.php"); ?>
+<?php include("includes/header.php"); ?>
+<?php include("includes/links.php"); ?>
 
     </td>
-    <td width="520" bgcolor="#FFFFFF" valign="top">
+    <td bgcolor="#FFFFFF" valign="top">
 
-    <?php include("shownewsarchive.php"); ?>
+    <?php include("../includes/shownewsarchive.php"); ?>
 
 
     </td>
-    <td width="180" bgcolor="#D0C7C0" valign="top">
+    <td width="450" bgcolor="#D0C7C0" valign="top">
 
-    <?php include("right.php"); ?>
+    <?php include("includes/right.php"); ?>
 
 
     </td>
   </tr>
 
-<?php include("footer.php"); ?>
+<?php include("includes/footer.php"); ?>
 
 </table>
 

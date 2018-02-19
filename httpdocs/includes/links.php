@@ -78,7 +78,7 @@
 
               "CricketCommunity" => array("","CRICKET COMMUNITY"),
 			  // 24-Oct-2014 10:29pm Renamed CCL Cougars to Team Colorado
-			   "cclcougars" => array("/cougars.coloradocricket.org","Team Colorado"),
+			   "cclcougars" => array("cougars","Team Colorado"),
 // 24-Oct-2014 10:29pm              "cclcougars" => array("/cougars.coloradocricket.org","CCL Cougars"),
 // 20141015 - Its going to some porn site              "cclcougars-camp" => array("/www.c3tc.info/","C3 Training Camp"),
               "ccltennis" => array("/tennis.coloradocricket.org","Tennis Cricket"),

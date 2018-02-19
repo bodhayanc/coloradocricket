@@ -1,6 +1,6 @@
     <table width="150" border="0" cellspacing="0" cellpadding="0" bgcolor="#030979">
         <tr>
-          <td><img src="images/nav-top.gif" width="150" height="20"></td>
+          <td><img src="../../images/nav-top.gif" width="150" height="20"></td>
         </tr>
         <tr>
           <td>
@@ -69,7 +69,7 @@
           </td>
         </tr>
         <tr>
-          <td><img src="http://www.coloradocricket.org/images/nav-base.gif" width="150" height="20"></td>
+          <td><img src="../../images/nav-base.gif" width="150" height="20"></td>
         </tr>
         
         <tr>
