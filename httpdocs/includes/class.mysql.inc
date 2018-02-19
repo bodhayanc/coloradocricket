@@ -15,6 +15,7 @@ class mysql_class{
 		$this->db=$db;
 		$this->id=@mysqli_connect($this->host,$this->user,$this->pass,$this->db) or
 			mysql_ErrorMsg("mysql_connect: Unable to connect to mysql server: $this->host");
+		mysqli_set_charset($this->id,"utf8");
 	}
 
 	# Get a list of the available databases on the current server
