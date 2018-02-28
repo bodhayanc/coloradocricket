@@ -178,7 +178,7 @@ function read_scorecard($db)
 			
 			update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, $week, $ccl_awayteam_id, $ccl_hometeam_id, $ccl_toss_team_id, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_ground_id, $ccl_game_date, $cc_result, $cc_total_overs, $ccl_game_id);
 			
-			update_batting_details_table($ccl_game_id, $firstIBatsmen, $secondIBatsmen, $hometeamplayers, $awayteamplayers, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_season_id);
+			update_batting_details_table($ccl_game_id, $firstIBatsmen, $secondIBatsmen, $hometeamplayers, $awayteamplayers, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_hometeam_id, $ccl_awayteam_id, $ccl_season_id);
 			
 			update_bowling_details_table($ccl_game_id, $firstIBowlers, $secondIBowlers, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_season_id);
 			
@@ -305,7 +305,7 @@ function update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, 
 	}
 }
 
-function update_batting_details_table($ccl_game_id, $firstIBatsmen, $secondIBatsmen, $hometeamplayers, $awayteamplayers, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_season_id) {
+function update_batting_details_table($ccl_game_id, $firstIBatsmen, $secondIBatsmen, $hometeamplayers, $awayteamplayers, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_hometeam_id, $ccl_awayteam_id, $ccl_season_id) {
 	global $db;
 	$db->Delete("DELETE FROM scorecard_batting_details WHERE game_id = $ccl_game_id");
 	foreach($firstIBatsmen as $firstIBatsman) {
@@ -337,6 +337,98 @@ function update_batting_details_table($ccl_game_id, $firstIBatsmen, $secondIBats
 			echo "<p>A batting row has been added</p>\n";
 		} else {
 			echo "<p>Batting record could not be added to the database at this time for ". $firstIBatsman->getAttribute('id') . "</p>\n";
+		}
+	}
+	if($ccl_batting_first_id == $ccl_hometeam_id) {
+		$batpos = count($firstIBatsmen) + 1;
+		foreach($hometeamplayers as $hometeamplayer) {
+			if($batpos < 12) {
+				$did_not_bat = true;
+				foreach($firstIBatsmen as $firstIBatsman) {
+					if($hometeamplayer->getAttribute('id') == $firstIBatsman->getAttribute('id')) {
+						$did_not_bat = false;
+					}
+				}
+				if($did_not_bat) {
+					$player_id = get_ccl_player_id($hometeamplayer->getAttribute('id'));
+					$db->Insert("INSERT INTO scorecard_batting_details (game_id, season, innings_id, player_id, batting_position, how_out, runs, assist, bowler, balls, fours, sixes, notout, team, opponent) VALUES ('$ccl_game_id', '$ccl_season_id', '1','$player_id','$batpos','1','0','0','0','0','0','0','0','$ccl_batting_first_id','$ccl_batting_second_id')");
+					if ($db->a_rows != -1) {
+						echo "<p>A batting row has been added</p>\n";
+					} else {
+						echo "<p>Batting record could not be added to the database at this time for ". $hometeamplayer->getAttribute('id') . "</p>\n";
+					}
+					$batpos++;
+				}
+			}
+		}
+	}
+	if($ccl_batting_first_id == $ccl_awayteam_id) {
+		$batpos = count($firstIBatsmen) + 1;
+		foreach($awayteamplayers as $awayteamplayer) {
+			if($batpos < 12) {
+				$did_not_bat = true;
+				foreach($firstIBatsmen as $firstIBatsman) {
+					if($awayteamplayer->getAttribute('id') == $firstIBatsman->getAttribute('id')) {
+						$did_not_bat = false;
+					}
+				}
+				if($did_not_bat) {
+					$player_id = get_ccl_player_id($awayteamplayer->getAttribute('id'));
+					$db->Insert("INSERT INTO scorecard_batting_details (game_id, season, innings_id, player_id, batting_position, how_out, runs, assist, bowler, balls, fours, sixes, notout, team, opponent) VALUES ('$ccl_game_id', '$ccl_season_id', '1','$player_id','$batpos','1','0','0','0','0','0','0','0','$ccl_batting_first_id','$ccl_batting_second_id')");
+					if ($db->a_rows != -1) {
+						echo "<p>A batting row has been added</p>\n";
+					} else {
+						echo "<p>Batting record could not be added to the database at this time for ". $awayteamplayer->getAttribute('id') . "</p>\n";
+					}
+					$batpos++;
+				}
+			}
+		}
+	}
+	if($ccl_batting_second_id == $ccl_hometeam_id) {
+		$batpos = count($secondIBatsmen) + 1;
+		foreach($hometeamplayers as $hometeamplayer) {
+			if($batpos < 12) {
+				$did_not_bat = true;
+				foreach($secondIBatsmen as $secondIBatsman) {
+					if($hometeamplayer->getAttribute('id') == $secondIBatsman->getAttribute('id')) {
+						$did_not_bat = false;
+					}
+				}
+				if($did_not_bat) {
+					$player_id = get_ccl_player_id($hometeamplayer->getAttribute('id'));
+					$db->Insert("INSERT INTO scorecard_batting_details (game_id, season, innings_id, player_id, batting_position, how_out, runs, assist, bowler, balls, fours, sixes, notout, team, opponent) VALUES ('$ccl_game_id', '$ccl_season_id', '2','$player_id','$batpos','1','0','0','0','0','0','0','0','$ccl_batting_second_id','$ccl_batting_first_id')");
+					if ($db->a_rows != -1) {
+						echo "<p>A batting row has been added</p>\n";
+					} else {
+						echo "<p>Batting record could not be added to the database at this time for ". $hometeamplayer->getAttribute('id') . "</p>\n";
+					}
+					$batpos++;
+				}
+			}
+		}
+	}
+	if($ccl_batting_second_id == $ccl_awayteam_id) {
+		$batpos = count($secondIBatsmen) + 1;
+		foreach($awayteamplayers as $awayteamplayer) {
+			if($batpos < 12) {
+				$did_not_bat = true;
+				foreach($secondIBatsmen as $secondIBatsman) {
+					if($awayteamplayer->getAttribute('id') == $secondIBatsman->getAttribute('id')) {
+						$did_not_bat = false;
+					}
+				}
+				if($did_not_bat) {
+					$player_id = get_ccl_player_id($awayteamplayer->getAttribute('id'));
+					$db->Insert("INSERT INTO scorecard_batting_details (game_id, season, innings_id, player_id, batting_position, how_out, runs, assist, bowler, balls, fours, sixes, notout, team, opponent) VALUES ('$ccl_game_id', '$ccl_season_id', '2','$player_id','$batpos','1','0','0','0','0','0','0','0','$ccl_batting_second_id','$ccl_batting_first_id')");
+					if ($db->a_rows != -1) {
+						echo "<p>A batting row has been added</p>\n";
+					} else {
+						echo "<p>Batting record could not be added to the database at this time for ". $awayteamplayer->getAttribute('id') . "</p>\n";
+					}
+					$batpos++;
+				}
+			}
 		}
 	}
 	foreach($secondIBatsmen as $secondIBatsman) {
