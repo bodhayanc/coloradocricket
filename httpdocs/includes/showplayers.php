@@ -193,7 +193,7 @@ function show_full_players($db,$pr)
 	
     $db->QueryRow("
     SELECT
-      pl.*, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, cl.ClubID, cl.ClubName
+      pl.*, te.TeamID TeamID, te.TeamName TeamName, te.TeamAbbrev, te.TeamColour, te2.TeamID TeamID2, te2.TeamName TeamName2, cl.ClubID, cl.ClubName
     FROM
       (players pl
     INNER JOIN
@@ -202,6 +202,10 @@ function show_full_players($db,$pr)
       teams te
     ON
       pl.PlayerTeam = te.TeamID
+    LEFT OUTER JOIN
+      teams te2
+    ON
+      pl.PlayerTeam2 = te2.TeamID
     WHERE
       pl.PlayerID = $pr
     ");
@@ -224,6 +228,9 @@ function show_full_players($db,$pr)
     $tna = $db->data['TeamName'];
     $tco = $db->data['TeamColour'];
 
+	$tid2 = $db->data['TeamID2'];
+    $tna2 = $db->data['TeamName2'];
+    
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
 
@@ -281,7 +288,13 @@ function show_full_players($db,$pr)
     if($pla != "") echo "  <b>Abbrev: </b>$pfn $pla<br>\n";
     if($bor != "") echo "  <b>Born: </b>$bor<br>\n";
     if($pem != "") echo "  <b>Email: </b>$pem<br>\n";
-    if($tna != "") echo "  <b>Team: </b><a href=\"/teamdetails.php?teams=$tid&ccl_mode=1\">$tna</a><br>\n";
+	if($tna2 != "") {
+		$team2link = "; <a href=\"/teamdetails.php?teams=$tid2&ccl_mode=1\">$tna2</a>";
+	} else {
+		$team2link = "";
+	}
+	
+    if($tna != "") echo "  <b>Team: </b><a href=\"/teamdetails.php?teams=$tid&ccl_mode=1\">$tna</a>$team2link<br>\n";
     if($bat != "") echo "  <b>Batting Style: </b>$bat<br>\n";
     if($bow != "") echo "  <b>Bowling Style: </b>$bow<br>\n";   
     

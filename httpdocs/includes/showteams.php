@@ -364,7 +364,7 @@ function show_full_teams($db,$pr)
     ON 
       sb.game_id = sg.game_id
     WHERE
-      pl.PlayerTeam = $pr AND pl.isactive in ($active_status)
+      (pl.PlayerTeam = $pr OR pl.PlayerTeam2 = $pr) AND pl.isactive in ($active_status)
     GROUP BY
       pl.PlayerID, pl.PlayerLName, pl.PlayerFName
     ORDER BY
@@ -389,7 +389,7 @@ function show_full_teams($db,$pr)
     ON 
       sb.game_id = sg.game_id
     WHERE
-      pl.PlayerTeam = $pr AND pl.isactive in ($active_status)
+      (pl.PlayerTeam = $pr OR pl.PlayerTeam2 = $pr) AND pl.isactive in ($active_status)
     GROUP BY
       pl.PlayerID, pl.PlayerLName, pl.PlayerFName
     ORDER BY
@@ -556,7 +556,7 @@ function show_alpha_listing($db,$pr,$letter)
     echo "  <td align=\"right\"><b>Status</b></td>\n";
     echo "</tr>\n";
     
-    if ($db->Exists("SELECT pl.PlayerID, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub, pl.isactive FROM players pl INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE pl.PlayerLName LIKE '{$letter}%' AND pl.PlayerTeam = $pr ORDER BY pl.PlayerLName")) {
+    if ($db->Exists("SELECT pl.PlayerID, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub, pl.isactive FROM players pl INNER JOIN teams te ON pl.PlayerTeam = te.TeamID WHERE pl.PlayerLName LIKE '{$letter}%' AND (pl.PlayerTeam = $pr OR pl.PlayerTeam2 = $pr) ORDER BY pl.PlayerLName")) {
     $db->QueryRow("
     SELECT
       pl.PlayerID, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub, pl.picture, pl.picture1, pl.isactive
@@ -567,7 +567,7 @@ function show_alpha_listing($db,$pr,$letter)
     ON
       pl.PlayerTeam = te.TeamID
     WHERE
-      pl.PlayerLName LIKE '{$letter}%' AND pl.PlayerTeam = $pr
+      pl.PlayerLName LIKE '{$letter}%' AND (pl.PlayerTeam = $pr OR pl.PlayerTeam2 = $pr)
     ORDER BY
       pl.PlayerLName
     ");

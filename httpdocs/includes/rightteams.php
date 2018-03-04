@@ -599,7 +599,7 @@
 		ON
 		  g.season = n.SeasonID			  
 		WHERE 
-		 p.PlayerTeam = $pr AND ((s.season=$curr_premier AND g.league_id=1))
+		 (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND ((s.season=$curr_premier AND g.league_id=1))
 		GROUP BY 
 		  s.player_id
 		ORDER BY
@@ -666,7 +666,7 @@
 		ON
 		  g.season = n.SeasonID			  
 		WHERE 
-		  p.PlayerTeam = $pr AND ((s.season=$curr_premier AND g.league_id=1))
+		  (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND ((s.season=$curr_premier AND g.league_id=1))
 		GROUP BY 
 		  s.player_id
 		ORDER BY
@@ -742,7 +742,7 @@
 	ON
 	  g.season = n.SeasonID					  
 	WHERE 
-	  p.PlayerTeam = $pr AND ((b.season=$curr_premier AND g.league_id=1))
+	  (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND ((b.season=$curr_premier AND g.league_id=1))
 	GROUP BY 
 	  b.player_id
 	ORDER BY
@@ -807,7 +807,7 @@
 	ON
 	  g.season = n.SeasonID					  
 	WHERE 
-	  p.PlayerTeam = $pr AND ((b.season=$curr_premier AND g.league_id=1))
+	  (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND ((b.season=$curr_premier AND g.league_id=1))
 	GROUP BY 
 	  b.player_id
 	ORDER BY
@@ -899,7 +899,7 @@
 		ON
 		  g.season = n.SeasonID			  
 		WHERE 
-		 p.PlayerTeam = $pr AND (s.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
+		 (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND (s.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
 		GROUP BY 
 		  s.player_id
 		ORDER BY
@@ -965,7 +965,7 @@
 		ON
 		  g.season = n.SeasonID			  
 		WHERE 
-		  p.PlayerTeam = $pr AND (s.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
+		  (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND (s.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
 		GROUP BY 
 		  s.player_id
 		ORDER BY
@@ -1041,7 +1041,7 @@
 	ON
 	  g.season = n.SeasonID					  
 	WHERE 
-	  p.PlayerTeam = $pr AND (b.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
+	  (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND (b.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
 	GROUP BY 
 	  b.player_id
 	ORDER BY
@@ -1106,7 +1106,7 @@
 	ON
 	  g.season = n.SeasonID					  
 	WHERE 
-	  p.PlayerTeam = $pr AND (b.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
+	  (p.PlayerTeam = $pr OR p.PlayerTeam2 = $pr) AND (b.season=$curr_t20 AND (g.league_id=1 OR g.league_id=4))
 	GROUP BY 
 	  b.player_id
 	ORDER BY

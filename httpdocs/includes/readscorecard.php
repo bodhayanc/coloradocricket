@@ -205,7 +205,8 @@ function sync_cc_and_ccl_players($players, $ccl_club_id, $ccl_team_id) {
 			$ccl_player_first_name = $db->data['PlayerFName'];
 			$ccl_player_last_name = $db->data['PlayerLName'];
 			$ccl_player_email = $db->data['PlayerEmail'];
-			if($ccl_player_first_name != $player->getAttribute('player_first_name') || $ccl_player_last_name != $player->getAttribute('player_last_name')) {
+			$ccl_player_team = $db->data['PlayerTeam'];
+			if($ccl_player_first_name != $player->getAttribute('player_first_name') || $ccl_player_last_name != $player->getAttribute('player_last_name') || $ccl_player_team != $ccl_team_id) {
 				echo "Mismatch between CricClubs and CCL player information. Update CCL Data!!<br>";
 			}
 		} else {
