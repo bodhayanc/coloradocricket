@@ -2836,8 +2836,8 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     echo "  <tr>\n";
     echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
 
-    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">\n";
-    echo " <tr>\n";
+    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" class=\"tablehead\">\n";
+    echo " <tr class=\"colhead\">\n";
     echo "  <td align=\"left\" width=\"25%\"><b>Name</b></td>\n";
     echo "  <td align=\"right\" width=\"9%\"><b>I</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>Runs</b></td>\n";
@@ -2847,7 +2847,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     echo "  <td align=\"right\" width=\"9%\"><b>Ave</b></td>\n";
     echo "  <td align=\"right\" width=\"10%\"><b>BB</b></td>\n";
     echo "  <td align=\"right\" width=\"8%\"><b>Team</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>Team</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>Team 2</b></td>\n";
     echo " </tr>\n";
 
     if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLAbbrev, p.PlayerLName FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID INNER JOIN seasons n ON g.season = n.SeasonID WHERE g.league_id = 1 AND n.SeasonName LIKE '%{$statistics}%' GROUP BY p.PlayerID ORDER BY p.PlayerLName");
@@ -2953,9 +2953,9 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
 
 
     if($k % 2) {
-      echo "<tr class=\"trrow1\">\n";
-    } else {
       echo "<tr class=\"trrow2\">\n";
+    } else {
+      echo "<tr class=\"trrow1\">\n";
     }
 	$k = $k + 1;
     echo "  <td align=\"left\" width=\"25%\"><a href=\"players.php?players=$playerid&ccl_mode=1\" class=\"statistics\">";
