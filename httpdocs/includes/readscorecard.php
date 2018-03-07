@@ -196,6 +196,14 @@ function read_scorecard($db)
 //If it doesn't find the player, it adds the player as a new player in CCL DB.
 function sync_cc_and_ccl_players($players, $ccl_club_id, $ccl_team_id) {
 	global $db;
+	$parent_child_team_map = array(62 => 5, 70 => 5, 66 => 8, 73 => 8, 71 => 54, 72 => 54);
+	$ccl_parent_team_id = $ccl_team_id;
+	foreach ($parent_child_team_map as $child_team=>$parent_team) {
+		echo "parent team for $child_team is $parent_team<br>";
+		if($ccl_team_id == $child_team) {
+			$ccl_parent_team_id = $parent_team;
+		}
+	}	
 	foreach ($players as $player) {
 		if ($db->Exists("SELECT * FROM players WHERE cricclubs_player_id = " . $player->getAttribute('id'))) {
 			$db->QueryRow("SELECT * FROM players WHERE cricclubs_player_id = " . $player->getAttribute('id'));
@@ -204,14 +212,41 @@ function sync_cc_and_ccl_players($players, $ccl_club_id, $ccl_team_id) {
 			$ccl_player_id = $db->data['PlayerID'];
 			$ccl_player_first_name = $db->data['PlayerFName'];
 			$ccl_player_last_name = $db->data['PlayerLName'];
-			$ccl_player_email = $db->data['PlayerEmail'];
 			$ccl_player_team = $db->data['PlayerTeam'];
-			if($ccl_player_first_name != $player->getAttribute('player_first_name') || $ccl_player_last_name != $player->getAttribute('player_last_name') || $ccl_player_team != $ccl_team_id) {
-				echo "Mismatch between CricClubs and CCL player information. Update CCL Data!!<br>";
+			$ccl_player_team2 = $db->data['PlayerTeam2'];
+			$isactive = $db->data['isactive'];
+			if($isactive == 1) {
+				echo "Reactivating player $ccl_player_last_name, $ccl_player_first_name. Updating CCL Data!!<br>";
+				$db->Update("UPDATE players SET isactive = 0 WHERE PlayerID = $ccl_player_id");
+			}
+			if($ccl_player_first_name != $player->getAttribute('player_first_name') || $ccl_player_last_name != $player->getAttribute('player_last_name')) {
+				echo "Mismatch between CricClubs and CCL player name. Updating CCL Data!!<br>";
+				echo "ccl_player_first_name: $ccl_player_first_name<br>";
+				echo "ccl_player_last_name: $ccl_player_last_name<br>";
+				echo "CricClubs player_first_name: " . $player->getAttribute('player_first_name') . "<br>";
+				echo "CricClubs player_last_name: " . $player->getAttribute('player_last_name') . "<br>";
+				$db->Update("UPDATE players SET PlayerLName = '" . $player->getAttribute('player_last_name') . "', PlayerFName = '" . $player->getAttribute('player_first_name') . "' WHERE PlayerID = $ccl_player_id");
+			}
+			if($ccl_player_team != $ccl_team_id && $ccl_player_team2 != $ccl_team_id) {
+				echo "Mismatch between CricClubs and CCL player teams. Updating CCL Data!!<br>";
+				echo "ccl_player_team: $ccl_player_team<br>";
+				echo "ccl_player_team2: $ccl_player_team2<br>";
+				echo "ccl_team_id: $ccl_team_id<br>";
+				echo "ccl_parent_team_id: $ccl_parent_team_id<br>";
+				
+				if($ccl_parent_team_id == $ccl_team_id) {
+					$db->Update("UPDATE players SET PlayerTeam = '$ccl_parent_team_id' WHERE PlayerID = $ccl_player_id");
+				} else {
+					$db->Update("UPDATE players SET PlayerTeam = '$ccl_parent_team_id', PlayerTeam2 = '$ccl_team_id' WHERE PlayerID = $ccl_player_id");
+				}
 			}
 		} else {
 			echo "New Player " . $player->getAttribute('player_last_name')."','".$player->getAttribute('player_first_name') . "!!<br>";
-			$db->Insert("INSERT INTO players (PlayerLName,PlayerFName,PlayerClub,PlayerTeam,PlayerEmail,cricclubs_player_id) VALUES ('".$player->getAttribute('player_last_name')."','".$player->getAttribute('player_first_name')."','$ccl_club_id','$ccl_team_id','".$player->getAttribute('player_email_id')."','".$player->getAttribute('id')."'");
+			if($ccl_parent_team_id != $ccl_team_id) {
+				$db->Insert("INSERT INTO players (PlayerLName,PlayerFName,PlayerClub,PlayerTeam,PlayerTeam2,PlayerEmail,cricclubs_player_id) VALUES ('".$player->getAttribute('player_last_name')."','".$player->getAttribute('player_first_name')."','$ccl_club_id','$ccl_parent_team_id','$ccl_team_id','".$player->getAttribute('player_email_id')."','".$player->getAttribute('id')."')");
+			} else {
+				$db->Insert("INSERT INTO players (PlayerLName,PlayerFName,PlayerClub,PlayerTeam,PlayerEmail,cricclubs_player_id) VALUES ('".$player->getAttribute('player_last_name')."','".$player->getAttribute('player_first_name')."','$ccl_club_id','$ccl_team_id','".$player->getAttribute('player_email_id')."','".$player->getAttribute('id')."')");
+			}
 			if ($db->a_rows != -1) {
 				echo "<p>A new player has been added</p>\n";
 			} else {

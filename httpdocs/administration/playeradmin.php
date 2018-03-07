@@ -323,9 +323,8 @@ function show_search_menu($db,$search="")
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data['TeamID']));
-		$na = htmlentities(stripslashes($db->data['teamname']));
+		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 
