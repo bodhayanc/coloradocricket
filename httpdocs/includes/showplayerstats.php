@@ -2530,15 +2530,56 @@ function show_breakdown_batprogress($db,$pr)
 	} else {
 		$all_sel = "selected";
 	}
+	
+	$statistics = "";
+    if (isset($_GET['statistics'])) {
+		$statistics = $_GET['statistics'];
+	}
+	echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\" bordercolor=\"$bluebdr\" align=\"center\">\n";
+	echo "  <tr>\n";
+	echo "    <td bgcolor=\"$bluebdr\" class=\"whitemain\" height=\"23\">OPTIONS</td>\n";
+	echo "  </tr>\n";
+	echo "  <tr>\n";
+	echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\">\n";
+
+	
+	// List by season for schedule
+
+	echo "<p class=\"10px\">Season: ";
+	echo "    <select name=season onChange=\"gotosite(this.options[this.selectedIndex].value)\">\n";
+    echo "        <option value=\"\" selected>year</option>\n";
+    $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la INNER JOIN seasons se ON la.season = se.SeasonID GROUP BY la.season ORDER BY se.SeasonName DESC");
+    for ($x=0; $x<$db->rows; $x++) {
+        $db->GetRow($x);
+        $db->BagAndTag();
+        $sen = $db->data['SeasonName'];
+        $sid = $db->data['season'];
+      	$selected = "";
+        if ($statistics == $sid) {
+        	$selected = "selected";
+        }
+        echo "        <option value=\"$PHP_SELF?players=$pr&statistics=$sid&ccl_mode=6\" class=\"10px\" $selected>$sen</option>\n";
+    }
+    echo "        <option value=\"$PHP_SELF?players=$pr&statistics=&ccl_mode=6\" class=\"10px\">all</option>\n";
+    echo "    </select>\n";
+
+	echo "    </td>\n";
+	echo "  </tr>\n";
+	echo "</table><br>\n";
+
     echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
     echo "  <tr>\n";
     echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;CAREER BATTING/BOWLING - INNINGS BY INNINGS PROGRESS</td>\n";
-    echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" align=\"right\" height=\"23\">&nbsp;Game Type: ";
-	echo "    <select name=ccl_mode onChange=\"gotosite(this.options[this.selectedIndex].value)\">\n";
-    echo "        <option $all_sel value=\"$PHP_SELF?players=$pr&game_type=1,4&ccl_mode=6\">All</option>\n";
-    echo "        <option $prem_sel value=\"$PHP_SELF?players=$pr&game_type=1&ccl_mode=6\">Premier</option>\n";
-	echo "        <option $t20_sel value=\"$PHP_SELF?players=$pr&game_type=4&ccl_mode=6\">Twenty20</option>\n";
-	echo "    </td>\n";
+	if($statistics == "") {
+		echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" align=\"right\" height=\"23\">&nbsp;Game Type: ";
+		echo "    <select name=ccl_mode onChange=\"gotosite(this.options[this.selectedIndex].value)\">\n";
+		echo "        <option $all_sel value=\"$PHP_SELF?players=$pr&statistics=$statistics&game_type=1,4&ccl_mode=6\">All</option>\n";
+		echo "        <option $prem_sel value=\"$PHP_SELF?players=$pr&statistics=$statistics&game_type=1&ccl_mode=6\">Premier</option>\n";
+		echo "        <option $t20_sel value=\"$PHP_SELF?players=$pr&statistics=$statistics&game_type=4&ccl_mode=6\">Twenty20</option>\n";
+		echo "    </td>\n";
+	} else {
+		echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" align=\"right\" height=\"23\"/>";
+	}
     echo "  </tr>\n";
     echo "  <tr>\n";
     echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
@@ -2553,18 +2594,107 @@ function show_breakdown_batprogress($db,$pr)
     echo "  <td align=\"right\"><b>BOWLING</b></td>\n";
     echo " </tr>\n";
     
-	$dbb1->QueryRow("select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_batting_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr  
-					union
-					select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_bowling_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr order by game_date 
-				  ");
-    
-    $dbb1->BagAndTag();
+	if($statistics != "") {
+		$query = "select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_batting_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr AND g.season = $statistics 
+		union
+		select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_bowling_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr  AND g.season = $statistics order by game_date 
+	  ";
+	} else {
+		$query = "select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_batting_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr 
+		union select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_bowling_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr order by game_date";
+	}
+	if($dbb1->Exists($query)) {
+		$dbb1->QueryRow($query);
+	$dbb1->BagAndTag();
    
     for ($t=0; $t<$dbb1->rows; $t++) {
 		$dbb1->GetRow($t);
 		
         $game_id = $dbb1->data['game_id'];
-         
+
+		if($statistics != "") {
+			if ($db->Exists("SELECT   
+				  p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
+				  m.game_date, m.game_id, 
+				  t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+				  o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
+				  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
+				  g.GroundID, g.GroundName, 
+				  a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+				  w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
+				  b.assist, b.bowler, b.runs , b.notout    
+				FROM            
+				  scorecard_batting_details b   
+				LEFT JOIN
+				  scorecard_game_details m ON m.game_id = b.game_id 
+				LEFT JOIN
+				  players a ON a.PlayerID = b.assist
+				LEFT JOIN
+				  players p ON p.PlayerID = b.player_id
+				LEFT JOIN
+				  players w ON w.PlayerID = b.bowler      
+				LEFT JOIN
+				  teams t ON b.team = t.TeamID            
+				LEFT JOIN
+				  teams o ON b.opponent = o.TeamID  
+				LEFT JOIN
+				  grounds g ON g.GroundID = m.ground_id
+				LEFT JOIN
+				  howout h ON h.HowOutID = b.how_out              
+				WHERE 
+				  b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type) AND m.season = $statistics 
+				order by m.game_date  
+				")) {
+					$db->QueryRow("SELECT   
+							  p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
+							  m.game_date, m.game_id, 
+							  t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+							  o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
+							  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
+							  g.GroundID, g.GroundName, 
+							  a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+							  w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
+							  b.assist, b.bowler, b.runs , b.notout    
+							FROM            
+							  scorecard_batting_details b   
+							LEFT JOIN
+							  scorecard_game_details m ON m.game_id = b.game_id 
+							LEFT JOIN
+							  players a ON a.PlayerID = b.assist
+							LEFT JOIN
+							  players p ON p.PlayerID = b.player_id
+							LEFT JOIN
+							  players w ON w.PlayerID = b.bowler      
+							LEFT JOIN
+							  teams t ON b.team = t.TeamID            
+							LEFT JOIN
+							  teams o ON b.opponent = o.TeamID  
+							LEFT JOIN
+							  grounds g ON g.GroundID = m.ground_id
+							LEFT JOIN
+							  howout h ON h.HowOutID = b.how_out              
+							WHERE 
+							  b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type) AND m.season = $statistics
+							order by m.game_date ");
+				} else {
+				
+				$db->QueryRow("SELECT 
+								p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT( p.PlayerFName, 1 ) AS BatterFInitial, 
+								m.game_date, m.game_id, 
+								t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+								o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
+								0 AS HowOutID, 'dnb' AS HowOutName, 'dnb' AS HowOutAbbrev, 
+								g.GroundID, g.GroundName, '' AS AssistLName, '' AS AssistFName, '' AS AssistFInitial, '' AS BowlerLName, '' AS BowlerFName, '' AS BowlerFInitial, 0 AS Assist, 0 AS bowler, 0 AS runs, 0 AS notout
+								FROM scorecard_bowling_details b
+								LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id
+								LEFT JOIN players p ON p.PlayerID = b.player_id
+								LEFT JOIN teams t ON b.team = t.TeamID
+								LEFT JOIN teams o ON b.opponent = o.TeamID
+								LEFT JOIN grounds g ON g.GroundID = m.ground_id
+								WHERE b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type) AND m.season = $statistics
+								order by m.game_date");
+		   }
+		} else {
     if ($db->Exists("SELECT   
               p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
               m.game_date, m.game_id, 
@@ -2594,8 +2724,7 @@ function show_breakdown_batprogress($db,$pr)
             LEFT JOIN
               howout h ON h.HowOutID = b.how_out              
             WHERE 
-              b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type)
-       
+              b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type) 
 			order by m.game_date  
             ")) {
 				$db->QueryRow("SELECT   
@@ -2647,7 +2776,7 @@ function show_breakdown_batprogress($db,$pr)
 							WHERE b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type)
 				           	order by m.game_date");
        }
-    
+		}
     $db->BagAndTag();
         
     for ($r=0; $r<$db->rows; $r++) {
@@ -2780,7 +2909,17 @@ function show_breakdown_batprogress($db,$pr)
     echo " </tr>\n";
     }
 }
+	}
 //Get total runs
+if($statistics != null) {
+	$db->QueryRow("SELECT SUM( s.runs ) AS Runs FROM scorecard_batting_details s
+		INNER JOIN 
+		  scorecard_game_details g
+		ON
+		  s.game_id = g.game_id
+		WHERE 
+		  g.league_id IN($game_type) AND s.player_id = $pr AND g.season = $statistics");
+} else {
 	$db->QueryRow("SELECT SUM( s.runs ) AS Runs FROM scorecard_batting_details s
 		INNER JOIN 
 		  scorecard_game_details g
@@ -2788,9 +2927,22 @@ function show_breakdown_batprogress($db,$pr)
 		  s.game_id = g.game_id
 		WHERE 
 		  g.league_id IN($game_type) AND s.player_id = $pr");
+}
 	$total = $db->data['Runs'];
 	
 //Get total bowling stats
+if($statistics != null) {
+	$db->QueryRow("SELECT 
+		SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets
+		FROM 
+		  scorecard_bowling_details b 
+		INNER JOIN 
+		  scorecard_game_details g
+		ON
+		  b.game_id = g.game_id 
+		WHERE 
+		  g.league_id IN($game_type) AND b.player_id = $pr AND g.season = $statistics");
+} else {
 	$db->QueryRow("SELECT 
 		SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets
 		FROM 
@@ -2801,7 +2953,7 @@ function show_breakdown_batprogress($db,$pr)
 		  b.game_id = g.game_id 
 		WHERE 
 		  g.league_id IN($game_type) AND b.player_id = $pr");
-			  
+}
 	$bnum = $db->data['Balls']; 
 	$bovers = Round(($bnum / 6), 2); 
 	$bfloor = floor($bovers); 
