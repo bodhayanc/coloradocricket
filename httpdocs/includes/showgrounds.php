@@ -329,8 +329,8 @@ function show_full_grounds($db,$pr)
     }
     
     // Lowest Team Score
-    if ($db->Exists("SELECT ga.game_id, ga.ground_id, ga.game_date, tt.team, tt.total, tt.wickets, te.TeamAbbrev FROM scorecard_total_details tt INNER JOIN teams te ON tt.team=te.TeamID INNER JOIN scorecard_game_details ga ON ga.game_id=tt.game_id WHERE ga.ground_id=$pr AND ga.forfeit=0 AND ga.cancelled=0 ORDER BY tt.total LIMIT 1")) {
-    $db->QueryRow("SELECT ga.game_id, ga.ground_id, ga.game_date, tt.team, tt.total, tt.wickets, te.TeamAbbrev FROM scorecard_total_details tt INNER JOIN teams te ON tt.team=te.TeamID INNER JOIN scorecard_game_details ga ON ga.game_id=tt.game_id WHERE ga.ground_id=$pr AND ga.forfeit=0 AND ga.cancelled=0 ORDER BY tt.total LIMIT 1");
+    if ($db->Exists("SELECT ga.game_id, ga.ground_id, ga.game_date, tt.team, tt.total, tt.wickets, te.TeamAbbrev FROM scorecard_total_details tt INNER JOIN teams te ON tt.team=te.TeamID INNER JOIN scorecard_game_details ga ON ga.game_id=tt.game_id WHERE ga.ground_id=$pr AND ga.forfeit=0 AND ga.cancelled=0 AND ga.cancelledplay=0 AND tt.overs > 2 ORDER BY tt.total LIMIT 1")) {
+    $db->QueryRow("SELECT ga.game_id, ga.ground_id, ga.game_date, tt.team, tt.total, tt.wickets, te.TeamAbbrev FROM scorecard_total_details tt INNER JOIN teams te ON tt.team=te.TeamID INNER JOIN scorecard_game_details ga ON ga.game_id=tt.game_id WHERE ga.ground_id=$pr AND ga.forfeit=0 AND ga.cancelled=0 AND ga.cancelledplay=0 AND tt.overs > 2 ORDER BY tt.total LIMIT 1");
     $db->BagAndTag();
     
     $fid = $db->data['game_id'];

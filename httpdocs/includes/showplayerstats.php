@@ -67,7 +67,7 @@ function show_full_players_stats($db, $pr)
     echo "</tr>\n";
     echo "</table>\n";
 
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln - Statistics</b></td>\n";
         echo "  </tr>\n";
@@ -94,7 +94,7 @@ function show_full_players_stats($db, $pr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;PLAYER PROFILE</td>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"right\">&nbsp;CCL ID: $plid</td>\n";
@@ -156,7 +156,7 @@ function show_full_players_stats($db, $pr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
@@ -261,7 +261,7 @@ function show_breakdown_year($db,$pr)
     echo "</tr>\n";
     echo "</table>\n";
 
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
         echo "  </tr>\n";
@@ -293,7 +293,7 @@ function show_breakdown_year($db,$pr)
         $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BATTING ANALYSIS BY SEASON</td>\n";
         echo "  </tr>\n";
@@ -443,7 +443,7 @@ function show_breakdown_year($db,$pr)
         $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BOWLING ANALYSIS BY SEASON</td>\n";
         echo "  </tr>\n";
@@ -575,7 +575,7 @@ function show_breakdown_year($db,$pr)
 // Statistics Selector                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
@@ -692,7 +692,7 @@ function show_breakdown_opponent($db,$pr)
     echo "</tr>\n";
     echo "</table>\n";
     
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
         echo "  </tr>\n";
@@ -725,7 +725,7 @@ function show_breakdown_opponent($db,$pr)
         $teamAbbrevs[$i] = $db->data['TeamAbbrev'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BATTING ANALYSIS BY OPPONENT</td>\n";
         echo "  </tr>\n";
@@ -913,7 +913,7 @@ function show_breakdown_opponent($db,$pr)
 		$teamAbbrevs[$i] = $db->data['TeamAbbrev'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BOWLING ANALYSIS BY OPPONENT</td>\n";
         echo "  </tr>\n";
@@ -1043,7 +1043,7 @@ function show_breakdown_opponent($db,$pr)
 // Statistics Selector                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
@@ -1160,7 +1160,7 @@ function show_breakdown_ground($db,$pr)
     echo "</tr>\n";
     echo "</table>\n";
     
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
         echo "  </tr>\n";
@@ -1192,7 +1192,7 @@ function show_breakdown_ground($db,$pr)
         $grounds[$db->data['GroundID']] = $db->data['GroundName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BATTING ANALYSIS BY GROUND</td>\n";
         echo "  </tr>\n";
@@ -1376,7 +1376,7 @@ function show_breakdown_ground($db,$pr)
         $grounds[$db->data['GroundID']] = $db->data['GroundName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BOWLING ANALYSIS BY GROUND</td>\n";
         echo "  </tr>\n";
@@ -1508,7 +1508,7 @@ function show_breakdown_ground($db,$pr)
 // Statistics Selector                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
@@ -1625,7 +1625,7 @@ function show_breakdown_batpos($db, $pr)
     echo "</tr>\n";
     echo "</table>\n";
     
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
         echo "  </tr>\n";
@@ -1657,7 +1657,7 @@ function show_breakdown_batpos($db, $pr)
         $positions[$db->data['BatPosID']] = $db->data['BatPosName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BATTING ANALYSIS BY BATTING POSITION</td>\n";
         echo "  </tr>\n";
@@ -1805,7 +1805,7 @@ function show_breakdown_batpos($db, $pr)
         $positions[$db->data['BatPosID']] = $db->data['BatPosName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BOWLING ANALYSIS BY BOWLING POSITION</td>\n";
         echo "  </tr>\n";
@@ -1936,7 +1936,7 @@ function show_breakdown_batpos($db, $pr)
 // Statistics Selector                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
@@ -2055,7 +2055,7 @@ function show_breakdown_innno($db,$pr)
     echo "</tr>\n";
     echo "</table>\n";
     
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
         echo "  </tr>\n";
@@ -2087,7 +2087,7 @@ function show_breakdown_innno($db,$pr)
         $inns[$db->data['InnID']] = $db->data['InnName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BATTING ANALYSIS BY INNINGS NUMBER</td>\n";
         echo "  </tr>\n";
@@ -2236,7 +2236,7 @@ function show_breakdown_innno($db,$pr)
         $inns[$db->data['InnID']] = $db->data['InnName'];
     }
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BOWLING ANALYSIS BY INNINGS NUMBER</td>\n";
         echo "  </tr>\n";
@@ -2368,7 +2368,7 @@ function show_breakdown_innno($db,$pr)
 // Statistics Selector                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
@@ -2490,7 +2490,7 @@ function show_breakdown_batprogress($db,$pr)
     echo "</tr>\n";
     echo "</table>\n";
     
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
         echo "  </tr>\n";
@@ -2516,10 +2516,29 @@ function show_breakdown_batprogress($db,$pr)
 // CCL Batting Statistics Box by Progression                                                                                        //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                
-    echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+	$game_type = "1,4";
+    if (isset($_GET['game_type'])) {
+		$game_type = $_GET['game_type'];
+	}
+	$all_sel = "";
+	$prem_sel = "";
+	$t20_sel = "";
+	if($game_type == "1") {
+		$prem_sel = "selected";
+	} else if($game_type == "4") {
+		$t20_sel = "selected";
+	} else {
+		$all_sel = "selected";
+	}
+    echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
     echo "  <tr>\n";
     echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;CAREER BATTING/BOWLING - INNINGS BY INNINGS PROGRESS</td>\n";
+    echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" align=\"right\" height=\"23\">&nbsp;Game Type: ";
+	echo "    <select name=ccl_mode onChange=\"gotosite(this.options[this.selectedIndex].value)\">\n";
+    echo "        <option $all_sel value=\"$PHP_SELF?players=$pr&game_type=1,4&ccl_mode=6\">All</option>\n";
+    echo "        <option $prem_sel value=\"$PHP_SELF?players=$pr&game_type=1&ccl_mode=6\">Premier</option>\n";
+	echo "        <option $t20_sel value=\"$PHP_SELF?players=$pr&game_type=4&ccl_mode=6\">Twenty20</option>\n";
+	echo "    </td>\n";
     echo "  </tr>\n";
     echo "  <tr>\n";
     echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
@@ -2534,9 +2553,9 @@ function show_breakdown_batprogress($db,$pr)
     echo "  <td align=\"right\"><b>BOWLING</b></td>\n";
     echo " </tr>\n";
     
-	$dbb1->QueryRow("select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_batting_details b where g.game_id=b.game_id and  b.player_id = $pr  
+	$dbb1->QueryRow("select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_batting_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr  
 					union
-					select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_bowling_details b where g.game_id=b.game_id and  b.player_id = $pr order by game_date 
+					select DISTINCT g.game_id, g.game_date from scorecard_game_details g, scorecard_bowling_details b where g.game_id=b.game_id AND g.league_id in ($game_type) AND b.player_id = $pr order by game_date 
 				  ");
     
     $dbb1->BagAndTag();
@@ -2575,7 +2594,7 @@ function show_breakdown_batprogress($db,$pr)
             LEFT JOIN
               howout h ON h.HowOutID = b.how_out              
             WHERE 
-              b.player_id = $pr and b.game_id = $game_id
+              b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type)
        
 			order by m.game_date  
             ")) {
@@ -2608,7 +2627,7 @@ function show_breakdown_batprogress($db,$pr)
 			            LEFT JOIN
 			              howout h ON h.HowOutID = b.how_out              
 			            WHERE 
-			              b.player_id = $pr and b.game_id = $game_id           
+			              b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type)
 						order by m.game_date ");
 			} else {
          	
@@ -2625,7 +2644,7 @@ function show_breakdown_batprogress($db,$pr)
 							LEFT JOIN teams t ON b.team = t.TeamID
 							LEFT JOIN teams o ON b.opponent = o.TeamID
 							LEFT JOIN grounds g ON g.GroundID = m.ground_id
-							WHERE b.player_id = $pr and b.game_id = $game_id
+							WHERE b.player_id = $pr and b.game_id = $game_id and m.league_id in ($game_type)
 				           	order by m.game_date");
        }
     
@@ -2760,7 +2779,65 @@ function show_breakdown_batprogress($db,$pr)
      
     echo " </tr>\n";
     }
-}    
+}
+//Get total runs
+	$db->QueryRow("SELECT SUM( s.runs ) AS Runs FROM scorecard_batting_details s
+		INNER JOIN 
+		  scorecard_game_details g
+		ON
+		  s.game_id = g.game_id
+		WHERE 
+		  g.league_id IN($game_type) AND s.player_id = $pr");
+	$total = $db->data['Runs'];
+	
+//Get total bowling stats
+	$db->QueryRow("SELECT 
+		SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets
+		FROM 
+		  scorecard_bowling_details b 
+		INNER JOIN 
+		  scorecard_game_details g
+		ON
+		  b.game_id = g.game_id 
+		WHERE 
+		  g.league_id IN($game_type) AND b.player_id = $pr");
+			  
+	$bnum = $db->data['Balls']; 
+	$bovers = Round(($bnum / 6), 2); 
+	$bfloor = floor($bovers); 
+
+	if($bovers == $bfloor + 0.17) { 
+		$scove = $bfloor + 0.1; 
+	} else 
+		if($bovers == $bfloor + 0.33) { 
+			$scove = $bfloor + 0.2; 
+	} else 
+		if($bovers == $bfloor + 0.5) { 
+			$scove = $bfloor + 0.3;        
+	} else 
+		if($bovers == $bfloor + 0.67) { 
+			$scove = $bfloor + 0.4;        
+	} else 
+		if($bovers == $bfloor + 0.83) { 
+			$scove = $bfloor + 0.5; 
+	} else { 
+			$scove = $bfloor; 
+	}
+	$scmai = $db->data['Maidens'];
+	$scbru = $db->data['BRuns'];
+	$scwic = $db->data['Wickets'];
+	if($scove > 0) {
+		$final_bowling = $scove."-".$scmai."-".$scbru."-".$scwic;
+	} else {
+		$final_bowling = "<center> - </center>";
+	}
+	
+    echo " <tr>\n";
+	echo "  <td colspan=4 align=\"right\"><b>Total:</b></td>";
+    echo "  <td align=\"right\">$total</td>";
+    echo "  <td align=\"right\">$final_bowling</td>";
+    echo " </tr>\n";
+
     echo "</table>\n";
 
 
@@ -2772,7 +2849,7 @@ function show_breakdown_batprogress($db,$pr)
 // Statistics Selector                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
@@ -2929,7 +3006,7 @@ function show_breakdown_bowlprogress($db,$pr)
     echo "</tr>\n";
     echo "</table>\n";
     
-        echo "<table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
         echo "  </tr>\n";
@@ -2956,7 +3033,7 @@ function show_breakdown_bowlprogress($db,$pr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;CAREER BOWLING - INNINGS BY INNINGS PROGRESS</td>\n";
         echo "  </tr>\n";
@@ -3118,7 +3195,7 @@ function show_breakdown_bowlprogress($db,$pr)
 // Statistics Selector                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        echo "<table width=\"500\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
         echo "  <tr>\n";
         echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
         echo "  </tr>\n";
