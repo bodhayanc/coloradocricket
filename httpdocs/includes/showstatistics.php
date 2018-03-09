@@ -294,7 +294,7 @@ function show_statistics_byseason($db,$statistics)
 
 
 
-function show_statistics_team($db,$statistics,$team)
+function show_statistics_team($db,$statistics,$team,$status)
 {
         global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -311,39 +311,7 @@ function show_statistics_team($db,$statistics,$team)
         $teamcolour[$db->data['TeamID']] = $db->data['TeamColour'];
     }
                 
-        if (!$db->Exists("
-    SELECT 
-      g.season, n.SeasonName, 
-      COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, SUM( s.notout) AS Notouts, 
-      s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName 
-    FROM 
-      scorecard_batting_details s
-    INNER JOIN
-      players p 
-    ON 
-      s.player_id = p.PlayerID AND p.isActive = 0
-    INNER JOIN
-      scorecard_game_details g
-    ON
-      s.game_id = g.game_id
-    INNER JOIN
-      seasons n 
-    ON
-      g.season = n.SeasonID
-    WHERE 
-      (g.league_id=1 OR g.league_id = 4) AND (p.PlayerTeam = $team OR p.PlayerTeam2 = $team) AND n.SeasonName LIKE '%{$statistics}%' 
-    GROUP BY 
-      s.player_id        
-        ")) {
-
-    
-    echo " There are no statistics for this year for this team.\n";
-            
-                return;
-
-        } else {
-
-    echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
+	echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "  <tr>\n";
     echo "    <td align=\"left\" valign=\"top\">\n";
 
@@ -369,10 +337,10 @@ function show_statistics_team($db,$statistics,$team)
 
         echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\" bordercolor=\"#{$teamcolour[$team]}\" align=\"center\">\n";
         echo "  <tr>\n";
-        echo "    <td bgcolor=\"#{$teamcolour[$team]}\" class=\"whitemain\" height=\"23\">OPTIONS</td>\n";
+        echo "    <td bgcolor=\"#{$teamcolour[$team]}\" class=\"whitemain\" height=\"23\" colspan=\"2\">OPTIONS</td>\n";
         echo "  </tr>\n";
         echo "  <tr>\n";
-        echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\">\n";
+        echo "  <td class=\"trrow1\" valign=\"top\" style=\"border:0\" class=\"main\">\n";
 
         
         // List by season for schedule
@@ -400,9 +368,63 @@ function show_statistics_team($db,$statistics,$team)
         echo "    </select></p>\n";
 
         echo "    </td>\n";
+		echo "    <td class=\"trrow1\" valign=\"top\" style=\"border:0\" class=\"main\" align=\"right\">\n";
+		$sel = "";
+		$sel1 = "";
+		$sel2 = "";
+		if (isset($_GET['status'])) {
+			if($_GET['status'] == "2") {
+				$sel = "selected";
+			}
+			else if($_GET['status'] == "0" || $_GET['status'] == "") {
+				$sel1 = "selected";
+			}
+			else if($_GET['status'] == "1") {
+				$sel2 = "selected";
+			}
+		} else {
+			$sel1 = "selected";
+		}
+		echo "PLAYER STATUS: <select id=\"status\" name=\"status\" onChange=\"gotosite(this.options[this.selectedIndex].value); \">";
+		echo"<option value=\"$PHP_SELF?statistics=$statistics&team=$team&ccl_mode=2&status=0,1\" $sel>All</option>";
+		echo"<option value=\"$PHP_SELF?statistics=$statistics&team=$team&ccl_mode=2&status=0\" $sel1>Active</option>";
+		echo"<option value=\"$PHP_SELF?statistics=$statistics&team=$team&ccl_mode=2&status=1\" $sel2>Inactive</option>";
+		echo"<\select>";
+		echo "    </td>\n";
+		
         echo "  </tr>\n";
         echo "</table><br>\n";
-        
+
+        if (!$db->Exists("
+    SELECT 
+      g.season, n.SeasonName, 
+      COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, MAX( s.runs ) AS HS, SUM( s.notout) AS Notouts, 
+      s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName 
+    FROM 
+      scorecard_batting_details s
+    INNER JOIN
+      players p 
+    ON 
+      s.player_id = p.PlayerID AND p.isActive IN($status)
+    INNER JOIN
+      scorecard_game_details g
+    ON
+      s.game_id = g.game_id
+    INNER JOIN
+      seasons n 
+    ON
+      g.season = n.SeasonID
+    WHERE 
+      (g.league_id=1 OR g.league_id = 4) AND (p.PlayerTeam = $team OR p.PlayerTeam2 = $team) AND n.SeasonName LIKE '%{$statistics}%' 
+    GROUP BY 
+      s.player_id        
+        ")) {
+
+    echo " There are no statistics for this year for this team.\n";
+            
+
+        } else {
+
     //////////////////////////////////////////////////////////////////////////////////////////
     // BATTING STATISTICS
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -440,7 +462,7 @@ function show_statistics_team($db,$statistics,$team)
             INNER JOIN
               players p 
             ON 
-              s.player_id = p.PlayerID AND p.isActive=0
+              s.player_id = p.PlayerID AND p.isActive IN ($status)
             INNER JOIN 
               scorecard_game_details g
             ON
@@ -664,7 +686,7 @@ function show_statistics_team($db,$statistics,$team)
     INNER JOIN 
       players p 
     ON 
-      b.player_id = p.PlayerID AND p.isActive = 0
+      b.player_id = p.PlayerID AND p.isActive IN ($status)
     INNER JOIN 
       scorecard_game_details g
     ON
@@ -798,11 +820,11 @@ function show_statistics_team($db,$statistics,$team)
     echo "</tr>\n";
     echo "</table>\n";
 
+
+        }
     echo "    </td>\n";
     echo "  </tr>\n";
     echo "</table>\n";
-
-        }
 }
 
 
@@ -3075,7 +3097,7 @@ if (isset($_GET['ccl_mode'])) {
 		show_statistics_byseason($db,$_GET['statistics']);
 		break;
 	case 2:
-		show_statistics_team($db,$_GET['statistics'],$_GET['team']);
+		show_statistics_team($db,$_GET['statistics'],$_GET['team'],isset($_GET['status']) ? $_GET['status'] : '0');
 		break;
 	case 3:
 		show_statistics_mostruns($db,isset($_GET['statistics']) ? $_GET['statistics'] : '',$_GET['sort'],$_GET['sort2'],$_GET['option'],isset($_GET['team']) ? $_GET['team'] : '');
