@@ -122,16 +122,15 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
             $itit = $db->data['title'];
             $ipic = $db->data['picture1'];
             $ipri = $db->data['price'];
-            $idet = $db->data[item_details];
+            $idet = $db->data['item_details'];
 
-            $ina = $db->data[contact_name];
-            $iph = $db->data[contact_phone];
-            $iem = $db->data[contact_email];
-            $iad = $db->data[added_on];
+            $ina = $db->data['contact_name'];
+            $iph = $db->data['contact_phone'];
+            $iem = $db->data['contact_email'];
+            $iad = $db->data['added_on'];
 
             $iac = $db->data['isactive'];
-            $iap = $db->data[isapproved];
-
+            
            // output article
 
         if($i % 2) {

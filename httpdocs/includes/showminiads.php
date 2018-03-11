@@ -52,7 +52,7 @@ function show_mini_ads($db)
 			} else {
 			  $subject = $tit;
 			}
-                                echo "  <td align=\"left\"><a href=\"items.php?&id=$pid&ccl_mode=1\" target=\"_new\">$tit</a><span class=\"9px\"> - $ $pri";
+                                echo "  <td align=\"left\"><a href=\"/items.php?&id=$pid&ccl_mode=1\" target=\"_new\">$tit</a><span class=\"9px\"> - $ $pri";
 				//echo "  <td align=\"left\"><a href=\"/board/ads_item.php?id=$pid\" target=\"_new\">$tit</a><span class=\"9px\"> - $ $pri";
 				echo "  </span></td>\n";
 
@@ -60,7 +60,7 @@ function show_mini_ads($db)
 				}
 				
 				echo "<tr class=\"trrow2\">\n";
-                                echo "  <td align=\"left\"><img src=\"/images/icons/icon_arrows.gif\"><a href=\"items.php\" target=\"_new\">Go to classifieds</a></td>\n";
+                                echo "  <td align=\"left\"><img src=\"/images/icons/icon_arrows.gif\"><a href=\"/items.php\" target=\"_new\">Go to classifieds</a></td>\n";
 				//echo "  <td align=\"left\"><img src=\"/images/icons/icon_arrows.gif\"><a href=\"/board/adverts.php\" target=\"_new\">Go to classifieds</a></td>\n";
 				echo "</tr>\n";
 				

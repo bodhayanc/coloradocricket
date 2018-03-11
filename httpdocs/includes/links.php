@@ -36,6 +36,9 @@
 	  "submit-scorecard" => array("submit","Submit a Scorecard"),
 	  //"chaukapremierscorecard" => array("cclpremierchaukaiframe.php","Chauka Premier Scorecard"),
 	  //"chaukat20scorecard" => array("CCL_T20_chaukaiframe.php","Chauka T20 Scorecard"),
+	  "cricclubspremierscorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=46&clubId=5135","CricClubs Premier Scorecard"),
+	  "cricclubst20scorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=47&clubId=5135","CricClubs T20 Scorecard"),
+	  "cricclubspracticescorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=45&clubId=5135","CricClubs Practice Scorecard"),
 	  "scorecards" => array("scorecard.php?schedule=72&ccl_mode=1","League Scorecards"),
 //20140315           "crichq-scorecards" => array("/www.crichq.com/plugins/comp_mgmt/organisations/53?width=598&height=400&border=1","CricHQ Scorecards"),
 	  "ladder" => array("ladder.php?ladder=72&ccl_mode=1","League Standings"),
@@ -116,6 +119,10 @@
                 //echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
                 echo "  <td bgcolor=\"$LEFT_SECTION_BK_COLOR\" height=\"20\" class=\"whitemain\">\n";
                 echo "  &nbsp;$value[1]\n";
+                echo "  </td>\n";
+                echo "</tr>\n";
+              } else if(strpos($value[0], "cricclubs") !== false) {
+                echo "  &nbsp;- <a href=\"/$value[0]\" class=\"menu\" target=\"_blank\">$value[1]</a>\n";
                 echo "  </td>\n";
                 echo "</tr>\n";
               } else {

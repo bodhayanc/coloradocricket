@@ -158,7 +158,7 @@ function show_players_listing($db)
               echo "<tr class=\"trrow1\">\n";
             }
 
-        echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
+        echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pfn $pln</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
         if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
         if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
@@ -1609,7 +1609,7 @@ function search_players($db,$search="")
               echo "<tr class=\"trrow1\">\n";
             }
 
-        echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
+        echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pfn $pln</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
         if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
         if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
@@ -1650,7 +1650,7 @@ function search_players($db,$search="")
           echo "<tr class=\"trrow1\">\n";
         }
 
-        echo "    <td width=\"100%\"><a href=\"teams.php?teams=$id&ccl_mode=1\">$na</a>&nbsp;\n";
+        echo "    <td width=\"100%\"><a href=\"teamdetails.php?teams=$id&ccl_mode=1\">$na</a>&nbsp;\n";
         echo "    </td>\n";
         echo "  </tr>\n";
     }
@@ -1700,7 +1700,6 @@ function search_players($db,$search="")
         $db->GetRow($i);
         $id = htmlentities(stripslashes($db->data['TeamID']));
         $na = htmlentities(stripslashes($db->data['TeamName']));
-        $di = htmlentities(stripslashes($db->data['TeamDirections']));
 
         // output article
 
@@ -1710,7 +1709,7 @@ function search_players($db,$search="")
           echo "<tr class=\"trrow2\">\n";
         }
 
-        echo "    <td width=\"100%\"><a href=\"teams.php?teams=$id&ccl_mode=1\"><b>$na</b></a>&nbsp;\n";
+        echo "    <td width=\"100%\"><a href=\"teamdetails.php?teams=$id&ccl_mode=1\"><b>$na</b></a>&nbsp;\n";
         echo "    </td>\n";
         echo "  </tr>\n";
     }
@@ -1844,7 +1843,7 @@ function show_alpha_listing($db,$letter)
               echo "<tr class=\"trrow1\">\n";
             }
 
-        echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pln, $pfn</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
+        echo "    <td width=\"100%\"><a href=\"$PHP_SELF?players=$id&ccl_mode=1\">$pfn $pln</a> <span class=\"9px\">($pte)</span>&nbsp;\n";
         if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
         if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
         echo "    </td>\n";
@@ -1901,7 +1900,7 @@ if (isset($_GET['ccl_mode'])) {
 		show_full_players($db,$_GET['players']);
 		break;
 	case 2:
-		search_players($db,$_GET['search']);
+		search_players($db,trim($_GET['search']));
 		break;
 	case 3:
 		show_alpha_listing($db,$_GET['letter']);
