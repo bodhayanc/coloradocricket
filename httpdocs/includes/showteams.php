@@ -373,7 +373,7 @@ function show_full_teams($db,$pr)
     
     $db->QueryRow("
     SELECT
-      pl.PlayerID, pl.PlayerFName, pl.PlayerLName, pl.PlayerEmail, pl.PlayerClub, pl.picture, pl.picture1, MAX(sg.game_date) AS lastdate
+      pl.PlayerID, pl.PlayerFName, pl.PlayerLName, pl.PlayerLAbbrev, pl.PlayerEmail, pl.PlayerClub, pl.picture, pl.picture1, MAX(sg.game_date) AS lastdate
     FROM
       players pl
     INNER JOIN
@@ -391,7 +391,7 @@ function show_full_teams($db,$pr)
     WHERE
       (pl.PlayerTeam = $pr OR pl.PlayerTeam2 = $pr) AND pl.isactive in ($active_status)
     GROUP BY
-      pl.PlayerID, pl.PlayerLName, pl.PlayerFName
+      pl.PlayerID, pl.PlayerLName, pl.PlayerLName
     ORDER BY
       pl.PlayerLName
     ");
@@ -409,6 +409,7 @@ function show_full_teams($db,$pr)
 	
 	        $fn = $db->data['PlayerFName'];
 	        $ln = $db->data['PlayerLName'];
+	        $labbr = $db->data['PlayerLAbbrev'];
 	        $em = $db->data['PlayerEmail'];
 	        $pi = $db->data['PlayerID'];
 	        $pc = $db->data['picture'];
@@ -420,7 +421,7 @@ function show_full_teams($db,$pr)
 	        
 	        
 	        
-        		echo "<div style=\"display: inline-block;width: auto;height: 100px;border: 1px solid #DCDCDC;background-color: #ECECEC;min-width: 85px; margin: 1px;\" align=center valign=top><center><a  href=\"/players.php?players=$pi&ccl_mode=1\"><img alt='$ln, $fn' align=center width=50 height=67 border=1 src=\"/uploadphotos/players/$pc\"><br>$ln,<br>$fn</a></center></div>";
+        		echo "<div style=\"display: inline-block;width: auto;height: 100px;border: 1px solid #DCDCDC;background-color: #ECECEC;min-width: 85px; margin: 1px;\" align=center valign=top><center><a  href=\"/players.php?players=$pi&ccl_mode=1\"><img alt='$ln, $fn' align=center width=50 height=67 border=1 src=\"/uploadphotos/players/$pc\"><br>" . ($labbr != null ? $labbr : $ln) . ",<br>$fn</a></center></div>";
         	
 		}
         

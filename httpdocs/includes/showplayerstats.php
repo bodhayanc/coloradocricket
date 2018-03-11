@@ -52,6 +52,36 @@ function show_full_players_stats($db, $pr)
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
 
+	$db->QueryRow("
+    SELECT DISTINCT te.TeamID TeamID, te.TeamName TeamName
+    FROM
+      teams te
+    INNER JOIN
+      scorecard_batting_details b
+    ON
+      b.team = te.TeamID
+    WHERE
+      b.player_id = $pr
+    ");
+    $db->BagAndTag();
+	$tmpldfr = "";
+	$teamnum = 0;
+	for ($t=0; $t<$db->rows; $t++) {
+		$db->GetRow($t);
+		$tpid = $db->data['TeamID'];
+		$tpna = $db->data['TeamName'];
+		if($tpid != $tid && $tpid != $tid2) {
+			$tmpldfr .= "<a href=\"/teamdetails.php?teams=$tpid&ccl_mode=1\">$tpna</a>; ";
+			$teamnum++;
+		}
+	}
+	$tmpldfr = rtrim($tmpldfr,"; ");
+	if($teamnum > 1) {
+		$tmpldfrStr = "Teams played for:";
+	} else {
+		$tmpldfrStr = "Team played for:";
+	}
+
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
     echo "  <td align=\"left\" valign=\"top\">\n";
@@ -131,11 +161,14 @@ function show_full_players_stats($db, $pr)
     if($cna != "") echo "  <b>Club: </b><a href=\"/clubs.php?clubs=$cid&ccl_mode=1\">$cna</a><br>\n";
     if($tna2 != "") {
 		$team2link = "; <a href=\"/teams.php?teams=$tid2&ccl_mode=1\">$tna2</a>";
+		$teams = "Teams";
 	} else {
 		$team2link = "";
+		$teams = "Team";
 	}
 	
-    if($tna != "") echo "  <b>Team: </b><a href=\"/teams.php?teams=$tid&ccl_mode=1\">$tna</a>$team2link<br><br>\n";
+    if($tna != "") echo "  <b>Current $teams: </b><a href=\"/teams.php?teams=$tid&ccl_mode=1\">$tna</a>$team2link<br>\n";
+    if($tmpldfr != "") echo "<b>$tmpldfrStr </b>$tmpldfr<br>\n";
     if($bat != "") echo "  <b>Batting Style: </b>$bat<br>\n";
     if($bow != "") echo "  <b>Bowling Style: </b>$bow<br>\n";
     if($spr != "") echo "  <p>$spr..</p>\n";

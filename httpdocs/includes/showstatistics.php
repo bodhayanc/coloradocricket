@@ -615,9 +615,9 @@ function show_statistics_team($db,$statistics,$team,$status)
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";
+      echo "$fname $lname";
     } elseif ($fname != "" && $lname == "") {
       echo "$fname\n";
     } else {
@@ -791,9 +791,9 @@ function show_statistics_team($db,$statistics,$team,$status)
      if($lname == "" && $fname == "") {
       echo "";
      } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
      } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";
+      echo "$fname $lname";
      } elseif ($fname != "" && $lname == "") {
       echo "$fname\n";
     } else {
@@ -1177,9 +1177,9 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";    
+      echo "$fname $lname";    
     } else {
       echo "$fname\n";
     }           
@@ -1542,9 +1542,9 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";    
+      echo "$fname $lname";    
     } else {
       echo "$fname\n";
     }           
@@ -1777,9 +1777,9 @@ function show_statistics_bestinnings($db,$statistics,$option,$team)
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";
+      echo "$fname $lname";
     } else {
       echo "$fname\n";
     }           
@@ -2126,9 +2126,9 @@ function show_statistics_bowling($db,$statistics,$sort,$direction,$option, $team
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";    
+      echo "$fname $lname";    
     } else {
       echo "$fname\n";
     }           
@@ -2484,9 +2484,9 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
     if($lname != "" && $fname == "") {
       echo $lname;
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";    
+      echo "$fname $lname";    
     } else {
       echo "$fname\n";
     }           
@@ -2711,9 +2711,9 @@ function show_statistics_bestbowling($db,$statistics,$option,$team)
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";
+      echo "$fname $lname";
     } else {
       echo "$fname\n";
     }           
@@ -2985,9 +2985,9 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "" && $labbr != "") {
-      echo "$init $labbr";
+      echo "$fname $labbr";
     } elseif($fname != "" && $lname != "" && $labbr == "") {
-      echo "$init $lname";
+      echo "$fname $lname";
     } else {
       echo "$fname\n";
     }           
@@ -3044,7 +3044,7 @@ function show_statistics_allrounders($db,$statistics,$option,$team)
     if($lname == "" && $fname == "") {
       echo "";
     } elseif($fname != "" && $lname != "") {
-      echo "$init $lname";
+      echo "$fname $lname";
     } else {
       echo "$fname\n";
     }           
