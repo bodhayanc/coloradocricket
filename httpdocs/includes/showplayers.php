@@ -1709,7 +1709,7 @@ function search_players($db,$search="")
           echo "<tr class=\"trrow2\">\n";
         }
 
-        echo "    <td width=\"100%\"><a href=\"teamdetails.php?teams=$id&ccl_mode=1\"><b>$na</b></a>&nbsp;\n";
+        echo "    <td width=\"100%\"><a href=\"teamdetails.php?teams=$id&ccl_mode=1\">$na</a>&nbsp;\n";
         echo "    </td>\n";
         echo "  </tr>\n";
     }

@@ -231,7 +231,7 @@ function show_search_menu($db,$search="")
 			  echo "<tr class=\"trrow2\">\n";
 			}
 
-		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
+		echo "    <td align=\"left\">$pfn $pln <span class=\"9px\">($pte)</span>&nbsp;\n";
 		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
 		if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
 		echo "    </td>\n";
@@ -450,7 +450,7 @@ function show_byletter_menu($db,$letter)
 			  echo "<tr class=\"trrow2\">\n";
 			}
 
-		echo "    <td align=\"left\">$pln, $pfn <span class=\"9px\">($pte)</span>&nbsp;\n";
+		echo "    <td align=\"left\">$pfn $pln<span class=\"9px\">($pte)</span>&nbsp;\n";
 		if ($db->data['picture'] != "") echo "<img src=\"/images/icons/icon_picture.gif\">\n";
 		if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">\n";
 		if ($db->data['isactive'] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
@@ -486,9 +486,8 @@ function show_byletter_menu($db,$letter)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data['TeamID']));
-		$na = htmlentities(stripslashes($db->data['teamname']));
+		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 
@@ -650,7 +649,7 @@ function show_byteam_menu($db,$team,$teamname)
 
 			// output
 
-			echo "	<td align=\"left\">$pln, $pfn";
+			echo "	<td align=\"left\">$pfn $pln";
 			if ($db->data['picture'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture.gif\">";
 			if ($db->data['picture1'] != "") echo "&nbsp;<img src=\"/images/icons/icon_picture_action.gif\">";
 			if ($db->data['isactive'] != 0) echo "&nbsp;<font color=\"red\"><b>Inactive</b></font>\n";
@@ -690,9 +689,8 @@ function show_byteam_menu($db,$team,$teamname)
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
 		$id = htmlentities(stripslashes($db->data['TeamID']));
-		$na = htmlentities(stripslashes($db->data['teamname']));
+		$na = htmlentities(stripslashes($db->data['TeamName']));
 		$ta = htmlentities(stripslashes($db->data['TeamAbbrev']));
-		$di = htmlentities(stripslashes($db->data['TeamDirections']));
 
 		// output article
 
@@ -1151,7 +1149,7 @@ function do_update_category($db,$id,$PlayerLName,$PlayerFName,$CCPlayerID,$Playe
 	$db->Update("UPDATE players SET PlayerLName='$pln',PlayerFName='$pfn',cricclubs_player_id='$ccid',PlayerClub='$pcl',PlayerTeam='$pte',PlayerTeam2='$pte2',PlayerEmail='$pem',shortprofile='$spr',IsUmpire='$ump',IsL1Umpire='$l1ump',IsPresident='$pre',IsVicePresident='$vpr',IsSecretary='$sec',IsTreasurer='$tre',IsCaptain='$cap',IsViceCaptain='$vca',Born='$bor',BattingStyle='$bat',BowlingStyle='$bow',isactive='$ip'$setpic$setpic1 WHERE PlayerID=$id");
 		echo "<p>You have now updated that player.</p>\n";
 		echo "<p>&laquo; <a href=\"main.php?SID=$SID&action=$action\">return to the players listing</a></p>\n";
-		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sedit&id=$id\">update $pln some more</a></p>\n";
+		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sedit&id=$id\">update $pfn $pln some more</a></p>\n";
 }
 
 
@@ -1219,7 +1217,7 @@ if(isset($_GET['doit'])) {
 
 switch($do) {
 case "search":
-	show_search_menu($db,$_GET['search']);
+	show_search_menu($db,trim($_GET['search']));
 	break;
 case "byteam":
 	show_byteam_menu($db,$_GET['team'],$_GET['teamname']);
