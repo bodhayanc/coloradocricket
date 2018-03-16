@@ -2625,6 +2625,7 @@ function show_breakdown_batprogress($db,$pr)
     echo "  <td align=\"left\"><b>HOW DISMISSED</b></td>\n";
     echo "  <td align=\"right\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\"><b>BOWLING</b></td>\n";
+    echo "  <td align=\"center\"><b>MOM</b></td>\n";
     echo " </tr>\n";
     
 	if($statistics != "") {
@@ -2648,7 +2649,7 @@ function show_breakdown_batprogress($db,$pr)
 		if($statistics != "") {
 			if ($db->Exists("SELECT   
 				  p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
-				  m.game_date, m.game_id, 
+				  m.game_date, m.game_id, m.mom, m.mom2,
 				  t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
 				  o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 				  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
@@ -2680,7 +2681,7 @@ function show_breakdown_batprogress($db,$pr)
 				")) {
 					$db->QueryRow("SELECT   
 							  p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
-							  m.game_date, m.game_id, 
+							  m.game_date, m.game_id, m.mom, m.mom2,
 							  t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
 							  o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 							  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
@@ -2713,7 +2714,7 @@ function show_breakdown_batprogress($db,$pr)
 				
 				$db->QueryRow("SELECT 
 								p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT( p.PlayerFName, 1 ) AS BatterFInitial, 
-								m.game_date, m.game_id, 
+								m.game_date, m.game_id, m.mom, m.mom2,
 								t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
 								o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 								0 AS HowOutID, 'dnb' AS HowOutName, 'dnb' AS HowOutAbbrev, 
@@ -2730,7 +2731,7 @@ function show_breakdown_batprogress($db,$pr)
 		} else {
     if ($db->Exists("SELECT   
               p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
-              m.game_date, m.game_id, 
+              m.game_date, m.game_id, m.mom, m.mom2,
               t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
               o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
               h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
@@ -2762,7 +2763,7 @@ function show_breakdown_batprogress($db,$pr)
             ")) {
 				$db->QueryRow("SELECT   
 			              p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
-			              m.game_date, m.game_id, 
+			              m.game_date, m.game_id, m.mom, m.mom2,
 			              t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
 			              o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 			              h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
@@ -2795,7 +2796,7 @@ function show_breakdown_batprogress($db,$pr)
          	
             $db->QueryRow("SELECT 
 				            p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT( p.PlayerFName, 1 ) AS BatterFInitial, 
-				            m.game_date, m.game_id, 
+				            m.game_date, m.game_id, m.mom, m.mom2,
 				            t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
 				            o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 				            0 AS HowOutID, 'dnb' AS HowOutName, 'dnb' AS HowOutAbbrev, 
@@ -2836,6 +2837,8 @@ function show_breakdown_batprogress($db,$pr)
         $ain = $db->data['AssistFInitial'];   
         $run = $db->data['runs'];
         $not = $db->data['notout'];
+        $mom = $db->data['mom'];
+        $mom2 = $db->data['mom2'];
 
     
     if($t % 2) {
@@ -2936,7 +2939,12 @@ function show_breakdown_batprogress($db,$pr)
     	$final_bowling = "<center> - </center>";
     }
     echo $final_bowling."</td>";   
-        
+    
+	if($pr == $mom || $pr == $mom2) {
+		echo "	<td align=\"center\"><font color=\"blue\"><b>Yes</b></font></td>";
+	} else {
+		echo "	<td align=\"center\">-</td>";
+	}
    // End
      
     echo " </tr>\n";
