@@ -238,7 +238,7 @@ class mysql_class{
 			if ($field=="") {
 				foreach($this->data as $key => $val) {
 					$val = htmlentities($val);
-					$val = preg_replace("~[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}~", "<a href=\"mailto:\\0\">\\0</a>",$val);
+					$val = preg_replace("~[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}~", "<a href=\"mailto:\\0\">\\0</a>",$val);
 					$val = preg_replace("/\[link=(\S+?)\](.*?)\[\/link\]/is", "<a href=\"\\1\" class=\"news\">\\2</a>",$val);
 					$val = preg_replace("/\[img=(\S+?)\]/is", "<img src=\"\\1\">",$val);					
 					$val = preg_replace("/\[i\](.*?)\[\/i\]/is", "<i>\\1</i>",$val);

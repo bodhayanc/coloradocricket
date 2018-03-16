@@ -439,12 +439,13 @@ function show_statistics_team($db,$statistics,$team,$status)
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
     echo "  <td align=\"left\" width=\"2%\"><b>#</b></td>\n";
-    echo "  <td align=\"left\" width=\"30%\"><b>NAME</b></td>\n";
+    echo "  <td align=\"left\" width=\"25%\"><b>NAME</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>I</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"12%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\" width=\"9%\"><b>HS</b></td>\n";
-    echo "  <td align=\"right\" width=\"12%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"9%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"9%\"><b>SR</b></td>\n";
     echo "  <td align=\"center\" width=\"8%\"><b>100</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>50</b></td>\n";
     echo "  <td align=\"center\" width=\"5%\"><b>Ct</b></td>\n";
@@ -455,7 +456,7 @@ function show_statistics_team($db,$statistics,$team,$status)
             SELECT 
               g.season, n.SeasonName, 
               COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, 
-              SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 )) ) AS Average, 
+              SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 )) ) AS Average, SUM( s.runs ) * 100 / SUM( s.balls ) AS StrikeRate, 
               s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev 
             FROM 
               scorecard_batting_details s
@@ -511,11 +512,18 @@ function show_statistics_team($db,$statistics,$team,$status)
 
     if($db->data['Average'] != "") {
       $average = $db->data['Average'];
+	  $average = number_format($average, 2);
     } else {
       $average = "-";
     }
 
-	
+    if($db->data['StrikeRate'] != "") {
+      $sr = $db->data['StrikeRate'];
+	  $sr = number_format($sr, 2);
+    } else {
+      $sr = "-";
+    }
+
     // Get Hundreds
     
     if (!$subdb->Exists("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN seasons s ON b.season = s.SeasonID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (g.league_id=1 OR g.league_id = 4) AND b.player_id = $playerid AND s.SeasonName LIKE '%{$statistics}%' AND b.runs >= 100")){
@@ -610,7 +618,7 @@ function show_statistics_team($db,$statistics,$team,$status)
     echo ($r+1);
     echo "  </td>\n";
     
-    echo "  <td align=\"left\" width=\"30%\"><a href=\"players.php?players=$playerid&ccl_mode=1\" class=\"statistics\">";
+    echo "  <td align=\"left\" width=\"25%\"><a href=\"players.php?players=$playerid&ccl_mode=1\" class=\"statistics\">";
 
     if($lname == "" && $fname == "") {
       echo "";
@@ -629,11 +637,12 @@ function show_statistics_team($db,$statistics,$team,$status)
 	
     echo "  <td align=\"right\" width=\"6%\">$scinn</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$notouts</td>\n";
-    echo "  <td align=\"right\" width=\"12%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"10%\">$scrun</td>\n";
     echo "  <td align=\"right\" width=\"9%\">$schig";
     if($scnot == "1") echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"12%\">$average</td>\n";
+    echo "  <td align=\"right\" width=\"9%\">$average</td>\n";
+    echo "  <td align=\"right\" width=\"9%\">$sr</td>\n";
     echo "  <td align=\"center\" width=\"8%\">$schun</td>\n";
     echo "  <td align=\"center\" width=\"6%\">$scfif</td>\n";
     echo "  <td align=\"center\" width=\"5%\">$sccat</td>\n";
@@ -981,12 +990,13 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
     echo "  <td align=\"left\" width=\"2%\"><b>#</b></td>\n";
-    echo "  <td align=\"left\" width=\"30%\"><b>NAME</b></td>\n";
+    echo "  <td align=\"left\" width=\"25%\"><b>NAME</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>I</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>NO</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>HS</b></td>\n";
-    echo "  <td align=\"right\" width=\"9%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>SR</b></td>\n";
     echo "  <td align=\"center\" width=\"5%\"><b>100</b></td>\n";
     echo "  <td align=\"center\" width=\"5%\"><b>50</b></td>\n";
     echo "  <td align=\"center\" width=\"5%\"><b>Ct</b></td>\n";
@@ -995,13 +1005,13 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     echo "  <td align=\"right\" width=\"8%\"><b>TEAM 2</b></td>\n";
     echo " </tr>\n";
 
-    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID INNER JOIN seasons n ON g.season = n.SeasonID WHERE n.SeasonName LIKE '%{$statistics}%' AND (g.league_id=1 OR g.league_id=4) GROUP BY s.player_id HAVING (SUM( s.runs )) >=25 ORDER BY $sort DESC, $sort2 DESC");
-    if($option == "allcareer")  $db->Query("SELECT g.season, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID WHERE (g.league_id=1 OR g.league_id=4)  GROUP BY s.player_id HAVING (SUM( s.runs )) >=100 ORDER BY $sort DESC, $sort2 DESC");
+    if($option == "byseason")   $db->Query("SELECT g.season, n.SeasonName, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, SUM( s.runs ) * 100 / SUM( s.balls) AS StrikeRate, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID INNER JOIN seasons n ON g.season = n.SeasonID WHERE n.SeasonName LIKE '%{$statistics}%' AND (g.league_id=1 OR g.league_id=4) GROUP BY s.player_id HAVING (SUM( s.runs )) >=25 ORDER BY $sort DESC, $sort2 DESC");
+    if($option == "allcareer")  $db->Query("SELECT g.season, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, SUM( s.runs ) * 100 / SUM( s.balls) AS StrikeRate, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID WHERE (g.league_id=1 OR g.league_id=4)  GROUP BY s.player_id HAVING (SUM( s.runs )) >=100 ORDER BY $sort DESC, $sort2 DESC");
     if($option == "teamcareer") {
 		if($statistics == "") {
-			$db->Query("SELECT g.season, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID WHERE (p.PlayerTeam = $team OR p.PlayerTeam2 = $team) AND (g.league_id=1 OR g.league_id=4)  GROUP BY s.player_id HAVING (COUNT( s.player_id )) >=3 ORDER BY $sort DESC, $sort2 DESC");
+			$db->Query("SELECT g.season, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, SUM( s.runs ) * 100 / SUM( s.balls) AS StrikeRate, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID WHERE (p.PlayerTeam = $team OR p.PlayerTeam2 = $team) AND (g.league_id=1 OR g.league_id=4)  GROUP BY s.player_id HAVING (COUNT( s.player_id )) >=3 ORDER BY $sort DESC, $sort2 DESC");
 		} else {
-			$db->Query("SELECT g.season, n.SeasonName, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID INNER JOIN seasons n ON g.season = n.SeasonID WHERE (p.PlayerTeam = $team OR p.PlayerTeam2 = $team) AND n.SeasonName LIKE '%{$statistics}%' AND (g.league_id=1 OR g.league_id=4)  GROUP BY s.player_id HAVING (COUNT( s.player_id )) >=3 ORDER BY $sort DESC, $sort2 DESC");
+			$db->Query("SELECT g.season, n.SeasonName, t.TeamID TeamID, t.TeamAbbrev TeamAbbrev, t2.TeamID TeamID2, t2.TeamAbbrev TeamAbbrev2, COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / ((COUNT( s.player_id ) - SUM( s.notout )) - SUM(( s.how_out=1 ))) AS Average, SUM( s.runs ) * 100 / SUM( s.balls) AS StrikeRate, s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev FROM scorecard_batting_details s INNER JOIN players p ON s.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON s.game_id = g.game_id INNER JOIN teams t ON p.PlayerTeam = t.TeamID LEFT OUTER JOIN teams t2 ON p.PlayerTeam2 = t2.TeamID INNER JOIN seasons n ON g.season = n.SeasonID WHERE (p.PlayerTeam = $team OR p.PlayerTeam2 = $team) AND n.SeasonName LIKE '%{$statistics}%' AND (g.league_id=1 OR g.league_id=4)  GROUP BY s.player_id HAVING (COUNT( s.player_id )) >=3 ORDER BY $sort DESC, $sort2 DESC");
 		}
 	}
     $db->BagAndTag();
@@ -1037,8 +1047,16 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
 
     if($db->data['Average'] != "") {
       $average = $db->data['Average'];
+	  $average = number_format($average, 2);
     } else {
       $average = "-";
+    }
+
+    if($db->data['StrikeRate'] != "") {
+      $sr = $db->data['StrikeRate'];
+	  $sr = number_format($sr, 2);
+    } else {
+      $sr = "-";
     }
 
     // Get Hundreds
@@ -1172,7 +1190,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     echo "  <td align=\"left\" width=\"2%\">";
     echo ($r+1);
     echo "  </td>\n";
-    echo "  <td align=\"left\" width=\"30%\"><a href=\"players.php?players=$playerid&ccl_mode=1\" class=\"statistics\">";
+    echo "  <td align=\"left\" width=\"25%\"><a href=\"players.php?players=$playerid&ccl_mode=1\" class=\"statistics\">";
 
     if($lname == "" && $fname == "") {
       echo "";
@@ -1191,7 +1209,8 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
     echo "  <td align=\"right\" width=\"6%\">$schig";
     if($scnot == "1") echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$average</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$average</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$sr</td>\n";
     echo "  <td align=\"center\" width=\"5%\">$schun</td>\n";
     echo "  <td align=\"center\" width=\"5%\">$scfif</td>\n";
     echo "  <td align=\"center\" width=\"5%\">$sccat</td>\n";
