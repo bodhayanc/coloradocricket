@@ -234,7 +234,8 @@ function show_full_players($db,$pr)
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
 
-	$db->QueryRow("
+	$tmpldfr = "";
+	if ($db->Exists("
     SELECT DISTINCT te.TeamID TeamID, te.TeamName TeamName
     FROM
       teams te
@@ -244,24 +245,35 @@ function show_full_players($db,$pr)
       b.team = te.TeamID
     WHERE
       b.player_id = $pr
-    ");
-    $db->BagAndTag();
-	$tmpldfr = "";
-	$teamnum = 0;
-	for ($t=0; $t<$db->rows; $t++) {
-		$db->GetRow($t);
-		$tpid = $db->data['TeamID'];
-		$tpna = $db->data['TeamName'];
-		if($tpid != $tid && $tpid != $tid2) {
-			$tmpldfr .= "<a href=\"/teamdetails.php?teams=$tpid&ccl_mode=1\">$tpna</a>; ";
-			$teamnum++;
+    ")) {
+		$db->QueryRow("
+		SELECT DISTINCT te.TeamID TeamID, te.TeamName TeamName
+		FROM
+		  teams te
+		INNER JOIN
+		  scorecard_batting_details b
+		ON
+		  b.team = te.TeamID
+		WHERE
+		  b.player_id = $pr
+		");
+		$db->BagAndTag();
+		$teamnum = 0;
+		for ($t=0; $t<$db->rows; $t++) {
+			$db->GetRow($t);
+			$tpid = $db->data['TeamID'];
+			$tpna = $db->data['TeamName'];
+			if($tpid != $tid && $tpid != $tid2) {
+				$tmpldfr .= "<a href=\"/teamdetails.php?teams=$tpid&ccl_mode=1\">$tpna</a>; ";
+				$teamnum++;
+			}
 		}
-	}
-	$tmpldfr = rtrim($tmpldfr,"; ");
-	if($teamnum > 1) {
-		$tmpldfrStr = "Teams played for:";
-	} else {
-		$tmpldfrStr = "Team played for:";
+		$tmpldfr = rtrim($tmpldfr,"; ");
+		if($teamnum > 1) {
+			$tmpldfrStr = "Teams played for:";
+		} else {
+			$tmpldfrStr = "Team played for:";
+		}
 	}
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
@@ -999,22 +1011,34 @@ function show_full_players($db,$pr)
     
     }
     
-    if($game_date_bat > $game_date_bowl) {
+    if(isset($game_date_bat) && isset($game_date_bowl) && $game_date_bat > $game_date_bowl) {
     	$gid = $gid_bowl;
     }
     else{
-    	$gid = $gid_bat;
+		if(isset($gid_bat)) {
+			$gid = $gid_bat;
+		} else {
+			$gid = '';
+		}
     }
     
-	if($game_date_bat == '') {
-    	$gid = $gid_bowl;
+	if(!isset($game_date_bat) || $game_date_bat == '') {
+		if(isset($gid_bowl)) {
+			$gid = $gid_bowl;
+		} else {
+			$gid = '';
+		}
     }
-	if($game_date_bowl == '') { 
-    	$gid = $gid_bat;
+	if(!isset($game_date_bowl) || $game_date_bowl == '') {
+		if(isset($gid_bat)) {
+			$gid = $gid_bat;
+		} else {
+			$gid = '';
+		}
     }
     
    
-    if($game_date_bat <= $game_date_bowl || $game_date_bowl == ''){
+    if(isset($game_date_bat) && isset($game_date_bowl) && $game_date_bat <= $game_date_bowl || !isset($game_date_bowl) || $game_date_bowl == ''){
 	    if ($db->Exists("SELECT b.player_id, ga.game_date as FirstGame, ga.game_id, ga.hometeam, ga.awayteam, t1.TeamAbbrev AS AwayTeam, t2.TeamAbbrev AS HomeTeam FROM scorecard_game_details ga LEFT JOIN scorecard_batting_details b ON b.game_id = ga.game_id LEFT JOIN teams t1 ON ga.awayteam = t1.TeamID LEFT JOIN teams t2 ON ga.hometeam = t2.TeamID WHERE ga.game_id= $gid AND b.player_id=$pr AND (ga.league_id = 1 OR ga.league_id=4) ORDER BY FirstGame LIMIT 1")) {
 	    $db->QueryRow("SELECT b.player_id, ga.game_date as FirstGame, ga.game_id, ga.hometeam, ga.awayteam, t1.TeamAbbrev AS AwayTeam, t2.TeamAbbrev AS HomeTeam FROM scorecard_game_details ga LEFT JOIN scorecard_batting_details b ON b.game_id = ga.game_id LEFT JOIN teams t1 ON ga.awayteam = t1.TeamID LEFT JOIN teams t2 ON ga.hometeam = t2.TeamID WHERE ga.game_id= $gid AND b.player_id=$pr AND (ga.league_id = 1 OR ga.league_id=4) ORDER BY FirstGame LIMIT 1");
 	    $db->BagAndTag();

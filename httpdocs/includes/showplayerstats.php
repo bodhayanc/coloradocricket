@@ -52,36 +52,48 @@ function show_full_players_stats($db, $pr)
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
 
-	$db->QueryRow("
-    SELECT DISTINCT te.TeamID TeamID, te.TeamName TeamName
-    FROM
-      teams te
-    INNER JOIN
-      scorecard_batting_details b
-    ON
-      b.team = te.TeamID
-    WHERE
-      b.player_id = $pr
-    ");
-    $db->BagAndTag();
 	$tmpldfr = "";
-	$teamnum = 0;
-	for ($t=0; $t<$db->rows; $t++) {
-		$db->GetRow($t);
-		$tpid = $db->data['TeamID'];
-		$tpna = $db->data['TeamName'];
-		if($tpid != $tid && $tpid != $tid2) {
-			$tmpldfr .= "<a href=\"/teamdetails.php?teams=$tpid&ccl_mode=1\">$tpna</a>; ";
-			$teamnum++;
+	if ($db->Exists("
+		SELECT DISTINCT te.TeamID TeamID, te.TeamName TeamName
+		FROM
+		  teams te
+		INNER JOIN
+		  scorecard_batting_details b
+		ON
+		  b.team = te.TeamID
+		WHERE
+		  b.player_id = $pr
+    ")) {
+		$db->QueryRow("
+		SELECT DISTINCT te.TeamID TeamID, te.TeamName TeamName
+		FROM
+		  teams te
+		INNER JOIN
+		  scorecard_batting_details b
+		ON
+		  b.team = te.TeamID
+		WHERE
+		  b.player_id = $pr
+		");
+		$db->BagAndTag();
+		$tmpldfr = "";
+		$teamnum = 0;
+		for ($t=0; $t<$db->rows; $t++) {
+			$db->GetRow($t);
+			$tpid = $db->data['TeamID'];
+			$tpna = $db->data['TeamName'];
+			if($tpid != $tid && $tpid != $tid2) {
+				$tmpldfr .= "<a href=\"/teamdetails.php?teams=$tpid&ccl_mode=1\">$tpna</a>; ";
+				$teamnum++;
+			}
+		}
+		$tmpldfr = rtrim($tmpldfr,"; ");
+		if($teamnum > 1) {
+			$tmpldfrStr = "Teams played for:";
+		} else {
+			$tmpldfrStr = "Team played for:";
 		}
 	}
-	$tmpldfr = rtrim($tmpldfr,"; ");
-	if($teamnum > 1) {
-		$tmpldfrStr = "Teams played for:";
-	} else {
-		$tmpldfrStr = "Team played for:";
-	}
-
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
     echo "  <td align=\"left\" valign=\"top\">\n";
