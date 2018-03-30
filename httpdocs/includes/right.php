@@ -1,10 +1,19 @@
 <!-- Show Mini Points Table -->
+<?php
+$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+$db->SelectDB($dbcfg['db']);
+$db->QueryRow("SELECT * FROM seasons WHERE SeasonName LIKE '%Premier%' ORDER BY SeasonID DESC LIMIT 1");
+$db->BagAndTag();
 
+$sid = $db->data['SeasonID'];
+$snm = $db->data['SeasonName'];
+$yr = preg_split("/[\s,]+/", $snm)[0];
+?>
 <table width="95%" cellspacing="0" cellpadding="0" align="center">
  <tr>
-  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;2017 Premier League</td>
+  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Premier League</td>
   <td bgcolor="#D0C7C0" width="2px" height="23">&nbsp;</td>
-  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;2017 Twenty20</td>
+  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Twenty20</td>
  </tr>
  <tr>
   <td width="50%" valign="top">
@@ -23,9 +32,9 @@
 
 <table width="95%" cellspacing="0" cellpadding="0" align="center">
  <tr>
-  <td width="50%" bgcolor="<?=$greenbdr?>" class="whitemain" height="23">&nbsp;NEXT GAMES (2017)</td>
+  <td width="50%" bgcolor="<?=$greenbdr?>" class="whitemain" height="23">&nbsp;NEXT GAMES</td>
   <td bgcolor="#D0C7C0" width="2px" height="23">&nbsp;</td>
-  <td width="50%" bgcolor="<?=$greenbdr?>" class="whitemain" height="23">&nbsp;LATEST RESULTS (2017)</td>
+  <td width="50%" bgcolor="<?=$greenbdr?>" class="whitemain" height="23">&nbsp;LATEST RESULTS</td>
  </tr>
  <tr>
   <td width="50%" valign="top" class="main">

@@ -12,11 +12,12 @@ function show_miniladdertwenty($db)
         } else {
 
 //                $db->Query("SELECT * FROM seasons WHERE SeasonName LIKE '%2011 Twenty%' ORDER BY SeasonName DESC");
-                   $db->Query("SELECT * FROM seasons WHERE SeasonName LIKE '%2017 Twenty%' ORDER BY SeasonName DESC");
-                for ($i=0; $i<$db->rows; $i++) {
-                        $db->GetRow($i);
-                        $seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
-                }
+			$db->QueryRow("SELECT * FROM seasons WHERE SeasonName LIKE '%Twenty20%' ORDER BY SeasonID DESC LIMIT 1");
+			$db->BagAndTag();
+
+			$sid = $db->data['SeasonID'];
+			$snm = $db->data['SeasonName'];
+			$yr = preg_split("/[\s,]+/", $snm)[0];
 
 		echo "  <table border-right=\"1\" width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\" bordercolor=\"#DE9C06\">\n";
 
@@ -40,7 +41,7 @@ function show_miniladdertwenty($db)
 				INNER JOIN
 				  teams tm ON lad.team = tm.TeamID
 				WHERE
-					season=73 ORDER BY lad.rank_sort ASC
+					season=$sid ORDER BY lad.rank_sort ASC
 		")) {
 			echo "<tr class=\"trrow2\">\n";
 			echo "  <td align=\"left\" colspan=\"4\"><p>No games recorded at this time.</p></td>\n";
@@ -57,7 +58,7 @@ function show_miniladdertwenty($db)
 				INNER JOIN
 				  teams tm ON lad.team = tm.TeamID
 				WHERE
-					season=73 ORDER BY lad.rank_sort ASC
+					season=$sid ORDER BY lad.rank_sort ASC
 			");
 
 

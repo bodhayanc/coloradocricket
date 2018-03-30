@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-function show_schedule_listing($db,$schedule,$id,$pr,$team,$week,$game_id)
+function show_schedule_listing($db)
 {
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
@@ -85,20 +85,66 @@ function show_schedule($db,$schedule)
 {
         global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
-        if (!$db->Exists("SELECT * FROM scorecard_game_details")) {
+        if (!$db->Exists("SELECT t.* FROM teams t, scorecard_game_details s WHERE (s.awayteam = t.TeamID OR s.hometeam = t.TeamID) AND s.season=$schedule AND (s.league_id = 1 OR league_id = 4) GROUP BY t.TeamID ORDER BY TeamName")) {
+			$db->Query("SELECT * FROM seasons ORDER BY SeasonID");
+			for ($i=0; $i<$db->rows; $i++) {
+					$db->GetRow($i);
+					$seasons[$db->data['SeasonID']] = $db->data['SeasonName'];
+			}
 
-        echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
-        echo "  <tr>\n";
-        echo "    <td align=\"left\" valign=\"top\">\n";
-        echo "    <a href=\"/index.php\">Home</a> &raquo; <font class=\"10px\">Scorecards</font></p>\n";
-        echo "    <p>There are currently no scheduled games in the database.</p>\n";
-        echo "    <p>&laquo; <a href=\"/index.php\">back to homepage</a></p>\n";
-        echo "    </td>\n";
-        echo "  </tr>\n";
-        echo "</table>\n";
+			echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
+            echo "  <tr>\n";
+            echo "    <td align=\"left\" valign=\"top\">\n";
 
-                return;
+            echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
+            echo "<tr>\n";
+            echo "  <td align=\"left\" valign=\"top\">\n";
+            echo "  <font class=\"10px\">You are here:</font> <a href=\"/index.php\">Home</a> &raquo; <a href=\"/scorecard.php\">Scorecards</a> &raquo; <font class=\"10px\">{$seasons[$schedule]}</font></p>\n";
+            echo "  </td>\n";
+            //echo "  <td align=\"right\" valign=\"top\">\n";
+            //require ("navtop.php");
+            //echo "  </td>\n";
+            echo "</tr>\n";
+            echo "</table>\n";
+			echo "<b class=\"16px\">{$seasons[$schedule]} Scorecards</b><br><br>\n";
+			echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\" bordercolor=\"$bluebdr\" align=\"center\">\n";
+			echo "  <tr>\n";
+			echo "    <td bgcolor=\"$bluebdr\" class=\"whitemain\" height=\"23\">OPTIONS</td>\n";
+			echo "  </tr>\n";
+			echo "  <tr>\n";
+			echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\">\n";
 
+			// List by season for scorecard
+
+            echo "<p class=\"10px\">Season: ";
+            echo "<select name=ccl_mode onChange=\"gotosite(this.options[this.selectedIndex].value)\">\n";
+            echo "<option value=\"\" selected>year</option>\n";
+
+            $db->Query("SELECT ga.season, se.SeasonName FROM scorecard_game_details ga INNER JOIN seasons se ON ga.season = se.SeasonID WHERE ga.league_id = 1 OR league_id = 4 GROUP BY ga.season ORDER BY se.SeasonName DESC");
+            for ($x=0; $x<$db->rows; $x++) {
+                $db->GetRow($x);
+                $db->BagAndTag();
+                $sen = $db->data['SeasonName'];
+                $sid = $db->data['season'];
+
+            echo "    <option value=\"$PHP_SELF?schedule=$sid&ccl_mode=1\" class=\"10px\">$sen</option>\n";
+            }
+            echo "    </select></p>\n";
+
+
+            echo "    </td>\n";
+            echo "  </tr>\n";
+            echo "</table><br>\n";
+			echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
+			echo "  <tr>\n";
+			echo "    <td align=\"left\" valign=\"top\">\n";
+			echo "    <p>No games recorded in {$seasons[$schedule]}.</p>\n";
+			echo "    </td>\n";
+			echo "  </tr>\n";
+			echo "</table>\n";
+			echo "    </td>\n";
+			echo "  </tr>\n";
+			echo "</table>\n";
         } else {
 
                 $db->Query("SELECT * FROM seasons ORDER BY SeasonID");
@@ -2110,7 +2156,7 @@ $db->SelectDB($dbcfg['db']);
 if (isset($_GET['ccl_mode'])) {
 	switch($_GET['ccl_mode']) {
 	case 0:
-		show_schedule_listing($db,$_GET['schedule']);
+		show_schedule_listing($db);
 		break;
 	case 1:
 		show_schedule($db,$_GET['schedule']);
@@ -2125,9 +2171,11 @@ if (isset($_GET['ccl_mode'])) {
 		show_schedule_game($db, $_GET['game_id']);
 		break;
 	default:
-		show_schedule_listing($db,$schedule,$id,$pr,$team,$week,$game_id);
+		show_schedule_listing($db);
 		break;
 	}
+} else {
+	show_schedule_listing($db);
 }
 
 ?>

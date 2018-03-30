@@ -4,10 +4,17 @@
     $previousYear = date("Y") - 1;
     
 	// 6-May 2015 10:25pm
-	$curr_premier = 72;
-	$curr_t20 = 73;
-	$prev_premier = 65;
-	$prev_t20 = 66;
+	$db->Query("SELECT * FROM seasons WHERE SeasonName LIKE '%Premier%' ORDER BY SeasonID DESC LIMIT 2");
+	$db->GetRow(0);
+	$curr_premier = $db->data['SeasonID'];
+	$db->GetRow(1);	
+	$prev_premier = $db->data['SeasonID'];
+	
+	$db->Query("SELECT * FROM seasons WHERE SeasonName LIKE '%Twenty20%' ORDER BY SeasonID DESC LIMIT 2");
+	$db->GetRow(0);
+	$curr_t20 = $db->data['SeasonID'];
+	$db->GetRow(1);	
+	$prev_t20 = $db->data['SeasonID'];
 	
     // 5-Jan-2010 
 //    $db->Query("SELECT * FROM scorecard_game_details where YEAR(game_date) = $currentYear");  commented 26-Mar-2014 11:39pm

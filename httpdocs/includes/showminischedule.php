@@ -42,7 +42,8 @@ function show_mini_schedule($db, $season)
             WHERE
                 sch.venue = grn.GroundID AND
                 sch.date >= CURDATE() AND
-                sch.date <= DATE_ADD(NOW(), INTERVAL 8 DAY) AND
+                DATEDIFF(sch.date, (SELECT sch.date FROM schedule sch WHERE 
+				sch.date >= CURDATE() ORDER BY sch.date, sch.time, sch.id LIMIT 1)) < 3 AND
                 ss.SeasonID = sch.season
             ORDER BY
                 sch.date, sch.time, sch.id
@@ -50,7 +51,7 @@ function show_mini_schedule($db, $season)
 
         if (!$db->rows) {
 
-        	echo "<p>No Games next week.</p>\n";
+        	echo "<p>There is No Future Games scheduled.</p>\n";
 
         } else {
 

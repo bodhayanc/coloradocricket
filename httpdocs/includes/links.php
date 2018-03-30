@@ -10,8 +10,14 @@
 
     echo " <table width=\"180\" border=\"0\" cellspacing=\"1\" cellpadding=\"0\" align=\"right\">\n";
 
-    function show_grey_bars($page) {
+    function show_grey_bars($page, $db) {
 
+		$db->QueryRow("SELECT * FROM seasons WHERE SeasonName LIKE '%Premier%' ORDER BY SeasonID DESC LIMIT 1");
+		$db->BagAndTag();
+
+		$sid = $db->data['SeasonID'];
+		$snm = $db->data['SeasonName'];
+		$yr = preg_split("/[\s,]+/", $snm)[0];
       // Home Page
 
       // This is an associated array (hash for perl lovers!)
@@ -32,17 +38,17 @@
       "Calendar" => array("calendar.php","Calendar"),
 
 	  "ScheduleAndResults" => array("","SCHEDULE & RESULTS"),
-	  "schedule" => array("schedule.php?schedule=72&ccl_mode=1","League Schedule"),
+	  "schedule" => array("schedule.php?schedule=$sid&ccl_mode=1","League Schedule"),
 	  "submit-scorecard" => array("submit","Submit a Scorecard"),
 	  //"chaukapremierscorecard" => array("cclpremierchaukaiframe.php","Chauka Premier Scorecard"),
 	  //"chaukat20scorecard" => array("CCL_T20_chaukaiframe.php","Chauka T20 Scorecard"),
 	  "cricclubspremierscorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=46&clubId=5135","CricClubs Premier Scorecard"),
 	  "cricclubst20scorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=47&clubId=5135","CricClubs T20 Scorecard"),
 	  "cricclubspracticescorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=45&clubId=5135","CricClubs Practice Scorecard"),
-	  "scorecards" => array("scorecard.php?schedule=72&ccl_mode=1","League Scorecards"),
+	  "scorecards" => array("scorecard.php?schedule=$sid&ccl_mode=1","League Scorecards"),
 //20140315           "crichq-scorecards" => array("/www.crichq.com/plugins/comp_mgmt/organisations/53?width=598&height=400&border=1","CricHQ Scorecards"),
-	  "ladder" => array("ladder.php?ladder=72&ccl_mode=1","League Standings"),
-	  "statistics" => array("statistics.php?statistics=2017&ccl_mode=1","League Stats"),              
+	  "ladder" => array("ladder.php?ladder=$sid&ccl_mode=1","League Standings"),
+	  "statistics" => array("statistics.php?statistics=$yr&ccl_mode=1","League Stats"),              
 
 	  "NewsAndDocuments" => array("","NEWS & DOCUMENTS"),
 	  "news" => array("news.php","News Archives"),
@@ -61,8 +67,8 @@
 	  "PlayersAndOfficers" => array("","PLAYERS & OFFICERS"),
 	  "players" => array("players.php","Players"),
 //	  "featuredplayers" => array("featuredmember.php?season=57&sename=2014&ccl_mode=2","Featured Players"),
-	  "featuredplayers" => array("featuredmember.php?season=72&sename=2017 Premier&ccl_mode=2","Player Of The Week"),
-	  "awardplayers" => array("awards.php?season=72&sename=2017 Premier&ccl_mode=2","Player Awards"),
+	  "featuredplayers" => array("featuredmember.php?season=$sid&sename=$snm&ccl_mode=2","Player Of The Week"),
+	  "awardplayers" => array("awards.php?season=$sid&sename=$snm&ccl_mode=2","Player Awards"),
 	  // Moved Champions from Archives to here 24-Oct-2014 10:24pm
 	  "champions" => array("champions.php","Champions"),
 	  "cclofficers" => array("cclofficers.php","CCL Officers"),
@@ -132,7 +138,10 @@
               }
           } // while
           } // function
-		if (isset($page)) show_grey_bars($page);
+		$db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+		$db->SelectDB($dbcfg['db']);
+
+		if (isset($page)) show_grey_bars($page, $db);
         
         echo "</table>\n";
         echo "  </td>\n";
@@ -153,4 +162,5 @@
       echo "</tr>\n";
       echo "</table>\n";
       echo "<br>\n";
+
 ?>

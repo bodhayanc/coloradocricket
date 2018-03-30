@@ -31,26 +31,27 @@ function show_mini_scorecard($db, $season)
         }
 
         $db->Query("
-	SELECT
-	  s.*,
-	  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
-	  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
-	  ss.SeasonName as SeasonName
-	FROM
-	  scorecard_game_details s
-	INNER JOIN
-	  teams a ON s.awayteam = a.TeamID
-	INNER JOIN
-	  teams h ON s.hometeam = h.TeamID
-	INNER JOIN
-	  seasons ss ON ss.SeasonID = s.season
-	WHERE
-	  s.isactive=0 AND
-          s.game_date <= NOW() AND
-          s.game_date >= DATE_SUB(NOW(), INTERVAL 8 DAY)	  
-	ORDER BY
-	  s.game_date DESC, s.game_id DESC
-            ");
+			SELECT
+			  s.*,
+			  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+			  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
+			  ss.SeasonName as SeasonName
+			FROM
+			  scorecard_game_details s
+			INNER JOIN
+			  teams a ON s.awayteam = a.TeamID
+			INNER JOIN
+			  teams h ON s.hometeam = h.TeamID
+			INNER JOIN
+			  seasons ss ON ss.SeasonID = s.season
+			WHERE
+			  s.isactive=0 AND
+				s.game_date <= CURDATE() AND
+				DATEDIFF((SELECT s.game_date FROM scorecard_game_details s WHERE 
+				s.game_date <= CURDATE() ORDER BY s.game_date DESC, s.game_id DESC LIMIT 1), s.game_date) < 3
+			ORDER BY
+			  s.game_date DESC, s.game_id DESC
+        ");
 
         if (!$db->rows) {
 
@@ -65,12 +66,9 @@ function show_mini_scorecard($db, $season)
 
 		$t1 = $db->data['homeabbrev'];
 		$t2 = $db->data['awayabbrev'];
-		$um = $db->data['umpireabbrev'];
 		$t1id = $db->data['homeid'];
 		$t2id = $db->data['awayid'];
-		$umid = $db->data['umpireid'];
 		$d = sqldate_to_string($db->data['game_date']);
-		$sc =  $db->data['scorecard'];
 		$re = $db->data['result'];
 		$id = $db->data['game_id'];
 		$wk = $db->data['week'];
