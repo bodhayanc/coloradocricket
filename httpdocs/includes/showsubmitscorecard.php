@@ -79,7 +79,7 @@ function add_scorecard_step1($db)
 	echo " <tr>\n";
 	echo "  <td width=\"50%\" align=\"right\">";
 	echo "  <input type=\"text\" size=\"20\" maxlength=\"255\" name=\"game_date\">\n";
-	//echo "  <a href=\"javascript: void(0);\" onmouseover=\"if (timeoutId) clearTimeout(timeoutId);window.status='Show Calendar';return true;\" onmouseout=\"if (timeoutDelay) calendarTimeout();window.status='';\" onclick=\"g_Calendar.show(event,'frm.game_date',false); return false;\"><img src=\"http://www.coloradocricket.org/images/calendar/calendar.gif\" name=\"imgCalendar\" border=\"0\" alt=\"\"></a>\n"; 
+	echo "  <a href=\"javascript: void(0);\" onmouseover=\"if (timeoutId) clearTimeout(timeoutId);window.status='Show Calendar';return true;\" onmouseout=\"if (timeoutDelay) calendarTimeout();window.status='';\" onclick=\"g_Calendar.show(event,'frm.game_date',false); return false;\"><img src=\"http://www.coloradocricket.org/images/calendar/calendar.gif\" name=\"imgCalendar\" border=\"0\" alt=\"\"></a>\n"; 
 	echo "  </td>\n";
 	echo "  <td width=\"50%\" align=\"left\">Game Date (yyyy-mm-dd) <img src=\"/images/ballred.gif\" width=\"8\" height=\"8\"><img src=\"/images/ballgreen.gif\" width=\"8\" height=\"8\"><img src=\"/images/ballyellow.gif\" width=\"8\" height=\"8\"><img src=\"/images/ballwhite.gif\" width=\"8\" height=\"8\"></td>\n";
 	echo " </tr>\n";
@@ -483,7 +483,10 @@ function add_scorecard_step1($db)
 // ben added captcha 
 	echo " <tr>\n";
 	echo "  <td width=\"50%\" align=\"right\">";
-	echo " <img src=\"../securimage_show.php?sid=".md5(uniqid(time()))."\"></p>";
+	session_start();
+	include("simple-php-captcha.php");
+	$_SESSION['captcha'] = simple_php_captcha();	
+	echo '<img src="' . $_SESSION['captcha']['image_src'] . '" alt="CAPTCHA code">';
 	echo "  </td>\n";
 	echo "  <td width=\"50%\" align=\"left\">";
 	echo "<p>please enter above code correctly to submit this page<br><input type=\"text\" name=\"code\" size=24/></p>";
@@ -523,17 +526,15 @@ $ground_name,$game_date,$result,$tied,$forfeit,$cancelled,$cancelledplay,$mom, $
 
 	global $PHP_SELF,$content,$action,$SID, $bluebdr, $greenbdr, $yellowbdr;
 
-	//Bodha added secure image validation
-	include("securimage.php");
-  	$img = new Securimage();
-  	$valid = $img->check($_POST['code']);
-
-  	if($valid == false) {
+	session_start();
+	echo "code " . $_POST['code'];
+	echo "captcha " . $_SESSION['captcha']['code'];
+	if(strtolower($_POST['code']) != strtolower($_SESSION['captcha']['code'])) {
     	echo "<p>Sorry, the code you entered was invalid.  Please try again.</p>";
     	return;
   	}
 
-        //////////////////////////////////////////////////////////////////////////////////////////			
+    //////////////////////////////////////////////////////////////////////////////////////////			
 	// This is a forfeited game
 	//////////////////////////////////////////////////////////////////////////////////////////		
 
@@ -966,8 +967,6 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 	$se = addslashes(trim($season));
 	
 
-	if ($db->a_rows != -1) {
-
 	$db->QueryRow("
 	SELECT
 	  s.*,
@@ -1002,7 +1001,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 
 	$gid = $db->data['game_id'];
 	$gsc = $db->data['season'];
-	$gli = $db->data[league_id];
+	$gli = $db->data['league_id'];
 	
 	$ght = $db->data['homeabbrev'];
 	$ghi = $db->data['homeid'];
@@ -1013,7 +1012,7 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 	$ggr = $db->data['GroundName'];
 	$ggi = $db->data['GroundID'];
 	$gre = $db->data['result'];
-	$gtt = $db->data[WonTossAbbrev];
+	$gtt = $db->data['WonTossAbbrev'];
 
 	$gda = sqldate_to_string($db->data['game_date']);
 
@@ -2514,10 +2513,6 @@ function add_scorecard_step2($db,$season,$game_date,$awayteam,$hometeam)
 	echo "</form>\n";
 	
 	
-	} else {
-		echo "<p class=\"12pt\"><b>Uh oh!</b></p>\n";
-		echo "<p>There was a problem adding the game details, please try again.</p>\n";
-	}
 }
 
 
@@ -2566,7 +2561,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$oneba = addslashes(trim($oneballs));
 	$onefo = addslashes(trim($onefours));
 	$onesi = addslashes(trim($onesixes));
-	if($onehow_out != "2" && $onehow_out != "8") { $oneno == "0"; } else { $oneno = "1"; }
+	if($onehow_out != "2" && $onehow_out != "8") { $oneno = "0"; } else { $oneno = "1"; }
 
 	$twopl = addslashes(trim($twoplayer_id));
 	$twoho = addslashes(trim($twohow_out));
@@ -2576,7 +2571,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$twoba = addslashes(trim($twoballs));
 	$twofo = addslashes(trim($twofours));
 	$twosi = addslashes(trim($twosixes));
-	if($twohow_out != "2" && $twohow_out != "8") { $twono == "0"; } else { $twono = "1"; }
+	if($twohow_out != "2" && $twohow_out != "8") { $twono = "0"; } else { $twono = "1"; }
 
 	$threepl = addslashes(trim($threeplayer_id));
 	$threeho = addslashes(trim($threehow_out));
@@ -2586,7 +2581,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$threeba = addslashes(trim($threeballs));
 	$threefo = addslashes(trim($threefours));
 	$threesi = addslashes(trim($threesixes));
-	if($threehow_out != "2" && $threehow_out != "8") { $threeno == "0"; } else { $threeno = "1"; }
+	if($threehow_out != "2" && $threehow_out != "8") { $threeno = "0"; } else { $threeno = "1"; }
 
 	$fourpl = addslashes(trim($fourplayer_id));
 	$fourho = addslashes(trim($fourhow_out));
@@ -2596,7 +2591,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$fourba = addslashes(trim($fourballs));
 	$fourfo = addslashes(trim($fourfours));
 	$foursi = addslashes(trim($foursixes));
-	if($fourhow_out != "2" && $fourhow_out != "8") { $fourno == "0"; } else { $fourno = "1"; }
+	if($fourhow_out != "2" && $fourhow_out != "8") { $fourno = "0"; } else { $fourno = "1"; }
 
 	$fivepl = addslashes(trim($fiveplayer_id));
 	$fiveho = addslashes(trim($fivehow_out));
@@ -2606,7 +2601,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$fiveba = addslashes(trim($fiveballs));
 	$fivefo = addslashes(trim($fivefours));
 	$fivesi = addslashes(trim($fivesixes));
-	if($fivehow_out != "2" && $fivehow_out != "8") { $fiveno == "0"; } else { $fiveno = "1"; }
+	if($fivehow_out != "2" && $fivehow_out != "8") { $fiveno = "0"; } else { $fiveno = "1"; }
 
 	$sixpl = addslashes(trim($sixplayer_id));
 	$sixho = addslashes(trim($sixhow_out));
@@ -2616,7 +2611,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$sixba = addslashes(trim($sixballs));
 	$sixfo = addslashes(trim($sixfours));
 	$sixsi = addslashes(trim($sixsixes));
-	if($sixhow_out != "2" && $sixhow_out != "8") { $sixno == "0"; } else { $sixno = "1"; }
+	if($sixhow_out != "2" && $sixhow_out != "8") { $sixno = "0"; } else { $sixno = "1"; }
 
 	$sevenpl = addslashes(trim($sevenplayer_id));
 	$sevenho = addslashes(trim($sevenhow_out));
@@ -2626,7 +2621,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$sevenba = addslashes(trim($sevenballs));
 	$sevenfo = addslashes(trim($sevenfours));
 	$sevensi = addslashes(trim($sevensixes));
-	if($sevenhow_out != "2" && $sevenhow_out != "8") { $sevenno == "0"; } else { $sevenno = "1"; }
+	if($sevenhow_out != "2" && $sevenhow_out != "8") { $sevenno = "0"; } else { $sevenno = "1"; }
 
 	$eightpl = addslashes(trim($eightplayer_id));
 	$eightho = addslashes(trim($eighthow_out));
@@ -2636,7 +2631,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$eightba = addslashes(trim($eightballs));
 	$eightfo = addslashes(trim($eightfours));
 	$eightsi = addslashes(trim($eightsixes));
-	if($eighthow_out != "2" && $eighthow_out != "8") { $eightno == "0"; } else { $eightno = "1"; }
+	if($eighthow_out != "2" && $eighthow_out != "8") { $eightno = "0"; } else { $eightno = "1"; }
 
 	$ninepl = addslashes(trim($nineplayer_id));
 	$nineho = addslashes(trim($ninehow_out));
@@ -2646,7 +2641,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$nineba = addslashes(trim($nineballs));
 	$ninefo = addslashes(trim($ninefours));
 	$ninesi = addslashes(trim($ninesixes));
-	if($ninehow_out != "2" && $ninehow_out != "8") { $nineno == "0"; } else { $nineno = "1"; }
+	if($ninehow_out != "2" && $ninehow_out != "8") { $nineno = "0"; } else { $nineno = "1"; }
 
 	$tenpl = addslashes(trim($tenplayer_id));
 	$tenho = addslashes(trim($tenhow_out));
@@ -2656,7 +2651,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$tenba = addslashes(trim($tenballs));
 	$tenfo = addslashes(trim($tenfours));
 	$tensi = addslashes(trim($tensixes));
-	if($tenhow_out != "2" && $tenhow_out != "8") { $tenno == "0"; } else { $tenno = "1"; }
+	if($tenhow_out != "2" && $tenhow_out != "8") { $tenno = "0"; } else { $tenno = "1"; }
 
 	$elevenpl = addslashes(trim($elevenplayer_id));
 	$elevenho = addslashes(trim($elevenhow_out));
@@ -2666,7 +2661,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 	$elevenba = addslashes(trim($elevenballs));
 	$elevenfo = addslashes(trim($elevenfours));
 	$elevensi = addslashes(trim($elevensixes));
-	if($elevenhow_out != "2" && $elevenhow_out != "8") { $elevenno == "0"; } else { $elevenno = "1"; }
+	if($elevenhow_out != "2" && $elevenhow_out != "8") { $elevenno = "0"; } else { $elevenno = "1"; }
 
 	$totw = addslashes(trim($totwickets));
 	$toto = addslashes(trim($totovers));
@@ -2953,15 +2948,12 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 
 }
 
-function add_scorecard_step3($db,$game_id,$season)
+function add_scorecard_step3($db,$game_id)
 {
 	global $PHP_SELF, $content,$action,$SID, $bluebdr, $greenbdr, $yellowbdr;
 
 	$gid = addslashes(trim($game_id));
-	$sid = addslashes(trim($season));
 	
-	if ($db->a_rows != -1) {
-
 	$db->QueryRow("
 	
 	SELECT
@@ -2998,7 +2990,7 @@ function add_scorecard_step3($db,$game_id,$season)
 	$gid = $db->data['game_id'];
 	$gsc = $db->data['season'];
 
-	$b1  = $db->data[batting_first_id];
+	$b1  = $db->data['batting_first_id'];
 	$at  = $db->data['awayteam'];
 	$ht  = $db->data['hometeam'];
 
@@ -3010,7 +3002,7 @@ function add_scorecard_step3($db,$game_id,$season)
 	$ggr = $db->data['GroundName'];
 	$ggi = $db->data['GroundID'];
 	$gre = $db->data['result'];
-	$gtt = $db->data[WonTossAbbrev];
+	$gtt = $db->data['WonTossAbbrev'];
 
 	$gda = sqldate_to_string($db->data['game_date']);
 
@@ -4513,10 +4505,6 @@ function add_scorecard_step3($db,$game_id,$season)
 
 	
 	
-	} else {
-		echo "<p class=\"12pt\"><b>Uh oh!</b></p>\n";
-		echo "<p>There was a problem adding the game details, please try again.</p>\n";
-	}
 }
 
 
@@ -4956,8 +4944,6 @@ function finished($db)
 {
 	global $PHP_SELF, $content,$action,$SID, $bluebdr, $greenbdr, $yellowbdr;
 
-	if ($db->a_rows != -1) {
-
 	echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
 	echo "<tr>\n";
 	echo "  <td align=\"right\" valign=\"top\">\n";
@@ -4993,45 +4979,6 @@ function finished($db)
 	echo "</table>\n";
 		
 
-	} else {
-
-	echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
-	echo "<tr>\n";
-	echo "  <td align=\"right\" valign=\"top\">\n";
-
-	echo "<p class=\"14px\">Step 3 - Failure!<br><img src=\"/images/66.gif\"></p>\n";
-	
-	echo "<p>You are working with <b>Game #$gid</b>, <b>$bat1st</b> vs <b>$bat2nd</b> on <b>$gda</b></p>\n";
-	echo "<p align=\"left\">Team Batting 1st: $bat1stid $bat1st<br>\n";
-	echo "Team Batting 2nd: $bat2ndid $bat2nd</p>\n";
-
-    	echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";
-    	echo "<tr>\n";
-    	echo "  <td bgcolor=\"$bluebdr\" class=\"whitemain\" height=\"23\">&nbsp;Failure!</td>\n";
-    	echo "</tr>\n";
-    	echo "<tr>\n";
-	echo "<td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
-
-	echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">\n";
-	echo "  <tr>\n";
-	echo "    <td>\n";
-
-	echo "<p>There was a problem! <a href=\"/submit\">Please try again.</a></p>\n";
-
-	echo "  </td>\n";
-	echo "</tr>\n";
-	echo "</table>\n";
-
-	echo "  </td>\n";
-	echo "</tr>\n";
-	echo "</table>\n";	
-	
-	// finish off
-	echo "  </td>\n";
-	echo "</tr>\n";
-	echo "</table>\n";
-	
-	}
 }
 
 
@@ -5042,66 +4989,35 @@ function finished($db)
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-
-
-switch($ccl_mode) {
-case 0:
+if (isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
+	case 0:
+		add_scorecard_step1($db);
+		break;
+	case 1:
+		insert_scorecard_step1($db, $_POST['league_id'], $_POST['season'], $_POST['week'], $_POST['awayteam'], $_POST['awayteam_captain'], $_POST['awayteam_vcaptain'], $_POST['awayteam_wk'],$_POST['hometeam'], $_POST['hometeam_captain'], $_POST['hometeam_vcaptain'], $_POST['hometeam_wk'],$_POST['umpires'],$_POST['toss_won_id'],$_POST['result_won_id'],$_POST['batting_first_id'],$_POST['batting_second_id'],$_POST['ground_id'], '',$_POST['game_date'],$_POST['result'],isset($_POST['tied']) ? $_POST['tied'] : '',isset($_POST['forfeit']) ? $_POST['forfeit'] : '',isset($_POST['cancelled']) ? $_POST['cancelled']: '',isset($_POST['cancelledplay']) ? $_POST['cancelledplay'] : '',$_POST['mom'], $_POST['mom2'],$_POST['umpire1'],$_POST['umpire2'],$_POST['maxovers']);
+		break;
+	case 2:
+		add_scorecard_step2($db,$_GET['season'],$_GET['game_date'],$_GET['awayteam'],$_GET['hometeam']);
+		break;
+	case 3:
+		insert_scorecard_step2($db,$_POST['game_id'],$_POST['season'],$_POST['innings_id'],$_POST['oneplayer_id'],$_POST['onehow_out'],$_POST['oneassist'],$_POST['onebowler'],$_POST['oneruns'],$_POST['oneballs'],$_POST['onefours'],$_POST['onesixes'],$_POST['twoplayer_id'], $_POST['twohow_out'],$_POST['twoassist'],$_POST['twobowler'],$_POST['tworuns'],$_POST['twoballs'],$_POST['twofours'],$_POST['twosixes'],$_POST['threeplayer_id'],$_POST['threehow_out'],$_POST['threeassist'],$_POST['threebowler'],$_POST['threeruns'],$_POST['threeballs'],$_POST['threefours'],$_POST['threesixes'],$_POST['fourplayer_id'],$_POST['fourhow_out'],$_POST['fourassist'],$_POST['fourbowler'],$_POST['fourruns'],$_POST['fourballs'],$_POST['fourfours'],$_POST['foursixes'],$_POST['fiveplayer_id'],$_POST['fivehow_out'],$_POST['fiveassist'],$_POST['fivebowler'],$_POST['fiveruns'],$_POST['fiveballs'],$_POST['fivefours'],$_POST['fivesixes'],$_POST['sixplayer_id'],$_POST['sixhow_out'],$_POST['sixassist'],$_POST['sixbowler'],$_POST['sixruns'],$_POST['sixballs'],$_POST['sixfours'],$_POST['sixsixes'],$_POST['sevenplayer_id'],$_POST['sevenhow_out'],$_POST['sevenassist'],$_POST['sevenbowler'],$_POST['sevenruns'],$_POST['sevenballs'],$_POST['sevenfours'],$_POST['sevensixes'],$_POST['eightplayer_id'],$_POST['eighthow_out'],$_POST['eightassist'],$_POST['eightbowler'],$_POST['eightruns'],$_POST['eightballs'],$_POST['eightfours'],$_POST['eightsixes'],$_POST['nineplayer_id'],$_POST['ninehow_out'],$_POST['nineassist'],$_POST['ninebowler'],$_POST['nineruns'],$_POST['nineballs'],$_POST['ninefours'],$_POST['ninesixes'],$_POST['tenplayer_id'],$_POST['tenhow_out'],$_POST['tenassist'],$_POST['tenbowler'],$_POST['tenruns'],$_POST['tenballs'],$_POST['tenfours'],$_POST['tensixes'],$_POST['elevenplayer_id'],$_POST['elevenhow_out'],$_POST['elevenassist'],$_POST['elevenbowler'],$_POST['elevenruns'],$_POST['elevenballs'],$_POST['elevenfours'],$_POST['elevensixes'],$_POST['totwickets'],$_POST['totovers'],$_POST['tottotal'],$_POST['extlegbyes'],$_POST['extbyes'],$_POST['extwides'],$_POST['extnoballs'],$_POST['exttotal'],$_POST['fowone'],$_POST['fowtwo'],$_POST['fowthree'],$_POST['fowfour'],$_POST['fowfive'],$_POST['fowsix'],$_POST['fowseven'], $_POST['foweight'],$_POST['fownine'],$_POST['fowten'],$_POST['onebowler_id'],$_POST['oneovers'],$_POST['onemaidens'],$_POST['onebowruns'],$_POST['onewickets'],$_POST['onenoballs'],$_POST['onewides'],$_POST['twobowler_id'],$_POST['twoovers'],$_POST['twomaidens'],$_POST['twobowruns'], $_POST['twowickets'],$_POST['twonoballs'],$_POST['twowides'],$_POST['threebowler_id'],$_POST['threeovers'],$_POST['threemaidens'],$_POST['threebowruns'],$_POST['threewickets'],$_POST['threenoballs'],$_POST['threewides'],$_POST['fourbowler_id'],$_POST['fourovers'],$_POST['fourmaidens'],$_POST['fourbowruns'],$_POST['fourwickets'],$_POST['fournoballs'],$_POST['fourwides'],$_POST['fivebowler_id'],$_POST['fiveovers'],$_POST['fivemaidens'],$_POST['fivebowruns'],$_POST['fivewickets'],$_POST['fivenoballs'],$_POST['fivewides'],$_POST['sixbowler_id'],$_POST['sixovers'],$_POST['sixmaidens'],$_POST['sixbowruns'],$_POST['sixwickets'],$_POST['sixnoballs'],$_POST['sixwides'],$_POST['sevenbowler_id'],$_POST['sevenovers'],$_POST['sevenmaidens'],$_POST['sevenbowruns'],$_POST['sevenwickets'],$_POST['sevennoballs'],$_POST['sevenwides'],$_POST['eightbowler_id'],$_POST['eightovers'],$_POST['eightmaidens'],$_POST['eightbowruns'],$_POST['eightwickets'],$_POST['eightnoballs'],$_POST['eightwides'],$_POST['ninebowler_id'],$_POST['nineovers'],$_POST['ninemaidens'],$_POST['ninebowruns'],$_POST['ninewickets'],$_POST['ninenoballs'],$_POST['ninewides'],$_POST['tenbowler_id'],$_POST['tenovers'],$_POST['tenmaidens'],$_POST['tenbowruns'],$_POST['tenwickets'],$_POST['tennoballs'],$_POST['tenwides'],$_POST['elevenbowler_id'],$_POST['elevenovers'],$_POST['elevenmaidens'],$_POST['elevenbowruns'],$_POST['elevenwickets'],$_POST['elevennoballs'],$_POST['elevenwides'],$_POST['onebatpos'],$_POST['twobatpos'],$_POST['threebatpos'],$_POST['fourbatpos'],$_POST['fivebatpos'],$_POST['sixbatpos'],$_POST['sevenbatpos'],$_POST['eightbatpos'],$_POST['ninebatpos'],$_POST['tenbatpos'],$_POST['elevenbatpos'],$_POST['onebowpos'], $_POST['twobowpos'],$_POST['threebowpos'],$_POST['fourbowpos'],$_POST['fivebowpos'],$_POST['sixbowpos'],$_POST['sevenbowpos'],$_POST['eightbowpos'],$_POST['ninebowpos'],$_POST['tenbowpos'],$_POST['elevenbowpos'],$_POST['oneteam'],$_POST['twoteam'],$_POST['threeteam'],$_POST['fourteam'],$_POST['fiveteam'],$_POST['sixteam'],$_POST['seventeam'],$_POST['eightteam'], $_POST['nineteam'],$_POST['tenteam'],$_POST['eleventeam'],$_POST['oneopponent'],$_POST['twoopponent'],$_POST['threeopponent'],$_POST['fouropponent'],$_POST['fiveopponent'],$_POST['sixopponent'],$_POST['sevenopponent'],$_POST['eightopponent'],$_POST['nineopponent'],$_POST['tenopponent'],$_POST['elevenopponent'],$_POST['bowloneteam'], $_POST['bowltwoteam'],$_POST['bowlthreeteam'],$_POST['bowlfourteam'],$_POST['bowlfiveteam'],$_POST['bowlsixteam'],$_POST['bowlseventeam'],$_POST['bowleightteam'],$_POST['bowlnineteam'],$_POST['bowltenteam'],$_POST['bowleleventeam'],$_POST['bowloneopponent'],$_POST['bowltwoopponent'],$_POST['bowlthreeopponent'], $_POST['bowlfouropponent'],$_POST['bowlfouropponent'],$_POST['bowlsixopponent'],$_POST['bowlsevenopponent'],$_POST['bowleightopponent'],$_POST['bowlnineopponent'],$_POST['bowltenopponent'],$_POST['bowlelevenopponent']);
+		break;	
+	case 4:
+		add_scorecard_step3($db,$_GET['game_id']);
+		break;	
+	case 5:
+		insert_scorecard_step3($db,$_POST['game_id'],$_POST['season'],$_POST['innings_id'],$_POST['oneplayer_id'],$_POST['onehow_out'],$_POST['oneassist'],$_POST['onebowler'],$_POST['oneruns'],$_POST['oneballs'],$_POST['onefours'],$_POST['onesixes'],$_POST['twoplayer_id'], $_POST['twohow_out'],$_POST['twoassist'],$_POST['twobowler'],$_POST['tworuns'],$_POST['twoballs'],$_POST['twofours'],$_POST['twosixes'],$_POST['threeplayer_id'],$_POST['threehow_out'],$_POST['threeassist'],$_POST['threebowler'],$_POST['threeruns'],$_POST['threeballs'],$_POST['threefours'],$_POST['threesixes'],$_POST['fourplayer_id'],$_POST['fourhow_out'],$_POST['fourassist'],$_POST['fourbowler'],$_POST['fourruns'],$_POST['fourballs'],$_POST['fourfours'],$_POST['foursixes'],$_POST['fiveplayer_id'],$_POST['fivehow_out'],$_POST['fiveassist'],$_POST['fivebowler'],$_POST['fiveruns'],$_POST['fiveballs'],$_POST['fivefours'],$_POST['fivesixes'],$_POST['sixplayer_id'],$_POST['sixhow_out'],$_POST['sixassist'],$_POST['sixbowler'],$_POST['sixruns'],$_POST['sixballs'],$_POST['sixfours'],$_POST['sixsixes'],$_POST['sevenplayer_id'],$_POST['sevenhow_out'],$_POST['sevenassist'],$_POST['sevenbowler'],$_POST['sevenruns'],$_POST['sevenballs'],$_POST['sevenfours'],$_POST['sevensixes'],$_POST['eightplayer_id'],$_POST['eighthow_out'],$_POST['eightassist'],$_POST['eightbowler'],$_POST['eightruns'],$_POST['eightballs'],$_POST['eightfours'],$_POST['eightsixes'],$_POST['nineplayer_id'],$_POST['ninehow_out'],$_POST['nineassist'],$_POST['ninebowler'],$_POST['nineruns'],$_POST['nineballs'],$_POST['ninefours'],$_POST['ninesixes'],$_POST['tenplayer_id'],$_POST['tenhow_out'],$_POST['tenassist'],$_POST['tenbowler'],$_POST['tenruns'],$_POST['tenballs'],$_POST['tenfours'],$_POST['tensixes'],$_POST['elevenplayer_id'],$_POST['elevenhow_out'],$_POST['elevenassist'],$_POST['elevenbowler'],$_POST['elevenruns'],$_POST['elevenballs'],$_POST['elevenfours'],$_POST['elevensixes'],$_POST['totwickets'],$_POST['totovers'],$_POST['tottotal'],$_POST['extlegbyes'],$_POST['extbyes'],$_POST['extwides'],$_POST['extnoballs'],$_POST['exttotal'],$_POST['fowone'],$_POST['fowtwo'],$_POST['fowthree'],$_POST['fowfour'],$_POST['fowfive'],$_POST['fowsix'],$_POST['fowseven'], $_POST['foweight'],$_POST['fownine'],$_POST['fowten'],$_POST['onebowler_id'],$_POST['oneovers'],$_POST['onemaidens'],$_POST['onebowruns'],$_POST['onewickets'],$_POST['onenoballs'],$_POST['onewides'],$_POST['twobowler_id'],$_POST['twoovers'],$_POST['twomaidens'],$_POST['twobowruns'], $_POST['twowickets'],$_POST['twonoballs'],$_POST['twowides'],$_POST['threebowler_id'],$_POST['threeovers'],$_POST['threemaidens'],$_POST['threebowruns'],$_POST['threewickets'],$_POST['threenoballs'],$_POST['threewides'],$_POST['fourbowler_id'],$_POST['fourovers'],$_POST['fourmaidens'],$_POST['fourbowruns'],$_POST['fourwickets'],$_POST['fournoballs'],$_POST['fourwides'],$_POST['fivebowler_id'],$_POST['fiveovers'],$_POST['fivemaidens'],$_POST['fivebowruns'],$_POST['fivewickets'],$_POST['fivenoballs'],$_POST['fivewides'],$_POST['sixbowler_id'],$_POST['sixovers'],$_POST['sixmaidens'],$_POST['sixbowruns'],$_POST['sixwickets'],$_POST['sixnoballs'],$_POST['sixwides'],$_POST['sevenbowler_id'],$_POST['sevenovers'],$_POST['sevenmaidens'],$_POST['sevenbowruns'],$_POST['sevenwickets'],$_POST['sevennoballs'],$_POST['sevenwides'],$_POST['eightbowler_id'],$_POST['eightovers'],$_POST['eightmaidens'],$_POST['eightbowruns'],$_POST['eightwickets'],$_POST['eightnoballs'],$_POST['eightwides'],$_POST['ninebowler_id'],$_POST['nineovers'],$_POST['ninemaidens'],$_POST['ninebowruns'],$_POST['ninewickets'],$_POST['ninenoballs'],$_POST['ninewides'],$_POST['tenbowler_id'],$_POST['tenovers'],$_POST['tenmaidens'],$_POST['tenbowruns'],$_POST['tenwickets'],$_POST['tennoballs'],$_POST['tenwides'],$_POST['elevenbowler_id'],$_POST['elevenovers'],$_POST['elevenmaidens'],$_POST['elevenbowruns'],$_POST['elevenwickets'],$_POST['elevennoballs'],$_POST['elevenwides'],$_POST['onebatpos'],$_POST['twobatpos'],$_POST['threebatpos'],$_POST['fourbatpos'],$_POST['fivebatpos'],$_POST['sixbatpos'],$_POST['sevenbatpos'],$_POST['eightbatpos'],$_POST['ninebatpos'],$_POST['tenbatpos'],$_POST['elevenbatpos'],$_POST['onebowpos'], $_POST['twobowpos'],$_POST['threebowpos'],$_POST['fourbowpos'],$_POST['fivebowpos'],$_POST['sixbowpos'],$_POST['sevenbowpos'],$_POST['eightbowpos'],$_POST['ninebowpos'],$_POST['tenbowpos'],$_POST['elevenbowpos'],$_POST['oneteam'],$_POST['twoteam'],$_POST['threeteam'],$_POST['fourteam'],$_POST['fiveteam'],$_POST['sixteam'],$_POST['seventeam'],$_POST['eightteam'], $_POST['nineteam'],$_POST['tenteam'],$_POST['eleventeam'],$_POST['oneopponent'],$_POST['twoopponent'],$_POST['threeopponent'],$_POST['fouropponent'],$_POST['fiveopponent'],$_POST['sixopponent'],$_POST['sevenopponent'],$_POST['eightopponent'],$_POST['nineopponent'],$_POST['tenopponent'],$_POST['elevenopponent'],$_POST['bowloneteam'], $_POST['bowltwoteam'],$_POST['bowlthreeteam'],$_POST['bowlfourteam'],$_POST['bowlfiveteam'],$_POST['bowlsixteam'],$_POST['bowlseventeam'],$_POST['bowleightteam'],$_POST['bowlnineteam'],$_POST['bowltenteam'],$_POST['bowleleventeam'],$_POST['bowloneopponent'],$_POST['bowltwoopponent'],$_POST['bowlthreeopponent'], $_POST['bowlfouropponent'],$_POST['bowlfouropponent'],$_POST['bowlsixopponent'],$_POST['bowlsevenopponent'],$_POST['bowleightopponent'],$_POST['bowlnineopponent'],$_POST['bowltenopponent'],$_POST['bowlelevenopponent']);
+		break;	
+	case 6:
+		finished($db);
+		break;
+	default:
+		add_scorecard_step1($db);
+		break;
+	}
+} else {
 	add_scorecard_step1($db);
-	break;
-case 1:
-	
-
-insert_scorecard_step1($db,$league_id,$season,$week,$awayteam, $awayteam_captain, $awayteam_vcaptain, $awayteam_wk,$hometeam, $hometeam_captain, $hometeam_vcaptain, $hometeam_wk,$umpires,$toss_won_id,$result_won_id,$batting_first_id,$batting_second_id,$ground_id,
-
-$ground_name,$game_date,$result,$tied,$forfeit,$cancelled,$cancelledplay,$mom, $mom2,$umpire1,$umpire2,$maxovers);
-	break;
-case 2:
-	add_scorecard_step2($db,$_GET['season'],$_GET['game_date'],$_GET['awayteam'],$_GET['hometeam']);
-	break;
-case 3:
-	
-
-insert_scorecard_step2($db,$game_id,$season,$innings_id,$oneplayer_id,$onehow_out,$oneassist,$onebowler,$oneruns,$oneballs,$onefours,$onesixes,$twoplayer_id,
-$twohow_out,$twoassist,$twobowler,$tworuns,$twoballs,$twofours,$twosixes,$threeplayer_id,$threehow_out,$threeassist,$threebowler,$threeruns,$threeballs,$threefours,$threesixes,$fourplayer_id,$fourhow_out,$fourassist,$fourbowler,$fourruns,$fourballs,$fourfours,$foursixes,$fiveplayer_id,$fivehow_out,$fiveassist,$fivebowler,$fiveruns,$fiveballs,$fivefours,$fivesixes,$sixplayer_id,$sixhow_out,$sixassist,$sixbowler,$sixruns,$sixballs,$sixfours,$sixsixes,$sevenplayer_id,$sevenhow_out,$sevenassist,$sevenbowler,$sevenruns,$sevenballs,$sevenfours,$sevensixes,$eightplayer_id,$eighthow_out,$eightassist,$eightbowler,$eightruns,$eightballs,$eightfours,$eightsixes,$nineplayer_id,$ninehow_out,$nineassist,$ninebowler,$nineruns,$nineballs,$ninefours,$ninesixes,$tenplayer_id,$tenhow_out,$tenassist,$tenbowler,$tenruns,$tenballs,$tenfours,$tensixes,$elevenplayer_id,$elevenhow_out,$elevenassist,$elevenbowler,$elevenruns,$elevenballs,$elevenfours,$elevensixes,$totwickets,$totovers,$tottotal,$extlegbyes,$extbyes,$extwides,$extnoballs,$exttotal,$fowone,$fowtwo,$fowthree,$fowfour,$fowfive,$fowsix,$fowseven,
-$foweight,$fownine,$fowten,$onebowler_id,$oneovers,$onemaidens,$onebowruns,$onewickets,$onenoballs,$onewides,$twobowler_id,$twoovers,$twomaidens,$twobowruns,
-$twowickets,$twonoballs,$twowides,$threebowler_id,$threeovers,$threemaidens,$threebowruns,$threewickets,$threenoballs,$threewides,$fourbowler_id,$fourovers,$fourmaidens,$fourbowruns,$fourwickets,$fournoballs,$fourwides,
-$fivebowler_id,$fiveovers,$fivemaidens,$fivebowruns,$fivewickets,$fivenoballs,$fivewides,$sixbowler_id,$sixovers,$sixmaidens,$sixbowruns,$sixwickets,$sixnoballs,$sixwides,$sevenbowler_id,$sevenovers,$sevenmaidens,$sevenbowruns,
-$sevenwickets,$sevennoballs,$sevenwides,$eightbowler_id,$eightovers,$eightmaidens,$eightbowruns,$eightwickets,$eightnoballs,$eightwides,$ninebowler_id,$nineovers,$ninemaidens,
-$ninebowruns,$ninewickets,$ninenoballs,$ninewides,$tenbowler_id,$tenovers,$tenmaidens,$tenbowruns,$tenwickets,$tennoballs,$tenwides,$elevenbowler_id,$elevenovers,
-$elevenmaidens,$elevenbowruns,$elevenwickets,$elevennoballs,$elevenwides,$onebatpos,$twobatpos,$threebatpos,$fourbatpos,$fivebatpos,$sixbatpos,$sevenbatpos,$eightbatpos,$ninebatpos,$tenbatpos,$elevenbatpos,$onebowpos,
-$twobowpos,$threebowpos,$fourbowpos,$fivebowpos,$sixbowpos,$sevenbowpos,$eightbowpos,$ninebowpos,$tenbowpos,$elevenbowpos,$oneteam,$twoteam,$threeteam,$fourteam,$fiveteam,$sixteam,$seventeam,$eightteam,
-$nineteam,$tenteam,$eleventeam,$oneopponent,$twoopponent,$threeopponent,$fouropponent,$fiveopponent,$sixopponent,$sevenopponent,$eightopponent,$nineopponent,$tenopponent,$elevenopponent,$bowloneteam,
-$bowltwoteam,$bowlthreeteam,$bowlfourteam,$bowlfiveteam,$bowlsixteam,$bowlseventeam,$bowleightteam,$bowlnineteam,$bowltenteam,$bowleleventeam,$bowloneopponent,$bowltwoopponent,$bowlthreeopponent,
-$bowlfouropponent,$bowlfiveopponent,$bowlsixopponent,$bowlsevenopponent,$bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent);
-	break;	
-case 4:
-	add_scorecard_step3($db,$game_id,$season);
-	break;	
-case 5:
-	
-insert_scorecard_step3($db,$game_id,$season,$innings_id,$oneplayer_id,$onehow_out,$oneassist,$onebowler,$oneruns,$oneballs,$onefours,$onesixes,$twoplayer_id,
-$twohow_out,$twoassist,$twobowler,$tworuns,$twoballs,$twofours,$twosixes,$threeplayer_id,$threehow_out,$threeassist,$threebowler,$threeruns,$threeballs,$threefours,$threesixes,$fourplayer_id,$fourhow_out,
-$fourassist,$fourbowler,$fourruns,$fourballs,$fourfours,$foursixes,$fiveplayer_id,$fivehow_out,$fiveassist,$fivebowler,$fiveruns,$fiveballs,$fivefours,$fivesixes,$sixplayer_id,$sixhow_out,$sixassist,$sixbowler,
-$sixruns,$sixballs,$sixfours,$sixsixes,$sevenplayer_id,$sevenhow_out,$sevenassist,$sevenbowler,$sevenruns,$sevenballs,$sevenfours,$sevensixes,$eightplayer_id,$eighthow_out,$eightassist,$eightbowler,$eightruns,
-$eightballs,$eightfours,$eightsixes,$nineplayer_id,$ninehow_out,$nineassist,$ninebowler,$nineruns,$nineballs,$ninefours,$ninesixes,$tenplayer_id,$tenhow_out,$tenassist,$tenbowler,$tenruns,$tenballs,$tenfours,
-$tensixes,$elevenplayer_id,$elevenhow_out,$elevenassist,$elevenbowler,$elevenruns,$elevenballs,$elevenfours,$elevensixes,$totwickets,$totovers,$tottotal,$extlegbyes,$extbyes,$extwides,$extnoballs,$exttotal,
-$fowone,$fowtwo,$fowthree,$fowfour,$fowfive,$fowsix,$fowseven,$foweight,$fownine,$fowten,$onebowler_id,$oneovers,$onemaidens,$onebowruns,$onewickets,$onenoballs,$onewides,$twobowler_id,$twoovers,
-$twomaidens,$twobowruns,$twowickets,$twonoballs,$twowides,$threebowler_id,$threeovers,$threemaidens,$threebowruns,$threewickets,$threenoballs,$threewides,$fourbowler_id,$fourovers,
-$fourmaidens,$fourbowruns,$fourwickets,$fournoballs,$fourwides,$fivebowler_id,$fiveovers,$fivemaidens,$fivebowruns,$fivewickets,$fivenoballs,$fivewides,$sixbowler_id,$sixovers,$sixmaidens,$sixbowruns,$sixwickets,
-$sixnoballs,$sixwides,$sevenbowler_id,$sevenovers,$sevenmaidens,$sevenbowruns,$sevenwickets,$sevennoballs,$sevenwides,$eightbowler_id,$eightovers,$eightmaidens,$eightbowruns,$eightwickets,$eightnoballs,
-$eightwides,$ninebowler_id,$nineovers,$ninemaidens,$ninebowruns,$ninewickets,$ninenoballs,$ninewides,$tenbowler_id,$tenovers,$tenmaidens,$tenbowruns,$tenwickets,$tennoballs,$tenwides,$elevenbowler_id,$elevenovers,
-$elevenmaidens,$elevenbowruns,$elevenwickets,$elevennoballs,$elevenwides,$onebatpos,$twobatpos,$threebatpos,$fourbatpos,$fivebatpos,$sixbatpos,$sevenbatpos,$eightbatpos,$ninebatpos,$tenbatpos,
-$elevenbatpos,$onebowpos,$twobowpos,$threebowpos,$fourbowpos,$fivebowpos,$sixbowpos,$sevenbowpos,$eightbowpos,$ninebowpos,$tenbowpos,$elevenbowpos,$oneteam,$twoteam,$threeteam,$fourteam,
-$fiveteam,$sixteam,$seventeam,$eightteam,$nineteam,$tenteam,$eleventeam,$oneopponent,$twoopponent,$threeopponent,$fouropponent,$fiveopponent,$sixopponent,$sevenopponent,$eightopponent,$nineopponent,$tenopponent,
-$elevenopponent,$bowloneteam,$bowltwoteam,$bowlthreeteam,$bowlfourteam,$bowlfiveteam,$bowlsixteam,$bowlseventeam,$bowleightteam,$bowlnineteam,$bowltenteam,$bowleleventeam,$bowloneopponent,
-$bowltwoopponent,$bowlthreeopponent,$bowlfouropponent,$bowlfiveopponent,$bowlsixopponent,$bowlsevenopponent,$bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent);
-	break;	
-case 6:
-	finished($db);
-	break;
-default:
-	add_scorecard_step1($db);
-	break;
 }
 
 ?>

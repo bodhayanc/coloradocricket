@@ -5,7 +5,7 @@
     require ("../includes/class.fasttemplate.inc");
     require ("../includes/general.functions.inc");
 
-    $page = submitscorecard;
+    $page = 'submitscorecard';
     $redirect = true;
 
 ?>
