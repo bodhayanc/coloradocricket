@@ -209,5 +209,4 @@ $states = array (
 
 srand((double)microtime()*1000000);
 
-set_include_path(get_include_path() . PATH_SEPARATOR . "D:\\Inetpub\\vhosts\\coloradocricket.org\\httpdocs\\includes");
 ?>
