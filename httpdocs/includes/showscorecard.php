@@ -776,7 +776,7 @@ function show_schedule_game($db, $game_id)
 	      g.GroundID, g.GroundName
 	    FROM
 	      scorecard_game_details s
-	    INNER JOIN
+	    LEFT JOIN
 	      grounds g ON s.ground_id = g.GroundID
 	    INNER JOIN
 	      teams a ON s.awayteam = a.TeamID
@@ -807,6 +807,7 @@ function show_schedule_game($db, $game_id)
 	    $po = $db->data['points'];
 	    $tt = '';
 	    $mm  = '';
+	    $mm2  = '';
 	    $u1  = '';
 	    $u2  = '';
 	    $mmi = '';
@@ -847,7 +848,7 @@ function show_schedule_game($db, $game_id)
       g.GroundID, g.GroundName
     FROM
       scorecard_game_details s
-    INNER JOIN
+    LEFT JOIN
       grounds g ON s.ground_id = g.GroundID
     INNER JOIN
       teams a ON s.awayteam = a.TeamID

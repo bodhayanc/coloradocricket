@@ -329,7 +329,7 @@ if(isset($_GET['action'])) {
             }
 
 
-            // Schedule Administration
+            // Schedule and scorecard Administration
 
             if ($USER['flags'][$f_schedule_admin]) {
 
@@ -345,6 +345,17 @@ if(isset($_GET['action'])) {
               echo "  </td>\n";
               echo "</tr>\n";
 
+			  echo "<tr>\n";
+
+              if($action == "scorecardadmin") {
+              echo "  <td bgcolor=\"#dddddd\" height=\"20\">\n";
+              } else {
+              echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
+              }
+
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=scorecardadmin\" class=\"menu\">Scorecard Admin</a>\n";
+              echo "  </td>\n";
+              echo "</tr>\n";
             } else {
 
               echo "";
