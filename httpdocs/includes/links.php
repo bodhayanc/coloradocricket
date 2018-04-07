@@ -39,7 +39,7 @@
 
 	  "ScheduleAndResults" => array("","SCHEDULE & RESULTS"),
 	  "schedule" => array("schedule.php?schedule=$sid&ccl_mode=1","League Schedule"),
-	  "submit-scorecard" => array("submit","Submit a Scorecard"),
+	  //"submit-scorecard" => array("submit","Submit a Scorecard"),
 	  //"chaukapremierscorecard" => array("cclpremierchaukaiframe.php","Chauka Premier Scorecard"),
 	  //"chaukat20scorecard" => array("CCL_T20_chaukaiframe.php","Chauka T20 Scorecard"),
 	  "cricclubspremierscorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=46&clubId=5135","CricClubs Premier Scorecard"),
