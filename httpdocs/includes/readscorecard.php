@@ -38,7 +38,7 @@ function read_scorecard($db)
 				$ccl_homeclub_id = $db->data['ClubID'];
 			} else {
 				echo "Team not found with name: $ccl_hometeam. Please contact the administrator to create the team in coloradocricket.org.\n";
-				rename($dir.$scorecardFiles[$x], $dir."processed/".$scorecardFiles[$x]);
+				rename($dir.$scorecardFiles[$x], $dir."processed/".$scorecardFiles[$x] . "." . time());
 				exit();
 			}
 			echo "CricClub hometeam: $cc_hometeam\n";
@@ -57,13 +57,14 @@ function read_scorecard($db)
 				$ccl_awayclub_id = $db->data['ClubID'];
 			} else {
 				echo "Team not found with name: $ccl_awayteam. Please contact the administrator to create the team in coloradocricket.org.\n";
-				rename($dir.$scorecardFiles[$x], $dir."processed/".$scorecardFiles[$x]);
+				rename($dir.$scorecardFiles[$x], $dir."processed/".$scorecardFiles[$x] . "." . time());
 				exit();
 			}
 			echo "CricClub awayteam: $cc_awayteam\n";
 			echo "CricClub awayteam id: $cc_awayteam_id\n";
 			echo "CCL awayteam: $ccl_awayteam\n";
 			echo "CCL awayteam id: $ccl_awayteam_id\n";
+			
 			//$cc_groundname = $matchDetail->item(0)->getAttribute('venue_name');
 			//echo "CricClub ground name: $cc_groundname\n";
 			$cc_competition_name = $matchDetail->item(0)->getAttribute('competition_name');
@@ -91,6 +92,54 @@ function read_scorecard($db)
 			echo "CCL league id: $ccl_league_id\n";
 			$cc_game_date = $matchDetail->item(0)->getAttribute('game_date');
 			echo "CricClub game date: $cc_game_date\n";
+			
+			$cc_game_date_formatted = date_create_from_format('m/d/Y', $cc_game_date);
+			$ccl_game_date = $cc_game_date_formatted->format('Y-m-d');
+			$season_start_date_formatted = date_create_from_format('m/d/Y', $season_start_date);
+			$week = floor(date_diff($cc_game_date_formatted, $season_start_date_formatted)->format('%a') / 7) + 1;
+			echo "Week: $week\n";
+			$cc_venue_id = $matchDetail->item(0)->getAttribute('venue_id');
+			$ccl_ground_id = map_cc_to_ccl_ground($cc_venue_id);
+			echo "ccl_ground_id: $ccl_ground_id\n";
+			$cc_total_overs = $matchDetail->item(0)->getAttribute('total_overs');
+			echo "cc_total_overs: $cc_total_overs\n";
+			
+			//Find correct home or away teams from the schedule table. The CricClubs information may be wrong.
+			if ($db->Exists("SELECT ht.TeamID AS HomeTeamID, ht.TeamAbbrev AS HomeTeamAbbrev, ht.ClubID AS HomeClubID, at.TeamID AS AwayTeamID, at.TeamAbbrev AS AwayTeamAbbrev, at.ClubID AS AwayClubID FROM schedule sch 
+				INNER JOIN teams ht ON sch.hometeam = ht.TeamID 
+				INNER JOIN teams at ON sch.awayteam = at.TeamID 
+				WHERE (awayteam = $ccl_hometeam_id OR awayteam = $ccl_awayteam_id) 
+				AND (hometeam = $ccl_hometeam_id OR hometeam = $ccl_awayteam_id) 
+				AND date = '$ccl_game_date'")) {
+				$db->QueryRow("SELECT ht.TeamID AS HomeTeamID, ht.TeamAbbrev AS HomeTeamAbbrev, ht.ClubID AS HomeClubID, at.TeamID AS AwayTeamID, at.TeamAbbrev AS AwayTeamAbbrev, at.ClubID AS AwayClubID FROM schedule sch 
+				INNER JOIN teams ht ON sch.hometeam = ht.TeamID 
+				INNER JOIN teams at ON sch.awayteam = at.TeamID 
+				WHERE (awayteam = $ccl_hometeam_id OR awayteam = $ccl_awayteam_id) 
+				AND (hometeam = $ccl_hometeam_id OR hometeam = $ccl_awayteam_id) 
+				AND date = '$ccl_game_date'");
+				$db->BagAndTag();
+
+				if($ccl_hometeam_id != $db->data['HomeTeamID']) {
+					$ccl_hometeam_id = $db->data['HomeTeamID'];
+					$ccl_hometeam_abbrev = $db->data['HomeTeamAbbrev'];
+					$ccl_homeclub_id = $db->data['HomeClubID'];
+					$ccl_awayteam_id = $db->data['AwayTeamID'];
+					$ccl_awayteam_abbrev = $db->data['AwayTeamAbbrev'];
+					$ccl_awayclub_id = $db->data['AwayClubID'];
+					$temp_id = $cc_hometeam_id;
+					$cc_hometeam_id = $cc_awayteam_id;
+					$cc_awayteam_id = $temp_id;
+					$temp_team = $cc_hometeam;
+					$cc_hometeam = $cc_awayteam;
+					$cc_awayteam = $temp_team;
+					echo "cc_hometeam_id: $cc_hometeam_id\n";
+					echo "cc_awayteam_id: $cc_awayteam_id\n";
+				}
+			} else {
+				echo "Home and away team informations are not matching or the date is not matching with the CCL schedule. Please contact the CCL administrator.\n";
+				rename($dir.$scorecardFiles[$x], $dir."processed/".$scorecardFiles[$x] . "." . time());
+				exit();
+			}
 			$cc_toss_team_id = $matchDetail->item(0)->getAttribute('toss_team_id');
 			if($cc_toss_team_id == $cc_hometeam_id) {
 				$ccl_toss_team_id = $ccl_hometeam_id;
@@ -127,16 +176,6 @@ function read_scorecard($db)
 				}
 			}
 			
-			$cc_game_date_formatted = date_create_from_format('m/d/Y', $cc_game_date);
-			$ccl_game_date = $cc_game_date_formatted->format('Y-m-d');
-			$season_start_date_formatted = date_create_from_format('m/d/Y', $season_start_date);
-			$week = floor(date_diff($cc_game_date_formatted, $season_start_date_formatted)->format('%a') / 7) + 1;
-			echo "Week: $week\n";
-			$cc_venue_id = $matchDetail->item(0)->getAttribute('venue_id');
-			$ccl_ground_id = map_cc_to_ccl_ground($cc_venue_id);
-			echo "ccl_ground_id: $ccl_ground_id\n";
-			$cc_total_overs = $matchDetail->item(0)->getAttribute('total_overs');
-			echo "cc_total_overs: $cc_total_overs\n";
 			$cc_mom = 0;
 			foreach($matchDetail->item(0)->childNodes as $matchDetailChild) {
 				if($matchDetailChild->nodeName == 'man_of_the_match') {
@@ -199,7 +238,11 @@ function read_scorecard($db)
 			echo "cc_batting_second_id: $cc_batting_second_id\n";
 			$teams = $xmlDoc->getElementsByTagName('Team');
 			foreach ($teams as $team) {
-				if($team->getAttribute('home_or_away') == 'home') {
+				echo "cc_hometeam_id: $cc_hometeam_id\n";
+				echo "cc_awayteam_id: $cc_awayteam_id\n";
+				echo "team_id: " . $team->getAttribute('team_id') . "\n";
+			
+				if($team->getAttribute('team_id') == $cc_hometeam_id) {
 					foreach($team->childNodes as $teamChild) {
 						if($teamChild->nodeName == 'Player') {
 							if(!isset($hometeamplayers)) {
@@ -219,7 +262,7 @@ function read_scorecard($db)
 						}
 					}
 					sync_cc_and_ccl_players($hometeamplayers, $ccl_homeclub_id, $ccl_hometeam_id);
-				} else if($team->getAttribute('home_or_away') == 'away') {
+				} else if($team->getAttribute('team_id') == $cc_awayteam_id) {
 					foreach($team->childNodes as $teamChild) {
 						if($teamChild->nodeName == 'Player') {
 							if(!isset($awayteamplayers)) {
@@ -251,6 +294,12 @@ function read_scorecard($db)
 				echo "cc_player_id: ". $player->getAttribute('id'). ", ccl_player_id: ". $player->getAttribute('ccl_player_id').", player_name: " . $player->getAttribute('player_name')."\n";
 			}
 			
+			echo "cc_batting_first_id: $cc_batting_first_id";
+			echo "cc_hometeam_id: $cc_hometeam_id";
+			echo "cc_batting_second_id: $cc_batting_second_id";
+			echo "cc_awayteam_id: $cc_awayteam_id";
+			echo "ccl_hometeam_id: $ccl_hometeam_id";
+			echo "ccl_awayteam_id: $ccl_awayteam_id";
 			if($cc_batting_first_id == $cc_hometeam_id) {
 				$ccl_batting_first_id = $ccl_hometeam_id;
 			} else {
