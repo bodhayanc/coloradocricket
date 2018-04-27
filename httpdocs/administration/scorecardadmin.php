@@ -2490,12 +2490,15 @@ function edit_scorecard_step2($db,$game_id)
       s.game_id, s.innings_id, s.batting_position, s.runs, s.balls, s.fours, s.sixes,s.howout_video,s.highlights_video,
       p.PlayerID AS BatterID, p.PlayerLName AS BatterLName, p.PlayerFName AS BatterFName, LEFT(p.PlayerFName,1) AS BatterFInitial,
       h.HowOutID, h.HowOutName, h.HowOutAbbrev, b.PlayerID AS BowlerID, a.PlayerID AS AssistID,
-      a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+      a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial, 
+	  a2.PlayerID AS AssistID2, a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
       b.PlayerLName AS BowlerLName, b.PlayerFName AS BowlerFName, LEFT(b.PlayerFName,1) AS BowlerFInitial
     FROM
       scorecard_batting_details s
     LEFT JOIN
       players a ON a.PlayerID = s.assist
+    LEFT JOIN
+      players a2 ON a2.PlayerID = s.assist2
     LEFT JOIN
       players p ON p.PlayerID = s.player_id
     LEFT JOIN
@@ -2523,6 +2526,10 @@ function edit_scorecard_step2($db,$game_id)
     $aln = $db->data['AssistLName'];
     $afn = $db->data['AssistFName'];
     $ain = $db->data['AssistFInitial'];
+    $a2id = $db->data['AssistID2'];
+    $a2ln = $db->data['AssistLName2'];
+    $a2fn = $db->data['AssistFName2'];
+    $a2in = $db->data['AssistFInitial2'];
     $out = $db->data['HowOutAbbrev'];
     $oid = $db->data['HowOutID'];
     $run = $db->data['runs'];
@@ -2531,12 +2538,12 @@ function edit_scorecard_step2($db,$game_id)
     $six = $db->data['sixes'];
     $hwv = $db->data['howout_video'];
 	$hlv = $db->data['highlights_video'];
-	$pl_rec = array ($pid, $bid, $aid, $oid, $run, $bal, $fou, $six, $hwv, $hlv);
+	$pl_rec = array ($pid, $bid, $aid, $oid, $run, $bal, $fou, $six, $hwv, $hlv, $a2id);
 	$pl_data[$x] = $pl_rec;
 	}
 	echo " <tr>\n";
 	
-	echo "  <td width=\"70%\" colspan=\"4\">&nbsp;</td>\n";
+	echo "  <td width=\"70%\" colspan=\"5\">&nbsp;</td>\n";
 	echo "  <td width=\"8%\" align=\"right\"><b>Runs</b></td>\n";
 	echo "  <td width=\"8%\" align=\"right\"><b>Balls</b></td>\n";
 	echo "  <td width=\"8%\" align=\"right\"><b>4s</b></td>\n";
@@ -2563,7 +2570,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2601,7 +2608,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"oneassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[0][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2620,7 +2646,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2676,7 +2702,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2714,9 +2740,28 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"twoassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[1][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
 	echo "</select>\n";
 	echo "  </td>\n";	
 	echo "  <td width=\"20%\" align=\"left\">";
@@ -2733,7 +2778,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2789,7 +2834,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2827,7 +2872,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"threeassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[2][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2846,7 +2910,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2902,7 +2966,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2940,7 +3004,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"fourassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[3][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -2959,7 +3042,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3015,7 +3098,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3053,7 +3136,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"fiveassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[4][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3072,7 +3174,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3128,7 +3230,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3166,7 +3268,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"sixassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[5][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3185,7 +3306,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3241,7 +3362,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3279,7 +3400,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"sevenassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[6][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3298,7 +3438,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3354,7 +3494,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3392,7 +3532,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"eightassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[7][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3411,7 +3570,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3467,7 +3626,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3505,7 +3664,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"nineassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[8][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3524,7 +3702,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3580,7 +3758,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3618,7 +3796,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"tenassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[9][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3637,7 +3834,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3693,7 +3890,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3731,7 +3928,26 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"elevenassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[10][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -3750,7 +3966,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4084,7 +4300,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4144,7 +4360,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4210,7 +4426,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4277,7 +4493,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4344,7 +4560,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4411,7 +4627,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4478,7 +4694,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4539,7 +4755,7 @@ function edit_scorecard_step2($db,$game_id)
 		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4606,7 +4822,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4672,7 +4888,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4739,7 +4955,7 @@ function edit_scorecard_step2($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -4811,12 +5027,12 @@ function edit_scorecard_step2($db,$game_id)
 
 function 
 
-update_scorecard_step2($db,$submit,$game_id,$season,$innings_id,$oneplayer_id,$onehow_out,$oneassist,$onebowler,$oneruns,$oneballs,$onefours,$onesixes,$onehwv,$onehlv,$twoplayer_id,
-$twohow_out,$twoassist,$twobowler,$tworuns,$twoballs,$twofours,$twosixes,$twohwv,$twohlv,$threeplayer_id,$threehow_out,$threeassist,$threebowler,$threeruns,$threeballs,
-$threefours,$threesixes,$threehwv,$threehlv,$fourplayer_id,$fourhow_out,$fourassist,$fourbowler,$fourruns,$fourballs,$fourfours,$foursixes,$fourhwv,$fourhlv,$fiveplayer_id,$fivehow_out,$fiveassist,
-$fivebowler,$fiveruns,$fiveballs,$fivefours,$fivesixes,$fivehwv,$fivehlv,$sixplayer_id,$sixhow_out,$sixassist,$sixbowler,$sixruns,$sixballs,$sixfours,$sixsixes,$sixhwv,$sixhlv,$sevenplayer_id,$sevenhow_out,$sevenassist,$sevenbowler,$sevenruns,
-$sevenballs,$sevenfours,$sevensixes,$sevenhwv,$sevenhlv,$eightplayer_id,$eighthow_out,$eightassist,$eightbowler,$eightruns,$eightballs,$eightfours,$eightsixes,$eighthwv,$eighthlv,$nineplayer_id,$ninehow_out,$nineassist,$ninebowler,$nineruns,
-$nineballs,$ninefours,$ninesixes,$ninehwv,$ninehlv,$tenplayer_id,$tenhow_out,$tenassist,$tenbowler,$tenruns,$tenballs,$tenfours,$tensixes,$tenhwv,$tenhlv,$elevenplayer_id,$elevenhow_out,$elevenassist,$elevenbowler,$elevenruns,$elevenballs,$elevenfours,
+update_scorecard_step2($db,$submit,$game_id,$season,$innings_id,$oneplayer_id,$onehow_out,$oneassist,$oneassist2,$onebowler,$oneruns,$oneballs,$onefours,$onesixes,$onehwv,$onehlv,$twoplayer_id,
+$twohow_out,$twoassist,$twoassist2,$twobowler,$tworuns,$twoballs,$twofours,$twosixes,$twohwv,$twohlv,$threeplayer_id,$threehow_out,$threeassist,$threeassist2,$threebowler,$threeruns,$threeballs,
+$threefours,$threesixes,$threehwv,$threehlv,$fourplayer_id,$fourhow_out,$fourassist,$fourassist2,$fourbowler,$fourruns,$fourballs,$fourfours,$foursixes,$fourhwv,$fourhlv,$fiveplayer_id,$fivehow_out,$fiveassist,$fiveassist2,
+$fivebowler,$fiveruns,$fiveballs,$fivefours,$fivesixes,$fivehwv,$fivehlv,$sixplayer_id,$sixhow_out,$sixassist,$sixassist2,$sixbowler,$sixruns,$sixballs,$sixfours,$sixsixes,$sixhwv,$sixhlv,$sevenplayer_id,$sevenhow_out,$sevenassist,$sevenassist2,$sevenbowler,$sevenruns,
+$sevenballs,$sevenfours,$sevensixes,$sevenhwv,$sevenhlv,$eightplayer_id,$eighthow_out,$eightassist,$eightassist2,$eightbowler,$eightruns,$eightballs,$eightfours,$eightsixes,$eighthwv,$eighthlv,$nineplayer_id,$ninehow_out,$nineassist,$nineassist2,$ninebowler,$nineruns,
+$nineballs,$ninefours,$ninesixes,$ninehwv,$ninehlv,$tenplayer_id,$tenhow_out,$tenassist,$tenassist2,$tenbowler,$tenruns,$tenballs,$tenfours,$tensixes,$tenhwv,$tenhlv,$elevenplayer_id,$elevenhow_out,$elevenassist,$elevenassist2,$elevenbowler,$elevenruns,$elevenballs,$elevenfours,
 $elevensixes,$elevenhwv,$elevenhlv,$totwickets,$totovers,$tottotal,$extlegbyes,$extbyes,$extwides,$extnoballs,$exttotal,$fowone,$fowtwo,$fowthree,$fowfour,$fowfive,$fowsix,$fowseven,
 $foweight,$fownine,$fowten,$onebowler_id,$oneovers,$onemaidens,$onebowruns,$onewickets,$onenoballs,$onewides,$onehlvb,$twobowler_id,$twoovers,$twomaidens,$twobowruns,
 $twowickets,$twonoballs,$twowides,$twohlvb,$threebowler_id,$threeovers,$threemaidens,$threebowruns,$threewickets,$threenoballs,$threewides,$threehlvb,$fourbowler_id,$fourovers,
@@ -4850,6 +5066,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$onepl = addslashes(trim($oneplayer_id));
 		$oneho = addslashes(trim($onehow_out));
 		$oneas = addslashes(trim($oneassist));
+		$oneas2 = addslashes(trim($oneassist2));
 		$onebo = addslashes(trim($onebowler));
 		$oneru = addslashes(trim($oneruns));
 		$oneba = addslashes(trim($oneballs));
@@ -4862,6 +5079,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$twopl = addslashes(trim($twoplayer_id));
 		$twoho = addslashes(trim($twohow_out));
 		$twoas = addslashes(trim($twoassist));
+		$twoas2 = addslashes(trim($twoassist2));
 		$twobo = addslashes(trim($twobowler));
 		$tworu = addslashes(trim($tworuns));
 		$twoba = addslashes(trim($twoballs));
@@ -4874,6 +5092,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$threepl = addslashes(trim($threeplayer_id));
 		$threeho = addslashes(trim($threehow_out));
 		$threeas = addslashes(trim($threeassist));
+		$threeas2 = addslashes(trim($threeassist2));
 		$threebo = addslashes(trim($threebowler));
 		$threeru = addslashes(trim($threeruns));
 		$threeba = addslashes(trim($threeballs));
@@ -4886,6 +5105,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$fourpl = addslashes(trim($fourplayer_id));
 		$fourho = addslashes(trim($fourhow_out));
 		$fouras = addslashes(trim($fourassist));
+		$fouras2 = addslashes(trim($fourassist2));
 		$fourbo = addslashes(trim($fourbowler));
 		$fourru = addslashes(trim($fourruns));
 		$fourba = addslashes(trim($fourballs));
@@ -4898,6 +5118,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$fivepl = addslashes(trim($fiveplayer_id));
 		$fiveho = addslashes(trim($fivehow_out));
 		$fiveas = addslashes(trim($fiveassist));
+		$fiveas2 = addslashes(trim($fiveassist2));
 		$fivebo = addslashes(trim($fivebowler));
 		$fiveru = addslashes(trim($fiveruns));
 		$fiveba = addslashes(trim($fiveballs));
@@ -4910,6 +5131,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$sixpl = addslashes(trim($sixplayer_id));
 		$sixho = addslashes(trim($sixhow_out));
 		$sixas = addslashes(trim($sixassist));
+		$sixas2 = addslashes(trim($sixassist2));
 		$sixbo = addslashes(trim($sixbowler));
 		$sixru = addslashes(trim($sixruns));
 		$sixba = addslashes(trim($sixballs));
@@ -4922,6 +5144,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$sevenpl = addslashes(trim($sevenplayer_id));
 		$sevenho = addslashes(trim($sevenhow_out));
 		$sevenas = addslashes(trim($sevenassist));
+		$sevenas2 = addslashes(trim($sevenassist2));
 		$sevenbo = addslashes(trim($sevenbowler));
 		$sevenru = addslashes(trim($sevenruns));
 		$sevenba = addslashes(trim($sevenballs));
@@ -4934,6 +5157,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$eightpl = addslashes(trim($eightplayer_id));
 		$eightho = addslashes(trim($eighthow_out));
 		$eightas = addslashes(trim($eightassist));
+		$eightas2 = addslashes(trim($eightassist2));
 		$eightbo = addslashes(trim($eightbowler));
 		$eightru = addslashes(trim($eightruns));
 		$eightba = addslashes(trim($eightballs));
@@ -4946,6 +5170,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$ninepl = addslashes(trim($nineplayer_id));
 		$nineho = addslashes(trim($ninehow_out));
 		$nineas = addslashes(trim($nineassist));
+		$nineas2 = addslashes(trim($nineassist2));
 		$ninebo = addslashes(trim($ninebowler));
 		$nineru = addslashes(trim($nineruns));
 		$nineba = addslashes(trim($nineballs));
@@ -4958,6 +5183,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$tenpl = addslashes(trim($tenplayer_id));
 		$tenho = addslashes(trim($tenhow_out));
 		$tenas = addslashes(trim($tenassist));
+		$tenas2 = addslashes(trim($tenassist2));
 		$tenbo = addslashes(trim($tenbowler));
 		$tenru = addslashes(trim($tenruns));
 		$tenba = addslashes(trim($tenballs));
@@ -4970,6 +5196,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$elevenpl = addslashes(trim($elevenplayer_id));
 		$elevenho = addslashes(trim($elevenhow_out));
 		$elevenas = addslashes(trim($elevenassist));
+		$elevenas2 = addslashes(trim($elevenassist2));
 		$elevenbo = addslashes(trim($elevenbowler));
 		$elevenru = addslashes(trim($elevenruns));
 		$elevenba = addslashes(trim($elevenballs));
@@ -5225,28 +5452,28 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 
 		$db->Delete("DELETE FROM scorecard_batting_details WHERE  game_id = '$game_id' AND innings_id = '$innings_id'");
 		if ($onepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details 
-	(game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$onepl','$onebap','$oneho','$oneru','$oneas','$onebo','$oneba','$onefo','$onesi','$onehv','$onehl','$oneno','$onetm','$oneopp')");
-		if ($twopl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$twopl','$twobap','$twoho','$tworu','$twoas','$twobo','$twoba','$twofo','$twosi','$twohv','$twohl','$twono','$twotm','$twoopp')");
-		if ($threepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$threepl','$threebap','$threeho','$threeru','$threeas','$threebo','$threeba','$threefo','$threesi','$threehv','$threehl','$threeno','$threetm','$threeopp')");
-		if ($fourpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$fourpl','$fourbap','$fourho','$fourru','$fouras','$fourbo','$fourba','$fourfo','$foursi','$fourhv','$fourhl','$fourno','$fourtm','$fouropp')");
-		if ($fivepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$fivepl','$fivebap','$fiveho','$fiveru','$fiveas','$fivebo','$fiveba','$fivefo','$fivesi','$fivehv','$fivehl','$fiveno','$fivetm','$fiveopp')");
-		if ($sixpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$sixpl','$sixbap','$sixho','$sixru','$sixas','$sixbo','$sixba','$sixfo','$sixsi','$sixhv','$sixhl','$sixno','$sixtm','$sixopp')");
-		if ($sevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$sevenpl','$sevenbap','$sevenho','$sevenru','$sevenas','$sevenbo','$sevenba','$sevenfo','$sevensi','$sevenhv','$sevenhl','$sevenno','$seventm','$sevenopp')");
-		if ($eightpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$eightpl','$eightbap','$eightho','$eightru','$eightas','$eightbo','$eightba','$eightfo','$eightsi','$eighthv','$eighthl','$eightno','$eighttm','$eightopp')");
-		if ($ninepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$ninepl','$ninebap','$nineho','$nineru','$nineas','$ninebo','$nineba','$ninefo','$ninesi','$ninehv','$ninehl','$nineno','$ninetm','$nineopp')");
-		if ($tenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$tenpl','$tenbap','$tenho','$tenru','$tenas','$tenbo','$tenba','$tenfo','$tensi','$tenhv','$tenhl','$tenno','$tentm','$tenopp')");
-		if ($elevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$elevenpl','$elevenbap','$elevenho','$elevenru','$elevenas','$elevenbo','$elevenba','$elevenfo','$elevensi','$elevenhv','$elevenhl','$elevenno','$eleventm','$elevenopp')");
+		(game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$onepl','$onebap','$oneho','$oneru','$oneas','$oneas2','$onebo','$oneba','$onefo','$onesi','$onehv','$onehl','$oneno','$onetm','$oneopp')");
+		if ($twopl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$twopl','$twobap','$twoho','$tworu','$twoas','$twoas2','$twobo','$twoba','$twofo','$twosi','$twohv','$twohl','$twono','$twotm','$twoopp')");
+		if ($threepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$threepl','$threebap','$threeho','$threeru','$threeas','$threeas2','$threebo','$threeba','$threefo','$threesi','$threehv','$threehl','$threeno','$threetm','$threeopp')");
+		if ($fourpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$fourpl','$fourbap','$fourho','$fourru','$fouras','$fouras2','$fourbo','$fourba','$fourfo','$foursi','$fourhv','$fourhl','$fourno','$fourtm','$fouropp')");
+		if ($fivepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$fivepl','$fivebap','$fiveho','$fiveru','$fiveas','$fiveas2','$fivebo','$fiveba','$fivefo','$fivesi','$fivehv','$fivehl','$fiveno','$fivetm','$fiveopp')");
+		if ($sixpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$sixpl','$sixbap','$sixho','$sixru','$sixas','$sixas2','$sixbo','$sixba','$sixfo','$sixsi','$sixhv','$sixhl','$sixno','$sixtm','$sixopp')");
+		if ($sevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$sevenpl','$sevenbap','$sevenho','$sevenru','$sevenas','$sevenas2','$sevenbo','$sevenba','$sevenfo','$sevensi','$sevenhv','$sevenhl','$sevenno','$seventm','$sevenopp')");
+		if ($eightpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$eightpl','$eightbap','$eightho','$eightru','$eightas','$eightas2','$eightbo','$eightba','$eightfo','$eightsi','$eighthv','$eighthl','$eightno','$eighttm','$eightopp')");
+		if ($ninepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$ninepl','$ninebap','$nineho','$nineru','$nineas','$nineas2','$ninebo','$nineba','$ninefo','$ninesi','$ninehv','$ninehl','$nineno','$ninetm','$nineopp')");
+		if ($tenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$tenpl','$tenbap','$tenho','$tenru','$tenas','$tenas2','$tenbo','$tenba','$tenfo','$tensi','$tenhv','$tenhl','$tenno','$tentm','$tenopp')");
+		if ($elevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$elevenpl','$elevenbap','$elevenho','$elevenru','$elevenas','$elevenas2','$elevenbo','$elevenba','$elevenfo','$elevensi','$elevenhv','$elevenhl','$elevenno','$eleventm','$elevenopp')");
 
 		// check to see if there is an entry of bowler
 
@@ -5451,11 +5678,14 @@ function edit_scorecard_step3($db,$game_id)
       p.PlayerID AS BatterID, p.PlayerLName AS BatterLName, p.PlayerFName AS BatterFName, LEFT(p.PlayerFName,1) AS BatterFInitial,
       h.HowOutID, h.HowOutName, h.HowOutAbbrev, b.PlayerID AS BowlerID, a.PlayerID AS AssistID,
       a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+	  a2.PlayerID AS AssistID2, a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
       b.PlayerLName AS BowlerLName, b.PlayerFName AS BowlerFName, LEFT(b.PlayerFName,1) AS BowlerFInitial
     FROM
       scorecard_batting_details s
     LEFT JOIN
       players a ON a.PlayerID = s.assist
+    LEFT JOIN
+      players a2 ON a2.PlayerID = s.assist2
     LEFT JOIN
       players p ON p.PlayerID = s.player_id
     LEFT JOIN
@@ -5483,6 +5713,10 @@ function edit_scorecard_step3($db,$game_id)
     $aln = $db->data['AssistLName'];
     $afn = $db->data['AssistFName'];
     $ain = $db->data['AssistFInitial'];
+    $a2id = $db->data['AssistID2'];
+    $a2ln = $db->data['AssistLName2'];
+    $a2fn = $db->data['AssistFName2'];
+    $a2in = $db->data['AssistFInitial2'];
     $out = $db->data['HowOutAbbrev'];
     $oid = $db->data['HowOutID'];
     $run = $db->data['runs'];
@@ -5491,12 +5725,12 @@ function edit_scorecard_step3($db,$game_id)
     $six = $db->data['sixes'];
     $hwv = $db->data['howout_video'];
 	$hlv = $db->data['highlights_video'];
-	$pl_rec = array ($pid, $bid, $aid, $oid, $run, $bal, $fou, $six, $hwv, $hlv);
+	$pl_rec = array ($pid, $bid, $aid, $oid, $run, $bal, $fou, $six, $hwv, $hlv, $a2id);
 	$pl_data[$x] = $pl_rec;
 	}
 	echo " <tr>\n";
 	
-	echo "  <td width=\"70%\" colspan=\"4\">&nbsp;</td>\n";
+	echo "  <td width=\"70%\" colspan=\"5\">&nbsp;</td>\n";
 	echo "  <td width=\"8%\" align=\"right\"><b>Runs</b></td>\n";
 	echo "  <td width=\"8%\" align=\"right\"><b>Balls</b></td>\n";
 	echo "  <td width=\"8%\" align=\"right\"><b>4s</b></td>\n";
@@ -5523,7 +5757,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5561,7 +5795,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"oneassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[0][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5580,7 +5833,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5636,7 +5889,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5674,7 +5927,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"twoassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[1][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5693,7 +5965,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5749,7 +6021,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5787,7 +6059,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"threeassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[2][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5806,7 +6097,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5862,7 +6153,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5900,7 +6191,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"fourassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[3][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5919,7 +6229,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -5975,7 +6285,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6013,7 +6323,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"fiveassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[4][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6032,7 +6361,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6088,7 +6417,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6126,7 +6455,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"sixassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[5][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6145,7 +6493,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6201,7 +6549,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6239,7 +6587,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"sevenassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[6][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6258,7 +6625,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6314,7 +6681,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6352,7 +6719,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"eightassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[7][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6371,7 +6757,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6427,7 +6813,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6465,7 +6851,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"nineassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[8][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6484,7 +6889,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6540,7 +6945,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6578,7 +6983,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"tenassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[9][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6597,7 +7021,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6653,7 +7077,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6691,7 +7115,26 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
+		}
+	}
+	echo "</select>\n";
+	echo "  </td>\n";	
+	echo "  <td width=\"20%\" align=\"left\">";
+	echo "  <select name=\"elevenassist2\" id=\"combobox4\" style=\"width:170px;\">\n";
+	echo "	<option value=\"\">Assist2</option>\n";
+	echo "	<option value=\"\">---------------</option>\n";
+	if ($db->Exists("SELECT * FROM players")) {
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			$selected = "";
+			if(count($pl_data) > 0) {
+				if($pl_data[10][10] == $db->data['PlayerID']) {
+					$selected = "selected";
+				}
+			}
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -6710,7 +7153,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7044,7 +7487,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7104,7 +7547,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7170,7 +7613,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7237,7 +7680,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7304,7 +7747,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7371,7 +7814,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7438,7 +7881,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7499,7 +7942,7 @@ function edit_scorecard_step3($db,$game_id)
 		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7566,7 +8009,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7632,7 +8075,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7699,7 +8142,7 @@ function edit_scorecard_step3($db,$game_id)
 					$selected = "selected";
 				}
 			}
-			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
+			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
 		}
 	}
 	echo "</select>\n";
@@ -7769,12 +8212,12 @@ function edit_scorecard_step3($db,$game_id)
 }
 function 
 
-update_scorecard_step3($db,$submit,$game_id,$season,$innings_id,$oneplayer_id,$onehow_out,$oneassist,$onebowler,$oneruns,$oneballs,$onefours,$onesixes,$onehwv,$onehlv,$twoplayer_id,
-$twohow_out,$twoassist,$twobowler,$tworuns,$twoballs,$twofours,$twosixes,$twohwv,$twohlv,$threeplayer_id,$threehow_out,$threeassist,$threebowler,$threeruns,$threeballs,
-$threefours,$threesixes,$threehwv,$threehlv,$fourplayer_id,$fourhow_out,$fourassist,$fourbowler,$fourruns,$fourballs,$fourfours,$foursixes,$fourhwv,$fourhlv,$fiveplayer_id,$fivehow_out,$fiveassist,
-$fivebowler,$fiveruns,$fiveballs,$fivefours,$fivesixes,$fivehwv,$fivehlv,$sixplayer_id,$sixhow_out,$sixassist,$sixbowler,$sixruns,$sixballs,$sixfours,$sixsixes,$sixhwv,$sixhlv,$sevenplayer_id,$sevenhow_out,$sevenassist,$sevenbowler,$sevenruns,
-$sevenballs,$sevenfours,$sevensixes,$sevenhwv,$sevenhlv,$eightplayer_id,$eighthow_out,$eightassist,$eightbowler,$eightruns,$eightballs,$eightfours,$eightsixes,$eighthwv,$eighthlv,$nineplayer_id,$ninehow_out,$nineassist,$ninebowler,$nineruns,
-$nineballs,$ninefours,$ninesixes,$ninehwv,$ninehlv,$tenplayer_id,$tenhow_out,$tenassist,$tenbowler,$tenruns,$tenballs,$tenfours,$tensixes,$tenhwv,$tenhlv,$elevenplayer_id,$elevenhow_out,$elevenassist,$elevenbowler,$elevenruns,$elevenballs,$elevenfours,
+update_scorecard_step3($db,$submit,$game_id,$season,$innings_id,$oneplayer_id,$onehow_out,$oneassist,$oneassist2,$onebowler,$oneruns,$oneballs,$onefours,$onesixes,$onehwv,$onehlv,$twoplayer_id,
+$twohow_out,$twoassist,$twoassist2,$twobowler,$tworuns,$twoballs,$twofours,$twosixes,$twohwv,$twohlv,$threeplayer_id,$threehow_out,$threeassist,$threeassist2,$threebowler,$threeruns,$threeballs,
+$threefours,$threesixes,$threehwv,$threehlv,$fourplayer_id,$fourhow_out,$fourassist,$fourassist2,$fourbowler,$fourruns,$fourballs,$fourfours,$foursixes,$fourhwv,$fourhlv,$fiveplayer_id,$fivehow_out,$fiveassist,$fiveassist2,
+$fivebowler,$fiveruns,$fiveballs,$fivefours,$fivesixes,$fivehwv,$fivehlv,$sixplayer_id,$sixhow_out,$sixassist,$sixassist2,$sixbowler,$sixruns,$sixballs,$sixfours,$sixsixes,$sixhwv,$sixhlv,$sevenplayer_id,$sevenhow_out,$sevenassist,$sevenassist2,$sevenbowler,$sevenruns,
+$sevenballs,$sevenfours,$sevensixes,$sevenhwv,$sevenhlv,$eightplayer_id,$eighthow_out,$eightassist,$eightassist2,$eightbowler,$eightruns,$eightballs,$eightfours,$eightsixes,$eighthwv,$eighthlv,$nineplayer_id,$ninehow_out,$nineassist,$nineassist2,$ninebowler,$nineruns,
+$nineballs,$ninefours,$ninesixes,$ninehwv,$ninehlv,$tenplayer_id,$tenhow_out,$tenassist,$tenassist2,$tenbowler,$tenruns,$tenballs,$tenfours,$tensixes,$tenhwv,$tenhlv,$elevenplayer_id,$elevenhow_out,$elevenassist,$elevenassist2,$elevenbowler,$elevenruns,$elevenballs,$elevenfours,
 $elevensixes,$elevenhwv,$elevenhlv,$totwickets,$totovers,$tottotal,$extlegbyes,$extbyes,$extwides,$extnoballs,$exttotal,$fowone,$fowtwo,$fowthree,$fowfour,$fowfive,$fowsix,$fowseven,
 $foweight,$fownine,$fowten,$onebowler_id,$oneovers,$onemaidens,$onebowruns,$onewickets,$onenoballs,$onewides,$onehlvb,$twobowler_id,$twoovers,$twomaidens,$twobowruns,
 $twowickets,$twonoballs,$twowides,$twohlvb,$threebowler_id,$threeovers,$threemaidens,$threebowruns,$threewickets,$threenoballs,$threewides,$threehlvb,$fourbowler_id,$fourovers,
@@ -7808,6 +8251,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$onepl = addslashes(trim($oneplayer_id));
 		$oneho = addslashes(trim($onehow_out));
 		$oneas = addslashes(trim($oneassist));
+		$oneas2 = addslashes(trim($oneassist2));
 		$onebo = addslashes(trim($onebowler));
 		$oneru = addslashes(trim($oneruns));
 		$oneba = addslashes(trim($oneballs));
@@ -7820,6 +8264,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$twopl = addslashes(trim($twoplayer_id));
 		$twoho = addslashes(trim($twohow_out));
 		$twoas = addslashes(trim($twoassist));
+		$twoas2 = addslashes(trim($twoassist2));
 		$twobo = addslashes(trim($twobowler));
 		$tworu = addslashes(trim($tworuns));
 		$twoba = addslashes(trim($twoballs));
@@ -7832,6 +8277,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$threepl = addslashes(trim($threeplayer_id));
 		$threeho = addslashes(trim($threehow_out));
 		$threeas = addslashes(trim($threeassist));
+		$threeas2 = addslashes(trim($threeassist2));
 		$threebo = addslashes(trim($threebowler));
 		$threeru = addslashes(trim($threeruns));
 		$threeba = addslashes(trim($threeballs));
@@ -7844,6 +8290,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$fourpl = addslashes(trim($fourplayer_id));
 		$fourho = addslashes(trim($fourhow_out));
 		$fouras = addslashes(trim($fourassist));
+		$fouras2 = addslashes(trim($fourassist2));
 		$fourbo = addslashes(trim($fourbowler));
 		$fourru = addslashes(trim($fourruns));
 		$fourba = addslashes(trim($fourballs));
@@ -7856,6 +8303,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$fivepl = addslashes(trim($fiveplayer_id));
 		$fiveho = addslashes(trim($fivehow_out));
 		$fiveas = addslashes(trim($fiveassist));
+		$fiveas2 = addslashes(trim($fiveassist2));
 		$fivebo = addslashes(trim($fivebowler));
 		$fiveru = addslashes(trim($fiveruns));
 		$fiveba = addslashes(trim($fiveballs));
@@ -7868,6 +8316,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$sixpl = addslashes(trim($sixplayer_id));
 		$sixho = addslashes(trim($sixhow_out));
 		$sixas = addslashes(trim($sixassist));
+		$sixas2 = addslashes(trim($sixassist2));
 		$sixbo = addslashes(trim($sixbowler));
 		$sixru = addslashes(trim($sixruns));
 		$sixba = addslashes(trim($sixballs));
@@ -7880,6 +8329,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$sevenpl = addslashes(trim($sevenplayer_id));
 		$sevenho = addslashes(trim($sevenhow_out));
 		$sevenas = addslashes(trim($sevenassist));
+		$sevenas2 = addslashes(trim($sevenassist2));
 		$sevenbo = addslashes(trim($sevenbowler));
 		$sevenru = addslashes(trim($sevenruns));
 		$sevenba = addslashes(trim($sevenballs));
@@ -7892,6 +8342,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$eightpl = addslashes(trim($eightplayer_id));
 		$eightho = addslashes(trim($eighthow_out));
 		$eightas = addslashes(trim($eightassist));
+		$eightas2 = addslashes(trim($eightassist2));
 		$eightbo = addslashes(trim($eightbowler));
 		$eightru = addslashes(trim($eightruns));
 		$eightba = addslashes(trim($eightballs));
@@ -7904,6 +8355,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$ninepl = addslashes(trim($nineplayer_id));
 		$nineho = addslashes(trim($ninehow_out));
 		$nineas = addslashes(trim($nineassist));
+		$nineas2 = addslashes(trim($nineassist2));
 		$ninebo = addslashes(trim($ninebowler));
 		$nineru = addslashes(trim($nineruns));
 		$nineba = addslashes(trim($nineballs));
@@ -7916,6 +8368,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$tenpl = addslashes(trim($tenplayer_id));
 		$tenho = addslashes(trim($tenhow_out));
 		$tenas = addslashes(trim($tenassist));
+		$tenas2 = addslashes(trim($tenassist2));
 		$tenbo = addslashes(trim($tenbowler));
 		$tenru = addslashes(trim($tenruns));
 		$tenba = addslashes(trim($tenballs));
@@ -7928,6 +8381,7 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$elevenpl = addslashes(trim($elevenplayer_id));
 		$elevenho = addslashes(trim($elevenhow_out));
 		$elevenas = addslashes(trim($elevenassist));
+		$elevenas2 = addslashes(trim($elevenassist2));
 		$elevenbo = addslashes(trim($elevenbowler));
 		$elevenru = addslashes(trim($elevenruns));
 		$elevenba = addslashes(trim($elevenballs));
@@ -8185,28 +8639,28 @@ $bowleightopponent,$bowlnineopponent,$bowltenopponent,$bowlelevenopponent)
 		$db->Delete("DELETE FROM scorecard_batting_details WHERE  game_id = '$game_id' AND innings_id = '$innings_id'");
 		if ($onepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details 
 
-	(game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$onepl','$onebap','$oneho','$oneru','$oneas','$onebo','$oneba','$onefo','$onesi','$onehv','$onehl','$oneno','$onetm','$oneopp')");
-		if ($twopl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$twopl','$twobap','$twoho','$tworu','$twoas','$twobo','$twoba','$twofo','$twosi','$twohv','$twohl','$twono','$twotm','$twoopp')");
-		if ($threepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$threepl','$threebap','$threeho','$threeru','$threeas','$threebo','$threeba','$threefo','$threesi','$threehv','$threehl','$threeno','$threetm','$threeopp')");
-		if ($fourpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$fourpl','$fourbap','$fourho','$fourru','$fouras','$fourbo','$fourba','$fourfo','$foursi','$fourhv','$fourhl','$fourno','$fourtm','$fouropp')");
-		if ($fivepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$fivepl','$fivebap','$fiveho','$fiveru','$fiveas','$fivebo','$fiveba','$fivefo','$fivesi','$fivehv','$fivehl','$fiveno','$fivetm','$fiveopp')");
-		if ($sixpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$sixpl','$sixbap','$sixho','$sixru','$sixas','$sixbo','$sixba','$sixfo','$sixsi','$sixhv','$sixhl','$sixno','$sixtm','$sixopp')");
-		if ($sevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$sevenpl','$sevenbap','$sevenho','$sevenru','$sevenas','$sevenbo','$sevenba','$sevenfo','$sevensi','$sevenhv','$sevenhl','$sevenno','$seventm','$sevenopp')");
-		if ($eightpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$eightpl','$eightbap','$eightho','$eightru','$eightas','$eightbo','$eightba','$eightfo','$eightsi','$eighthv','$eighthl','$eightno','$eighttm','$eightopp')");
-		if ($ninepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$ninepl','$ninebap','$nineho','$nineru','$nineas','$ninebo','$nineba','$ninefo','$ninesi','$ninehv','$ninehl','$nineno','$ninetm','$nineopp')");
-		if ($tenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$tenpl','$tenbap','$tenho','$tenru','$tenas','$tenbo','$tenba','$tenfo','$tensi','$tenhv','$tenhl','$tenno','$tentm','$tenopp')");
-		if ($elevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
-	('$game_id','$season','$innings_id','$elevenpl','$elevenbap','$elevenho','$elevenru','$elevenas','$elevenbo','$elevenba','$elevenfo','$elevensi','$elevenhv','$elevenhl','$elevenno','$eleventm','$elevenopp')");
+	(game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$onepl','$onebap','$oneho','$oneru','$oneas','$oneas2','$onebo','$oneba','$onefo','$onesi','$onehv','$onehl','$oneno','$onetm','$oneopp')");
+		if ($twopl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$twopl','$twobap','$twoho','$tworu','$twoas','$twoas2','$twobo','$twoba','$twofo','$twosi','$twohv','$twohl','$twono','$twotm','$twoopp')");
+		if ($threepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$threepl','$threebap','$threeho','$threeru','$threeas','$threeas2','$threebo','$threeba','$threefo','$threesi','$threehv','$threehl','$threeno','$threetm','$threeopp')");
+		if ($fourpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$fourpl','$fourbap','$fourho','$fourru','$fouras','$fouras2','$fourbo','$fourba','$fourfo','$foursi','$fourhv','$fourhl','$fourno','$fourtm','$fouropp')");
+		if ($fivepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$fivepl','$fivebap','$fiveho','$fiveru','$fiveas','$fiveas2','$fivebo','$fiveba','$fivefo','$fivesi','$fivehv','$fivehl','$fiveno','$fivetm','$fiveopp')");
+		if ($sixpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$sixpl','$sixbap','$sixho','$sixru','$sixas','$sixas2','$sixbo','$sixba','$sixfo','$sixsi','$sixhv','$sixhl','$sixno','$sixtm','$sixopp')");
+		if ($sevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$sevenpl','$sevenbap','$sevenho','$sevenru','$sevenas','$sevenas2','$sevenbo','$sevenba','$sevenfo','$sevensi','$sevenhv','$sevenhl','$sevenno','$seventm','$sevenopp')");
+		if ($eightpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$eightpl','$eightbap','$eightho','$eightru','$eightas','$eightas2','$eightbo','$eightba','$eightfo','$eightsi','$eighthv','$eighthl','$eightno','$eighttm','$eightopp')");
+		if ($ninepl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$ninepl','$ninebap','$nineho','$nineru','$nineas','$nineas2','$ninebo','$nineba','$ninefo','$ninesi','$ninehv','$ninehl','$nineno','$ninetm','$nineopp')");
+		if ($tenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$tenpl','$tenbap','$tenho','$tenru','$tenas','$tenas2','$tenbo','$tenba','$tenfo','$tensi','$tenhv','$tenhl','$tenno','$tentm','$tenopp')");
+		if ($elevenpl != "") 	$db->Insert("INSERT INTO scorecard_batting_details (game_id,season,innings_id,player_id,batting_position,how_out,runs,assist,assist2,bowler,balls,fours,sixes,howout_video,highlights_video,notout,team,opponent) VALUES 
+	('$game_id','$season','$innings_id','$elevenpl','$elevenbap','$elevenho','$elevenru','$elevenas','$elevenas2','$elevenbo','$elevenba','$elevenfo','$elevensi','$elevenhv','$elevenhl','$elevenno','$eleventm','$elevenopp')");
 
 		// check to see if there is an entry of bowler
 
@@ -8292,13 +8746,13 @@ case "update2":
 	edit_scorecard_step2($db, $_GET['game_id']);
 	break;
 case "update3":
-	update_scorecard_step2($db,$_POST['submit'], $_POST['game_id'],$_POST['season'],$_POST['innings_id'],$_POST['oneplayer_id'],$_POST['onehow_out'],$_POST['oneassist'],$_POST['onebowler'],$_POST['oneruns'],$_POST['oneballs'],$_POST['onefours'],$_POST['onesixes'],$_POST['onehwv'],$_POST['onehlv'],$_POST['twoplayer_id'], $_POST['twohow_out'],$_POST['twoassist'],$_POST['twobowler'],$_POST['tworuns'],$_POST['twoballs'],$_POST['twofours'],$_POST['twosixes'],$_POST['twohwv'],$_POST['twohlv'],$_POST['threeplayer_id'],$_POST['threehow_out'],$_POST['threeassist'],$_POST['threebowler'],$_POST['threeruns'],$_POST['threeballs'],$_POST['threefours'],$_POST['threesixes'],$_POST['threehwv'],$_POST['threehlv'],$_POST['fourplayer_id'],$_POST['fourhow_out'],$_POST['fourassist'],$_POST['fourbowler'],$_POST['fourruns'],$_POST['fourballs'],$_POST['fourfours'],$_POST['foursixes'],$_POST['fourhwv'],$_POST['fourhlv'],$_POST['fiveplayer_id'],$_POST['fivehow_out'],$_POST['fiveassist'],$_POST['fivebowler'],$_POST['fiveruns'],$_POST['fiveballs'],$_POST['fivefours'],$_POST['fivesixes'],$_POST['fivehwv'],$_POST['fivehlv'],$_POST['sixplayer_id'],$_POST['sixhow_out'],$_POST['sixassist'],$_POST['sixbowler'],$_POST['sixruns'],$_POST['sixballs'],$_POST['sixfours'],$_POST['sixsixes'],$_POST['sixhwv'],$_POST['sixhlv'],$_POST['sevenplayer_id'],$_POST['sevenhow_out'],$_POST['sevenassist'],$_POST['sevenbowler'],$_POST['sevenruns'],$_POST['sevenballs'],$_POST['sevenfours'],$_POST['sevensixes'],$_POST['sevenhwv'],$_POST['sevenhlv'],$_POST['eightplayer_id'],$_POST['eighthow_out'],$_POST['eightassist'],$_POST['eightbowler'],$_POST['eightruns'],$_POST['eightballs'],$_POST['eightfours'],$_POST['eightsixes'],$_POST['eighthwv'],$_POST['eighthlv'],$_POST['nineplayer_id'],$_POST['ninehow_out'],$_POST['nineassist'],$_POST['ninebowler'],$_POST['nineruns'],$_POST['nineballs'],$_POST['ninefours'],$_POST['ninesixes'],$_POST['ninehwv'],$_POST['ninehlv'],$_POST['tenplayer_id'],$_POST['tenhow_out'],$_POST['tenassist'],$_POST['tenbowler'],$_POST['tenruns'],$_POST['tenballs'],$_POST['tenfours'],$_POST['tensixes'],$_POST['tenhwv'],$_POST['tenhlv'],$_POST['elevenplayer_id'],$_POST['elevenhow_out'],$_POST['elevenassist'],$_POST['elevenbowler'],$_POST['elevenruns'],$_POST['elevenballs'],$_POST['elevenfours'],$_POST['elevensixes'],$_POST['elevenhwv'],$_POST['elevenhlv'],$_POST['totwickets'],$_POST['totovers'],$_POST['tottotal'],$_POST['extlegbyes'],$_POST['extbyes'],$_POST['extwides'],$_POST['extnoballs'],$_POST['exttotal'],$_POST['fowone'],$_POST['fowtwo'],$_POST['fowthree'],$_POST['fowfour'],$_POST['fowfive'],$_POST['fowsix'],$_POST['fowseven'], $_POST['foweight'],$_POST['fownine'],$_POST['fowten'],$_POST['onebowler_id'],$_POST['oneovers'],$_POST['onemaidens'],$_POST['onebowruns'],$_POST['onewickets'],$_POST['onenoballs'],$_POST['onewides'],$_POST['onehlvb'],$_POST['twobowler_id'],$_POST['twoovers'],$_POST['twomaidens'],$_POST['twobowruns'], $_POST['twowickets'],$_POST['twonoballs'],$_POST['twowides'],$_POST['twohlvb'],$_POST['threebowler_id'],$_POST['threeovers'],$_POST['threemaidens'],$_POST['threebowruns'],$_POST['threewickets'],$_POST['threenoballs'],$_POST['threewides'],$_POST['threehlvb'],$_POST['fourbowler_id'],$_POST['fourovers'],$_POST['fourmaidens'],$_POST['fourbowruns'],$_POST['fourwickets'],$_POST['fournoballs'],$_POST['fourwides'],$_POST['fourhlvb'],$_POST['fivebowler_id'],$_POST['fiveovers'],$_POST['fivemaidens'],$_POST['fivebowruns'],$_POST['fivewickets'],$_POST['fivenoballs'],$_POST['fivewides'],$_POST['fivehlvb'],$_POST['sixbowler_id'],$_POST['sixovers'],$_POST['sixmaidens'],$_POST['sixbowruns'],$_POST['sixwickets'],$_POST['sixnoballs'],$_POST['sixwides'],$_POST['sixhlvb'],$_POST['sevenbowler_id'],$_POST['sevenovers'],$_POST['sevenmaidens'],$_POST['sevenbowruns'],$_POST['sevenwickets'],$_POST['sevennoballs'],$_POST['sevenwides'],$_POST['sevenhlvb'],$_POST['eightbowler_id'],$_POST['eightovers'],$_POST['eightmaidens'],$_POST['eightbowruns'],$_POST['eightwickets'],$_POST['eightnoballs'],$_POST['eightwides'],$_POST['eighthlvb'],$_POST['ninebowler_id'],$_POST['nineovers'],$_POST['ninemaidens'],$_POST['ninebowruns'],$_POST['ninewickets'],$_POST['ninenoballs'],$_POST['ninewides'],$_POST['ninehlvb'],$_POST['tenbowler_id'],$_POST['tenovers'],$_POST['tenmaidens'],$_POST['tenbowruns'],$_POST['tenwickets'],$_POST['tennoballs'],$_POST['tenwides'],$_POST['tenhlvb'],$_POST['elevenbowler_id'],$_POST['elevenovers'],$_POST['elevenmaidens'],$_POST['elevenbowruns'],$_POST['elevenwickets'],$_POST['elevennoballs'],$_POST['elevenwides'],$_POST['elevenhlvb'],$_POST['onebatpos'],$_POST['twobatpos'],$_POST['threebatpos'],$_POST['fourbatpos'],$_POST['fivebatpos'],$_POST['sixbatpos'],$_POST['sevenbatpos'],$_POST['eightbatpos'],$_POST['ninebatpos'],$_POST['tenbatpos'],$_POST['elevenbatpos'],$_POST['onebowpos'], $_POST['twobowpos'],$_POST['threebowpos'],$_POST['fourbowpos'],$_POST['fivebowpos'],$_POST['sixbowpos'],$_POST['sevenbowpos'],$_POST['eightbowpos'],$_POST['ninebowpos'],$_POST['tenbowpos'],$_POST['elevenbowpos'],$_POST['oneteam'],$_POST['twoteam'],$_POST['threeteam'],$_POST['fourteam'],$_POST['fiveteam'],$_POST['sixteam'],$_POST['seventeam'],$_POST['eightteam'], $_POST['nineteam'],$_POST['tenteam'],$_POST['eleventeam'],$_POST['oneopponent'],$_POST['twoopponent'],$_POST['threeopponent'],$_POST['fouropponent'],$_POST['fiveopponent'],$_POST['sixopponent'],$_POST['sevenopponent'],$_POST['eightopponent'],$_POST['nineopponent'],$_POST['tenopponent'],$_POST['elevenopponent'],$_POST['bowloneteam'], $_POST['bowltwoteam'],$_POST['bowlthreeteam'],$_POST['bowlfourteam'],$_POST['bowlfiveteam'],$_POST['bowlsixteam'],$_POST['bowlseventeam'],$_POST['bowleightteam'],$_POST['bowlnineteam'],$_POST['bowltenteam'],$_POST['bowleleventeam'],$_POST['bowloneopponent'],$_POST['bowltwoopponent'],$_POST['bowlthreeopponent'], $_POST['bowlfouropponent'],$_POST['bowlfouropponent'],$_POST['bowlsixopponent'],$_POST['bowlsevenopponent'],$_POST['bowleightopponent'],$_POST['bowlnineopponent'],$_POST['bowltenopponent'],$_POST['bowlelevenopponent']);
+	update_scorecard_step2($db,$_POST['submit'], $_POST['game_id'],$_POST['season'],$_POST['innings_id'],$_POST['oneplayer_id'],$_POST['onehow_out'],$_POST['oneassist'],$_POST['oneassist2'],$_POST['onebowler'],$_POST['oneruns'],$_POST['oneballs'],$_POST['onefours'],$_POST['onesixes'],$_POST['onehwv'],$_POST['onehlv'],$_POST['twoplayer_id'], $_POST['twohow_out'],$_POST['twoassist'],$_POST['twoassist2'],$_POST['twobowler'],$_POST['tworuns'],$_POST['twoballs'],$_POST['twofours'],$_POST['twosixes'],$_POST['twohwv'],$_POST['twohlv'],$_POST['threeplayer_id'],$_POST['threehow_out'],$_POST['threeassist'],$_POST['threeassist2'],$_POST['threebowler'],$_POST['threeruns'],$_POST['threeballs'],$_POST['threefours'],$_POST['threesixes'],$_POST['threehwv'],$_POST['threehlv'],$_POST['fourplayer_id'],$_POST['fourhow_out'],$_POST['fourassist'],$_POST['fourassist2'],$_POST['fourbowler'],$_POST['fourruns'],$_POST['fourballs'],$_POST['fourfours'],$_POST['foursixes'],$_POST['fourhwv'],$_POST['fourhlv'],$_POST['fiveplayer_id'],$_POST['fivehow_out'],$_POST['fiveassist'],$_POST['fiveassist2'],$_POST['fivebowler'],$_POST['fiveruns'],$_POST['fiveballs'],$_POST['fivefours'],$_POST['fivesixes'],$_POST['fivehwv'],$_POST['fivehlv'],$_POST['sixplayer_id'],$_POST['sixhow_out'],$_POST['sixassist'],$_POST['sixassist2'],$_POST['sixbowler'],$_POST['sixruns'],$_POST['sixballs'],$_POST['sixfours'],$_POST['sixsixes'],$_POST['sixhwv'],$_POST['sixhlv'],$_POST['sevenplayer_id'],$_POST['sevenhow_out'],$_POST['sevenassist'],$_POST['sevenassist2'],$_POST['sevenbowler'],$_POST['sevenruns'],$_POST['sevenballs'],$_POST['sevenfours'],$_POST['sevensixes'],$_POST['sevenhwv'],$_POST['sevenhlv'],$_POST['eightplayer_id'],$_POST['eighthow_out'],$_POST['eightassist'],$_POST['eightassist2'],$_POST['eightbowler'],$_POST['eightruns'],$_POST['eightballs'],$_POST['eightfours'],$_POST['eightsixes'],$_POST['eighthwv'],$_POST['eighthlv'],$_POST['nineplayer_id'],$_POST['ninehow_out'],$_POST['nineassist'],$_POST['nineassist2'],$_POST['ninebowler'],$_POST['nineruns'],$_POST['nineballs'],$_POST['ninefours'],$_POST['ninesixes'],$_POST['ninehwv'],$_POST['ninehlv'],$_POST['tenplayer_id'],$_POST['tenhow_out'],$_POST['tenassist'],$_POST['tenassist2'],$_POST['tenbowler'],$_POST['tenruns'],$_POST['tenballs'],$_POST['tenfours'],$_POST['tensixes'],$_POST['tenhwv'],$_POST['tenhlv'],$_POST['elevenplayer_id'],$_POST['elevenhow_out'],$_POST['elevenassist'],$_POST['elevenassist2'],$_POST['elevenbowler'],$_POST['elevenruns'],$_POST['elevenballs'],$_POST['elevenfours'],$_POST['elevensixes'],$_POST['elevenhwv'],$_POST['elevenhlv'],$_POST['totwickets'],$_POST['totovers'],$_POST['tottotal'],$_POST['extlegbyes'],$_POST['extbyes'],$_POST['extwides'],$_POST['extnoballs'],$_POST['exttotal'],$_POST['fowone'],$_POST['fowtwo'],$_POST['fowthree'],$_POST['fowfour'],$_POST['fowfive'],$_POST['fowsix'],$_POST['fowseven'], $_POST['foweight'],$_POST['fownine'],$_POST['fowten'],$_POST['onebowler_id'],$_POST['oneovers'],$_POST['onemaidens'],$_POST['onebowruns'],$_POST['onewickets'],$_POST['onenoballs'],$_POST['onewides'],$_POST['onehlvb'],$_POST['twobowler_id'],$_POST['twoovers'],$_POST['twomaidens'],$_POST['twobowruns'], $_POST['twowickets'],$_POST['twonoballs'],$_POST['twowides'],$_POST['twohlvb'],$_POST['threebowler_id'],$_POST['threeovers'],$_POST['threemaidens'],$_POST['threebowruns'],$_POST['threewickets'],$_POST['threenoballs'],$_POST['threewides'],$_POST['threehlvb'],$_POST['fourbowler_id'],$_POST['fourovers'],$_POST['fourmaidens'],$_POST['fourbowruns'],$_POST['fourwickets'],$_POST['fournoballs'],$_POST['fourwides'],$_POST['fourhlvb'],$_POST['fivebowler_id'],$_POST['fiveovers'],$_POST['fivemaidens'],$_POST['fivebowruns'],$_POST['fivewickets'],$_POST['fivenoballs'],$_POST['fivewides'],$_POST['fivehlvb'],$_POST['sixbowler_id'],$_POST['sixovers'],$_POST['sixmaidens'],$_POST['sixbowruns'],$_POST['sixwickets'],$_POST['sixnoballs'],$_POST['sixwides'],$_POST['sixhlvb'],$_POST['sevenbowler_id'],$_POST['sevenovers'],$_POST['sevenmaidens'],$_POST['sevenbowruns'],$_POST['sevenwickets'],$_POST['sevennoballs'],$_POST['sevenwides'],$_POST['sevenhlvb'],$_POST['eightbowler_id'],$_POST['eightovers'],$_POST['eightmaidens'],$_POST['eightbowruns'],$_POST['eightwickets'],$_POST['eightnoballs'],$_POST['eightwides'],$_POST['eighthlvb'],$_POST['ninebowler_id'],$_POST['nineovers'],$_POST['ninemaidens'],$_POST['ninebowruns'],$_POST['ninewickets'],$_POST['ninenoballs'],$_POST['ninewides'],$_POST['ninehlvb'],$_POST['tenbowler_id'],$_POST['tenovers'],$_POST['tenmaidens'],$_POST['tenbowruns'],$_POST['tenwickets'],$_POST['tennoballs'],$_POST['tenwides'],$_POST['tenhlvb'],$_POST['elevenbowler_id'],$_POST['elevenovers'],$_POST['elevenmaidens'],$_POST['elevenbowruns'],$_POST['elevenwickets'],$_POST['elevennoballs'],$_POST['elevenwides'],$_POST['elevenhlvb'],$_POST['onebatpos'],$_POST['twobatpos'],$_POST['threebatpos'],$_POST['fourbatpos'],$_POST['fivebatpos'],$_POST['sixbatpos'],$_POST['sevenbatpos'],$_POST['eightbatpos'],$_POST['ninebatpos'],$_POST['tenbatpos'],$_POST['elevenbatpos'],$_POST['onebowpos'], $_POST['twobowpos'],$_POST['threebowpos'],$_POST['fourbowpos'],$_POST['fivebowpos'],$_POST['sixbowpos'],$_POST['sevenbowpos'],$_POST['eightbowpos'],$_POST['ninebowpos'],$_POST['tenbowpos'],$_POST['elevenbowpos'],$_POST['oneteam'],$_POST['twoteam'],$_POST['threeteam'],$_POST['fourteam'],$_POST['fiveteam'],$_POST['sixteam'],$_POST['seventeam'],$_POST['eightteam'], $_POST['nineteam'],$_POST['tenteam'],$_POST['eleventeam'],$_POST['oneopponent'],$_POST['twoopponent'],$_POST['threeopponent'],$_POST['fouropponent'],$_POST['fiveopponent'],$_POST['sixopponent'],$_POST['sevenopponent'],$_POST['eightopponent'],$_POST['nineopponent'],$_POST['tenopponent'],$_POST['elevenopponent'],$_POST['bowloneteam'], $_POST['bowltwoteam'],$_POST['bowlthreeteam'],$_POST['bowlfourteam'],$_POST['bowlfiveteam'],$_POST['bowlsixteam'],$_POST['bowlseventeam'],$_POST['bowleightteam'],$_POST['bowlnineteam'],$_POST['bowltenteam'],$_POST['bowleleventeam'],$_POST['bowloneopponent'],$_POST['bowltwoopponent'],$_POST['bowlthreeopponent'], $_POST['bowlfouropponent'],$_POST['bowlfouropponent'],$_POST['bowlsixopponent'],$_POST['bowlsevenopponent'],$_POST['bowleightopponent'],$_POST['bowlnineopponent'],$_POST['bowltenopponent'],$_POST['bowlelevenopponent']);
 	break;	
 case "update4":
 	edit_scorecard_step3($db,$_GET['game_id']);
 	break;	
 case "update5":
-	update_scorecard_step3($db,$_POST['submit'], $_POST['game_id'],$_POST['season'],$_POST['innings_id'],$_POST['oneplayer_id'],$_POST['onehow_out'],$_POST['oneassist'],$_POST['onebowler'],$_POST['oneruns'],$_POST['oneballs'],$_POST['onefours'],$_POST['onesixes'],$_POST['onehwv'],$_POST['onehlv'],$_POST['twoplayer_id'], $_POST['twohow_out'],$_POST['twoassist'],$_POST['twobowler'],$_POST['tworuns'],$_POST['twoballs'],$_POST['twofours'],$_POST['twosixes'],$_POST['twohwv'],$_POST['twohlv'],$_POST['threeplayer_id'],$_POST['threehow_out'],$_POST['threeassist'],$_POST['threebowler'],$_POST['threeruns'],$_POST['threeballs'],$_POST['threefours'],$_POST['threesixes'],$_POST['threehwv'],$_POST['threehlv'],$_POST['fourplayer_id'],$_POST['fourhow_out'],$_POST['fourassist'],$_POST['fourbowler'],$_POST['fourruns'],$_POST['fourballs'],$_POST['fourfours'],$_POST['foursixes'],$_POST['fourhwv'],$_POST['fourhlv'],$_POST['fiveplayer_id'],$_POST['fivehow_out'],$_POST['fiveassist'],$_POST['fivebowler'],$_POST['fiveruns'],$_POST['fiveballs'],$_POST['fivefours'],$_POST['fivesixes'],$_POST['fivehwv'],$_POST['fivehlv'],$_POST['sixplayer_id'],$_POST['sixhow_out'],$_POST['sixassist'],$_POST['sixbowler'],$_POST['sixruns'],$_POST['sixballs'],$_POST['sixfours'],$_POST['sixsixes'],$_POST['sixhwv'],$_POST['sixhlv'],$_POST['sevenplayer_id'],$_POST['sevenhow_out'],$_POST['sevenassist'],$_POST['sevenbowler'],$_POST['sevenruns'],$_POST['sevenballs'],$_POST['sevenfours'],$_POST['sevensixes'],$_POST['sevenhwv'],$_POST['sevenhlv'],$_POST['eightplayer_id'],$_POST['eighthow_out'],$_POST['eightassist'],$_POST['eightbowler'],$_POST['eightruns'],$_POST['eightballs'],$_POST['eightfours'],$_POST['eightsixes'],$_POST['eighthwv'],$_POST['eighthlv'],$_POST['nineplayer_id'],$_POST['ninehow_out'],$_POST['nineassist'],$_POST['ninebowler'],$_POST['nineruns'],$_POST['nineballs'],$_POST['ninefours'],$_POST['ninesixes'],$_POST['ninehwv'],$_POST['ninehlv'],$_POST['tenplayer_id'],$_POST['tenhow_out'],$_POST['tenassist'],$_POST['tenbowler'],$_POST['tenruns'],$_POST['tenballs'],$_POST['tenfours'],$_POST['tensixes'],$_POST['tenhwv'],$_POST['tenhlv'],$_POST['elevenplayer_id'],$_POST['elevenhow_out'],$_POST['elevenassist'],$_POST['elevenbowler'],$_POST['elevenruns'],$_POST['elevenballs'],$_POST['elevenfours'],$_POST['elevensixes'],$_POST['elevenhwv'],$_POST['elevenhlv'],$_POST['totwickets'],$_POST['totovers'],$_POST['tottotal'],$_POST['extlegbyes'],$_POST['extbyes'],$_POST['extwides'],$_POST['extnoballs'],$_POST['exttotal'],$_POST['fowone'],$_POST['fowtwo'],$_POST['fowthree'],$_POST['fowfour'],$_POST['fowfive'],$_POST['fowsix'],$_POST['fowseven'], $_POST['foweight'],$_POST['fownine'],$_POST['fowten'],$_POST['onebowler_id'],$_POST['oneovers'],$_POST['onemaidens'],$_POST['onebowruns'],$_POST['onewickets'],$_POST['onenoballs'],$_POST['onewides'],$_POST['onehlvb'],$_POST['twobowler_id'],$_POST['twoovers'],$_POST['twomaidens'],$_POST['twobowruns'], $_POST['twowickets'],$_POST['twonoballs'],$_POST['twowides'],$_POST['twohlvb'],$_POST['threebowler_id'],$_POST['threeovers'],$_POST['threemaidens'],$_POST['threebowruns'],$_POST['threewickets'],$_POST['threenoballs'],$_POST['threewides'],$_POST['threehlvb'],$_POST['fourbowler_id'],$_POST['fourovers'],$_POST['fourmaidens'],$_POST['fourbowruns'],$_POST['fourwickets'],$_POST['fournoballs'],$_POST['fourwides'],$_POST['fourhlvb'],$_POST['fivebowler_id'],$_POST['fiveovers'],$_POST['fivemaidens'],$_POST['fivebowruns'],$_POST['fivewickets'],$_POST['fivenoballs'],$_POST['fivewides'],$_POST['fivehlvb'],$_POST['sixbowler_id'],$_POST['sixovers'],$_POST['sixmaidens'],$_POST['sixbowruns'],$_POST['sixwickets'],$_POST['sixnoballs'],$_POST['sixwides'],$_POST['sixhlvb'],$_POST['sevenbowler_id'],$_POST['sevenovers'],$_POST['sevenmaidens'],$_POST['sevenbowruns'],$_POST['sevenwickets'],$_POST['sevennoballs'],$_POST['sevenwides'],$_POST['sevenhlvb'],$_POST['eightbowler_id'],$_POST['eightovers'],$_POST['eightmaidens'],$_POST['eightbowruns'],$_POST['eightwickets'],$_POST['eightnoballs'],$_POST['eightwides'],$_POST['eighthlvb'],$_POST['ninebowler_id'],$_POST['nineovers'],$_POST['ninemaidens'],$_POST['ninebowruns'],$_POST['ninewickets'],$_POST['ninenoballs'],$_POST['ninewides'],$_POST['ninehlvb'],$_POST['tenbowler_id'],$_POST['tenovers'],$_POST['tenmaidens'],$_POST['tenbowruns'],$_POST['tenwickets'],$_POST['tennoballs'],$_POST['tenwides'],$_POST['tenhlvb'],$_POST['elevenbowler_id'],$_POST['elevenovers'],$_POST['elevenmaidens'],$_POST['elevenbowruns'],$_POST['elevenwickets'],$_POST['elevennoballs'],$_POST['elevenwides'],$_POST['elevenhlvb'],$_POST['onebatpos'],$_POST['twobatpos'],$_POST['threebatpos'],$_POST['fourbatpos'],$_POST['fivebatpos'],$_POST['sixbatpos'],$_POST['sevenbatpos'],$_POST['eightbatpos'],$_POST['ninebatpos'],$_POST['tenbatpos'],$_POST['elevenbatpos'],$_POST['onebowpos'], $_POST['twobowpos'],$_POST['threebowpos'],$_POST['fourbowpos'],$_POST['fivebowpos'],$_POST['sixbowpos'],$_POST['sevenbowpos'],$_POST['eightbowpos'],$_POST['ninebowpos'],$_POST['tenbowpos'],$_POST['elevenbowpos'],$_POST['oneteam'],$_POST['twoteam'],$_POST['threeteam'],$_POST['fourteam'],$_POST['fiveteam'],$_POST['sixteam'],$_POST['seventeam'],$_POST['eightteam'], $_POST['nineteam'],$_POST['tenteam'],$_POST['eleventeam'],$_POST['oneopponent'],$_POST['twoopponent'],$_POST['threeopponent'],$_POST['fouropponent'],$_POST['fiveopponent'],$_POST['sixopponent'],$_POST['sevenopponent'],$_POST['eightopponent'],$_POST['nineopponent'],$_POST['tenopponent'],$_POST['elevenopponent'],$_POST['bowloneteam'], $_POST['bowltwoteam'],$_POST['bowlthreeteam'],$_POST['bowlfourteam'],$_POST['bowlfiveteam'],$_POST['bowlsixteam'],$_POST['bowlseventeam'],$_POST['bowleightteam'],$_POST['bowlnineteam'],$_POST['bowltenteam'],$_POST['bowleleventeam'],$_POST['bowloneopponent'],$_POST['bowltwoopponent'],$_POST['bowlthreeopponent'], $_POST['bowlfouropponent'],$_POST['bowlfouropponent'],$_POST['bowlsixopponent'],$_POST['bowlsevenopponent'],$_POST['bowleightopponent'],$_POST['bowlnineopponent'],$_POST['bowltenopponent'],$_POST['bowlelevenopponent']);
+	update_scorecard_step3($db,$_POST['submit'], $_POST['game_id'],$_POST['season'],$_POST['innings_id'],$_POST['oneplayer_id'],$_POST['onehow_out'],$_POST['oneassist'],$_POST['oneassist2'],$_POST['onebowler'],$_POST['oneruns'],$_POST['oneballs'],$_POST['onefours'],$_POST['onesixes'],$_POST['onehwv'],$_POST['onehlv'],$_POST['twoplayer_id'], $_POST['twohow_out'],$_POST['twoassist'],$_POST['twoassist2'],$_POST['twobowler'],$_POST['tworuns'],$_POST['twoballs'],$_POST['twofours'],$_POST['twosixes'],$_POST['twohwv'],$_POST['twohlv'],$_POST['threeplayer_id'],$_POST['threehow_out'],$_POST['threeassist'],$_POST['threeassist2'],$_POST['threebowler'],$_POST['threeruns'],$_POST['threeballs'],$_POST['threefours'],$_POST['threesixes'],$_POST['threehwv'],$_POST['threehlv'],$_POST['fourplayer_id'],$_POST['fourhow_out'],$_POST['fourassist'],$_POST['fourassist2'],$_POST['fourbowler'],$_POST['fourruns'],$_POST['fourballs'],$_POST['fourfours'],$_POST['foursixes'],$_POST['fourhwv'],$_POST['fourhlv'],$_POST['fiveplayer_id'],$_POST['fivehow_out'],$_POST['fiveassist'],$_POST['fiveassist2'],$_POST['fivebowler'],$_POST['fiveruns'],$_POST['fiveballs'],$_POST['fivefours'],$_POST['fivesixes'],$_POST['fivehwv'],$_POST['fivehlv'],$_POST['sixplayer_id'],$_POST['sixhow_out'],$_POST['sixassist'],$_POST['sixassist2'],$_POST['sixbowler'],$_POST['sixruns'],$_POST['sixballs'],$_POST['sixfours'],$_POST['sixsixes'],$_POST['sixhwv'],$_POST['sixhlv'],$_POST['sevenplayer_id'],$_POST['sevenhow_out'],$_POST['sevenassist'],$_POST['sevenassist2'],$_POST['sevenbowler'],$_POST['sevenruns'],$_POST['sevenballs'],$_POST['sevenfours'],$_POST['sevensixes'],$_POST['sevenhwv'],$_POST['sevenhlv'],$_POST['eightplayer_id'],$_POST['eighthow_out'],$_POST['eightassist'],$_POST['eightassist2'],$_POST['eightbowler'],$_POST['eightruns'],$_POST['eightballs'],$_POST['eightfours'],$_POST['eightsixes'],$_POST['eighthwv'],$_POST['eighthlv'],$_POST['nineplayer_id'],$_POST['ninehow_out'],$_POST['nineassist'],$_POST['nineassist2'],$_POST['ninebowler'],$_POST['nineruns'],$_POST['nineballs'],$_POST['ninefours'],$_POST['ninesixes'],$_POST['ninehwv'],$_POST['ninehlv'],$_POST['tenplayer_id'],$_POST['tenhow_out'],$_POST['tenassist'],$_POST['tenassist2'],$_POST['tenbowler'],$_POST['tenruns'],$_POST['tenballs'],$_POST['tenfours'],$_POST['tensixes'],$_POST['tenhwv'],$_POST['tenhlv'],$_POST['elevenplayer_id'],$_POST['elevenhow_out'],$_POST['elevenassist'],$_POST['elevenassist2'],$_POST['elevenbowler'],$_POST['elevenruns'],$_POST['elevenballs'],$_POST['elevenfours'],$_POST['elevensixes'],$_POST['elevenhwv'],$_POST['elevenhlv'],$_POST['totwickets'],$_POST['totovers'],$_POST['tottotal'],$_POST['extlegbyes'],$_POST['extbyes'],$_POST['extwides'],$_POST['extnoballs'],$_POST['exttotal'],$_POST['fowone'],$_POST['fowtwo'],$_POST['fowthree'],$_POST['fowfour'],$_POST['fowfive'],$_POST['fowsix'],$_POST['fowseven'], $_POST['foweight'],$_POST['fownine'],$_POST['fowten'],$_POST['onebowler_id'],$_POST['oneovers'],$_POST['onemaidens'],$_POST['onebowruns'],$_POST['onewickets'],$_POST['onenoballs'],$_POST['onewides'],$_POST['onehlvb'],$_POST['twobowler_id'],$_POST['twoovers'],$_POST['twomaidens'],$_POST['twobowruns'], $_POST['twowickets'],$_POST['twonoballs'],$_POST['twowides'],$_POST['twohlvb'],$_POST['threebowler_id'],$_POST['threeovers'],$_POST['threemaidens'],$_POST['threebowruns'],$_POST['threewickets'],$_POST['threenoballs'],$_POST['threewides'],$_POST['threehlvb'],$_POST['fourbowler_id'],$_POST['fourovers'],$_POST['fourmaidens'],$_POST['fourbowruns'],$_POST['fourwickets'],$_POST['fournoballs'],$_POST['fourwides'],$_POST['fourhlvb'],$_POST['fivebowler_id'],$_POST['fiveovers'],$_POST['fivemaidens'],$_POST['fivebowruns'],$_POST['fivewickets'],$_POST['fivenoballs'],$_POST['fivewides'],$_POST['fivehlvb'],$_POST['sixbowler_id'],$_POST['sixovers'],$_POST['sixmaidens'],$_POST['sixbowruns'],$_POST['sixwickets'],$_POST['sixnoballs'],$_POST['sixwides'],$_POST['sixhlvb'],$_POST['sevenbowler_id'],$_POST['sevenovers'],$_POST['sevenmaidens'],$_POST['sevenbowruns'],$_POST['sevenwickets'],$_POST['sevennoballs'],$_POST['sevenwides'],$_POST['sevenhlvb'],$_POST['eightbowler_id'],$_POST['eightovers'],$_POST['eightmaidens'],$_POST['eightbowruns'],$_POST['eightwickets'],$_POST['eightnoballs'],$_POST['eightwides'],$_POST['eighthlvb'],$_POST['ninebowler_id'],$_POST['nineovers'],$_POST['ninemaidens'],$_POST['ninebowruns'],$_POST['ninewickets'],$_POST['ninenoballs'],$_POST['ninewides'],$_POST['ninehlvb'],$_POST['tenbowler_id'],$_POST['tenovers'],$_POST['tenmaidens'],$_POST['tenbowruns'],$_POST['tenwickets'],$_POST['tennoballs'],$_POST['tenwides'],$_POST['tenhlvb'],$_POST['elevenbowler_id'],$_POST['elevenovers'],$_POST['elevenmaidens'],$_POST['elevenbowruns'],$_POST['elevenwickets'],$_POST['elevennoballs'],$_POST['elevenwides'],$_POST['elevenhlvb'],$_POST['onebatpos'],$_POST['twobatpos'],$_POST['threebatpos'],$_POST['fourbatpos'],$_POST['fivebatpos'],$_POST['sixbatpos'],$_POST['sevenbatpos'],$_POST['eightbatpos'],$_POST['ninebatpos'],$_POST['tenbatpos'],$_POST['elevenbatpos'],$_POST['onebowpos'], $_POST['twobowpos'],$_POST['threebowpos'],$_POST['fourbowpos'],$_POST['fivebowpos'],$_POST['sixbowpos'],$_POST['sevenbowpos'],$_POST['eightbowpos'],$_POST['ninebowpos'],$_POST['tenbowpos'],$_POST['elevenbowpos'],$_POST['oneteam'],$_POST['twoteam'],$_POST['threeteam'],$_POST['fourteam'],$_POST['fiveteam'],$_POST['sixteam'],$_POST['seventeam'],$_POST['eightteam'], $_POST['nineteam'],$_POST['tenteam'],$_POST['eleventeam'],$_POST['oneopponent'],$_POST['twoopponent'],$_POST['threeopponent'],$_POST['fouropponent'],$_POST['fiveopponent'],$_POST['sixopponent'],$_POST['sevenopponent'],$_POST['eightopponent'],$_POST['nineopponent'],$_POST['tenopponent'],$_POST['elevenopponent'],$_POST['bowloneteam'], $_POST['bowltwoteam'],$_POST['bowlthreeteam'],$_POST['bowlfourteam'],$_POST['bowlfiveteam'],$_POST['bowlsixteam'],$_POST['bowlseventeam'],$_POST['bowleightteam'],$_POST['bowlnineteam'],$_POST['bowltenteam'],$_POST['bowleleventeam'],$_POST['bowloneopponent'],$_POST['bowltwoopponent'],$_POST['bowlthreeopponent'], $_POST['bowlfouropponent'],$_POST['bowlfouropponent'],$_POST['bowlsixopponent'],$_POST['bowlsevenopponent'],$_POST['bowleightopponent'],$_POST['bowlnineopponent'],$_POST['bowltenopponent'],$_POST['bowlelevenopponent']);
 	break;	
 case "update6":
 	finished_update($db, $_GET['game_id']);

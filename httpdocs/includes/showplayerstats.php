@@ -417,8 +417,8 @@ function show_breakdown_year($db,$pr)
     
     // Get the caught
     
-    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND how_out = 4 AND season=$i")) {    
-    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND how_out = 4 AND season=$i");
+    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND season=$i")) {    
+    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND season=$i");
     $db->BagAndTag();
     $scctc = $db->data['Caught'];
     } else {
@@ -885,8 +885,8 @@ function show_breakdown_opponent($db,$pr)
     
     // Get the caught
     
-    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND how_out = 4 AND team=$teams[$i]")) {  
-    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND how_out = 4 AND team=$teams[$i]");
+    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND team=$teams[$i]")) {  
+    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND team=$teams[$i]");
     $db->BagAndTag();
     $scctc = $db->data['Caught'];
     } else {
@@ -1350,8 +1350,8 @@ function show_breakdown_ground($db,$pr)
     
     // Get the caught
     
-    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND how_out = 4 AND m.ground_id=$i")) { 
-    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND how_out = 4 AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND (how_out = 4 OR how_out = 17) AND m.ground_id=$i")) { 
+    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND (how_out = 4 OR how_out = 17) AND m.ground_id=$i");
     $db->BagAndTag();
     $scctc = $db->data['Caught'];
     } else {

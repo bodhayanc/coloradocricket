@@ -1231,7 +1231,14 @@ if(isset($_GET['action'])) {
       <br>
 
     </td>
-    <td bgcolor="#FFFFFF" valign="top">
+	<?php 
+	if(isset($action) && $action == "scorecardadmin" && isset($_GET['do']) && ($_GET['do']=="update2" || $_GET['do']=="update4")) {
+		echo "<td bgcolor=\"#FFFFFF\" valign=\"top\" colspan=\"2\">";
+	} else {
+		echo "<td bgcolor=\"#FFFFFF\" valign=\"top\">";
+	}
+    ?>
+    
 
     <table width="100%" cellpadding="10" cellspacing="0" border="0">
     <tr>
@@ -1307,12 +1314,15 @@ if(isset($_GET['action'])) {
 
     </td>
 
-    <td width="450" bgcolor="#D0C7C0" valign="top">
-
-    <?php include("../includes/right.php"); ?>
-
-
-    </td>
+    <?php 
+	if(isset($action) && $action == "scorecardadmin" && isset($_GET['do']) && ($_GET['do']=="update2" || $_GET['do']=="update4")) {
+		echo "";
+	} else {
+		echo "<td width=\"450\" bgcolor=\"#D0C7C0\" valign=\"top\">";
+    	include("../includes/right.php"); 
+		echo "</td>";
+	}
+    ?>
 
   </tr>
 

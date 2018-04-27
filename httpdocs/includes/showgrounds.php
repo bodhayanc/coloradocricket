@@ -823,7 +823,7 @@ function show_grounds_mostruns($db,$pr,$sort,$sort2)
 
     // Get Catches
     
-    $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $playerid  AND g.ground_id=$pr AND b.how_out = 4");
+    $subdb->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $playerid  AND g.ground_id=$pr AND (b.how_out = 4 OR b.how_out = 17)");
 
       $scctc = $subdb->data['Caught'];    
 

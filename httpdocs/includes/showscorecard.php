@@ -1000,11 +1000,14 @@ echo "<p><b>Result: </b> $re</p>\n";
       p.PlayerID AS BatterID, p.PlayerLName AS BatterLName, p.PlayerFName AS BatterFName, LEFT(p.PlayerFName,1) AS BatterFInitial,
       h.HowOutID, h.HowOutName, h.HowOutAbbrev, b.PlayerID AS BowlerID, a.PlayerID AS AssistID,
       a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+	  a2.PlayerID AS AssistID2,a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
       b.PlayerLName AS BowlerLName, b.PlayerFName AS BowlerFName, LEFT(b.PlayerFName,1) AS BowlerFInitial
     FROM
       scorecard_batting_details s
     LEFT JOIN
       players a ON a.PlayerID = s.assist
+    LEFT JOIN
+      players a2 ON a2.PlayerID = s.assist2
     LEFT JOIN
       players p ON p.PlayerID = s.player_id
     LEFT JOIN
@@ -1033,7 +1036,11 @@ echo "<p><b>Result: </b> $re</p>\n";
     $aln = $db->data['AssistLName'];
     $afn = $db->data['AssistFName'];
     $ain = $db->data['AssistFInitial'];
-    $out = $db->data['HowOutAbbrev'];
+	$a2id = $db->data['AssistID2'];
+    $a2ln = $db->data['AssistLName2'];
+    $a2fn = $db->data['AssistFName2'];
+    $a2in = $db->data['AssistFInitial2'];
+	$out = $db->data['HowOutAbbrev'];
     $oid = $db->data['HowOutID'];
     $run = $db->data['runs'];
     $bal = $db->data['balls'];
@@ -1104,21 +1111,25 @@ echo "<p><b>Result: </b> $re</p>\n";
     // show brackets around the runout effector
 	$linkAssist = "<a href=\"/players.php?players=$aid&ccl_mode=1\" class=\"scorecard\">";
 	$closeAssist = "</a>";
+    $linkAssist2 = "<a href=\"/players.php?players=$a2id&ccl_mode=1\" class=\"scorecard\">";
+	$closeAssist2 = "</a>";
     if($aln == "" && $afn == "") {
       echo "";
-    } elseif($afn != "" && $aln != "") {
+    } elseif($afn != "" && $aln != "" && $a2fn != "" && $a2ln != "") {
+        echo "(".$linkAssist.$afn." ".$aln.$closeAssist."/".$linkAssist2.$a2fn." ".$a2ln.$closeAssist2.")";
+	} elseif($afn != "" && $aln != "") {
       if($oid == 9) {
         echo "(".$linkAssist.$afn." ".$aln.$closeAssist.")";
-      } else if($oid == 4 || $oid == 10) {
+      } else if($oid == 4 || $oid == 10 || $oid == 17) {
         echo $linkAssist.$afn." ".$aln.$closeAssist." ";
-     } else {
-       echo $linkAssist.$afn." ".$aln.$closeAssist;
-     }
+	  } else {
+        echo $linkAssist.$afn." ".$aln.$closeAssist;
+      }
       //if($oid == 9) echo ")";
     } else {
       if($oid == 9) {
         echo "(".$linkAssist.$afn.$closeAssist.")";
-      } else if($oid == 4 || $oid == 10) {
+      } else if($oid == 4 || $oid == 10 || $oid == 17) {
         echo $linkAssist.$afn.$closeAssist;
       } else {
         echo $linkAssist.$afn.$closeAssist;
@@ -1139,7 +1150,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $closeBowler = "</a>";
 
 // 3-Apr-2014 11:20pm removed the check for $oid == '5'
- if($oid == '4' || $oid == '6' || $oid == '7' || $oid == '10') {
+ if($oid == '4' || $oid == '6' || $oid == '7' || $oid == '10' || $oid == '17') {
 //  if($oid == '4' || $oid == '5' || $oid == '6' || $oid == '7' || $oid == '10') {
 
 // 24-Aug-2009
@@ -1520,11 +1531,14 @@ echo "<p><b>Result: </b> $re</p>\n";
       p.PlayerID AS BatterID, p.PlayerLName AS BatterLName, p.PlayerFName AS BatterFName, LEFT(p.PlayerFName,1) AS BatterFInitial,
       h.HowOutID, h.HowOutName, h.HowOutAbbrev, b.PlayerID AS BowlerID, a.PlayerID AS AssistID,
       a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+	  a2.PlayerID AS AssistID2, a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
       b.PlayerLName AS BowlerLName, b.PlayerFName AS BowlerFName, LEFT(b.PlayerFName,1) AS BowlerFInitial
     FROM
       scorecard_batting_details s
     LEFT JOIN
       players a ON a.PlayerID = s.assist
+    LEFT JOIN
+      players a2 ON a2.PlayerID = s.assist2
     LEFT JOIN
       players p ON p.PlayerID = s.player_id
     LEFT JOIN
@@ -1543,6 +1557,7 @@ echo "<p><b>Result: </b> $re</p>\n";
 
     $pid = $db->data['BatterID'];
     $aid = $db->data['AssistID'];
+    $a2id = $db->data['AssistID2'];
     $bid = $db->data['BowlerID'];
     $pln = $db->data['BatterLName'];
     $pfn = $db->data['BatterFName'];
@@ -1553,6 +1568,9 @@ echo "<p><b>Result: </b> $re</p>\n";
     $aln = $db->data['AssistLName'];
     $afn = $db->data['AssistFName'];
     $ain = $db->data['AssistFInitial'];
+    $a2ln = $db->data['AssistLName2'];
+    $a2fn = $db->data['AssistFName2'];
+    $a2in = $db->data['AssistFInitial2'];
     $out = $db->data['HowOutAbbrev'];
     $oid = $db->data['HowOutID'];
     $run = $db->data['runs'];
@@ -1628,28 +1646,32 @@ echo "<p><b>Result: </b> $re</p>\n";
 	
     $linkAssist = "<a href=\"/players.php?players=$aid&ccl_mode=1\" class=\"scorecard\">";
 	$closeAssist = "</a>";
+    $linkAssist2 = "<a href=\"/players.php?players=$a2id&ccl_mode=1\" class=\"scorecard\">";
+	$closeAssist2 = "</a>";
     if($aln == "" && $afn == "") {
       echo "";
-    } elseif($afn != "" && $aln != "") {
+    } elseif($afn != "" && $aln != "" && $a2fn != "" && $a2ln != "") {
+        echo "(".$linkAssist.$afn." ".$aln.$closeAssist."/".$linkAssist2.$a2fn." ".$a2ln.$closeAssist2.")";
+	} elseif($afn != "" && $aln != "") {
       if($oid == 9) {
         echo "(".$linkAssist.$afn." ".$aln.$closeAssist.")";
-      } else if($oid == 4 || $oid == 10) {
+      } else if($oid == 4 || $oid == 10 || $oid == 17) {
         echo $linkAssist.$afn." ".$aln.$closeAssist." ";
-     } else {
-       echo $linkAssist.$afn." ".$aln.$closeAssist;
-     }
+	  } else {
+        echo $linkAssist.$afn." ".$aln.$closeAssist;
+      }
       //if($oid == 9) echo ")";
     } else {
       if($oid == 9) {
         echo "(".$linkAssist.$afn.$closeAssist.")";
-      } else if($oid == 4 || $oid == 10) {
+      } else if($oid == 4 || $oid == 10 || $oid == 17) {
         echo $linkAssist.$afn.$closeAssist;
       } else {
         echo $linkAssist.$afn.$closeAssist;
       }
       //if($oid == 9) echo ")";
     }
-
+	
     //}
     //echo "  </td>\n";
 
@@ -1663,7 +1685,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $closeBowler = "</a>";
 
 // 3-Apr-2014 11:20pm removed the check for $oid == '5'
-    if($oid == '4' || $oid == '6' || $oid == '7' || $oid == '10') {
+    if($oid == '4' || $oid == '6' || $oid == '7' || $oid == '10' || $oid == '17') {
 //    if($oid == '4' || $oid == '5' || $oid == '6' || $oid == '7' || $oid == '10') {
 
 // 24-Aug-2009

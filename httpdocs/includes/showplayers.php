@@ -487,8 +487,8 @@ function show_full_players($db,$pr)
 	    
 	    // Get League Caught
 	    
-	    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND b.how_out = 4")) { 
-	    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND b.how_out = 4");
+	    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND (b.how_out = 4 OR b.how_out = 17)")) { 
+	    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND $str_league AND (b.how_out = 4 OR b.how_out = 17)");
 	    $db->BagAndTag();
 	    $scctc = $db->data['Caught'];
 	    } else {
