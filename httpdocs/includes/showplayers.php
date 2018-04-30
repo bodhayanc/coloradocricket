@@ -369,16 +369,19 @@ function show_full_players($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"30%\"><b>Batting & Fielding<b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>I<b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>NO<b></td>\n";
-    echo "  <td align=\"center\" width=\"10%\"><b>RUNS<b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>HS<b></td>\n";
-    echo "  <td align=\"center\" width=\"10%\"><b>AVE<b></td>\n";
-    echo "  <td align=\"center\" width=\"8%\"><b>100<b></td>\n";
+	echo "  <td align=\"left\" width=\"24%\"><b>Batting & Fielding<b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>M<b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>I<b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>NO<b></td>\n";
+    echo "  <td align=\"center\" width=\"7%\"><b>RUNS<b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>HS<b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>AVE<b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>SR<b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>100<b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>50<b></td>\n";
-    echo "  <td align=\"center\" width=\"5%\"><b>Ct<b></td>\n";
-    echo "  <td align=\"center\" width=\"10%\"><b>St<b></td>\n";
+    echo "  <td align=\"center\" width=\"7%\"><b>Ct<b></td>\n";
+    echo "  <td align=\"center\" width=\"7%\"><b>St<b></td>\n";
+    echo "  <td align=\"center\" width=\"7%\"><b>RO<b></td>\n";
     echo " </tr>\n";
     
     
@@ -386,7 +389,8 @@ function show_full_players($db,$pr)
     	
     	
     	// reset all counts
-		$scinn = 0;
+		$match = 0;
+	    $scinn = 0;
 	    $scrun = 0;   
 	    $scnos = 0;
 	    $schig = 0;
@@ -400,7 +404,7 @@ function show_full_players($db,$pr)
 		$sccat = 0;
 		$cosccat = 0;
 		$scstu = 0;
-	    
+	    $scsr = 0;
 	    
     	if($i == 1) {
     		$str_league = "(g.league_id = 1)";
@@ -425,12 +429,19 @@ function show_full_players($db,$pr)
     
 	    // Get League Matches and Runs
 		
-	 	 if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName")) {
-	    $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName");
+	 	 if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName")) {
+	    $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league GROUP BY p.PlayerLName, p.PlayerFName");
 	    $db->BagAndTag();
-	    $scinn = $db->data['Matches'];
+	    $match = $db->data['Matches'];
+	    $scinn = $db->data['Innings'];
 	    $scrun = $db->data['Runs'];   
-	    } else {
+	    $scsr = $db->data['StrikeRate'];   
+		if($scsr != "") {
+		  $scsr = number_format($scsr, 2);
+		} else {
+		  $scsr = "-";
+		}
+		} else {
 	    }
     	
     	
@@ -446,8 +457,8 @@ function show_full_players($db,$pr)
 	    
 		// Get League Notouts
 	    
-	    if ($db->Exists("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.how_out = 2 OR b.how_out = 1)")) {
-	    $db->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.how_out = 2 OR b.how_out = 1)");
+	    if ($db->Exists("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.how_out = 2 OR b.how_out = 8)")) {
+	    $db->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.how_out = 2 OR b.how_out = 8)");
 	    $db->BagAndTag();
 	    $scnot = $db->data['Notout'];
 	    $outin = $scinn - $scnot;
@@ -458,7 +469,6 @@ function show_full_players($db,$pr)
 	    $scavg = "0";
 	    }
 	    
-	    } else {
 	    }
 	    
 	    
@@ -519,6 +529,15 @@ function show_full_players($db,$pr)
 	    $scstu = "0";
 	    }
 	    
+	    // Get League Runouts
+	    
+	    if ($db->Exists("SELECT COUNT(b.game_id) AS RunOut FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (b.assist = $pr OR b.assist2 = $pr) AND $str_league AND b.how_out = 9")) {    
+	    $db->QueryRow("SELECT COUNT(b.game_id) AS RunOut FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE (b.assist = $pr OR b.assist2 = $pr) AND $str_league AND b.how_out = 9");
+	    $db->BagAndTag();
+	    $scro = $db->data['RunOut'];
+	    } else {
+	    $scro = "0";
+	    }
 	    
 	    // Show League Batting Stats
 	    
@@ -526,35 +545,41 @@ function show_full_players($db,$pr)
 	    	if($i == 3 || $i == 5){
 	    		
 	    		echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"30%\">$str_league_type</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$scinn</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$scnot</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\"><b>$scrun</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$schig";
+			    echo "  <td align=\"left\" width=\"24%\">$str_league_type</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$match</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scinn</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scnot</td>\n";
+			    echo "  <td align=\"center\" width=\"7%\"><b>$scrun</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$schig";
 			    if($scnos == '1') echo "*";
 			    echo "  </td>\n";
-			    echo "  <td align=\"center\" width=\"10%\"><b>$scavg</td>\n";
-			    echo "  <td align=\"center\" width=\"8%\"><b>$schun</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scavg</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scsr</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$schun</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scfif</td>\n";
-			    echo "  <td align=\"center\" width=\"5%\"><b>$sccat</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\"><b>$scstu</td>\n";  
+			    echo "  <td align=\"center\" width=\"7%\"><b>$sccat</td>\n";
+			    echo "  <td align=\"center\" width=\"7%\"><b>$scstu</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"7%\"><b>$scro</td>\n";  
 		   	 	echo " </tr>\n";
 		   	 	
 			   
 	    	} else {
 			    echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"30%\">$str_league_type</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$scinn</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$scnot</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\">$scrun</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$schig";
+			    echo "  <td align=\"left\" width=\"24%\">$str_league_type</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$match</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scinn</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scnot</td>\n";
+			    echo "  <td align=\"center\" width=\"7%\">$scrun</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$schig";
 			    if($scnos == '1') echo "*";
 			    echo "  </td>\n";
-			    echo "  <td align=\"center\" width=\"10%\">$scavg</td>\n";
-			    echo "  <td align=\"center\" width=\"8%\">$schun</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scavg</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scsr</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$schun</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scfif</td>\n";
-			    echo "  <td align=\"center\" width=\"5%\">$sccat</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\">$scstu</td>\n";  
+			    echo "  <td align=\"center\" width=\"7%\">$sccat</td>\n";
+			    echo "  <td align=\"center\" width=\"7%\">$scstu</td>\n";  
+			    echo "  <td align=\"center\" width=\"7%\">$scro</td>\n";  
 			    echo " </tr>\n";
 		    }
 	    } else {
@@ -768,16 +793,16 @@ function show_full_players($db,$pr)
     */
     
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"30%\"><b>Bowling</b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>O</b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>M</b></td>\n";
-    echo "  <td align=\"center\" width=\"10%\"><b>RUNS</b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>W</b></td>\n";
-    echo "  <td align=\"center\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"center\" width=\"8%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"left\" width=\"24%\"><b>Bowling</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>O</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>M</b></td>\n";
+    echo "  <td align=\"center\" width=\"7%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>W</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>BBI</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>4w</b></td>\n";
-    echo "  <td align=\"center\" width=\"5%\"><b>5w</b></td>\n";
-    echo "  <td align=\"center\" width=\"10%\"><b>ECO</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>5w</b></td>\n";
+    echo "  <td align=\"center\" colspan=\"4\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
 	for($i=1; $i<=5; $i++) {
@@ -910,31 +935,31 @@ function show_full_players($db,$pr)
 		    if($i == 3 || $i ==5 ){
 		    	
 		    	echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"30%\"><b>$str_league_type</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$scove</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$scmai</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\"><b>$scbru</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$scwic</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\"><b>$boavg</td>\n";
-			    echo "  <td align=\"center\" width=\"8%\"><b>$scbbw-$scbbr</td>\n";
+			    echo "  <td align=\"left\" width=\"24%\"><b>$str_league_type</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scove</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scmai</td>\n";
+			    echo "  <td align=\"center\" width=\"7%\"><b>$scbru</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scwic</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$boavg</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scbbw-$scbbr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scbfo</td>\n";
-			    echo "  <td align=\"center\" width=\"5%\"><b>$scbfi</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\"><b>$boeco</td>\n";  
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scbfi</td>\n";
+			    echo "  <td align=\"center\" colspan=\"4\"><b>$boeco</td>\n";  
 			    echo " </tr>\n"; 
 			    
 			   
 		    } else {
 			    echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"30%\">$str_league_type</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$scove</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$scmai</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\">$scbru</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$scwic</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\">$boavg</td>\n";
-			    echo "  <td align=\"center\" width=\"8%\">$scbbw-$scbbr</td>\n";
+			    echo "  <td align=\"left\" width=\"24%\">$str_league_type</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scove</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scmai</td>\n";
+			    echo "  <td align=\"center\" width=\"7%\">$scbru</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scwic</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$boavg</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scbbw-$scbbr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scbfo</td>\n";
-			    echo "  <td align=\"center\" width=\"5%\">$scbfi</td>\n";
-			    echo "  <td align=\"center\" width=\"10%\">$boeco</td>\n";  
+			    echo "  <td align=\"center\" width=\"6%\">$scbfi</td>\n";
+			    echo "  <td align=\"center\" colspan=\"4\">$boeco</td>\n";  
 			    echo " </tr>\n";    
 		    }
 	    } else {

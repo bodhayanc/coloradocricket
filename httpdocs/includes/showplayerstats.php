@@ -348,44 +348,55 @@ function show_breakdown_year($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>SEASON</b></td>\n";
+    echo "  <td align=\"left\" width=\"24%\"><b>SEASON</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
     echo " </tr>\n";
-    $scinn = 0;
+    $match = 0;
+	$scinn = 0;
 	$scrun = 0;
+	$scsr = 0;
 	$f = 0;
-        for ($i=1; $i<=count($seasons)+1; $i++) {
-
-    if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName")) {
-    $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName");
+    
+	foreach ($seasons as $sid => $sname) {
+    if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$sid GROUP BY p.PlayerLName, p.PlayerFName")) {
+    $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$sid GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
-    $scinn = $db->data['Matches'];
+    $match = $db->data['Matches'];
+    $scinn = $db->data['Innings'];
     $scrun = $db->data['Runs'];
-    //$schig = $db->data['HS'];   
+	$scsr = $db->data['StrikeRate'];   
+	if($scsr != "") {
+	  $scsr = number_format($scsr, 2);
+	} else {
+	  $scsr = "-";
+	}
     } else {
     }
     
     // get the highscore
 
-    if ($db->Exists("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season = $i ORDER BY b.runs DESC")) {
-    $db->QueryRow("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season = $i ORDER BY b.runs DESC");
+    if ($db->Exists("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season = $sid ORDER BY b.runs DESC")) {
+    $db->QueryRow("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season = $sid ORDER BY b.runs DESC");
     $db->BagAndTag();
     $scnos = $db->data['notout'];
     $schig = $db->data['HS']; 
     } else {
     }   
 	
-	// get not out - did not bat is also included
-    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 or how_out = 1) AND season=$i")) {
-    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 or how_out = 1) AND season=$i");
+	// get not out - did not bat is not included
+    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND season=$sid")) {
+    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND season=$sid");
     $db->BagAndTag();
     $scnot = $db->data['Notout'];
     $outin = $scinn - $scnot;
@@ -399,16 +410,16 @@ function show_breakdown_year($db,$pr)
     }
     
     
-    if ($db->Exists("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND season=$i")) {  
-    $db->QueryRow("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND season=$i");
+    if ($db->Exists("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND season=$sid")) {  
+    $db->QueryRow("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND season=$sid");
     $db->BagAndTag();
     $schun = $db->data['Hundred'];    
     } else {
     $schun = "-";
     }
     
-    if ($db->Exists("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND season=$i")) {   
-    $db->QueryRow("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND season=$i");
+    if ($db->Exists("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND season=$sid")) {   
+    $db->QueryRow("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND season=$sid");
     $db->BagAndTag();
     $scfif = $db->data['Fifty'];      
     } else {
@@ -417,8 +428,8 @@ function show_breakdown_year($db,$pr)
     
     // Get the caught
     
-    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND season=$i")) {    
-    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND season=$i");
+    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND season=$sid")) {    
+    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND season=$sid");
     $db->BagAndTag();
     $scctc = $db->data['Caught'];
     } else {
@@ -427,8 +438,8 @@ function show_breakdown_year($db,$pr)
     
     // now add the c&b
     
-    if ($db->Exists("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND season=$i")) { 
-    $db->QueryRow("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND season=$i");
+    if ($db->Exists("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND season=$sid")) { 
+    $db->QueryRow("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND season=$sid");
     $db->BagAndTag();
     $sccab = $db->data['CandB'];
     } else {
@@ -437,34 +448,47 @@ function show_breakdown_year($db,$pr)
     
     $sccat = $scctc + $sccab;
 
-    if ($db->Exists("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND season=$i")) {  
-    $db->QueryRow("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND season=$i");
+    if ($db->Exists("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND season=$sid")) {  
+    $db->QueryRow("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND season=$sid");
     $db->BagAndTag();
     $scstu = $db->data['Stumped'];
     } else {
     $scstu = "-";
     }
     
-    if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND season=$i")) {
+	// Get League Runouts
+	
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND season=$sid")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND season=$sid");
+    $db->BagAndTag();
+    $scro = $db->data['Runouts'];
+    } else {
+    $scro = "-";
+    }
+
+    if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND season=$sid")) {
     if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
     }
     $f = $f + 1;
-           
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($seasons[$i])) . "</td>\n";
+	
+    echo "  <td align=\"left\" width=\"24%\">" . htmlentities(stripslashes($sname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scavg</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
+    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
     echo " </tr>\n";
     
     } else {
@@ -511,10 +535,10 @@ function show_breakdown_year($db,$pr)
     echo " </tr>\n";
     
 	$f = 0;
-        for ($i=1; $i<=count($seasons)+1; $i++) {
+    foreach ($seasons as $sid => $sname) {
 
-    if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName")) {   
-    $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$i GROUP BY p.PlayerLName, p.PlayerFName");
+    if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$sid GROUP BY p.PlayerLName, p.PlayerFName")) {   
+    $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.season=$sid GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
     $scmai = $db->data['Maidens'];
     $scbru = $db->data['BRuns'];
@@ -548,24 +572,24 @@ function show_breakdown_year($db,$pr)
       $scove = "-";
     }
 
-    if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND season=$i")) {   
-    $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND season=$i");
+    if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND season=$sid")) {   
+    $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND season=$sid");
     $db->BagAndTag();
     $scbfo = $db->data['fourwickets'];
     } else {
     $scbfo = "-";
     }
 
-    if ($db->Exists("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND season=$i")) {  
-    $db->QueryRow("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND season=$i");
+    if ($db->Exists("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND season=$sid")) {  
+    $db->QueryRow("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND season=$sid");
     $db->BagAndTag();
     $scbfi = $db->data['fivewickets'];
     } else {
     $scbfi = "-";
     }
     
-    if ($db->Exists("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND season=$i ORDER BY wickets DESC, runs ASC LIMIT 1")) {    
-    $db->QueryRow("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND season=$i ORDER BY wickets DESC, runs ASC LIMIT 1");
+    if ($db->Exists("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND season=$sid ORDER BY wickets DESC, runs ASC LIMIT 1")) {    
+    $db->QueryRow("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND season=$sid ORDER BY wickets DESC, runs ASC LIMIT 1");
     $db->BagAndTag();
     $scbbw = $db->data['wickets'];
     $scbbr = $db->data['runs'];   
@@ -585,7 +609,7 @@ function show_breakdown_year($db,$pr)
     } else {
     }
     
-    if ($db->Exists("SELECT * FROM scorecard_bowling_details WHERE player_id = $pr AND season=$i")) {
+    if ($db->Exists("SELECT * FROM scorecard_bowling_details WHERE player_id = $pr AND season=$sid")) {
     
     if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
@@ -594,7 +618,7 @@ function show_breakdown_year($db,$pr)
     }
     $f = $f + 1;
 	
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($seasons[$i])) . "</td>\n";
+    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($sname)) . "</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
     echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
@@ -780,19 +804,24 @@ function show_breakdown_opponent($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>OPPONENT</b></td>\n";
+    echo "  <td align=\"left\" width=\"24%\"><b>OPPONENT</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>St</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
     echo " </tr>\n";
-    $scinn = 0;
+	$match = 0;
+	$scinn = 0;
 	$scrun = 0;
+	$scsr = 0;    
 	$rowc = 0;
 	
     for ($i=0; $i<count($teams); $i++) {
@@ -800,7 +829,7 @@ function show_breakdown_opponent($db,$pr)
               p.PlayerLName, p.PlayerFName,
               t.TeamAbbrev,
               o.TeamAbbrev,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs              
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs
             FROM            
               scorecard_batting_details b   
             LEFT JOIN           
@@ -818,7 +847,7 @@ function show_breakdown_opponent($db,$pr)
               p.PlayerLName, p.PlayerFName,
               t.TeamAbbrev,
               o.TeamAbbrev,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs  
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM 
               scorecard_batting_details b   
             LEFT JOIN 
@@ -835,8 +864,15 @@ function show_breakdown_opponent($db,$pr)
               Runs DESC");
 
     $db->BagAndTag();
-    $scinn = $db->data['Matches'];
+    $match = $db->data['Matches'];
+    $scinn = $db->data['Innings'];
     $scrun = $db->data['Runs'];
+	$scsr = $db->data['StrikeRate'];   
+	if($scsr != "") {
+	  $scsr = number_format($scsr, 2);
+	} else {
+	  $scsr = "-";
+	}
 	$rowc = $rowc + 1;
 	//$schig = $db->data['HS'];   
     } else {
@@ -852,8 +888,8 @@ function show_breakdown_opponent($db,$pr)
     } else {
     }   
 
-    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND how_out = 2 AND opponent=$teams[$i]")) {
-    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND how_out = 2 AND opponent=$teams[$i]");
+    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND opponent=$teams[$i]")) {
+    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND opponent=$teams[$i]");
     $db->BagAndTag();
     $scnot = $db->data['Notout'];
     $outin = $scinn - $scnot;
@@ -913,6 +949,16 @@ function show_breakdown_opponent($db,$pr)
     $scstu = "-";
     }
     
+	// Get League Runouts
+	
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND team=$teams[$i]")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND team=$teams[$i]");
+    $db->BagAndTag();
+    $scro = $db->data['Runouts'];
+    } else {
+    $scro = "-";
+    }
+
     if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND opponent=$teams[$i]")) {
     
     if($rowc % 2) {
@@ -922,17 +968,20 @@ function show_breakdown_opponent($db,$pr)
     }
     
     echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scavg</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
+    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
     echo " </tr>\n";
     
     } else {
@@ -1247,27 +1296,33 @@ function show_breakdown_ground($db,$pr)
     
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>GROUND</b></td>\n";
+    echo "  <td align=\"left\" width=\"24%\"><b>GROUND</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>St</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
     echo " </tr>\n";
     
+	$match = 0;
 	$scinn = 0;
 	$scrun = 0;
+	$scsr = 0;
+	$f = 0;
 	
-        for ($i=1; $i<=count($grounds)+1; $i++) {
+    foreach ($grounds as $gid => $gname) {
 
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
               g.GroundName,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS,
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate,
               m.game_id, b.game_id
             FROM            
               scorecard_batting_details b   
@@ -1278,14 +1333,14 @@ function show_breakdown_ground($db,$pr)
             LEFT JOIN
               grounds g ON g.GroundID = m.ground_id           
             WHERE 
-              b.player_id = $pr AND m.ground_id = $i
+              b.player_id = $pr AND m.ground_id = $gid
             GROUP BY    
               p.PlayerLName, p.PlayerFName")) {
   
     $db->QueryRow("SELECT   
               p.PlayerLName, p.PlayerFName,
               g.GroundName,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS,
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate, 
               m.game_id, b.game_id
             FROM            
               scorecard_batting_details b   
@@ -1296,29 +1351,35 @@ function show_breakdown_ground($db,$pr)
             LEFT JOIN
               grounds g ON g.GroundID = m.ground_id           
             WHERE 
-              b.player_id = $pr AND m.ground_id = $i 
+              b.player_id = $pr AND m.ground_id = $gid 
             GROUP BY    
               p.PlayerLName, p.PlayerFName");
 
     $db->BagAndTag();
-    $scinn = $db->data['Matches'];
+    $match = $db->data['Matches'];
+    $scinn = $db->data['Innings'];
     $scrun = $db->data['Runs'];
-    //$schig = $db->data['HS'];   
+	$scsr = $db->data['StrikeRate'];   
+	if($scsr != "") {
+	  $scsr = number_format($scsr, 2);
+	} else {
+	  $scsr = "-";
+	}
     } else {
     }
 
     // get the highscore
 
-    if ($db->Exists("SELECT b.runs AS HS, b.notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id = $i ORDER BY b.runs DESC")) {
-    $db->QueryRow("SELECT b.runs AS HS, b.notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id = $i ORDER BY b.runs DESC");
+    if ($db->Exists("SELECT b.runs AS HS, b.notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id = $gid ORDER BY b.runs DESC")) {
+    $db->QueryRow("SELECT b.runs AS HS, b.notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id = $gid ORDER BY b.runs DESC");
     $db->BagAndTag();
     $scnos = $db->data['notout'];
     $schig = $db->data['HS']; 
     } else {
     }
     
-    if ($db->Exists("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.how_out = 2 AND m.ground_id=$i")) {
-    $db->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.how_out = 2 AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.how_out = 2 AND m.ground_id=$gid")) {
+    $db->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.how_out = 2 AND m.ground_id=$gid");
     $db->BagAndTag();
     $scnot = $db->data['Notout'];
     $outin = $scinn - $scnot;
@@ -1332,16 +1393,16 @@ function show_breakdown_ground($db,$pr)
     }
     
     
-    if ($db->Exists("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.runs >= 100 AND m.ground_id=$i")) { 
-    $db->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.runs >= 100 AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.runs >= 100 AND m.ground_id=$gid")) { 
+    $db->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.runs >= 100 AND m.ground_id=$gid");
     $db->BagAndTag();
     $schun = $db->data['Hundred'];    
     } else {
     $schun = "-";
     }
     
-    if ($db->Exists("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND (runs BETWEEN 50 AND 99) AND m.ground_id=$i")) {    
-    $db->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND (runs BETWEEN 50 AND 99) AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND (runs BETWEEN 50 AND 99) AND m.ground_id=$gid")) {    
+    $db->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND (runs BETWEEN 50 AND 99) AND m.ground_id=$gid");
     $db->BagAndTag();
     $scfif = $db->data['Fifty'];      
     } else {
@@ -1350,8 +1411,8 @@ function show_breakdown_ground($db,$pr)
     
     // Get the caught
     
-    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND (how_out = 4 OR how_out = 17) AND m.ground_id=$i")) { 
-    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND (how_out = 4 OR how_out = 17) AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND (how_out = 4 OR how_out = 17) AND m.ground_id=$gid")) { 
+    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND (how_out = 4 OR how_out = 17) AND m.ground_id=$gid");
     $db->BagAndTag();
     $scctc = $db->data['Caught'];
     } else {
@@ -1360,8 +1421,8 @@ function show_breakdown_ground($db,$pr)
     
     // now add the c&b
     
-    if ($db->Exists("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.bowler = $pr AND how_out = 5 AND m.ground_id=$i")) {  
-    $db->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.bowler = $pr AND how_out = 5 AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.bowler = $pr AND how_out = 5 AND m.ground_id=$gid")) {  
+    $db->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.bowler = $pr AND how_out = 5 AND m.ground_id=$gid");
     $db->BagAndTag();
     $sccab = $db->data['CandB'];
     } else {
@@ -1370,34 +1431,48 @@ function show_breakdown_ground($db,$pr)
     
     $sccat = $scctc + $sccab;
 
-    if ($db->Exists("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND how_out = 10 AND m.ground_id=$i")) {   
-    $db->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND how_out = 10 AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND how_out = 10 AND m.ground_id=$gid")) {   
+    $db->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND how_out = 10 AND m.ground_id=$gid");
     $db->BagAndTag();
     $scstu = $db->data['Stumped'];
     } else {
     $scstu = "-";
     }
     
-    if ($db->Exists("SELECT * FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i")) {
+	// Get League Runouts
+	
+    if ($db->Exists("SELECT COUNT(b.how_out) AS Runouts FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id  WHERE (b.assist = $pr OR b.assist2 = $pr) AND b.how_out = 9 AND m.ground_id=$gid")) {  
+    $db->QueryRow("SELECT COUNT(b.how_out) AS Runouts FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id  WHERE (b.assist = $pr OR b.assist2 = $pr) AND b.how_out = 9 AND m.ground_id=$gid");
+    $db->BagAndTag();
+    $scro = $db->data['Runouts'];
+    } else {
+    $scro = "-";
+    }
+
+    if ($db->Exists("SELECT * FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$gid")) {
     
-    if($i % 2) {
+    if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
     }
-    
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($grounds[$i])) . "</td>\n";
+    $f = $f + 1;
+	
+    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($gname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scavg</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
+    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
     echo " </tr>\n";
     
     } else {
@@ -1443,10 +1518,12 @@ function show_breakdown_ground($db,$pr)
     echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
-        for ($i=1; $i<=count($grounds)+1; $i++) {
+    $f = 0;
+	
+    foreach ($grounds as $gid => $gname) {
 
-    if ($db->Exists("SELECT SUM(IF(INSTR(b.overs, '.'),((LEFT(b.overs, INSTR(b.overs, '.') - 1) * 6) + RIGHT(b.overs, INSTR(b.overs, '.') - 1)),(b.overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i GROUP BY p.PlayerLName, p.PlayerFName")) {    
-    $db->QueryRow("SELECT SUM(IF(INSTR(b.overs, '.'),((LEFT(b.overs, INSTR(b.overs, '.') - 1) * 6) + RIGHT(b.overs, INSTR(b.overs, '.') - 1)),(b.overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i GROUP BY p.PlayerLName, p.PlayerFName");
+    if ($db->Exists("SELECT SUM(IF(INSTR(b.overs, '.'),((LEFT(b.overs, INSTR(b.overs, '.') - 1) * 6) + RIGHT(b.overs, INSTR(b.overs, '.') - 1)),(b.overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$gid GROUP BY p.PlayerLName, p.PlayerFName")) {    
+    $db->QueryRow("SELECT SUM(IF(INSTR(b.overs, '.'),((LEFT(b.overs, INSTR(b.overs, '.') - 1) * 6) + RIGHT(b.overs, INSTR(b.overs, '.') - 1)),(b.overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$gid GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
     $scmai = $db->data['Maidens'];
     $scbru = $db->data['BRuns'];
@@ -1480,24 +1557,24 @@ function show_breakdown_ground($db,$pr)
       $scove = "-";
     }
 
-    if ($db->Exists("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets = 4 AND m.ground_id=$i")) {  
-    $db->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets = 4 AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets = 4 AND m.ground_id=$gid")) {  
+    $db->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets = 4 AND m.ground_id=$gid");
     $db->BagAndTag();
     $scbfo = $db->data['fourwickets'];
     } else {
     $scbfo = "-";
     }
 
-    if ($db->Exists("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets >= 5 AND m.ground_id=$i")) { 
-    $db->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details  b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets >= 5 AND m.ground_id=$i");
+    if ($db->Exists("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets >= 5 AND m.ground_id=$gid")) { 
+    $db->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details  b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets >= 5 AND m.ground_id=$gid");
     $db->BagAndTag();
     $scbfi = $db->data['fivewickets'];
     } else {
     $scbfi = "-";
     }
     
-    if ($db->Exists("SELECT b.player_id, b.wickets, b.runs FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i ORDER BY b.wickets DESC, b.runs ASC LIMIT 1")) { 
-    $db->QueryRow("SELECT b.player_id, b.wickets, b.runs FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i ORDER BY b.wickets DESC, b.runs ASC LIMIT 1");
+    if ($db->Exists("SELECT b.player_id, b.wickets, b.runs FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$gid ORDER BY b.wickets DESC, b.runs ASC LIMIT 1")) { 
+    $db->QueryRow("SELECT b.player_id, b.wickets, b.runs FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$gid ORDER BY b.wickets DESC, b.runs ASC LIMIT 1");
     $db->BagAndTag();
     $scbbw = $db->data['wickets'];
     $scbbr = $db->data['runs'];   
@@ -1517,15 +1594,15 @@ function show_breakdown_ground($db,$pr)
     } else {
     }
     
-    if ($db->Exists("SELECT b.* FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$i")) {
+    if ($db->Exists("SELECT b.* FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$gid")) {
     
-    if($i % 2) {
+    if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
     }
-    
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($grounds[$i])) . "</td>\n";
+    $f = $f + 1;
+    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($gname)) . "</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
     echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
@@ -1717,12 +1794,18 @@ function show_breakdown_batpos($db, $pr)
     echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
     echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"9%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"9%\"><b>SR</b></td>\n";
     echo "  <td align=\"right\" width=\"8%\"><b>100</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>50</b></td>\n";
     echo " </tr>\n";
-    
-        for ($i=1; $i<=count($positions)+1; $i++) {
+    $match = 0;
+	$scinn = 0;
+	$scrun = 0;
+	$scsr = 0;
+	$f = 0;
+	
+    foreach ($positions as $pos => $pname) {
 
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
@@ -1738,7 +1821,7 @@ function show_breakdown_batpos($db, $pr)
             LEFT JOIN
               teams o ON b.opponent = o.TeamID  
             WHERE 
-              b.player_id = $pr and b.batting_position=$i  
+              b.player_id = $pr and b.batting_position=$pos  
             GROUP BY    
               p.PlayerLName, p.PlayerFName")) {
   
@@ -1746,7 +1829,7 @@ function show_breakdown_batpos($db, $pr)
               p.PlayerLName, p.PlayerFName,
               t.TeamAbbrev,
               o.TeamAbbrev,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS  
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM 
               scorecard_batting_details b   
             LEFT JOIN 
@@ -1756,19 +1839,25 @@ function show_breakdown_batpos($db, $pr)
             LEFT JOIN
               teams o ON b.opponent = o.TeamID  
             WHERE 
-              b.player_id = $pr and batting_position=$i  
+              b.player_id = $pr and batting_position=$pos  
             GROUP BY 
               p.PlayerLName, p.PlayerFName");
 
     $db->BagAndTag();
-    $scinn = $db->data['Matches'];
+    $match = $db->data['Matches'];
+    $scinn = $db->data['Innings'];
     $scrun = $db->data['Runs'];
-    //$schig = $db->data['HS'];   
+	$scsr = $db->data['StrikeRate'];   
+	if($scsr != "") {
+	  $scsr = number_format($scsr, 2);
+	} else {
+	  $scsr = "-";
+	}
     } else {
     }
 
-    if ($db->Exists("SELECT runs AS HS, notout FROM scorecard_batting_details WHERE player_id = $pr AND batting_position = $i ORDER BY runs DESC")) {
-    $db->QueryRow("SELECT runs AS HS, notout FROM scorecard_batting_details WHERE player_id = $pr AND batting_position = $i ORDER BY runs DESC");
+    if ($db->Exists("SELECT runs AS HS, notout FROM scorecard_batting_details WHERE player_id = $pr AND batting_position = $pos ORDER BY runs DESC")) {
+    $db->QueryRow("SELECT runs AS HS, notout FROM scorecard_batting_details WHERE player_id = $pr AND batting_position = $pos ORDER BY runs DESC");
     $db->BagAndTag();
     $scnos = $db->data['notout'];
     $schig = $db->data['HS']; 
@@ -1776,8 +1865,8 @@ function show_breakdown_batpos($db, $pr)
     }
 
 
-    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND how_out = 2 AND batting_position=$i")) {
-    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND how_out = 2 AND batting_position=$i");
+    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND batting_position=$pos")) {
+    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND batting_position=$pos");
     $db->BagAndTag();
     $scnot = $db->data['Notout'];
     $outin = $scinn - $scnot;
@@ -1791,16 +1880,16 @@ function show_breakdown_batpos($db, $pr)
     }
     
     
-    if ($db->Exists("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND batting_position=$i")) {    
-    $db->QueryRow("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND batting_position=$i");
+    if ($db->Exists("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND batting_position=$pos")) {    
+    $db->QueryRow("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND batting_position=$pos");
     $db->BagAndTag();
     $schun = $db->data['Hundred'];    
     } else {
     $schun = "-";
     }
     
-    if ($db->Exists("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND batting_position=$i")) { 
-    $db->QueryRow("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND batting_position=$i");
+    if ($db->Exists("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND batting_position=$pos")) { 
+    $db->QueryRow("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND batting_position=$pos");
     $db->BagAndTag();
     $scfif = $db->data['Fifty'];      
     } else {
@@ -1809,24 +1898,26 @@ function show_breakdown_batpos($db, $pr)
     
 
     
-    if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND batting_position=$i")) {
+    if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND batting_position=$pos")) {
     
-    if($i % 2) {
+    if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
     }
-    
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($positions[$i])) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
+	$f = $f + 1;
+	
+    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($pname)) . "</td>\n";
+	echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
     echo "  <td align=\"right\" width=\"10%\">$scrun</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$schig";
-    if($scnot == '1') echo "*";
+    if($scnos == '1') echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"9%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"9%\">$scsr</td>\n";
     echo "  <td align=\"right\" width=\"8%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scfif</td>\n";
     echo " </tr>\n";
     
     } else {
@@ -1872,10 +1963,10 @@ function show_breakdown_batpos($db, $pr)
     echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
-        for ($i=1; $i<=count($positions)+1; $i++) {
+    foreach ($positions as $pos => $pname) {
 
-    if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.bowling_position=$i GROUP BY p.PlayerLName, p.PlayerFName")) { 
-    $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.bowling_position=$i GROUP BY p.PlayerLName, p.PlayerFName");
+    if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.bowling_position=$pos GROUP BY p.PlayerLName, p.PlayerFName")) { 
+    $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.bowling_position=$pos GROUP BY p.PlayerLName, p.PlayerFName");
     $db->BagAndTag();
     $scmai = $db->data['Maidens'];
     $scbru = $db->data['BRuns'];
@@ -1909,24 +2000,24 @@ function show_breakdown_batpos($db, $pr)
       $scove = "-";
     }
 
-    if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND bowling_position=$i")) { 
-    $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND bowling_position=$i");
+    if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND bowling_position=$pos")) { 
+    $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND bowling_position=$pos");
     $db->BagAndTag();
     $scbfo = $db->data['fourwickets'];
     } else {
     $scbfo = "-";
     }
 
-    if ($db->Exists("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND bowling_position=$i")) {    
-    $db->QueryRow("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND bowling_position=$i");
+    if ($db->Exists("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND bowling_position=$pos")) {    
+    $db->QueryRow("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND bowling_position=$pos");
     $db->BagAndTag();
     $scbfi = $db->data['fivewickets'];
     } else {
     $scbfi = "-";
     }
     
-    if ($db->Exists("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND bowling_position=$i ORDER BY wickets DESC, runs ASC LIMIT 1")) {  
-    $db->QueryRow("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND bowling_position=$i ORDER BY wickets DESC, runs ASC LIMIT 1");
+    if ($db->Exists("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND bowling_position=$pos ORDER BY wickets DESC, runs ASC LIMIT 1")) {  
+    $db->QueryRow("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND bowling_position=$pos ORDER BY wickets DESC, runs ASC LIMIT 1");
     $db->BagAndTag();
     $scbbw = $db->data['wickets'];
     $scbbr = $db->data['runs'];   
@@ -1946,15 +2037,16 @@ function show_breakdown_batpos($db, $pr)
     } else {
     }
     
-    if ($db->Exists("SELECT * FROM scorecard_bowling_details WHERE player_id = $pr AND bowling_position=$i")) {
+    if ($db->Exists("SELECT * FROM scorecard_bowling_details WHERE player_id = $pr AND bowling_position=$pos")) {
     
-    if($i % 2) {
+    if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
     } else {
       echo "<tr class=\"trrow1\">\n";
     }
-    
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($positions[$i])) . "</td>\n";
+    $f = $f + 1;
+	
+    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($pname)) . "</td>\n";
     echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
     echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
@@ -2148,17 +2240,22 @@ function show_breakdown_innno($db,$pr)
     echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
     echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>SR</b></td>\n";
     echo "  <td align=\"right\" width=\"8%\"><b>100</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>50</b></td>\n";
     echo " </tr>\n";
-    
+    $match = 0;
+	$scinn = 0;
+	$scrun = 0;
+	$scsr = 0;
+	
         for ($i=1; $i<=count($inns); $i++) {
 
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
               t.TeamAbbrev,
               o.TeamAbbrev,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS             
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs
             FROM            
               scorecard_batting_details b   
             LEFT JOIN           
@@ -2176,7 +2273,8 @@ function show_breakdown_innno($db,$pr)
               p.PlayerLName, p.PlayerFName,
               t.TeamAbbrev,
               o.TeamAbbrev,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS  
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, 
+			  COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM 
               scorecard_batting_details b   
             LEFT JOIN 
@@ -2191,9 +2289,15 @@ function show_breakdown_innno($db,$pr)
               p.PlayerLName, p.PlayerFName");
 
     $db->BagAndTag();
-    $scinn = $db->data['Matches'];
+    $match = $db->data['Matches'];
+    $scinn = $db->data['Innings'];
     $scrun = $db->data['Runs'];
-    //$schig = $db->data['HS'];   
+    $scsr = $db->data['StrikeRate'];   
+	if($scsr != "") {
+	  $scsr = number_format($scsr, 2);
+	} else {
+	  $scsr = "-";
+	}
     } else {
     }
 
@@ -2205,8 +2309,8 @@ function show_breakdown_innno($db,$pr)
     } else {
     }
     
-    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND how_out = 2 AND innings_id=$i")) {
-    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND how_out = 2 AND innings_id=$i");
+    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND innings_id=$i")) {
+    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND innings_id=$i");
     $db->BagAndTag();
     $scnot = $db->data['Notout'];
     $outin = $scinn - $scnot;
@@ -2254,8 +2358,9 @@ function show_breakdown_innno($db,$pr)
     if($scnos == '1') echo "*";
     echo "  </td>\n";
     echo "  <td align=\"right\" width=\"10%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scsr</td>\n";
     echo "  <td align=\"right\" width=\"8%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scfif</td>\n";
     echo " </tr>\n";
     
     } else {
@@ -2632,6 +2737,7 @@ function show_breakdown_batprogress($db,$pr)
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
     echo "  <td align=\"left\" nowrap><b>DATE</b></td>\n";
+    echo "  <td align=\"left\"><b>FOR</b></td>\n";
     echo "  <td align=\"left\"><b>VS</b></td>\n";
     echo "  <td align=\"left\"><b>GROUND</b></td>\n";
     echo "  <td align=\"left\"><b>HOW DISMISSED</b></td>\n";
@@ -2662,7 +2768,7 @@ function show_breakdown_batprogress($db,$pr)
 			if ($db->Exists("SELECT   
 				  p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
 				  m.game_date, m.game_id, m.mom, m.mom2,
-				  t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+				  t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
 				  o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 				  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
 				  g.GroundID, g.GroundName, 
@@ -2694,7 +2800,7 @@ function show_breakdown_batprogress($db,$pr)
 					$db->QueryRow("SELECT   
 							  p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
 							  m.game_date, m.game_id, m.mom, m.mom2,
-							  t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+							  t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
 							  o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 							  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
 							  g.GroundID, g.GroundName, 
@@ -2727,7 +2833,7 @@ function show_breakdown_batprogress($db,$pr)
 				$db->QueryRow("SELECT 
 								p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT( p.PlayerFName, 1 ) AS BatterFInitial, 
 								m.game_date, m.game_id, m.mom, m.mom2,
-								t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+								t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
 								o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 								0 AS HowOutID, 'dnb' AS HowOutName, 'dnb' AS HowOutAbbrev, 
 								g.GroundID, g.GroundName, '' AS AssistLName, '' AS AssistFName, '' AS AssistFInitial, '' AS BowlerLName, '' AS BowlerFName, '' AS BowlerFInitial, 0 AS Assist, 0 AS bowler, 0 AS runs, 0 AS notout
@@ -2744,7 +2850,7 @@ function show_breakdown_batprogress($db,$pr)
     if ($db->Exists("SELECT   
               p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
               m.game_date, m.game_id, m.mom, m.mom2,
-              t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+              t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
               o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
               h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
               g.GroundID, g.GroundName, 
@@ -2776,7 +2882,7 @@ function show_breakdown_batprogress($db,$pr)
 				$db->QueryRow("SELECT   
 			              p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS BatterFInitial,
 			              m.game_date, m.game_id, m.mom, m.mom2,
-			              t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+			              t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
 			              o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 			              h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
 			              g.GroundID, g.GroundName, 
@@ -2809,7 +2915,7 @@ function show_breakdown_batprogress($db,$pr)
             $db->QueryRow("SELECT 
 				            p.PlayerID, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, LEFT( p.PlayerFName, 1 ) AS BatterFInitial, 
 				            m.game_date, m.game_id, m.mom, m.mom2,
-				            t.TeamID AS TeamID, t.TeamName, t.TeamAbbrev, 
+				            t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
 				            o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 				            0 AS HowOutID, 'dnb' AS HowOutName, 'dnb' AS HowOutAbbrev, 
 				            g.GroundID, g.GroundName, '' AS AssistLName, '' AS AssistFName, '' AS AssistFInitial, '' AS BowlerLName, '' AS BowlerFName, '' AS BowlerFInitial, 0 AS Assist, 0 AS bowler, 0 AS runs, 0 AS notout
@@ -2831,6 +2937,7 @@ function show_breakdown_batprogress($db,$pr)
         $gid = $db->data['game_id'];
         $dte = sqldate_to_string($db->data['game_date']);
         $dat = $db->data['game_date'];
+        $for = $db->data['ForTeamAbbrev'];
         $opp = $db->data['OpponentAbbrev'];
         $gro = $db->data['GroundName'];
         $out = $db->data['HowOutAbbrev'];
@@ -2860,7 +2967,8 @@ function show_breakdown_batprogress($db,$pr)
     }
     
     echo "  <td align=\"left\" nowrap><a href=\"http://www.coloradocricket.org/scorecardfull.php?game_id=$gid&ccl_mode=4\">$dat</a></td>\n";
-    echo "  <td align=\"left\" width=\"15\">$opp</td>\n";
+    echo "  <td align=\"left\" width=\"8%\">$for</td>\n";
+    echo "  <td align=\"left\" width=\"8%\">$opp</td>\n";
     echo "  <td align=\"left\">$gro</td>\n";
     echo "  <td align=\"left\">";
     
@@ -3038,7 +3146,7 @@ if($statistics != null) {
 	}
 	
     echo " <tr>\n";
-	echo "  <td colspan=4 align=\"right\"><b>Total:</b></td>";
+	echo "  <td colspan=5 align=\"right\"><b>Total:</b></td>";
     echo "  <td align=\"right\">$total</td>";
     echo "  <td align=\"right\">$final_bowling</td>";
     echo " </tr>\n";
