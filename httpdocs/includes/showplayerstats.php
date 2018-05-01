@@ -228,6 +228,10 @@ function show_full_players_stats($db, $pr)
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=3\">Performance Breakdown by Ground</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
@@ -668,6 +672,10 @@ function show_breakdown_year($db,$pr)
     echo " </tr>\n";    
     echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=2\">Performance Breakdown by Opponent</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
@@ -1164,6 +1172,10 @@ function show_breakdown_opponent($db,$pr)
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=3\">Performance Breakdown by Ground</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
@@ -1198,6 +1210,501 @@ function show_breakdown_opponent($db,$pr)
     echo "</table>\n";
 }   
 
+function show_breakdown_team($db,$pr)
+{
+    global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
+
+
+    $db->QueryRow("
+    SELECT
+      pl.*, te.TeamID, te.TeamName, te.TeamAbbrev, te.TeamColour, cl.ClubID, cl.ClubName
+    FROM
+      (players pl
+    INNER JOIN
+      clubs cl ON cl.ClubID = pl.PlayerClub)
+    INNER JOIN
+      teams te
+    ON
+      pl.PlayerTeam = te.TeamID
+    WHERE
+      pl.PlayerID = $pr
+    ");
+    $db->BagAndTag();
+
+    $plid = $db->data['PlayerID'];
+    $pln = $db->data['PlayerLName'];
+    $pfn = $db->data['PlayerFName'];
+    $pem = $db->data['PlayerEmail'];
+    $bor = $db->data['Born'];
+    $bat = $db->data['BattingStyle'];
+    $bow = $db->data['BowlingStyle'];
+    $spr = $db->data['shortprofile'];
+
+    $pic = $db->data['picture'];
+    $pic1 = $db->data['picture1'];
+
+    $tid = $db->data['TeamID'];
+    $tna = $db->data['TeamName'];
+    $tco = $db->data['TeamColour'];
+
+    $cid = $db->data['ClubID'];
+    $cna = $db->data['ClubName'];
+
+    echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
+    echo "<tr>\n";
+    echo "  <td align=\"left\" valign=\"top\">\n";
+
+    echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
+    echo "<tr>\n";
+    echo "  <td align=\"left\" valign=\"top\">\n";
+    echo "  <a href=\"/index.php\">Home</a> &raquo; <font class=\"10px\">Player Stats</font></p>\n";
+    echo "  </td>\n";
+    echo "  <td align=\"right\" valign=\"top\">\n";
+    require ("navtop.php");
+    echo "  </td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
+    
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n";
+        echo "  <tr>\n";
+        echo "    <td align=\"left\"><b class=\"16px\">$pfn $pln</b></td>\n";
+        echo "  </tr>\n";
+
+    $db->QueryRow("
+    SELECT
+      MIN(game_date) AS earlydate
+    FROM
+      scorecard_game_details
+    ");
+    $db->BagAndTag();
+    
+    $d = sqldate_to_string($db->data['earlydate']);
+
+        echo "  <tr>\n";
+        echo "    <td align=\"left\">From <b>$d</b> to the present.</td>\n";
+        echo "  </tr>\n";
+
+        echo "</table>\n";
+        echo "<br>\n";
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CCL Batting Statistics Box by Team                                                                                        //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    $db->Query("SELECT * FROM teams");
+    for ($i=0; $i<$db->rows; $i++) {
+        $db->GetRow($i);
+        $teams[$i] = $db->data['TeamID'];
+        $teamAbbrevs[$i] = $db->data['TeamAbbrev'];
+    }
+                
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "  <tr>\n";
+        echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BATTING ANALYSIS BY TEAM</td>\n";
+        echo "  </tr>\n";
+        echo "  <tr>\n";
+    echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
+ 
+
+    echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
+    echo " <tr class=\"colhead\">\n";
+    echo "  <td align=\"left\" width=\"24%\"><b>TEAM</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
+    echo " </tr>\n";
+	$match = 0;
+	$scinn = 0;
+	$scrun = 0;
+	$scsr = 0;    
+	$rowc = 0;
+	
+    for ($i=0; $i<count($teams); $i++) {
+    if ($db->Exists("SELECT   
+              p.PlayerLName, p.PlayerFName,
+              t.TeamAbbrev,
+              o.TeamAbbrev,
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs
+            FROM            
+              scorecard_batting_details b   
+            LEFT JOIN           
+              players p ON b.player_id = p.PlayerID       
+            LEFT JOIN
+              teams t ON b.team = t.TeamID            
+            LEFT JOIN
+              teams o ON b.opponent = o.TeamID  
+            WHERE 
+              b.player_id = $pr and team=$teams[$i]  
+            GROUP BY    
+              p.PlayerLName, p.PlayerFName")) {
+  
+    $db->QueryRow("SELECT   
+              p.PlayerLName, p.PlayerFName,
+              t.TeamAbbrev,
+              o.TeamAbbrev,
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
+            FROM 
+              scorecard_batting_details b   
+            LEFT JOIN 
+              players p ON b.player_id = p.PlayerID   
+            LEFT JOIN
+              teams t ON b.team = t.TeamID  
+            LEFT JOIN
+              teams o ON b.opponent = o.TeamID  
+            WHERE 
+              b.player_id = $pr and team=$teams[$i]  
+            GROUP BY 
+              p.PlayerLName, p.PlayerFName
+            ORDER BY
+              Runs DESC");
+
+    $db->BagAndTag();
+    $match = $db->data['Matches'];
+    $scinn = $db->data['Innings'];
+    $scrun = $db->data['Runs'];
+	$scsr = $db->data['StrikeRate'];   
+	if($scsr != "") {
+	  $scsr = number_format($scsr, 2);
+	} else {
+	  $scsr = "-";
+	}
+	$rowc = $rowc + 1;
+	//$schig = $db->data['HS'];   
+    } else {
+    }
+    
+    // get the highscore
+
+    if ($db->Exists("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.team = $teams[$i] ORDER BY b.runs DESC")) {
+    $db->QueryRow("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.team = $teams[$i] ORDER BY b.runs DESC");
+    $db->BagAndTag();
+    $scnos = $db->data['notout'];
+    $schig = $db->data['HS']; 
+    } else {
+    }   
+
+    if ($db->Exists("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND team=$teams[$i]")) {
+    $db->QueryRow("SELECT COUNT(how_out) AS Notout FROM scorecard_batting_details WHERE player_id = $pr AND (how_out = 2 OR how_out = 8) AND team=$teams[$i]");
+    $db->BagAndTag();
+    $scnot = $db->data['Notout'];
+    $outin = $scinn - $scnot;
+    
+    if($scrun >= 1 && $outin >= 1) {
+    $scavg = Number_Format(Round($scrun / $outin, 2),2);
+    } else {
+    $scavg = "-";
+    }
+    } else {
+    }
+    
+    
+    if ($db->Exists("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND team=$teams[$i]")) {    
+    $db->QueryRow("SELECT COUNT(runs) AS Hundred FROM scorecard_batting_details WHERE player_id = $pr AND runs >= 100 AND team=$teams[$i]");
+    $db->BagAndTag();
+    $schun = $db->data['Hundred'];    
+    } else {
+    $schun = "-";
+    }
+    
+    if ($db->Exists("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND team=$teams[$i]")) { 
+    $db->QueryRow("SELECT COUNT(runs) AS Fifty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 50 AND 99) AND team=$teams[$i]");
+    $db->BagAndTag();
+    $scfif = $db->data['Fifty'];      
+    } else {
+    $scfif = "-";
+    }
+    
+    // Get the caught
+    
+    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND opponent=$teams[$i]")) {  
+    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND opponent=$teams[$i]");
+    $db->BagAndTag();
+    $scctc = $db->data['Caught'];
+    } else {
+    $scctc = "-";
+    }
+    
+    // now add the c&b
+    
+    if ($db->Exists("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND opponent=$teams[$i]")) {   
+    $db->QueryRow("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND opponent=$teams[$i]");
+    $db->BagAndTag();
+    $sccab = $db->data['CandB'];
+    } else {
+    $sccab = "-";
+    }
+    
+    $sccat = $scctc + $sccab;
+
+    if ($db->Exists("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND opponent=$teams[$i]")) {    
+    $db->QueryRow("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND opponent=$teams[$i]");
+    $db->BagAndTag();
+    $scstu = $db->data['Stumped'];
+    } else {
+    $scstu = "-";
+    }
+    
+	// Get League Runouts
+	
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND opponent=$teams[$i]")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND opponent=$teams[$i]");
+    $db->BagAndTag();
+    $scro = $db->data['Runouts'];
+    } else {
+    $scro = "-";
+    }
+
+    if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND team=$teams[$i]")) {
+    
+    if($rowc % 2) {
+      echo "<tr class=\"trrow2\">\n";
+    } else {
+      echo "<tr class=\"trrow1\">\n";
+    }
+    
+    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$schig";
+    if($scnos == '1') echo "*";
+    echo "  </td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
+    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
+    echo " </tr>\n";
+    
+    } else {
+    }
+    }
+    
+    echo "</table>\n";
+
+
+    echo "  </td>\n";
+    echo "</tr>\n";
+    echo "</table><br>\n";
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CCL Bowling Statistics Box by Opponent                                                                                    //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    $db->Query("SELECT * FROM teams");
+    for ($i=0; $i<$db->rows; $i++) {
+        $db->GetRow($i);
+        $teams[$i] = $db->data['TeamID'];
+		$teamAbbrevs[$i] = $db->data['TeamAbbrev'];
+    }
+                
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "  <tr>\n";
+        echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;BOWLING ANALYSIS BY TEAM</td>\n";
+        echo "  </tr>\n";
+        echo "  <tr>\n";
+    echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
+ 
+
+    echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
+    echo " <tr class=\"colhead\">\n";
+    echo "  <td align=\"left\" width=\"35%\"><b>TEAM</td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>O</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"8%\"><b>R</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>W</b></td>\n";
+    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"10%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>4w</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>5w</b></td>\n";
+    echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
+    echo " </tr>\n";
+    
+        for ($i=0; $i<count($teams); $i++) {
+
+    if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.team=$teams[$i] GROUP BY p.PlayerLName, p.PlayerFName")) { 
+    $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID WHERE b.player_id = $pr AND b.team=$teams[$i] GROUP BY p.PlayerLName, p.PlayerFName");
+    $db->BagAndTag();
+    $scmai = $db->data['Maidens'];
+    $scbru = $db->data['BRuns'];
+    $scwic = $db->data['Wickets'];
+	$rowc = $rowc + 1;
+
+    $bnum = $db->data['Balls']; 
+    $bovers = Round(($bnum / 6), 2); 
+    $bfloor = floor($bovers); 
+
+    if($bovers == $bfloor + 0.17) { 
+      $scove = $bfloor + 0.1; 
+    } else 
+    if($bovers == $bfloor + 0.33) { 
+      $scove = $bfloor + 0.2; 
+    } else 
+    if($bovers == $bfloor + 0.5) { 
+      $scove = $bfloor + 0.3;        
+    } else 
+    if($bovers == $bfloor + 0.67) { 
+      $scove = $bfloor + 0.4;        
+    } else 
+    if($bovers == $bfloor + 0.83) { 
+      $scove = $bfloor + 0.5; 
+    } else { 
+      $scove = $bfloor; 
+    }     
+
+
+    } else {
+      $scove = "-";
+    }
+
+    if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND team=$teams[$i]")) { 
+    $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND team=$teams[$i]");
+    $db->BagAndTag();
+    $scbfo = $db->data['fourwickets'];
+    } else {
+    $scbfo = "-";
+    }
+
+    if ($db->Exists("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND team=$teams[$i]")) {    
+    $db->QueryRow("SELECT COUNT(wickets) AS fivewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets >= 5 AND team=$teams[$i]");
+    $db->BagAndTag();
+    $scbfi = $db->data['fivewickets'];
+    } else {
+    $scbfi = "-";
+    }
+    
+    if ($db->Exists("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND team=$teams[$i] ORDER BY wickets DESC, runs ASC LIMIT 1")) {  
+    $db->QueryRow("SELECT player_id, wickets, runs FROM scorecard_bowling_details WHERE player_id = $pr AND team=$teams[$i] ORDER BY wickets DESC, runs ASC LIMIT 1");
+    $db->BagAndTag();
+    $scbbw = $db->data['wickets'];
+    $scbbr = $db->data['runs'];   
+    
+    if($scbru >= 1 && $scwic >= 1) {
+    $boavg = Number_Format(Round($scbru / $scwic, 2),2);
+    } else {
+    $boavg = "-";
+    }
+    
+    if($scbru >= 1 && $scove >= 0.1) {  
+    $boeco = Number_Format(Round($scbru / $scove, 2),2);
+    } else {
+    $boeco = "-";
+    }   
+    
+    } else {
+    }
+    
+    if ($db->Exists("SELECT * FROM scorecard_bowling_details WHERE player_id = $pr AND team=$teams[$i]")) {
+    
+    if($rowc % 2) {
+      echo "<tr class=\"trrow2\">\n";
+    } else {
+      echo "<tr class=\"trrow1\">\n";
+    }
+    
+    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
+    echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scwic</td>\n";
+    echo "  <td align=\"right\" width=\"10%\">$boavg</td>\n";
+    echo "  <td align=\"right\" width=\"10%\">$scbbw-$scbbr</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scbfo</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scbfi</td>\n";
+    echo "  <td align=\"right\" width=\"10%\">$boeco</td>\n";   
+    echo " </tr>\n";
+    
+    } else {
+    }
+    }
+    
+    echo "</table>\n";
+
+    echo "  </td>\n";
+    echo "</tr>\n";
+    echo "</table><br>\n";
+    
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Statistics Selector                                                                                                            //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+        echo "  <tr>\n";
+        echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\" align=\"left\">&nbsp;SELECT ANALYSIS</td>\n";
+        echo "  </tr>\n";
+        echo "  <tr>\n";
+    echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
+
+    echo "  <table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">\n";
+
+    // output story
+    echo "<tr class=\"trrow1\">\n";
+    echo "  <td width=\"40%\" valign=\"top\">";
+
+    echo "<table width=\"100%\" cellpadding=\"5\" cellspacing=\"0\" border=\"0\" align=\"left\">\n";
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><b>Statistics</b></td>\n";
+    echo "  <td align=\"left\" valign=\"top\"><b>Graphs</b></td>\n";
+    echo " </tr>\n";
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=1\">Performance Breakdown by Year</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=2\">Performance Breakdown by Opponent</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=3\">Performance Breakdown by Ground</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=4\">Performance Breakdown by Batting/Bowling Position</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=5\">Performance Breakdown by Innings Number</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=6\">Career Batting/Bowling - Innings by Innings Progress</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";
+    echo "</table>\n";
+
+
+    echo "  </td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
+
+    echo "  </td>\n";
+    echo "</tr>\n";
+    echo "</table><br>\n";
+    
+    echo "<p> <a href=\"players.php?players=$pr&ccl_mode=1\">back to $pfn's profile</a></p>\n";
+        
+    // finish off
+    echo "  </td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
+}   
 
 function show_breakdown_ground($db,$pr)
 {
@@ -1657,6 +2164,10 @@ function show_breakdown_ground($db,$pr)
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=3\">Performance Breakdown by Ground</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
@@ -2097,6 +2608,10 @@ function show_breakdown_batpos($db, $pr)
     echo " </tr>\n";    
     echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=2\">Performance Breakdown by Opponent</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
@@ -2545,6 +3060,10 @@ function show_breakdown_innno($db,$pr)
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=3\">Performance Breakdown by Ground</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
@@ -2773,6 +3292,7 @@ function show_breakdown_batprogress($db,$pr)
 				  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
 				  g.GroundID, g.GroundName, 
 				  a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+				  a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
 				  w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
 				  b.assist, b.bowler, b.runs , b.notout    
 				FROM            
@@ -2781,6 +3301,8 @@ function show_breakdown_batprogress($db,$pr)
 				  scorecard_game_details m ON m.game_id = b.game_id 
 				LEFT JOIN
 				  players a ON a.PlayerID = b.assist
+				LEFT JOIN
+				  players a2 ON a2.PlayerID = b.assist2
 				LEFT JOIN
 				  players p ON p.PlayerID = b.player_id
 				LEFT JOIN
@@ -2805,6 +3327,7 @@ function show_breakdown_batprogress($db,$pr)
 							  h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
 							  g.GroundID, g.GroundName, 
 							  a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
+							  a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
 							  w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
 							  b.assist, b.bowler, b.runs , b.notout    
 							FROM            
@@ -2813,6 +3336,8 @@ function show_breakdown_batprogress($db,$pr)
 							  scorecard_game_details m ON m.game_id = b.game_id 
 							LEFT JOIN
 							  players a ON a.PlayerID = b.assist
+							LEFT JOIN
+								players a2 ON a2.PlayerID = b.assist2
 							LEFT JOIN
 							  players p ON p.PlayerID = b.player_id
 							LEFT JOIN
@@ -2836,7 +3361,7 @@ function show_breakdown_batprogress($db,$pr)
 								t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
 								o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 								0 AS HowOutID, 'dnb' AS HowOutName, 'dnb' AS HowOutAbbrev, 
-								g.GroundID, g.GroundName, '' AS AssistLName, '' AS AssistFName, '' AS AssistFInitial, '' AS BowlerLName, '' AS BowlerFName, '' AS BowlerFInitial, 0 AS Assist, 0 AS bowler, 0 AS runs, 0 AS notout
+								g.GroundID, g.GroundName, '' AS AssistLName, '' AS AssistFName, '' AS AssistFInitial, '' AS AssistLName2, '' AS AssistFName2, '' AS AssistFInitial2, '' AS BowlerLName, '' AS BowlerFName, '' AS BowlerFInitial, 0 AS Assist, 0 AS bowler, 0 AS runs, 0 AS notout
 								FROM scorecard_bowling_details b
 								LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id
 								LEFT JOIN players p ON p.PlayerID = b.player_id
@@ -2855,7 +3380,8 @@ function show_breakdown_batprogress($db,$pr)
               h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
               g.GroundID, g.GroundName, 
               a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
-              w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
+              a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
+			  w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
               b.assist, b.bowler, b.runs , b.notout    
             FROM            
               scorecard_batting_details b   
@@ -2864,6 +3390,8 @@ function show_breakdown_batprogress($db,$pr)
             LEFT JOIN
               players a ON a.PlayerID = b.assist
             LEFT JOIN
+			  players a2 ON a2.PlayerID = b.assist2
+			LEFT JOIN
               players p ON p.PlayerID = b.player_id
             LEFT JOIN
               players w ON w.PlayerID = b.bowler      
@@ -2887,7 +3415,8 @@ function show_breakdown_batprogress($db,$pr)
 			              h.HowOutID, h.HowOutName, h.HowOutAbbrev, 
 			              g.GroundID, g.GroundName, 
 			              a.PlayerLName AS AssistLName, a.PlayerFName AS AssistFName, LEFT(a.PlayerFName,1) AS AssistFInitial,
-			              w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
+			              a2.PlayerLName AS AssistLName2, a2.PlayerFName AS AssistFName2, LEFT(a2.PlayerFName,1) AS AssistFInitial2,
+						  w.PlayerLName AS BowlerLName, w.PlayerFName AS BowlerFName, LEFT(w.PlayerFName,1) AS BowlerFInitial,            
 			              b.assist, b.bowler, b.runs , b.notout    
 			            FROM            
 			              scorecard_batting_details b   
@@ -2896,6 +3425,8 @@ function show_breakdown_batprogress($db,$pr)
 			            LEFT JOIN
 			              players a ON a.PlayerID = b.assist
 			            LEFT JOIN
+						  players a2 ON a2.PlayerID = b.assist2
+						LEFT JOIN
 			              players p ON p.PlayerID = b.player_id
 			            LEFT JOIN
 			              players w ON w.PlayerID = b.bowler      
@@ -2918,7 +3449,7 @@ function show_breakdown_batprogress($db,$pr)
 				            t.TeamID AS TeamID, t.TeamName AS ForTeamName, t.TeamAbbrev AS ForTeamAbbrev, 
 				            o.TeamID AS OpponentID, o.TeamName AS OpponentName, o.TeamAbbrev AS OpponentAbbrev, 
 				            0 AS HowOutID, 'dnb' AS HowOutName, 'dnb' AS HowOutAbbrev, 
-				            g.GroundID, g.GroundName, '' AS AssistLName, '' AS AssistFName, '' AS AssistFInitial, '' AS BowlerLName, '' AS BowlerFName, '' AS BowlerFInitial, 0 AS Assist, 0 AS bowler, 0 AS runs, 0 AS notout
+				            g.GroundID, g.GroundName, '' AS AssistLName, '' AS AssistFName, '' AS AssistFInitial, '' AS AssistLName2, '' AS AssistFName2, '' AS AssistFInitial2, '' AS BowlerLName, '' AS BowlerFName, '' AS BowlerFInitial, 0 AS Assist, 0 AS bowler, 0 AS runs, 0 AS notout
 							FROM scorecard_bowling_details b
 							LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id
 							LEFT JOIN players p ON p.PlayerID = b.player_id
@@ -2954,6 +3485,9 @@ function show_breakdown_batprogress($db,$pr)
         $aln = $db->data['AssistLName'];
         $afn = $db->data['AssistFName'];
         $ain = $db->data['AssistFInitial'];   
+        $a2ln = $db->data['AssistLName2'];
+        $a2fn = $db->data['AssistFName2'];
+        $a2in = $db->data['AssistFInitial2'];   
         $run = $db->data['runs'];
         $not = $db->data['notout'];
         $mom = $db->data['mom'];
@@ -2987,15 +3521,26 @@ function show_breakdown_batprogress($db,$pr)
     if($oid == 3 || $oid == 5) {
       echo "";
     } else {
-      echo "$out ";
+		if($out == "NOT OUT") {
+			echo "  <b><font color='blue'>$out</a></b>&nbsp;";
+		}
+		else {
+			echo "$out ";
+		}
     }
 
     if($aln == "" && $afn == "") {
       echo "";
-    } elseif($afn != "" && $aln != "" && $ala != "") {
-      echo "$ain $ala";
-    } elseif($afn != "" && $aln != "" && $ala == "") {
-      echo "$ain $aln";   
+    } elseif($afn != "" && $aln != "" && $a2fn != "" && $a2ln != "") {
+		if($oid == 9) {
+			echo "($ain $aln/$a2in $a2ln)";
+		}
+    }  elseif($afn != "" && $aln != "") {
+		if($oid == 9) {
+			echo "($ain $aln)";   
+		} else {
+			echo "$ain $aln";   
+		}
     } else {
       echo "$afn\n";
     }
@@ -3006,21 +3551,21 @@ function show_breakdown_batprogress($db,$pr)
 
 
     // display bowled if it goes with the wicket type
-    if($oid == '3' || $oid == '4' || $oid == '6' || $oid == '7' || $oid == '10') {
+    if($oid == '3' || $oid == '4' || $oid == '6' || $oid == '7' || $oid == '10' || $oid == '17') {
       echo " b ";
+	  if($bln == "" && $bfn == "") {
+		  echo "";
+		} elseif($bfn != "" && $bln != "" && $bla != "") {
+		  echo "$bin $bla";
+		} elseif($bfn != "" && $bln != "" && $bla == "") {
+		  echo "$bin $bln";   
+		} else {
+		  echo "$bfn\n";
+		}
     } else {
       echo "";
     }
 
-    if($bln == "" && $bfn == "") {
-      echo "";
-    } elseif($bfn != "" && $bln != "" && $bla != "") {
-      echo "$bin $bla";
-    } elseif($bfn != "" && $bln != "" && $bla == "") {
-      echo "$bin $bln";   
-    } else {
-      echo "$bfn\n";
-    }
 
     
     echo "  </td>\n";
@@ -3186,6 +3731,10 @@ if($statistics != null) {
     echo " </tr>\n";    
     echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=2\">Performance Breakdown by Opponent</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
@@ -3535,6 +4084,10 @@ function show_breakdown_bowlprogress($db,$pr)
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
     echo " <tr>\n";
+    echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=9\">Performance Breakdown by Team</a></td>\n";
+    echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
+    echo " </tr>\n";    
+    echo " <tr>\n";
     echo "  <td align=\"left\" valign=\"top\"><a href=\"playerstats.php?players=$pr&ccl_mode=3\">Performance Breakdown by Ground</a></td>\n";
     echo "  <td align=\"left\" valign=\"top\">&nbsp;</td>\n";
     echo " </tr>\n";    
@@ -3607,6 +4160,9 @@ if (isset($_GET['ccl_mode'])) {
 		break;      
 	case 8:
 		show_graph_batprogress($db,$_GET['players']);
+		break;  
+	case 9:
+		show_breakdown_team($db,$_GET['players']);
 		break;  
 	default:
 		show_full_players_stats($db,$_GET['players']);

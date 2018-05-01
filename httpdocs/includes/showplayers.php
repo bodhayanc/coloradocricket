@@ -362,26 +362,31 @@ function show_full_players($db,$pr)
     
     echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
     echo "  <tr>\n";
-    echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;LEAGUE STATISTICS</td>\n";
+    echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;LEAGUE BATTING & FIELDING STATISTICS</td>\n";
     echo "  </tr>\n";
     echo "  <tr>\n";
     echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-	echo "  <td align=\"left\" width=\"24%\"><b>Batting & Fielding<b></td>\n";
-    echo "  <td align=\"center\" width=\"6%\"><b>M<b></td>\n";
-    echo "  <td align=\"center\" width=\"6%\"><b>I<b></td>\n";
-    echo "  <td align=\"center\" width=\"6%\"><b>NO<b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>RUNS<b></td>\n";
-    echo "  <td align=\"center\" width=\"6%\"><b>HS<b></td>\n";
+	echo "  <td align=\"left\" width=\"20%\"><b>Format<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>M<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>I<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>NO<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>RUNS<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>HS<b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>AVE<b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>SR<b></td>\n";
-    echo "  <td align=\"center\" width=\"6%\"><b>100<b></td>\n";
-    echo "  <td align=\"center\" width=\"6%\"><b>50<b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>Ct<b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>St<b></td>\n";
-    echo "  <td align=\"center\" width=\"7%\"><b>RO<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>100<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>50<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>30<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>Ct<b></td>\n";
+    echo "  <td align=\"center\" width=\"4%\"><b>St<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>RO<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>Six<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>Four<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>MoM<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>Featured<b></td>\n";
     echo " </tr>\n";
     
     
@@ -405,7 +410,9 @@ function show_full_players($db,$pr)
 		$cosccat = 0;
 		$scstu = 0;
 	    $scsr = 0;
-	    
+	    $scfour = 0;
+		$scsix = 0;
+		
     	if($i == 1) {
     		$str_league = "(g.league_id = 1)";
     		$str_league_type = "Premier";
@@ -493,7 +500,55 @@ function show_full_players($db,$pr)
 	    $scfif = "0";
 	    }
 	
-	   
+	    // Get League Thirties
+	    
+	    if ($db->Exists("SELECT COUNT(b.runs) AS Thirty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.runs BETWEEN 30 AND 49) ")) {   
+	    $db->QueryRow("SELECT COUNT(b.runs) AS Thirty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND (b.runs BETWEEN 30 AND 49) ");
+	    $db->BagAndTag();
+	    $scthy = $db->data['Thirty'];      
+	    } else {
+	    $scthy = "0";
+	    }
+	
+	    // Get League Sixes
+	    
+	    if ($db->Exists("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league")) {   
+	    $db->QueryRow("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league");
+	    $db->BagAndTag();
+	    $scsix = $db->data['Sixes'];      
+	    } else {
+	    $scsix = "0";
+	    }
+	
+	    // Get League Fours
+	    
+	    if ($db->Exists("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league")) {   
+	    $db->QueryRow("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league");
+	    $db->BagAndTag();
+	    $scfour = $db->data['Fours'];      
+	    } else {
+	    $scfour = "0";
+	    }	   
+	    
+	    // Get League MoMs
+	    
+	    if ($db->Exists("SELECT COUNT(g.game_id) AS moms FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND $str_league")) {   
+	    $db->QueryRow("SELECT COUNT(g.game_id) AS moms FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND $str_league");
+	    $db->BagAndTag();
+	    $scmom = $db->data['moms'];      
+	    } else {
+	    $scmom = "0";
+	    }	   
+	    
+	    // Get League Featured players
+	    
+	    if ($db->Exists("SELECT COUNT(f.FeaturedID) AS featured FROM featuredmember f WHERE f.FeaturedPlayer = $pr AND f.season IN(SELECT g.season FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND $str_league)")) {   
+	    $db->QueryRow("SELECT COUNT(f.FeaturedID) AS featured FROM featuredmember f WHERE f.FeaturedPlayer = $pr AND f.season IN(SELECT g.season FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND $str_league)");
+	    $db->BagAndTag();
+	    $scfm = $db->data['featured'];      
+	    } else {
+	    $scfm = "0";
+	    }	   
 	    
 	    // Get League Caught
 	    
@@ -543,43 +598,54 @@ function show_full_players($db,$pr)
 	    
 	    if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr")) {
 	    	if($i == 3 || $i == 5){
-	    		
+
 	    		echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"24%\">$str_league_type</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\"><b>$match</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\"><b>$scinn</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\"><b>$scnot</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$scrun</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\"><b>$schig";
+			    echo "  <td align=\"left\" width=\"20%\">$str_league_type</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\"><b>$match</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\"><b>$scinn</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\"><b>$scnot</td>\n";
+			    echo "  <td align=\"center\" width=\"5%\"><b>$scrun</td>\n";
+			    echo "  <td align=\"center\" width=\"5%\"><b>$schig";
 			    if($scnos == '1') echo "*";
 			    echo "  </td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scavg</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scsr</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\"><b>$schun</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\"><b>$scfif</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$sccat</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\"><b>$scstu</td>\n";  
-		   	 	echo "  <td align=\"center\" width=\"7%\"><b>$scro</td>\n";  
+			    echo "  <td align=\"center\" width=\"4%\"><b>$schun</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\"><b>$scfif</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\"><b>$scthy</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\"><b>$sccat</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\"><b>$scstu</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\"><b>$scro</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\"><b>$scsix</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\"><b>$scfour</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\"><b>$scmom</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\"><b>$scfm</td>\n";  
 		   	 	echo " </tr>\n";
 		   	 	
 			   
 	    	} else {
 			    echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"24%\">$str_league_type</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\">$match</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\">$scinn</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\">$scnot</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$scrun</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\">$schig";
+			    echo "  <td align=\"left\" width=\"20%\">$str_league_type</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\">$match</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\">$scinn</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\">$scnot</td>\n";
+			    echo "  <td align=\"center\" width=\"5%\">$scrun</td>\n";
+			    echo "  <td align=\"center\" width=\"5%\">$schig";
 			    if($scnos == '1') echo "*";
 			    echo "  </td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scavg</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scsr</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\">$schun</td>\n";
-			    echo "  <td align=\"center\" width=\"6%\">$scfif</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$sccat</td>\n";
-			    echo "  <td align=\"center\" width=\"7%\">$scstu</td>\n";  
-			    echo "  <td align=\"center\" width=\"7%\">$scro</td>\n";  
+			    echo "  <td align=\"center\" width=\"4%\">$schun</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\">$scfif</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\">$scthy</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\">$sccat</td>\n";
+			    echo "  <td align=\"center\" width=\"4%\">$scstu</td>\n";  
+			    echo "  <td align=\"center\" width=\"5%\">$scro</td>\n";  
+				echo "  <td align=\"center\" width=\"5%\">$scsix</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\">$scfour</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\">$scmom</td>\n";  
+		   	 	echo "  <td align=\"center\" width=\"5%\">$scfm</td>\n";  
+
 			    echo " </tr>\n";
 		    }
 	    } else {
@@ -590,219 +656,32 @@ function show_full_players($db,$pr)
 	    
 	    }
 }
-    
-	// Show Cougars Batting Stats
-	// Get Cougars Matches and Runs
-	/*
-    if ($db->Exists("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName")) {
-    $db->QueryRow("SELECT COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName");
-    $db->BagAndTag();
-    $coscinn = $db->data['Matches'];
-    $coscrun = $db->data['runs']; 
-    } else {
-    }
-    
-    // Get Cougars High Score
 
-    if ($db->Exists("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 ORDER BY b.runs DESC LIMIT 1")) {
-    $db->QueryRow("SELECT b.runs AS HS, b.notout, p.PlayerLName, p.PlayerFName FROM scorecard_batting_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 ORDER BY b.runs DESC LIMIT 1");
-    $db->BagAndTag();
-    $coscnos = $db->data['notout'];
-    $coschig = $db->data['HS'];   
-    } else {
-    }     
-    
-    // Get Cougars Notouts
-    
-    if ($db->Exists("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.how_out = 2")) {
-    $db->QueryRow("SELECT COUNT(b.how_out) AS Notout FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.how_out = 2");
-    $db->BagAndTag();
-    $coscnot = $db->data['Notout'];
-    $cooutin = $coscinn - $coscnot;
-    
-    if($coscrun >= 1 && $cooutin >= 1) {
-    $coscavg = Number_Format(Round($coscrun / $cooutin, 2),2);
-    } else {
-    $coscavg = "0";
-    }
-    
-    } else {
-    }   
-    
- 	// Get Cougar Fifties
-    
-    if ($db->Exists("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND (b.runs BETWEEN 50 AND 99) ")) {   
-    $db->QueryRow("SELECT COUNT(b.runs) AS Fifty FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND (b.runs BETWEEN 50 AND 99) ");
-    $db->BagAndTag();
-    $coscfif = $db->data['Fifty'];        
-    } else {
-    $coscfif = "0";
-    }
-    
-    // Get Cougar Hundreds
-    
-    if ($db->Exists("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.runs >= 100")) {   
-    $db->QueryRow("SELECT COUNT(b.runs) AS Hundred FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.runs >= 100");
-    $db->BagAndTag();
-    $coschun = $db->data['Hundred'];  
-    } else {
-    $coschun = "0";
-    }  
-    
-	// Get Cougars Caught
-    
-    if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 4")) { 
-    $db->QueryRow("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 4");
-    $db->BagAndTag();
-    $coscctc = $db->data['Caught'];
-    } else {
-    $coscctc = "0";
-    }
+    echo "</table>\n";
+	echo "</td>\n";
+    echo "</tr>\n";
+    echo "</table><br>\n";
 
-    
-    // Get Cougars c&b
-    
-    if ($db->Exists("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.bowler = $pr AND g.league_id = 2 AND b.how_out = 5")) {  
-    $db->QueryRow("SELECT COUNT(b.bowler) AS CandB FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.bowler = $pr AND g.league_id = 2 AND b.how_out = 5");
-    $db->BagAndTag();
-    $cosccab = $db->data['CandB'];
-    } else {
-    $cosccab = "0";
-    }
-    
- 	// Get Cougars Stumped
-    
-    if ($db->Exists("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 10")) {    
-    $db->QueryRow("SELECT COUNT(b.assist) AS Stumped FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.assist = $pr AND g.league_id = 2 AND b.how_out = 10");
-    $db->BagAndTag();
-    $coscstu = $db->data['Stumped'];
-    } else {
-    $coscstu = "0";
-    }
-    
-    // Get Cougars Maidens, Runs, Wickets
-    
-    if ($db->Exists("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName")) {  
-    $db->QueryRow("SELECT SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, p.PlayerLName, p.PlayerFName FROM scorecard_bowling_details b INNER JOIN players p ON b.player_id = p.PlayerID INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 GROUP BY p.PlayerLName, p.PlayerFName");
-    $db->BagAndTag();
-    $coscmai = $db->data['maidens'];
-    $coscbru = $db->data['BRuns'];
-    $coscwic = $db->data['wickets'];
+	echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"#$tco\" align=\"center\">\n";
+    echo "  <tr>\n";
+    echo "    <td bgcolor=\"#$tco\" class=\"whitemain\" height=\"23\">&nbsp;LEAGUE BOWLING STATISTICS</td>\n";
+    echo "  </tr>\n";
+    echo "  <tr>\n";
+    echo "  <td class=\"trrow1\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\" colspan=\"2\">\n";
 
-    // Get Cougars Overs, Balls
-    
-    $cobnum = $db->data['balls']; 
-    $cobovers = Round(($cobnum / 6), 2); 
-    $cobfloor = floor($cobovers); 
-
-    if($cobovers == $cobfloor + 0.17) { 
-      $coscove = $cobfloor + 0.1; 
-    } else 
-    if($cobovers == $cobfloor + 0.33) { 
-      $coscove = $cobfloor + 0.2; 
-    } else 
-    if($cobovers == $cobfloor + 0.5) { 
-      $coscove = $cobfloor + 0.3;        
-    } else 
-    if($cobovers == $cobfloor + 0.67) { 
-      $coscove = $cobfloor + 0.4;        
-    } else 
-    if($cobovers == $cobfloor + 0.83) { 
-      $coscove = $cobfloor + 0.5; 
-    } else { 
-      $coscove = $cobfloor; 
-    }     
-
-    } else {
-      $coscove = "0";
-    }
-    
-	// Get Cougars 4 Wickets
-    
-    if ($db->Exists("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets = 4")) {    
-    $db->QueryRow("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets = 4");
-    $db->BagAndTag();
-    $coscbfo = $db->data['fourwickets'];
-    } else {
-    $coscbfo = "0";
-    }
-    
-    // Get Cougars 5 Wickets
-    
-    if ($db->Exists("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets >= 5")) {   
-    $db->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 AND b.wickets >= 5");
-    $db->BagAndTag();
-    $coscbfi = $db->data['fivewickets'];
-    } else {
-    $coscbfi = "0";
-    }   
-    
-  
-    
-
-    // Get Cougars Best Bowling
-    
-    if ($db->Exists("SELECT b.player_id, b.wickets, b.runs FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 ORDER BY b.wickets DESC, b.runs ASC LIMIT 1")) {   
-    $db->QueryRow("SELECT b.player_id, b.wickets, b.runs FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.league_id = 2 ORDER BY b.wickets DESC, b.runs ASC LIMIT 1");
-    $db->BagAndTag();
-    $coscbbw = $db->data['wickets'];
-    $coscbbr = $db->data['runs']; 
-    
-    if($coscbru >= 1 && $coscwic >= 1) {
-    $coboavg = Number_Format(Round($coscbru / $coscwic, 2),2);
-    } else {
-    $coboavg = "0";
-    }
-    
-    if($coscbru >= 1 && $coscove >= 0.1) {  
-    $coboeco = Number_Format(Round($coscbru / $coscove, 2),2);
-    } else {
-    $coboeco = "0";
-    }   
-    
-    } else {
-    }
-    
-	$cosccat = $coscctc + $cosccab;
-
-    Commented because used looping to generate cougars above
-    if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr")) {
-    
-    echo " <tr class=\"trrow2\">\n";
-    echo "  <td align=\"left\" width=\"30%\">Team Colorado (Cougars)</td>\n";
-    echo "  <td align=\"center\" width=\"7%\">$coscinn</td>\n";
-    echo "  <td align=\"center\" width=\"7%\">$coscnot</td>\n";
-    echo "  <td align=\"center\" width=\"10%\">$coscrun</td>\n";
-    echo "  <td align=\"center\" width=\"7%\">$coschig";
-    if($coscnos == '1') echo "*";
-    echo "  </td>\n";
-    echo "  <td align=\"center\" width=\"10%\">$coscavg</td>\n";
-    echo "  <td align=\"center\" width=\"8%\">$coschun</td>\n";
-    echo "  <td align=\"center\" width=\"6%\">$coscfif</td>\n";
-    echo "  <td align=\"center\" width=\"5%\">$cosccat</td>\n";
-    echo "  <td align=\"center\" width=\"10%\">$coscstu</td>\n";    
-    echo " </tr>\n";
-
-    } else {
-    
-    echo " <tr class=\"trrow1\">\n";
-    echo "  <td align=\"left\" width=\"100%\" colspan=\"10\">No statistics at this time.</td>\n";   
-    echo " </tr>\n";
-    
-    }
-    */
-    
+    echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"24%\"><b>Bowling</b></td>\n";
+    echo "  <td align=\"left\" width=\"18%\"><b>Format</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>O</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>M</b></td>\n";
     echo "  <td align=\"center\" width=\"7%\"><b>RUNS</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>W</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>SR</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>BBI</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>5w</b></td>\n";
-    echo "  <td align=\"center\" colspan=\"4\"><b>ECO</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
 	for($i=1; $i<=5; $i++) {
@@ -841,6 +720,7 @@ function show_full_players($db,$pr)
 		$scbfi = 0;
 		$scbbr = 0;
 		$boavg = 0;
+		$bosr = 0;
 		$boeco = 0;
 		
 	    // Get League Maidens, Runs, Wickets
@@ -916,6 +796,12 @@ function show_full_players($db,$pr)
 	    } else {
 	    $boavg = "0";
 	    }
+		
+	    if($bnum >= 1 && $scwic >= 1) {
+	    $bosr = Number_Format($bnum / $scwic,2);
+	    } else {
+	    $bosr = "0";
+	    }
 	    
 	    if($scbru >= 1 && $scove >= 1) {  
 	    $boeco = Number_Format(Round($scbru / $scove, 2),2);
@@ -935,31 +821,33 @@ function show_full_players($db,$pr)
 		    if($i == 3 || $i ==5 ){
 		    	
 		    	echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"24%\"><b>$str_league_type</td>\n";
+			    echo "  <td align=\"left\" width=\"18%\"><b>$str_league_type</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scove</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scmai</td>\n";
 			    echo "  <td align=\"center\" width=\"7%\"><b>$scbru</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scwic</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$boavg</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$bosr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scbbw-$scbbr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scbfo</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scbfi</td>\n";
-			    echo "  <td align=\"center\" colspan=\"4\"><b>$boeco</td>\n";  
+			    echo "  <td align=\"center\" width=\"6%\"><b>$boeco</td>\n";  
 			    echo " </tr>\n"; 
 			    
 			   
 		    } else {
 			    echo " <tr class=\"trrow1\">\n";
-			    echo "  <td align=\"left\" width=\"24%\">$str_league_type</td>\n";
+			    echo "  <td align=\"left\" width=\"18%\">$str_league_type</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scove</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scmai</td>\n";
 			    echo "  <td align=\"center\" width=\"7%\">$scbru</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scwic</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$boavg</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$bosr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scbbw-$scbbr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scbfo</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scbfi</td>\n";
-			    echo "  <td align=\"center\" colspan=\"4\">$boeco</td>\n";  
+			    echo "  <td align=\"center\" width=\"6%\">$boeco</td>\n";  
 			    echo " </tr>\n";    
 		    }
 	    } else {
@@ -970,33 +858,7 @@ function show_full_players($db,$pr)
 	    
 	    }
 	}
-	
- 	// Show Cougars Bowling Stats
-    /*
-    if ($db->Exists("SELECT * FROM scorecard_bowling_details WHERE player_id = $pr")) {
-    
-    echo " <tr class=\"trrow2\">\n";
-    echo "  <td align=\"left\" width=\"30%\">Team Colorado (Cougars)</td>\n";
-    echo "  <td align=\"center\" width=\"7%\">$coscove</td>\n";
-    echo "  <td align=\"center\" width=\"7%\">$coscmai</td>\n";
-    echo "  <td align=\"center\" width=\"10%\">$coscbru</td>\n";
-    echo "  <td align=\"center\" width=\"7%\">$coscwic</td>\n";
-    echo "  <td align=\"center\" width=\"10%\">$coboavg</td>\n";
-    echo "  <td align=\"center\" width=\"8%\">$coscbbw-$coscbbr</td>\n";
-    echo "  <td align=\"center\" width=\"6%\">$coscbfo</td>\n";
-    echo "  <td align=\"center\" width=\"5%\">$coscbfi</td>\n";
-    echo "  <td align=\"center\" width=\"10%\">$coboeco</td>\n";    
-    echo " </tr>\n";    
-
-    } else {
-    
-    echo " <tr class=\"trrow1\">\n";
-    echo "  <td align=\"left\" width=\"100%\" colspan=\"10\">No statistics at this time.</td>\n";   
-    echo " </tr>\n";
-    
-    }
-    */
-    
+	    
     echo "</table>\n";
     
     echo "</td>\n";

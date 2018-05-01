@@ -325,6 +325,9 @@ function read_scorecard($db)
 			update_fow_details_table($ccl_game_id, $firstFows, $secondFows);
 			
 			update_total_details_table($ccl_game_id, $firstTotal, $secondTotal, $ccl_batting_first_id, $ccl_batting_second_id);
+			
+			update_ladder_table($ccl_season_id);
+			
 			rename($dir.$scorecardFiles[$x], $processed_dir.$renamed_filename);
 			$email_content .= "<p>Scorecard import complete for: " . $scorecardFiles[$x] . " and renamed to $renamed_filename</p>";
 		}
@@ -701,6 +704,76 @@ function update_total_details_table($ccl_game_id, $firstTotal, $secondTotal, $cc
 	$wickets = $secondTotal->getAttribute('wickets');
 	$db->Insert("INSERT INTO scorecard_total_details (game_id, innings_id, team, wickets, total, overs) VALUES ('$ccl_game_id','2','$ccl_batting_second_id','$wickets','$total','$overs')");
 	
+}
+function update_ladder_table($ccl_season_id) {
+	global $db, $dbcfg;
+	$lad_data = array();
+	$subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+	$subdb->SelectDB($dbcfg['db']);
+
+	$db->Query("SELECT hometeam as team FROM schedule WHERE season=$ccl_season_id 
+			union 
+			SELECT awayteam as team FROM schedule WHERE season=$ccl_season_id");
+	for ($x=0; $x<$db->rows; $x++) {
+		$db->GetRow($x);
+
+		$tid = $db->data['team'];
+		if($subdb->Exists("SELECT penalty FROM ladder WHERE season=$ccl_season_id and team = $tid")) {
+			$pe = $subdb->QueryItem("SELECT penalty FROM ladder WHERE season=$ccl_season_id and team = $tid");
+		} else {
+			$pe = 0;
+		}
+		$subdb->QueryRow("SELECT IFNULL(SUM(CASE WHEN (t.dl_total IS NOT NULL AND t.dl_total != 0) THEN t.dl_total ELSE t.total END), 0) AS TotalRunsFor FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and t.team = $tid");
+		$subdb->BagAndTag();
+		$trf = $subdb->data['TotalRunsFor'];
+		$subdb->QueryRow("SELECT IFNULL(SUM(CASE WHEN (t.dl_total IS NOT NULL AND t.dl_total != 0) THEN t.dl_total ELSE t.total END), 0) AS TotalRunsAgainst FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and ((g.hometeam = $tid and t.team = g.awayteam) OR (g.awayteam = $tid and t.team = g.hometeam))");
+		$subdb->BagAndTag();
+		$tra = $subdb->data['TotalRunsAgainst'];
+		$subdb->QueryRow("SELECT (IFNULL(TotalOversForFirst, 0) + IFNULL(TotalOversForSecondWin, 0) + IFNULL(TotalOversForSecondLoose, 0)) AS TotalOverFor FROM (SELECT TotalOversConvForFirst + TotalBallsForFirst AS TotalOversForFirst, TotalOversConvForSecondWin + TotalBallsForSecondWin AS TotalOversForSecondWin, TotalOversConvForSecondLoose + TotalBallsForSecondLoose AS TotalOversForSecondLoose FROM (SELECT sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',1)) * 6 AS TotalOversConvForFirst, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsForFirst FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and g.batting_first_id = $tid and t.innings_id = 1) sums,(SELECT sum(SUBSTRING_INDEX(t.overs,'.',1)) * 6 AS TotalOversConvForSecondWin, sum(SUBSTRING_INDEX(FORMAT(t.overs, 1),'.',-1)) AS TotalBallsForSecondWin FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and g.batting_second_id = $tid and t.innings_id = 2 and g.result_won_id = $tid) sumsForSecWin,(SELECT sum(SUBSTRING_INDEX(g.maxovers,'.',1)) * 6 AS TotalOversConvForSecondLoose, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsForSecondLoose FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and g.batting_second_id = $tid and t.innings_id = 2 and g.result_won_id != $tid) sumForSecLoose) sumOversFor");
+		$subdb->BagAndTag();
+		$tof = $subdb->data['TotalOverFor'];
+		$subdb->QueryRow("SELECT (IFNULL(TotalOversAgainstFirst, 0) + IFNULL(TotalOversAgainstSecondWin, 0) + IFNULL(TotalOversAgainstSecondLoose, 0)) AS TotalOverAgainst FROM (SELECT TotalOversConvAgainstFirst + TotalBallsAgainstFirst AS TotalOversAgainstFirst, TotalOversConvAgainstSecondWin + TotalBallsAgainstSecondWin AS TotalOversAgainstSecondWin, TotalOversConvAgainstSecondLoose + TotalBallsAgainstSecondLoose AS TotalOversAgainstSecondLoose FROM (SELECT sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',1)) * 6 AS TotalOversConvAgainstFirst, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsAgainstFirst FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and g.batting_second_id = $tid and t.innings_id = 1) sumAgainstFirst,(SELECT sum(SUBSTRING_INDEX(g.maxovers,'.',1)) * 6 AS TotalOversConvAgainstSecondWin, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsAgainstSecondWin FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and g.batting_first_id = $tid and t.innings_id = 2 and g.result_won_id = $tid) sumsAgainstSecWin,(SELECT sum(SUBSTRING_INDEX(FORMAT(t.overs, 1),'.',1)) * 6 AS TotalOversConvAgainstSecondLoose, sum(SUBSTRING_INDEX(FORMAT(t.overs, 1),'.',-1)) AS TotalBallsAgainstSecondLoose FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $ccl_season_id and g.batting_first_id = $tid and t.innings_id = 2 and g.result_won_id != $tid) sumAgainstSecLoose) sumOversAgainst");
+		$subdb->BagAndTag();
+		$toa = $subdb->data['TotalOverAgainst'];
+		if($trf > 0 && $tof > 0) {
+			if($tra > 0 && $toa > 0) {
+				$nrr = Round(($trf * 6 / $tof) - ($tra * 6 / $toa), 2);
+			} else {
+				$nrr = Round(($trf * 6 / $tof), 2);
+			}
+		} else {
+			$nrr = 0;
+		}
+		$pl = $subdb->QueryItem("SELECT count(game_id) FROM
+               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid)");
+        $wo = $subdb->QueryItem("SELECT count(game_id) FROM
+               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND cancelledplay=0 AND cancelled=0 AND result_won_id = $tid");
+        $ti = $subdb->QueryItem("SELECT count(game_id) FROM
+               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND cancelledplay=0 AND cancelled=0 AND result_won_id=0");
+		$nr = $subdb->QueryItem("SELECT count(game_id) FROM
+               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND (cancelledplay=1 OR cancelled=1)");
+		$lo = $pl - $wo - $ti - $nr;
+		$pt = $wo * 2;
+		$tp = $pt - $pe;
+        $lad_rec = array ("TeamID" => $tid, "played" => $pl, "won" => $wo, "lost" => $lo, "tied" => $ti, "nr" => $nr, "point" => $pt, "penalty" => $pe, "totalpoint" => $tp, "nrr" => $nrr);
+		$lad_data[$x] = $lad_rec;
+	}
+	$lad_data_sorted = array_msort($lad_data, array('totalpoint'=>SORT_DESC, 'nrr'=>SORT_DESC));
+	array_multisort (array_column($lad_data, 'totalpoint'), SORT_DESC, array_column($lad_data, 'nrr'), SORT_DESC, $lad_data);
+	$db->Delete("DELETE FROM ladder WHERE season = $ccl_season_id");
+	for ($i = 0; $i < count($lad_data); $i++) {
+		$team = $lad_data[$i]['TeamID'];
+		$pl = $lad_data[$i]['played'];
+		$wo = $lad_data[$i]['won'];
+		$lo = $lad_data[$i]['lost'];
+		$ti = $lad_data[$i]['tied'];
+		$nr = $lad_data[$i]['nr'];
+		$pt = $lad_data[$i]['point'];
+		$tp = $lad_data[$i]['totalpoint'];
+		$nrr = $lad_data[$i]['nrr'];
+		$rank = $i+1;
+		$db->Insert("INSERT INTO ladder (season, team, played, won, tied, lost, nrr, points, penalty, totalpoints, rank_sort) VALUES ('$ccl_season_id','$team','$pl','$wo','$ti','$lo','$nr','$pt','$pe','$tp','$rank')");
+	}
 }
 
 function update_fow_details_table($ccl_game_id, $firstFows, $secondFows) {

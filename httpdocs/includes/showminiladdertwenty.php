@@ -3,7 +3,11 @@
 
 function show_miniladdertwenty($db)
 {
-	global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
+    global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
+    
+	// instantiate new db class
+		$subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
+		$subdb->SelectDB($dbcfg['db']);
 
         if (!$db->Exists("SELECT * FROM ladder")) {
 
@@ -18,7 +22,7 @@ function show_miniladdertwenty($db)
 			$sid = $db->data['SeasonID'];
 			$snm = $db->data['SeasonName'];
 			$yr = preg_split("/[\s,]+/", $snm)[0];
-
+			
 		echo "  <table border-right=\"1\" width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\" bordercolor=\"#DE9C06\">\n";
 
 			echo "<tr class=\"colhead\">\n";
@@ -29,6 +33,7 @@ function show_miniladdertwenty($db)
 			echo "	<td align=\"center\"><b>L</b></td>\n";
 			echo "	<td align=\"center\"><b>NR</b></td>\n";
 			echo "	<td align=\"center\"><b>Pt</b></td>\n";
+			echo "	<td align=\"center\"><b>NRR</b></td>\n";
 			echo "</tr>\n";
 
 // 20-Apr-2010 - Kervyn - Removed order by clause columns - ORDER BY lad.totalpoints DESC, lad.rank_sort ASC and replaced it with just ORDER lad.rank_sort ASC
@@ -75,6 +80,27 @@ function show_miniladdertwenty($db)
 					$pt = htmlentities(stripslashes($db->data['points']));
 					$pe = htmlentities(stripslashes($db->data['penalty']));
 					$tp = htmlentities(stripslashes($db->data['totalpoints']));
+			$subdb->QueryRow("SELECT IFNULL(SUM(CASE WHEN (t.dl_total IS NOT NULL AND t.dl_total != 0) THEN t.dl_total ELSE t.total END), 0) AS TotalRunsFor FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and t.team = $tid");
+			$subdb->BagAndTag();
+			$trf = $subdb->data['TotalRunsFor'];
+			$subdb->QueryRow("SELECT IFNULL(SUM(CASE WHEN (t.dl_total IS NOT NULL AND t.dl_total != 0) THEN t.dl_total ELSE t.total END), 0) AS TotalRunsAgainst FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and ((g.hometeam = $tid and t.team = g.awayteam) OR (g.awayteam = $tid and t.team = g.hometeam))");
+			$subdb->BagAndTag();
+			$tra = $subdb->data['TotalRunsAgainst'];
+			$subdb->QueryRow("SELECT (IFNULL(TotalOversForFirst, 0) + IFNULL(TotalOversForSecondWin, 0) + IFNULL(TotalOversForSecondLoose, 0)) AS TotalOverFor FROM (SELECT TotalOversConvForFirst + TotalBallsForFirst AS TotalOversForFirst, TotalOversConvForSecondWin + TotalBallsForSecondWin AS TotalOversForSecondWin, TotalOversConvForSecondLoose + TotalBallsForSecondLoose AS TotalOversForSecondLoose FROM (SELECT sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',1)) * 6 AS TotalOversConvForFirst, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsForFirst FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and g.batting_first_id = $tid and t.innings_id = 1) sums,(SELECT sum(SUBSTRING_INDEX(t.overs,'.',1)) * 6 AS TotalOversConvForSecondWin, sum(SUBSTRING_INDEX(FORMAT(t.overs, 1),'.',-1)) AS TotalBallsForSecondWin FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and g.batting_second_id = $tid and t.innings_id = 2 and g.result_won_id = $tid) sumsForSecWin,(SELECT sum(SUBSTRING_INDEX(g.maxovers,'.',1)) * 6 AS TotalOversConvForSecondLoose, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsForSecondLoose FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and g.batting_second_id = $tid and t.innings_id = 2 and g.result_won_id != $tid) sumForSecLoose) sumOversFor");
+			$subdb->BagAndTag();
+			$tof = $subdb->data['TotalOverFor'];
+			$subdb->QueryRow("SELECT (IFNULL(TotalOversAgainstFirst, 0) + IFNULL(TotalOversAgainstSecondWin, 0) + IFNULL(TotalOversAgainstSecondLoose, 0)) AS TotalOverAgainst FROM (SELECT TotalOversConvAgainstFirst + TotalBallsAgainstFirst AS TotalOversAgainstFirst, TotalOversConvAgainstSecondWin + TotalBallsAgainstSecondWin AS TotalOversAgainstSecondWin, TotalOversConvAgainstSecondLoose + TotalBallsAgainstSecondLoose AS TotalOversAgainstSecondLoose FROM (SELECT sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',1)) * 6 AS TotalOversConvAgainstFirst, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsAgainstFirst FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and g.batting_second_id = $tid and t.innings_id = 1) sumAgainstFirst,(SELECT sum(SUBSTRING_INDEX(g.maxovers,'.',1)) * 6 AS TotalOversConvAgainstSecondWin, sum(SUBSTRING_INDEX(FORMAT(g.maxovers, 1),'.',-1)) AS TotalBallsAgainstSecondWin FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and g.batting_first_id = $tid and t.innings_id = 2 and g.result_won_id = $tid) sumsAgainstSecWin,(SELECT sum(SUBSTRING_INDEX(FORMAT(t.overs, 1),'.',1)) * 6 AS TotalOversConvAgainstSecondLoose, sum(SUBSTRING_INDEX(FORMAT(t.overs, 1),'.',-1)) AS TotalBallsAgainstSecondLoose FROM scorecard_game_details g INNER JOIN scorecard_total_details t ON t.game_id = g.game_id WHERE (g.cancelled = 0 and g.cancelledplay = 0) and g.season = $sid and g.batting_first_id = $tid and t.innings_id = 2 and g.result_won_id != $tid) sumAgainstSecLoose) sumOversAgainst");
+			$subdb->BagAndTag();
+			$toa = $subdb->data['TotalOverAgainst'];
+			if($trf > 0 && $tof > 0) {
+				if($tra > 0 && $toa > 0) {
+					$nrr = Round(($trf * 6 / $tof) - ($tra * 6 / $toa), 2);
+				} else {
+					$nrr = Round(($trf * 6 / $tof), 2);
+				}
+			} else {
+				$nrr = 0;
+			}
 
 			if($x % 2) {
 			  echo "<tr class=\"trrow1\">\n";
@@ -91,6 +117,7 @@ function show_miniladdertwenty($db)
 					echo "	<td align=\"center\">$lo</td>\n";
 					echo "	<td align=\"center\">$nr</td>\n";
 					echo "	<td align=\"center\">$tp</td>\n";
+					echo "	<td align=\"center\">$nrr</td>\n";
 					echo "</tr>\n";
 
 
