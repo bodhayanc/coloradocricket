@@ -1025,6 +1025,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $db->GetRow($x);
 
     $pid = $db->data['BatterID'];
+    $pos = $db->data['batting_position'];
     $bid = $db->data['BowlerID'];
     $aid = $db->data['AssistID'];
     $pln = $db->data['BatterLName'];
@@ -1075,11 +1076,23 @@ echo "<p><b>Result: </b> $re</p>\n";
     if($pln == "" && $pfn == "") {
       echo "n/a";
     } elseif($pfn != "" && $pln != "") {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn $pln</a>";
+		if($out == "NOT OUT") {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn $pln</font></b></a>";
+		} else {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn $pln</a>";
+		}
     } elseif($pfn != "" && $pln == "")  {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn</a>\n";
+		if($out == "NOT OUT") {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn</font></b></a>\n";
+		} else {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn</a>\n";
+		}
     }else{
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pln</a>\n";
+		if($out == "NOT OUT") {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pln</font></b></a>\n";
+		} else {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pln</a>\n";
+		}
     }
 
     echo "  </td>\n";
@@ -1313,6 +1326,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $db->GetRow($e);
 
     $pid = $db->data['BatterID'];
+    $pos = $db->data['batting_position'];
     $pln = $db->data['BatterLName'];
     $pin = $db->data['BatterFInitial'];
     $pfn = $db->data['BatterFName'];
@@ -1320,12 +1334,17 @@ echo "<p><b>Result: </b> $re</p>\n";
 	
     // If Batter Last Name is blank, just use first name
 
+	if($e == $db->rows - 1) {
+		$comma = "";
+	} else {
+		$comma = ", ";
+	}
     if($pln == "" && $pfn == "") {
       echo "n/a";
     } elseif($pfn != "" && $pln != "") {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn $pln</a>, \n";
+      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn $pln</a>$comma\n";
     } else {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn</a>, \n";
+      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn</a>$comma\n";
     }
 
     }
@@ -1369,16 +1388,16 @@ echo "<p><b>Result: </b> $re</p>\n";
     echo " <tr>\n";
     echo "  <td valign=\"top\" class=\"scorecard\" width=\"100%\" align=\"left\" colspan=\"7\"><b>Fall of wickets: </b>\n";
 
-    if($f1 != "777") echo "1-$f1, ";
-    if($f2 != "777") echo "2-$f2, ";
-    if($f3 != "777") echo "3-$f3, ";
-    if($f4 != "777") echo "4-$f4, ";
-    if($f5 != "777") echo "5-$f5, ";
-    if($f6 != "777") echo "6-$f6, ";
-    if($f7 != "777") echo "7-$f7, ";
-    if($f8 != "777") echo "8-$f8, ";
-    if($f9 != "777") echo "9-$f9, ";
-    if($f10 != "777") echo "10-$f10";
+    if($f1 != "777") echo "1-$f1";
+	if($f2 != "777") echo ", 2-$f2";
+	if($f3 != "777") echo ", 3-$f3";
+    if($f4 != "777") echo ", 4-$f4";
+    if($f5 != "777") echo ", 5-$f5";
+    if($f6 != "777") echo ", 6-$f6";
+    if($f7 != "777") echo ", 7-$f7";
+    if($f8 != "777") echo ", 8-$f8";
+    if($f9 != "777") echo ", 9-$f9";
+    if($f10 != "777") echo ", 10-$f10";
 
     echo "  </td>\n";
     echo " </tr>\n";
@@ -1556,6 +1575,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $db->GetRow($x);
 
     $pid = $db->data['BatterID'];
+    $pos = $db->data['batting_position'];
     $aid = $db->data['AssistID'];
     $a2id = $db->data['AssistID2'];
     $bid = $db->data['BowlerID'];
@@ -1605,11 +1625,23 @@ echo "<p><b>Result: </b> $re</p>\n";
     if($pln == "" && $pfn == "") {
       echo "n/a";
     } elseif($pfn != "" && $pln != "") {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn $pln</a>";
+		if($out == "NOT OUT") {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn $pln</font></b></a>";
+		} else {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn $pln</a>";
+		}
     } elseif($pfn != "" && $pln == "")  {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn</a>\n";
+		if($out == "NOT OUT") {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn</font></b></a>\n";
+		} else {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn</a>\n";
+		}
     }else{
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pln</a>\n";
+		if($out == "NOT OUT") {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pln</font></b></a>\n";
+		} else {
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pln</a>\n";
+		}
     }
     echo "  </td>\n";
 	if($hwv != ''){
@@ -1911,6 +1943,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     for ($e=0; $e<$db->rows; $e++) {
     $db->GetRow($e);
 
+    $pos = $db->data['batting_position'];
     $pid = $db->data['BatterID'];
     $pln = $db->data['BatterLName'];
     $pin = $db->data['BatterFInitial'];
@@ -1918,14 +1951,20 @@ echo "<p><b>Result: </b> $re</p>\n";
 
     // If Batter Last Name is blank, just use first name
 
+	if($e == $db->rows - 1) {
+		$comma = "";
+	} else {
+		$comma = ", ";
+	}
+	
     if($pln == "" && $pfn == "") {
       echo "n/a";
     } elseif($pfn != "" && $pln != "") {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn $pln</a>, \n";
+      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn $pln</a>$comma\n";
     } elseif($pfn != "" && $pln == "")  {
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn</a>\n";
+      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn</a>$comma\n";
     }else{
-      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pln</a>\n";
+      echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pln</a>$comma\n";
     }
     }
 
@@ -1970,16 +2009,16 @@ echo "<p><b>Result: </b> $re</p>\n";
     echo "  <td valign=\"top\" class=\"scorecard\" width=\"100%\" colspan=\"8\" align=\"left\"><b>Fall of wickets: </b> \n";
 
 
-    if($f1 != "777") echo "1-$f1, ";
-    if($f2 != "777") echo "2-$f2, ";
-    if($f3 != "777") echo "3-$f3, ";
-    if($f4 != "777") echo "4-$f4, ";
-    if($f5 != "777") echo "5-$f5, ";
-    if($f6 != "777") echo "6-$f6, ";
-    if($f7 != "777") echo "7-$f7, ";
-    if($f8 != "777") echo "8-$f8, ";
-    if($f9 != "777") echo "9-$f9, ";
-    if($f10 != "777") echo "10-$f10";
+    if($f1 != "777") echo "1-$f1";
+	if($f2 != "777") echo ", 2-$f2";
+	if($f3 != "777") echo ", 3-$f3";
+    if($f4 != "777") echo ", 4-$f4";
+    if($f5 != "777") echo ", 5-$f5";
+    if($f6 != "777") echo ", 6-$f6";
+    if($f7 != "777") echo ", 7-$f7";
+    if($f8 != "777") echo ", 8-$f8";
+    if($f9 != "777") echo ", 9-$f9";
+    if($f10 != "777") echo ", 10-$f10";
 
 
     echo "  </td>\n";

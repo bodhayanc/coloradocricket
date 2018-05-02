@@ -943,9 +943,9 @@ if ($email_content != "") {
 
 	// More headers
 	$headers .= 'From: <root@tx4.fcomet.com>' . "\r\n";
-	$headers .= 'Cc: bodhayanc@gmail.com' . "\r\n";
+	$headers .= 'Cc: cacu-ec@googlegroups.com' . "\r\n";
 
-	$to = "colorad2@tx4.fcomet.com";
+	$to = "colorad2@tx4.fcomet.com,ccl-cricclubs-admins@googlegroups.com";
 	$email_body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\r\n";
 	$email_body .= "	<html><head>\r\n";
 	$email_body .= "		<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\r\n";
