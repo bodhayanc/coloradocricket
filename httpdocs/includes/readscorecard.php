@@ -758,7 +758,6 @@ function update_ladder_table($ccl_season_id) {
         $lad_rec = array ("TeamID" => $tid, "played" => $pl, "won" => $wo, "lost" => $lo, "tied" => $ti, "nr" => $nr, "point" => $pt, "penalty" => $pe, "totalpoint" => $tp, "nrr" => $nrr);
 		$lad_data[$x] = $lad_rec;
 	}
-	$lad_data_sorted = array_msort($lad_data, array('totalpoint'=>SORT_DESC, 'nrr'=>SORT_DESC));
 	array_multisort (array_column($lad_data, 'totalpoint'), SORT_DESC, array_column($lad_data, 'nrr'), SORT_DESC, $lad_data);
 	$db->Delete("DELETE FROM ladder WHERE season = $ccl_season_id");
 	for ($i = 0; $i < count($lad_data); $i++) {
