@@ -102,7 +102,7 @@ function show_miniladder($db)
 			} else {
 				$nrr = 0;
 			}
-
+			$nrr = number_format($nrr, 2);
 			if($x % 2) {
 			  echo "<tr class=\"trrow1\">\n";
 			} else {
@@ -123,7 +123,15 @@ function show_miniladder($db)
 
 
 				}
+				if($x % 2) {
+				echo "<tr class=\"trrow1\">\n";
+			} else {
+				echo "<tr class=\"trrow2\">\n";
+			}
+			echo "	<td align=\"center\" colspan=8><a href=\"/ladder.php?ladder=$sid&ccl_mode=1\" class=\"right\">More Details</a></td>\n";
+			echo "</tr>\n";
 		}
+		
                         echo "</table>\n";
 
         }

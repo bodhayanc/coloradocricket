@@ -256,6 +256,7 @@ function show_ladder($db,$ladder)
 					} else {
 						$nrr = 0;
 					}
+					$nrr = number_format($nrr, 2);
 					$tof_o = Round(($tof / 6), 2); 
 					$tof_floor = floor($tof_o); 
 
@@ -313,8 +314,8 @@ function show_ladder($db,$ladder)
                     echo "  <td align=\"center\">$pe</td>\n";
                     echo "  <td align=\"center\">$tp</td>\n";
                     echo "  <td align=\"center\">$nrr</td>\n";
-                    echo "  <td align=\"center\">$trf / $tof_formatted</td>\n";
-                    echo "  <td align=\"center\">$tra / $toa_formatted</td>\n";
+                    echo "  <td align=\"center\">$trf/$tof_formatted</td>\n";
+                    echo "  <td align=\"center\">$tra/$toa_formatted</td>\n";
                     //echo "    <td align=\"center\">$av</td>\n";
                     echo "</tr>\n";
 

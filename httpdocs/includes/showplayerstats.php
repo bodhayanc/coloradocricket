@@ -352,19 +352,24 @@ function show_breakdown_year($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"24%\"><b>SEASON</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
+    echo "  <td align=\"left\" width=\"20%\"><b>SEASON</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>I</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>NO</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>HS</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>30</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>Ct</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>St</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Six<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Four<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>MoM<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Featured<b></td>\n";
     echo " </tr>\n";
     $match = 0;
 	$scinn = 0;
@@ -430,6 +435,16 @@ function show_breakdown_year($db,$pr)
     $scfif = "-";
     }
     
+	// Get League Thirties
+	
+	if ($db->Exists("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND season=$sid")) {   
+	$db->QueryRow("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND season=$sid");
+	$db->BagAndTag();
+	$scthy = $db->data['Thirty'];      
+	} else {
+	$scthy = "0";
+	}
+	
     // Get the caught
     
     if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND season=$sid")) {    
@@ -470,6 +485,46 @@ function show_breakdown_year($db,$pr)
     $scro = "-";
     }
 
+	// Get League Sixes
+	    
+	if ($db->Exists("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.season=$sid")) {   
+	$db->QueryRow("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.season=$sid");
+	$db->BagAndTag();
+	$scsix = $db->data['Sixes'];      
+	} else {
+	$scsix = "0";
+	}
+
+	// Get League Fours
+	
+	if ($db->Exists("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.season=$sid")) {   
+	$db->QueryRow("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.season=$sid");
+	$db->BagAndTag();
+	$scfour = $db->data['Fours'];      
+	} else {
+	$scfour = "0";
+	}	   
+	
+	// Get League MoMs
+	
+	if ($db->Exists("SELECT COUNT(g.game_id) AS moms FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND season=$sid")) {   
+	$db->QueryRow("SELECT COUNT(g.game_id) AS moms FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND season=$sid");
+	$db->BagAndTag();
+	$scmom = $db->data['moms'];      
+	} else {
+	$scmom = "0";
+	}	   
+	
+	// Get League Featured players
+	
+	if ($db->Exists("SELECT COUNT(f.FeaturedID) AS featured FROM featuredmember f WHERE f.FeaturedPlayer = $pr AND f.season IN(SELECT g.season FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND g.season=$sid)")) {   
+	$db->QueryRow("SELECT COUNT(f.FeaturedID) AS featured FROM featuredmember f WHERE f.FeaturedPlayer = $pr AND f.season IN(SELECT g.season FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND g.season=$sid)");
+	$db->BagAndTag();
+	$scfm = $db->data['featured'];      
+	} else {
+	$scfm = "0";
+	}	   
+
     if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND season=$sid")) {
     if($f % 2) {
       echo "<tr class=\"trrow2\">\n";
@@ -478,22 +533,27 @@ function show_breakdown_year($db,$pr)
     }
     $f = $f + 1;
 	
-    echo "  <td align=\"left\" width=\"24%\">" . htmlentities(stripslashes($sname)) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$schig";
+    echo "  <td align=\"left\" width=\"20%\">" . htmlentities(stripslashes($sname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$match</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scinn</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scnot</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
-    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
-    echo " </tr>\n";
+    echo "  <td align=\"right\" width=\"4%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scthy</td>\n";
+	echo "  <td align=\"right\" width=\"4%\">$sccat</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scstu</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scro</td>\n";    
+	echo "  <td align=\"right\" width=\"5%\">$scsix</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scfour</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scmom</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scfm</td>\n";
+	echo " </tr>\n";
     
     } else {
     }
@@ -526,16 +586,17 @@ function show_breakdown_year($db,$pr)
     
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>SEASON</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>O</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>R</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>W</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"left\" width=\"18%\"><b>SEASON</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>O</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>R</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>W</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>BBI</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>5w</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
 	$f = 0;
@@ -603,7 +664,12 @@ function show_breakdown_year($db,$pr)
     } else {
     $boavg = "-";
     }
-    
+	if($bnum >= 1 && $scwic >= 1) {
+	$bosr = Number_Format($bnum / $scwic,2);
+	} else {
+	$bosr = "0";
+	}
+
     if($scbru >= 1 && $scove >= 0.1) {  
     $boeco = Number_Format(Round($scbru / $scove, 2),2);
     } else {
@@ -622,16 +688,17 @@ function show_breakdown_year($db,$pr)
     }
     $f = $f + 1;
 	
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($sname)) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scwic</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boavg</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scbbw-$scbbr</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfo</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfi</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boeco</td>\n";   
+    echo "  <td align=\"left\" width=\"18%\">" . htmlentities(stripslashes($sname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scove</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scmai</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scbru</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scwic</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$bosr</td>\n";
+	echo "  <td align=\"right\" width=\"6%\">$scbbw-$scbbr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfo</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfi</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boeco</td>\n";   
     echo " </tr>\n";
     
     } else {
@@ -812,19 +879,23 @@ function show_breakdown_opponent($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"24%\"><b>OPPONENT</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
+    echo "  <td align=\"left\" width=\"20%\"><b>OPPONENT</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>I</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>NO</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>HS</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>30</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Six<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Four<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>MoM<b></td>\n";
     echo " </tr>\n";
 	$match = 0;
 	$scinn = 0;
@@ -926,6 +997,16 @@ function show_breakdown_opponent($db,$pr)
     } else {
     $scfif = "-";
     }
+	
+	// Get League Thirties
+	
+	if ($db->Exists("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND opponent=$teams[$i]")) {   
+	$db->QueryRow("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND opponent=$teams[$i]");
+	$db->BagAndTag();
+	$scthy = $db->data['Thirty'];      
+	} else {
+	$scthy = "0";
+	}
     
     // Get the caught
     
@@ -966,6 +1047,34 @@ function show_breakdown_opponent($db,$pr)
     } else {
     $scro = "-";
     }
+	
+	// Get League Sixes
+	    
+	if ($db->Exists("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND opponent=$teams[$i]")) {   
+	$db->QueryRow("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND opponent=$teams[$i]");
+	$db->BagAndTag();
+	$scsix = $db->data['Sixes'];      
+	} else {
+	$scsix = "0";
+	}
+
+	// Get League Fours
+	
+	if ($db->Exists("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND opponent=$teams[$i]")) {   
+	$db->QueryRow("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND opponent=$teams[$i]");
+	$db->BagAndTag();
+	$scfour = $db->data['Fours'];      
+	} else {
+	$scfour = "0";
+	}	   
+	
+	if ($db->Exists("SELECT COUNT(DISTINCT g.game_id) AS moms FROM scorecard_game_details g INNER JOIN scorecard_batting_details b ON b.game_id = g.game_id WHERE b.player_id = $pr AND (g.mom = $pr or g.mom2 = $pr) AND b.opponent=$teams[$i]")) {   
+	$db->QueryRow("SELECT COUNT(DISTINCT g.game_id) AS moms FROM scorecard_game_details g INNER JOIN scorecard_batting_details b ON b.game_id = g.game_id WHERE b.player_id = $pr AND (g.mom = $pr or g.mom2 = $pr) AND b.opponent=$teams[$i]");
+	$db->BagAndTag();
+	$scmom = $db->data['moms'];      
+	} else {
+	$scmom = "0";
+	}	   
 
     if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND opponent=$teams[$i]")) {
     
@@ -975,22 +1084,26 @@ function show_breakdown_opponent($db,$pr)
       echo "<tr class=\"trrow1\">\n";
     }
     
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$schig";
+    echo "  <td align=\"left\" width=\"20%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$match</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scinn</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scnot</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scthy</td>\n";
+	echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
-    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
-    echo " </tr>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scro</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scsix</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scfour</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scmom</td>\n";  
+	echo " </tr>\n";
     
     } else {
     }
@@ -1025,16 +1138,18 @@ function show_breakdown_opponent($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>OPPONENT</td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>O</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>R</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>W</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"left\" width=\"18%\"><b>OPPONENT</td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>O</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>R</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>W</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>3w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>5w</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
         for ($i=0; $i<count($teams); $i++) {
@@ -1074,6 +1189,14 @@ function show_breakdown_opponent($db,$pr)
       $scove = "-";
     }
 
+    if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND opponent=$teams[$i]")) { 
+    $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND opponent=$teams[$i]");
+    $db->BagAndTag();
+    $scbth = $db->data['fourwickets'];
+    } else {
+    $scbth = "-";
+    }
+
     if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND opponent=$teams[$i]")) { 
     $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND opponent=$teams[$i]");
     $db->BagAndTag();
@@ -1102,6 +1225,12 @@ function show_breakdown_opponent($db,$pr)
     $boavg = "-";
     }
     
+	if($bnum >= 1 && $scwic >= 1) {
+	$bosr = Number_Format($bnum / $scwic,2);
+	} else {
+	$bosr = "0";
+	}
+
     if($scbru >= 1 && $scove >= 0.1) {  
     $boeco = Number_Format(Round($scbru / $scove, 2),2);
     } else {
@@ -1119,16 +1248,18 @@ function show_breakdown_opponent($db,$pr)
       echo "<tr class=\"trrow1\">\n";
     }
     
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scwic</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boavg</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scbbw-$scbbr</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfo</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfi</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boeco</td>\n";   
+    echo "  <td align=\"left\" width=\"18%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scove</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scmai</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scbru</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scwic</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$bosr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbbw-$scbbr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbth</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfo</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfi</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boeco</td>\n";   
     echo " </tr>\n";
     
     } else {
@@ -1309,18 +1440,22 @@ function show_breakdown_team($db,$pr)
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
     echo "  <td align=\"left\" width=\"24%\"><b>TEAM</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>I</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>NO</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>HS</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>30</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Six<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Four<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>MoM<b></td>\n";
     echo " </tr>\n";
 	$match = 0;
 	$scinn = 0;
@@ -1422,7 +1557,17 @@ function show_breakdown_team($db,$pr)
     } else {
     $scfif = "-";
     }
-    
+
+   	// Get League Thirties
+	
+	if ($db->Exists("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND team=$teams[$i]")) {   
+	$db->QueryRow("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND team=$teams[$i]");
+	$db->BagAndTag();
+	$scthy = $db->data['Thirty'];      
+	} else {
+	$scthy = "0";
+	}
+
     // Get the caught
     
     if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND opponent=$teams[$i]")) {  
@@ -1463,6 +1608,36 @@ function show_breakdown_team($db,$pr)
     $scro = "-";
     }
 
+	// Get League Sixes
+	    
+	if ($db->Exists("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND team=$teams[$i]")) {   
+	$db->QueryRow("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND team=$teams[$i]");
+	$db->BagAndTag();
+	$scsix = $db->data['Sixes'];      
+	} else {
+	$scsix = "0";
+	}
+
+	// Get League Fours
+	
+	if ($db->Exists("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND team=$teams[$i]")) {   
+	$db->QueryRow("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND team=$teams[$i]");
+	$db->BagAndTag();
+	$scfour = $db->data['Fours'];      
+	} else {
+	$scfour = "0";
+	}	   
+	
+	// Get League MoMs
+	
+	if ($db->Exists("SELECT COUNT(DISTINCT g.game_id) AS moms FROM scorecard_game_details g INNER JOIN scorecard_batting_details b ON b.game_id = g.game_id WHERE b.player_id = $pr AND (g.mom = $pr or g.mom2 = $pr) AND b.team=$teams[$i]")) {   
+	$db->QueryRow("SELECT COUNT(DISTINCT g.game_id) AS moms FROM scorecard_game_details g INNER JOIN scorecard_batting_details b ON b.game_id = g.game_id WHERE b.player_id = $pr AND (g.mom = $pr or g.mom2 = $pr) AND b.team=$teams[$i]");
+	$db->BagAndTag();
+	$scmom = $db->data['moms'];      
+	} else {
+	$scmom = "0";
+	}	   
+
     if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND team=$teams[$i]")) {
     
     if($rowc % 2) {
@@ -1471,21 +1646,25 @@ function show_breakdown_team($db,$pr)
       echo "<tr class=\"trrow1\">\n";
     }
     
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$schig";
+    echo "  <td align=\"left\" width=\"20%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$match</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scinn</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scnot</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scthy</td>\n";
+	echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
-    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scro</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scsix</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scfour</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scmom</td>\n";  
     echo " </tr>\n";
     
     } else {
@@ -1521,16 +1700,18 @@ function show_breakdown_team($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>TEAM</td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>O</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>R</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>W</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"left\" width=\"18%\"><b>TEAM</td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>O</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>R</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>W</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>3w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>5w</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
         for ($i=0; $i<count($teams); $i++) {
@@ -1570,6 +1751,14 @@ function show_breakdown_team($db,$pr)
       $scove = "-";
     }
 
+    if ($db->Exists("SELECT COUNT(wickets) AS threewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND team=$teams[$i]")) { 
+    $db->QueryRow("SELECT COUNT(wickets) AS threewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND team=$teams[$i]");
+    $db->BagAndTag();
+    $scbth = $db->data['threewickets'];
+    } else {
+    $scbth = "-";
+    }
+
     if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND team=$teams[$i]")) { 
     $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND team=$teams[$i]");
     $db->BagAndTag();
@@ -1597,6 +1786,12 @@ function show_breakdown_team($db,$pr)
     } else {
     $boavg = "-";
     }
+	
+	if($bnum >= 1 && $scwic >= 1) {
+	$bosr = Number_Format($bnum / $scwic,2);
+	} else {
+	$bosr = "0";
+	}
     
     if($scbru >= 1 && $scove >= 0.1) {  
     $boeco = Number_Format(Round($scbru / $scove, 2),2);
@@ -1615,16 +1810,18 @@ function show_breakdown_team($db,$pr)
       echo "<tr class=\"trrow1\">\n";
     }
     
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scwic</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boavg</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scbbw-$scbbr</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfo</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfi</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boeco</td>\n";   
+    echo "  <td align=\"left\" width=\"18%\">" . htmlentities(stripslashes($teamAbbrevs[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scove</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scmai</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scbru</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scwic</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$bosr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbbw-$scbbr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbth</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfo</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfi</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boeco</td>\n";   
     echo " </tr>\n";
     
     } else {
@@ -1804,18 +2001,22 @@ function show_breakdown_ground($db,$pr)
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
     echo "  <td align=\"left\" width=\"24%\"><b>GROUND</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>RUNS</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>I</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>NO</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>HS</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>100</b></td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>30</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
     echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
-    echo "  <td align=\"right\" width=\"6%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Six<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Four<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>MoM<b></td>\n";
     echo " </tr>\n";
     
 	$match = 0;
@@ -1916,6 +2117,14 @@ function show_breakdown_ground($db,$pr)
     $scfif = "-";
     }
     
+    if ($db->Exists("SELECT COUNT(b.runs) AS Thirty FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND (runs BETWEEN 30 AND 49) AND m.ground_id=$gid")) {    
+    $db->QueryRow("SELECT COUNT(b.runs) AS Thirty FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND (runs BETWEEN 30 AND 49) AND m.ground_id=$gid");
+    $db->BagAndTag();
+    $scthy = $db->data['Thirty'];      
+    } else {
+    $scthy = "-";
+    }
+
     // Get the caught
     
     if ($db->Exists("SELECT COUNT(b.assist) AS Caught FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.assist = $pr AND (how_out = 4 OR how_out = 17) AND m.ground_id=$gid")) { 
@@ -1956,6 +2165,35 @@ function show_breakdown_ground($db,$pr)
     $scro = "-";
     }
 
+	// Get League Sixes
+	    
+	if ($db->Exists("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.ground_id=$gid")) {   
+	$db->QueryRow("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.ground_id=$gid");
+	$db->BagAndTag();
+	$scsix = $db->data['Sixes'];      
+	} else {
+	$scsix = "0";
+	}
+
+	// Get League Fours
+	
+	if ($db->Exists("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.ground_id=$gid")) {   
+	$db->QueryRow("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND g.ground_id=$gid");
+	$db->BagAndTag();
+	$scfour = $db->data['Fours'];      
+	} else {
+	$scfour = "0";
+	}	   
+	
+	// Get League MoMs
+	
+	if ($db->Exists("SELECT COUNT(DISTINCT g.game_id) AS moms FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND g.ground_id=$gid")) {   
+	$db->QueryRow("SELECT COUNT(DISTINCT g.game_id) AS moms FROM scorecard_game_details g WHERE (g.mom = $pr or g.mom2 = $pr) AND g.ground_id=$gid");
+	$db->BagAndTag();
+	$scmom = $db->data['moms'];      
+	} else {
+	$scmom = "0";
+	}	   
     if ($db->Exists("SELECT * FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND m.ground_id=$gid")) {
     
     if($f % 2) {
@@ -1965,21 +2203,25 @@ function show_breakdown_ground($db,$pr)
     }
     $f = $f + 1;
 	
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($gname)) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$match</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scrun</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$schig";
+    echo "  <td align=\"left\" width=\"20%\">" . htmlentities(stripslashes($gname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$match</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scinn</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scnot</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
     echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"6%\">$scfif</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scthy</td>\n";
+	echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
     echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
-    echo "  <td align=\"right\" width=\"6%\">$scro</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scro</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scsix</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scfour</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scmom</td>\n";  
     echo " </tr>\n";
     
     } else {
@@ -2013,16 +2255,18 @@ function show_breakdown_ground($db,$pr)
     
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>GROUND</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>O</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>R</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>W</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"left\" width=\"18%\"><b>GROUND</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>O</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>R</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>W</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>3w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>5w</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
     $f = 0;
@@ -2072,6 +2316,14 @@ function show_breakdown_ground($db,$pr)
     $scbfo = "-";
     }
 
+    if ($db->Exists("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets = 3 AND m.ground_id=$gid")) {  
+    $db->QueryRow("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets = 3 AND m.ground_id=$gid");
+    $db->BagAndTag();
+    $scbth = $db->data['threewickets'];
+    } else {
+    $scbth = "-";
+    }
+
     if ($db->Exists("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets >= 5 AND m.ground_id=$gid")) { 
     $db->QueryRow("SELECT COUNT(b.wickets) AS fivewickets FROM scorecard_bowling_details  b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id WHERE b.player_id = $pr AND b.wickets >= 5 AND m.ground_id=$gid");
     $db->BagAndTag();
@@ -2092,6 +2344,12 @@ function show_breakdown_ground($db,$pr)
     $boavg = "-";
     }
     
+	if($bnum >= 1 && $scwic >= 1) {
+	$bosr = Number_Format($bnum / $scwic,2);
+	} else {
+	$bosr = "0";
+	}
+
     if($scbru >= 1 && $scove >= 0.1) {  
     $boeco = Number_Format(Round($scbru / $scove, 2),2);
     } else {
@@ -2109,16 +2367,18 @@ function show_breakdown_ground($db,$pr)
       echo "<tr class=\"trrow1\">\n";
     }
     $f = $f + 1;
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($gname)) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scwic</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boavg</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scbbw-$scbbr</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfo</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfi</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boeco</td>\n";   
+    echo "  <td align=\"left\" width=\"18%\">" . htmlentities(stripslashes($gname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scove</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scmai</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scbru</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scwic</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$bosr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbbw-$scbbr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbth</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfo</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfi</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boeco</td>\n";   
     echo " </tr>\n";
     
     } else {
@@ -2300,7 +2560,7 @@ function show_breakdown_batpos($db, $pr)
     
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>BATTING POS.</b></td>\n";
+    echo "  <td align=\"left\" width=\"20%\"><b>BATTING POS.</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
     echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
     echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
@@ -2309,6 +2569,9 @@ function show_breakdown_batpos($db, $pr)
     echo "  <td align=\"right\" width=\"9%\"><b>SR</b></td>\n";
     echo "  <td align=\"right\" width=\"8%\"><b>100</b></td>\n";
     echo "  <td align=\"right\" width=\"8%\"><b>50</b></td>\n";
+	echo "  <td align=\"right\" width=\"5%\"><b>30</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Six<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Four<b></td>\n";
     echo " </tr>\n";
     $match = 0;
 	$scinn = 0;
@@ -2407,6 +2670,33 @@ function show_breakdown_batpos($db, $pr)
     $scfif = "-";
     }
     
+    if ($db->Exists("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND batting_position=$pos")) { 
+    $db->QueryRow("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND batting_position=$pos");
+    $db->BagAndTag();
+    $scthy = $db->data['Thirty'];
+    } else {
+    $scthy = "-";
+    }
+    
+	// Get League Sixes
+	    
+	if ($db->Exists("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND b.batting_position=$pos")) {   
+	$db->QueryRow("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND b.batting_position=$pos");
+	$db->BagAndTag();
+	$scsix = $db->data['Sixes'];      
+	} else {
+	$scsix = "0";
+	}
+
+	// Get League Fours
+	
+	if ($db->Exists("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND b.batting_position=$pos")) {   
+	$db->QueryRow("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND b.batting_position=$pos");
+	$db->BagAndTag();
+	$scfour = $db->data['Fours'];      
+	} else {
+	$scfour = "0";
+	}	   
 
     
     if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND batting_position=$pos")) {
@@ -2418,17 +2708,20 @@ function show_breakdown_batpos($db, $pr)
     }
 	$f = $f + 1;
 	
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($pname)) . "</td>\n";
-	echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scrun</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$schig";
+    echo "  <td align=\"left\" width=\"20%\">" . htmlentities(stripslashes($pname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scinn</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scnot</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"9%\">$scavg</td>\n";
-    echo "  <td align=\"right\" width=\"9%\">$scsr</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scthy</td>\n";
+	echo "  <td align=\"right\" width=\"5%\">$scsix</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scfour</td>\n";  
     echo " </tr>\n";
     
     } else {
@@ -2462,16 +2755,18 @@ function show_breakdown_batpos($db, $pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>BOWLING POS.</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>O</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>R</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>W</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"left\" width=\"18%\"><b>BOWLING POS.</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>O</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>R</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>W</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>3w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>5w</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
     foreach ($positions as $pos => $pname) {
@@ -2511,6 +2806,14 @@ function show_breakdown_batpos($db, $pr)
       $scove = "-";
     }
 
+    if ($db->Exists("SELECT COUNT(wickets) AS threewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND bowling_position=$pos")) { 
+    $db->QueryRow("SELECT COUNT(wickets) AS threewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND bowling_position=$pos");
+    $db->BagAndTag();
+    $scbth = $db->data['threewickets'];
+    } else {
+    $scbth = "-";
+    }
+
     if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND bowling_position=$pos")) { 
     $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND bowling_position=$pos");
     $db->BagAndTag();
@@ -2539,6 +2842,12 @@ function show_breakdown_batpos($db, $pr)
     $boavg = "-";
     }
     
+	if($bnum >= 1 && $scwic >= 1) {
+	$bosr = Number_Format($bnum / $scwic,2);
+	} else {
+	$bosr = "0";
+	}
+    
     if($scbru >= 1 && $scove >= 0.1) {  
     $boeco = Number_Format(Round($scbru / $scove, 2),2);
     } else {
@@ -2557,16 +2866,18 @@ function show_breakdown_batpos($db, $pr)
     }
     $f = $f + 1;
 	
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($pname)) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scwic</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boavg</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scbbw-$scbbr</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfo</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfi</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boeco</td>\n";   
+    echo "  <td align=\"left\" width=\"18%\">" . htmlentities(stripslashes($pname)) . "</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scove</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scmai</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scbru</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scwic</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$bosr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbbw-$scbbr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbth</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfo</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfi</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boeco</td>\n";   
     echo " </tr>\n";
     
     } else {
@@ -2749,15 +3060,21 @@ function show_breakdown_innno($db,$pr)
 
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>INNINGS</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>I</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>NO</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>RUNS</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>HS</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>SR</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>100</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>50</b></td>\n";
+    echo "  <td align=\"left\" width=\"24%\"><b>INNINGS</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>I</b></td>\n";
+    echo "  <td align=\"right\" width=\"4%\"><b>NO</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RUNS</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>HS</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>100</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>50</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>30</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Ct</b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>St</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>RO</td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Six<b></td>\n";
+    echo "  <td align=\"right\" width=\"5%\"><b>Four<b></td>\n";
     echo " </tr>\n";
     $match = 0;
 	$scinn = 0;
@@ -2855,6 +3172,73 @@ function show_breakdown_innno($db,$pr)
     $scfif = "-";
     }
     
+    if ($db->Exists("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND innings_id=$i")) {   
+    $db->QueryRow("SELECT COUNT(runs) AS Thirty FROM scorecard_batting_details WHERE player_id = $pr AND (runs BETWEEN 30 AND 49) AND innings_id=$i");
+    $db->BagAndTag();
+    $scthy = $db->data['Thirty'];      
+    } else {
+    $scthy = "-";
+    }
+    
+   // Get the caught
+    
+    if ($db->Exists("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND innings_id=$i")) {  
+    $db->QueryRow("SELECT COUNT(assist) AS Caught FROM scorecard_batting_details WHERE assist = $pr AND (how_out = 4 OR how_out = 17) AND innings_id=$i");
+    $db->BagAndTag();
+    $scctc = $db->data['Caught'];
+    } else {
+    $scctc = "-";
+    }
+    
+    // now add the c&b
+    
+    if ($db->Exists("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND innings_id=$i")) {   
+    $db->QueryRow("SELECT COUNT(bowler) AS CandB FROM scorecard_batting_details WHERE bowler = $pr AND how_out = 5 AND innings_id=$i");
+    $db->BagAndTag();
+    $sccab = $db->data['CandB'];
+    } else {
+    $sccab = "-";
+    }
+    
+    $sccat = $scctc + $sccab;
+
+    if ($db->Exists("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND innings_id=$i")) {    
+    $db->QueryRow("SELECT COUNT(assist) AS Stumped FROM scorecard_batting_details WHERE assist = $pr AND how_out = 10 AND innings_id=$i");
+    $db->BagAndTag();
+    $scstu = $db->data['Stumped'];
+    } else {
+    $scstu = "-";
+    }
+    
+	// Get League Runouts
+	
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND innings_id=$i")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND innings_id=$i");
+    $db->BagAndTag();
+    $scro = $db->data['Runouts'];
+    } else {
+    $scro = "-";
+    }
+
+	// Get League Sixes
+	    
+	if ($db->Exists("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND innings_id=$i")) {   
+	$db->QueryRow("SELECT SUM(b.sixes) AS Sixes FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND innings_id=$i");
+	$db->BagAndTag();
+	$scsix = $db->data['Sixes'];      
+	} else {
+	$scsix = "0";
+	}
+
+	// Get League Fours
+	
+	if ($db->Exists("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND innings_id=$i")) {   
+	$db->QueryRow("SELECT SUM(b.fours) AS Fours FROM scorecard_batting_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND innings_id=$i");
+	$db->BagAndTag();
+	$scfour = $db->data['Fours'];      
+	} else {
+	$scfour = "0";
+	}	   
 
     
     if ($db->Exists("SELECT * FROM scorecard_batting_details WHERE player_id = $pr AND innings_id=$i")) {
@@ -2865,17 +3249,23 @@ function show_breakdown_innno($db,$pr)
       echo "<tr class=\"trrow1\">\n";
     }
     
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($inns[$i])) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scinn</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scnot</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scrun</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$schig";
+    echo "  <td align=\"left\" width=\"20%\">" . htmlentities(stripslashes($inns[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scinn</td>\n";
+    echo "  <td align=\"right\" width=\"4%\">$scnot</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scrun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schig";
     if($scnos == '1') echo "*";
     echo "  </td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scavg</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scsr</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$schun</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scsr</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$schun</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scfif</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scthy</td>\n";
+	echo "  <td align=\"right\" width=\"5%\">$sccat</td>\n";
+    echo "  <td align=\"right\" width=\"5%\">$scstu</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scro</td>\n";    
+    echo "  <td align=\"right\" width=\"5%\">$scsix</td>\n";  
+	echo "  <td align=\"right\" width=\"5%\">$scfour</td>\n";  
     echo " </tr>\n";
     
     } else {
@@ -2911,16 +3301,18 @@ function show_breakdown_innno($db,$pr)
     
     echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\">\n";
     echo " <tr class=\"colhead\">\n";
-    echo "  <td align=\"left\" width=\"35%\"><b>INNINGS</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>O</b></td>\n";
-    echo "  <td align=\"right\" width=\"5%\"><b>M</b></td>\n";
-    echo "  <td align=\"right\" width=\"8%\"><b>R</b></td>\n";
-    echo "  <td align=\"right\" width=\"7%\"><b>W</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>AVE</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"left\" width=\"18%\"><b>INNINGS</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>O</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>M</b></td>\n";
+    echo "  <td align=\"right\" width=\"7%\"><b>R</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>W</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>AVE</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>SR</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>3w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"right\" width=\"6%\"><b>5w</b></td>\n";
-    echo "  <td align=\"right\" width=\"10%\"><b>ECO</b></td>\n";
+    echo "  <td align=\"right\" width=\"6%\"><b>ECO</b></td>\n";
     echo " </tr>\n";
     
         for ($i=1; $i<=count($inns); $i++) {
@@ -2960,6 +3352,14 @@ function show_breakdown_innno($db,$pr)
       $scove = "-";
     }
 
+    if ($db->Exists("SELECT COUNT(wickets) AS threewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND innings_id=$i")) {   
+    $db->QueryRow("SELECT COUNT(wickets) AS threewickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 3 AND innings_id=$i");
+    $db->BagAndTag();
+    $scbth = $db->data['threewickets'];
+    } else {
+    $scbth = "-";
+    }
+
     if ($db->Exists("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND innings_id=$i")) {   
     $db->QueryRow("SELECT COUNT(wickets) AS fourwickets FROM scorecard_bowling_details WHERE player_id = $pr AND wickets = 4 AND innings_id=$i");
     $db->BagAndTag();
@@ -2988,6 +3388,12 @@ function show_breakdown_innno($db,$pr)
     $boavg = "-";
     }
     
+	if($bnum >= 1 && $scwic >= 1) {
+	$bosr = Number_Format($bnum / $scwic,2);
+	} else {
+	$bosr = "0";
+	}
+
     if($scbru >= 1 && $scove >= 0.1) {  
     $boeco = Number_Format(Round($scbru / $scove, 2),2);
     } else {
@@ -3005,16 +3411,18 @@ function show_breakdown_innno($db,$pr)
       echo "<tr class=\"trrow1\">\n";
     }
     
-    echo "  <td align=\"left\" width=\"35%\">" . htmlentities(stripslashes($inns[$i])) . "</td>\n";
-    echo "  <td align=\"right\" width=\"7%\">$scove</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scmai</td>\n";
-    echo "  <td align=\"right\" width=\"8%\">$scbru</td>\n";
-    echo "  <td align=\"right\" width=\"5%\">$scwic</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boavg</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$scbbw-$scbbr</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfo</td>\n";
-    echo "  <td align=\"right\" width=\"4%\">$scbfi</td>\n";
-    echo "  <td align=\"right\" width=\"10%\">$boeco</td>\n";   
+    echo "  <td align=\"left\" width=\"18%\">" . htmlentities(stripslashes($inns[$i])) . "</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scove</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scmai</td>\n";
+    echo "  <td align=\"right\" width=\"7%\">$scbru</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scwic</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boavg</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$bosr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbbw-$scbbr</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbth</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfo</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$scbfi</td>\n";
+    echo "  <td align=\"right\" width=\"6%\">$boeco</td>\n";   
     echo " </tr>\n";
     
     } else {
@@ -3554,6 +3962,16 @@ function show_breakdown_batprogress($db,$pr)
     if($oid == '3' || $oid == '4' || $oid == '6' || $oid == '7' || $oid == '10' || $oid == '17') {
       echo " b ";
 	  if($bln == "" && $bfn == "") {
+		  echo "";
+		} elseif($bfn != "" && $bln != "" && $bla != "") {
+		  echo "$bin $bla";
+		} elseif($bfn != "" && $bln != "" && $bla == "") {
+		  echo "$bin $bln";   
+		} else {
+		  echo "$bfn\n";
+		}
+    } else if($oid == '5'){
+      if($bln == "" && $bfn == "") {
 		  echo "";
 		} elseif($bfn != "" && $bln != "" && $bla != "") {
 		  echo "$bin $bla";
