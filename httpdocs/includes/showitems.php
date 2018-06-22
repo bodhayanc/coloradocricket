@@ -139,7 +139,7 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
           echo "<tr class=\"trrow1\">\n";
         }
 
-        echo "    <td width=\"25%\">&nbsp;\n";
+        echo "    <td width=\"25%\"><img src=\"uploadphotos/items_for_sale/" . $ipic . "\" align=\"right\" style=\"border: 1 solid #393939\"></td>\n";
         echo "    <td width=\"75%\"><b>$itit</b><br><br>$idet<br><br>Price:$$ipri<br><br><b>Contact Details:</b><br>$ina<br>$iph<br>$iem<br>\n";
         echo "    </td>\n";
         echo "  </tr>\n";

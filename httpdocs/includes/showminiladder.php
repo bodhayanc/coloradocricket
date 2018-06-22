@@ -34,7 +34,7 @@ function show_miniladder($db)
 			echo "	<td align=\"center\"><b>L</b></td>\n";
 			echo "	<td align=\"center\"><b>NR</b></td>\n";
 			echo "	<td align=\"center\"><b>Pt</b></td>\n";
-			echo "	<td align=\"center\"><b>NRR</b></td>\n";
+			echo "	<td align=\"right\"><b>NRR</b></td>\n";
 			echo "</tr>\n";
 			
 // 28-Nov-09 - Kervyn - Removed order by clause columns - ORDER BY won DESC, lost ASC, and replaced it with ORDER BY lad.totalpoints DESC, lad.rank_sort ASC
@@ -118,7 +118,7 @@ function show_miniladder($db)
 					echo "	<td align=\"center\">$lo</td>\n";
 					echo "	<td align=\"center\">$nr</td>\n";
 					echo "	<td align=\"center\">$tp</td>\n";
-					echo "	<td align=\"center\">$nrr</td>\n";
+					echo "	<td align=\"right\">$nrr</td>\n";
 					echo "</tr>\n";
 
 

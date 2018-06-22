@@ -624,12 +624,9 @@ function show_grounds_games($db,$pr)
                 $db->GetRow($x);
                 $t1 = $db->data['homeabbrev'];
                 $t2 = $db->data['awayabbrev'];
-                $um = $db->data['umpireabbrev'];
                 $t1id = $db->data['homeid'];
                 $t2id = $db->data['awayid'];
-                $umid = $db->data['umpireid'];
                 $d = sqldate_to_string($db->data['game_date']);
-                $sc =  $db->data['scorecard'];
                 $re = $db->data['result'];
                 $id = $db->data['game_id'];
                 $wk = $db->data['week'];
@@ -783,7 +780,7 @@ function show_grounds_mostruns($db,$pr,$sort,$sort2)
     $fname = $db->data['PlayerFName'];
     $lname = $db->data['PlayerLName'];    
     $scinn = $db->data['Matches'];
-    $scrun = $db->data['runs'];
+    $scrun = $db->data['Runs'];
     //$schig = $db->data['HS'];   
     $teama = $db->data['TeamAbbrev'];
 
@@ -901,7 +898,7 @@ function show_grounds_mostruns($db,$pr,$sort,$sort2)
 
 // begin season selection
 
-    if($option == "byseason") {
+    if(isset($_GET['option']) && $_GET['option'] == "byseason") {
 
     if ($db->Exists("SELECT * FROM seasons")) {
     $db->QueryRow("SELECT * FROM seasons WHERE SeasonName NOT LIKE '%KO%' ORDER BY SeasonName DESC");

@@ -970,7 +970,7 @@ echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"sc
 //echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"scorecard\">$gr</a></b>, on $da</p>\n";
 echo "<p><b>Result: </b> $re</p>\n";
 
-    if(!($fo == "1" && $ca == "0")) {
+    if($fo == "0" && $ca == "0") {
     
     	
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -981,14 +981,14 @@ echo "<p><b>Result: </b> $re</p>\n";
 	
     echo "<table width=\"95%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
     echo " <tr height=\"25\" bgcolor=\"#cccccc\">\n";
-    echo "   <td class=\"scorecard\" width=\"1%\" align=\"right\">&nbsp;</td>\n";
+    echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">&nbsp;</td>\n";
     echo "  <td class=\"scorecard\" width=\"65%\" align=\"left\" colspan=\"4\"><b>$bat1st Batting innings</b> ($mo overs maximum)</td>\n";
     echo "  <td class=\"scorecard\" width=\"4%\" align=\"right\">&nbsp;&nbsp;&nbsp;<b>R</b></td>\n";
     echo "  <td class=\"scorecard\" width=\"4%\" align=\"right\">&nbsp;&nbsp;&nbsp;<b>B</b></td>\n";
     echo "  <td class=\"scorecard\" width=\"4%\" align=\"right\">&nbsp;<b>4s</b></td>\n";
     echo "  <td class=\"scorecard\" width=\"3%\" align=\"right\">&nbsp;<b>6s</b></td>\n";
    
-   echo "  <td class=\"scorecard\" width=\"9%\" align=\"center\">&nbsp;<b>SR</b></td>\n";
+   echo "  <td class=\"scorecard\" width=\"9%\" align=\"right\">&nbsp;<b>SR</b></td>\n";
     echo "  <td class=\"scorecard\" width=\"5%\" align=\"right\">&nbsp;</td>\n";
 
     echo " </tr>\n";
@@ -1067,7 +1067,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     }
 
     echo " <tr>\n";
-    echo "  <td class=\"scorecard\" width=\"1%\" align=\"left\">&nbsp;</td>\n";
+    echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">$pos)&nbsp;</td>\n";
 
 
     // If Batter Last Name is blank, just use first name
@@ -1077,21 +1077,21 @@ echo "<p><b>Result: </b> $re</p>\n";
       echo "n/a";
     } elseif($pfn != "" && $pln != "") {
 		if($out == "NOT OUT") {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn $pln</font></b></a>";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pfn $pln</font></b></a>";
 		} else {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn $pln</a>";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn $pln</a>";
 		}
     } elseif($pfn != "" && $pln == "")  {
 		if($out == "NOT OUT") {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn</font></b></a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pfn</font></b></a>\n";
 		} else {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn</a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn</a>\n";
 		}
     }else{
 		if($out == "NOT OUT") {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pln</font></b></a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pln</font></b></a>\n";
 		} else {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pln</a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pln</a>\n";
 		}
     }
 
@@ -1443,6 +1443,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $db->GetRow($x);
 
     $pid = $db->data['BowlerID'];
+    $pos = $db->data['bowling_position'];
     $pln = $db->data['BowlerLName'];
     $pfn = $db->data['BowlerFName'];
     $pin = $db->data['BowlerFInitial'];
@@ -1477,7 +1478,7 @@ echo "<p><b>Result: </b> $re</p>\n";
 
 
     echo " <tr>\n";
-    echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">&nbsp;</td>\n";
+    echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">$pos)&nbsp;</td>\n";
 
     // If Bowler Last Name is blank, just use first name
 
@@ -1538,7 +1539,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     echo "  <td class=\"scorecard\" width=\"4%\" align=\"right\">&nbsp;&nbsp;&nbsp;<b>B</b></td>\n";
     echo "  <td class=\"scorecard\" width=\"4%\" align=\"right\">&nbsp;<b>4s</b></td>\n";
     echo "  <td class=\"scorecard\" width=\"3%\" align=\"right\">&nbsp;<b>6s</b></td>\n";    
-    echo "  <td class=\"scorecard\" width=\"9%\" align=\"center\">&nbsp;<b>SR</b></td>\n";
+    echo "  <td class=\"scorecard\" width=\"9%\" align=\"right\">&nbsp;<b>SR</b></td>\n";
     echo "  <td class=\"scorecard\" width=\"5%\" align=\"right\">&nbsp;<b></b></td>\n";
     echo " </tr>\n";
 
@@ -1616,7 +1617,7 @@ echo "<p><b>Result: </b> $re</p>\n";
 
 
     echo " <tr>\n";
-    echo "  <td class=\"scorecard\" width=\"1%\" align=\"left\">&nbsp;</td>\n";
+    echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">$pos)&nbsp;</td>\n";
 
 
     // If Batter Last Name is blank, just use first name
@@ -1626,21 +1627,21 @@ echo "<p><b>Result: </b> $re</p>\n";
       echo "n/a";
     } elseif($pfn != "" && $pln != "") {
 		if($out == "NOT OUT") {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn $pln</font></b></a>";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pfn $pln</font></b></a>";
 		} else {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn $pln</a>";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn $pln</a>";
 		}
     } elseif($pfn != "" && $pln == "")  {
 		if($out == "NOT OUT") {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pfn</font></b></a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pfn</font></b></a>\n";
 		} else {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pfn</a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pfn</a>\n";
 		}
     }else{
 		if($out == "NOT OUT") {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pos) $pln</font></b></a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\"><b><font color='blue'>$pln</font></b></a>\n";
 		} else {
-			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pos) $pln</a>\n";
+			echo "<a href=\"/players.php?players=$pid&ccl_mode=1\" class=\"scorecard\">$pln</a>\n";
 		}
     }
     echo "  </td>\n";
@@ -2065,6 +2066,7 @@ echo "<p><b>Result: </b> $re</p>\n";
     $db->GetRow($x);
 
     $pid = $db->data['BowlerID'];
+    $pos = $db->data['bowling_position'];
     $pln = $db->data['BowlerLName'];
     $pfn = $db->data['BowlerFName'];
     $pin = $db->data['BowlerFInitial'];
@@ -2098,7 +2100,7 @@ echo "<p><b>Result: </b> $re</p>\n";
 
 
     echo " <tr>\n";
-    echo "  <td class=\"scorecard\" width=\"1%\" align=\"left\">&nbsp;</td>\n";
+    echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">$pos)&nbsp;</td>\n";
 
 
     // If Bowler Last Name is blank, just use first name
@@ -2143,40 +2145,41 @@ echo "<p><b>Result: </b> $re</p>\n";
     
     }// Closing for forfeit game...
     
-    echo "<br><hr color=\"#cccccc\" width=\"95%\" size=\"2\">\n";
+    echo "<br><hr color=\"#cccccc\" width=\"95%\" size=\"2\" align=\"left\">\n";
 
-    if($tt != "") {
-      // echo "<p><b>Toss: </b> $tt<br>\n";
-	  echo "<p><b>Toss: </b><a href=\"/teamdetails.php?teams=$ttid&ccl_mode=1\" class=\"scorecard\">$tt</a><br>\n";   // 8-June-2015 11:05pm using $ttid instead of $WonTossID
-	  
-    } else {
-      echo "<p><b>Toss: </b> n/a<br>";
-    }
+	if($fo == "0" && $ca == "0") {
+		if($tt != "") {
+		  // echo "<p><b>Toss: </b> $tt<br>\n";
+		  echo "<p><b>Toss: </b><a href=\"/teamdetails.php?teams=$ttid&ccl_mode=1\" class=\"scorecard\">$tt</a><br>\n";   // 8-June-2015 11:05pm using $ttid instead of $WonTossID
+		  
+		} else {
+		  echo "<p><b>Toss: </b> n/a<br>";
+		}
 
-    if($u1 != 0 && $u2 != 0) {
-    echo "<b>Umpires: </b> <a href=\"/players.php?players=$u1&ccl_mode=1\" class=\"scorecard\">$u1f $u1l</a> and <a href=\"/players.php?players=$u2&ccl_mode=1\" class=\"scorecard\">$u2f $u2l</a><br>\n";
-    } else if($u1 != 0 && $u2 == 0) {
-    echo "<b>Umpire: </b> <a href=\"/players.php?players=$u1&ccl_mode=1\" class=\"scorecard\">$u1f $u1l</a><br>\n";
-    } else {
-    echo "<b>Umpires: </b> n/a<br>";
-    }
-    if($mm != "" || $mm2 != "") {
-		echo "<b>Player of the Match: </b>";
-    }
-    if($mm != "") {
-    	echo "<a href=\"/players.php?players=$mmi&ccl_mode=1\" class=\"scorecard\">$mmf $mml</a>\n";
-    } else {
-    	echo "n/a\n";
-    }
-   
-	if($mm2 != "" && $mm2 != "0") {
-    echo "and  <a href=\"/players.php?players=$mmi2&ccl_mode=1\" class=\"scorecard\">$mmf2 $mml2</a>\n";
-    }
-    
-	if($mm != "" || $mm2 != "") {
-		echo "</p>";
-    }
-
+		if($u1 != 0 && $u2 != 0) {
+		echo "<b>Umpires: </b> <a href=\"/players.php?players=$u1&ccl_mode=1\" class=\"scorecard\">$u1f $u1l</a> and <a href=\"/players.php?players=$u2&ccl_mode=1\" class=\"scorecard\">$u2f $u2l</a><br>\n";
+		} else if($u1 != 0 && $u2 == 0) {
+		echo "<b>Umpire: </b> <a href=\"/players.php?players=$u1&ccl_mode=1\" class=\"scorecard\">$u1f $u1l</a><br>\n";
+		} else {
+		echo "<b>Umpires: </b> n/a<br>";
+		}
+		if($mm != "" || $mm2 != "") {
+			echo "<b>Player of the Match: </b>";
+		}
+		if($mm != "") {
+			echo "<a href=\"/players.php?players=$mmi&ccl_mode=1\" class=\"scorecard\">$mmf $mml</a>\n";
+		} else {
+			echo "n/a\n";
+		}
+	   
+		if($mm2 != "" && $mm2 != "0") {
+		echo "and  <a href=\"/players.php?players=$mmi2&ccl_mode=1\" class=\"scorecard\">$mmf2 $mml2</a>\n";
+		}
+		
+		if($mm != "" || $mm2 != "") {
+			echo "</p>";
+		}
+	}
     echo "<table width=\"95%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
     echo " <tr height=\"25\" bgcolor=\"#cccccc\">\n";
     echo "  <td class=\"scorecard\" width=\"1%\" align=\"left\">&nbsp;</td>\n";

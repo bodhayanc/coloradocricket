@@ -104,19 +104,11 @@ function show_mini_scorecard($db, $season)
 		}
 
 				
-		if($fo == "0" && $ca == "0") {						
-                echo "  <td align=\"left\" class=\"9px\">$ss_final_text $t2 at $t1<br><a href=\"/scorecardfull.php?game_id=$id&ccl_mode=4\">$re</a></td>\n";
-                } else if($fo == "1" && $ca == "0") {
-                echo "  <td align=\"left\" class=\"9px\">$ss_final_text $t2 at $t1<br><a href=\"/scorecardfull.php?game_id=$id&ccl_mode=4\">$re</a></td>\n";
-                } else if($ca == "1" && $fo = "1") {
-                echo "  <td align=\"left\" class=\"9px\">$ss_final_text $t2 at $t1<br>Game cancelled</span></td>\n";
-                } else {
-                echo "  <td align=\"left\" class=\"9px\">$ss_final_text $t2 at $t1<br><a href=\"/scorecardfull.php?game_id=$id&ccl_mode=4\">$re</a></td>\n";
-	        }
-
-                echo "</tr>\n";
-            }
-            echo "</table>\n";
+		echo "  <td align=\"left\" class=\"9px\">$ss_final_text $t2 at $t1<br><a href=\"/scorecardfull.php?game_id=$id&ccl_mode=4\">$re</a></td>\n";
+	   
+        echo "</tr>\n";
+        }
+        echo "</table>\n";
         }
     }
 }

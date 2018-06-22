@@ -844,7 +844,10 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$ht_c = addslashes(trim($hometeam_captain));
 	$ht_vc = addslashes(trim($hometeam_vcaptain));
 	$ht_wk = addslashes(trim($hometeam_wk));
+	$um = addslashes(trim($umpires));
+	$rw = addslashes(trim($result_won_id));
 	$gd = addslashes(trim($game_date));
+	$re = addslashes(trim($result));
 	$ca = 1;
 	$cg = 0;
 	$mm = addslashes(trim($mom));
@@ -854,13 +857,14 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$gi = addslashes(trim($ground_id));
 	
 	// all okay
 
 	// Insert into the game header table
 
-	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,game_date,cancelled,cancelledplay,mom,mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,isactive) VALUES 
-('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$gd','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr',0)");
+	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,umpires,result_won_id,ground_id,game_date,result,cancelled,cancelledplay,mom,mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,isactive) VALUES 
+('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$rw',$gi,'$gd','$re','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr',0)");
 	$db->QueryRow("SELECT LAST_INSERT_ID() AS GAME_ID");
 	$game_id = $db->data['GAME_ID'];
 	
@@ -901,7 +905,7 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 
 	// make sure info is present and correct
 
-	if ($league_id == "" || $season == "" || $awayteam == "" || $hometeam == "" || $batting_first_id == "" || $batting_second_id == "" || $ground_id == "" || $game_date == "" || $tied == "" || $result == "" || $maxovers == "") {
+	if ($league_id == "" || $season == "" || $awayteam == "" || $hometeam == "" || $batting_first_id == "" || $batting_second_id == "" || $ground_id == "" || $game_date == "" || $result == "" || $maxovers == "") {
 		echo "<p class=\"12pt\"><b>Missing information</b></p>\n";
 		echo "<p>You must complete all the required (*) fields. Please go back and try again.</p>\n";
 		return;
@@ -922,7 +926,7 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$ht_wk = addslashes(trim($hometeam_wk));
 	$um = addslashes(trim($umpires));
 	$tw = addslashes(trim($toss_won_id));
-	$rw = addslashes(trim($result_won_id));
+	$rw = 0;
 	$bf = addslashes(trim($batting_first_id));
 	$bs = addslashes(trim($batting_second_id));
 	$gi = addslashes(trim($ground_id));
@@ -2165,7 +2169,7 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 
 	// make sure info is present and correct
 
-	if ($league_id == "" || $season == "" || $awayteam == "" || $hometeam == "" || $batting_first_id == "" || $batting_second_id == "" || $ground_id == "" || $game_date == "" || $tied == "" || $result == "" || $maxovers == "") {
+	if ($league_id == "" || $season == "" || $awayteam == "" || $hometeam == "" || $batting_first_id == "" || $batting_second_id == "" || $ground_id == "" || $game_date == "" || $result == "" || $maxovers == "") {
 		echo "<p class=\"12pt\"><b>Missing information</b></p>\n";
 		echo "<p>You must complete all the required (*) fields. Please go back and try again.</p>\n";
 		return;
@@ -2186,7 +2190,7 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$ht_wk = addslashes(trim($hometeam_wk));
 	$um = addslashes(trim($umpires));
 	$tw = addslashes(trim($toss_won_id));
-	$rw = addslashes(trim($result_won_id));
+	$rw = 0;
 	$bf = addslashes(trim($batting_first_id));
 	$bs = addslashes(trim($batting_second_id));
 	$gi = addslashes(trim($ground_id));

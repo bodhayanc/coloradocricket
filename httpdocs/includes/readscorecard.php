@@ -152,6 +152,7 @@ function read_scorecard($db)
 			} else {
 				$ccl_toss_team_id = $ccl_awayteam_id;
 			}
+			
 			$email_content .= "CricClub toss team id: $cc_toss_team_id<br>";
 			$email_content .= "CCL toss team id: $ccl_toss_team_id<br>";
 			$cc_result = $matchDetail->item(0)->getAttribute('result');
@@ -165,6 +166,12 @@ function read_scorecard($db)
 			} else if($cc_winner_id == $cc_awayteam_id) {
 				$result_won_id = $ccl_awayteam_id;
 				$result_won_abbrev = $ccl_awayteam_abbrev;
+			} else if($cc_winner_id == "0") {
+				$ccl_result = "Abandoned and split points";
+			} else if($cc_winner_id == "-1") {
+				$ccl_result = "Abandoned and no points";
+			} else if($cc_winner_id == "-2") {
+				$ccl_result = "Abandoned and rescheduled";
 			}
 			if($result_won_id != 0) {
 				$run_won = trim(get_string_between($cc_result, "won by", "Run"));
@@ -284,17 +291,20 @@ function read_scorecard($db)
 			$email_content .= "cc_awayteam_id: $cc_awayteam_id<br>";
 			$email_content .= "ccl_hometeam_id: $ccl_hometeam_id<br>";
 			$email_content .= "ccl_awayteam_id: $ccl_awayteam_id<br>";
-			if($cc_batting_first_id == $cc_hometeam_id) {
-				$ccl_batting_first_id = $ccl_hometeam_id;
+			if(count($hometeamplayers) > 0) {
+				if($cc_batting_first_id == $cc_hometeam_id) {
+					$ccl_batting_first_id = $ccl_hometeam_id;
+				} else {
+					$ccl_batting_first_id = $ccl_awayteam_id;
+				}
+				if($cc_batting_second_id == $cc_hometeam_id) {
+					$ccl_batting_second_id = $ccl_hometeam_id;
+				} else {
+					$ccl_batting_second_id = $ccl_awayteam_id;
+				}
 			} else {
-				$ccl_batting_first_id = $ccl_awayteam_id;
+				$ccl_batting_first_id = $ccl_batting_second_id = $ccl_toss_team_id = 0;
 			}
-			if($cc_batting_second_id == $cc_hometeam_id) {
-				$ccl_batting_second_id = $ccl_hometeam_id;
-			} else {
-				$ccl_batting_second_id = $ccl_awayteam_id;
-			}
-
 			$email_content .= "ccl_batting_first_id: $ccl_batting_first_id<br>";
 			$email_content .= "ccl_batting_second_id: $ccl_batting_second_id<br>";
 			
@@ -314,7 +324,7 @@ function read_scorecard($db)
 			$email_content .= "ccl_away_wk: $ccl_away_wk<br>";
 			
 			
-			update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, $week, $ccl_awayteam_id, $ccl_hometeam_id, $ccl_toss_team_id, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_ground_id, $ccl_game_date, $ccl_result, $result_won_id, $cc_total_overs, $ccl_mom, $ccl_ump1_id, $ccl_ump2_id, $ccl_home_captain, $ccl_home_vcaptain, $ccl_home_wk, $ccl_away_captain, $ccl_away_vcaptain, $ccl_away_wk, $ccl_game_id);
+			update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, $week, $ccl_awayteam_id, $ccl_hometeam_id, $ccl_toss_team_id, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_ground_id, $ccl_game_date, $ccl_result, $result_won_id, $cc_total_overs, $ccl_mom, $ccl_ump1_id, $ccl_ump2_id, $ccl_home_captain, $ccl_home_vcaptain, $ccl_home_wk, $ccl_away_captain, $ccl_away_vcaptain, $ccl_away_wk, $ccl_game_id, $hometeamplayers);
 			
 			update_batting_details_table($ccl_game_id, $firstIBatsmen, $secondIBatsmen, $hometeamplayers, $awayteamplayers, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_hometeam_id, $ccl_awayteam_id, $ccl_season_id);
 			
@@ -466,24 +476,38 @@ function bat_bowl_extra_fow_total_details($Inning, &$batsmen, &$bowlers, &$extra
 	}
 }
 
-function update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, $week, $ccl_awayteam_id, $ccl_hometeam_id, $ccl_toss_team_id, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_ground_id, $ccl_game_date, $result, $result_won_id, $cc_total_overs, $ccl_mom, $ccl_ump1_id, $ccl_ump2_id, $ccl_home_captain, $ccl_home_vcaptain, $ccl_home_wk, $ccl_away_captain, $ccl_away_vcaptain, $ccl_away_wk, &$ccl_game_id) {
+function update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, $week, $ccl_awayteam_id, $ccl_hometeam_id, $ccl_toss_team_id, $ccl_batting_first_id, $ccl_batting_second_id, $ccl_ground_id, $ccl_game_date, $result, $result_won_id, $cc_total_overs, $ccl_mom, $ccl_ump1_id, $ccl_ump2_id, $ccl_home_captain, $ccl_home_vcaptain, $ccl_home_wk, $ccl_away_captain, $ccl_away_vcaptain, $ccl_away_wk, &$ccl_game_id, $hometeamplayers) {
 	global $db;
 	global $email_content;
-	
+	$cancelled = 0;
+	$cancelledplay = 0;
+	if (strpos($result, 'Abandoned') !== false) {
+		if(count($hometeamplayers) > 0) {
+			//If the players have been selected, then the game was started but then abandoned.
+			$cancelledplay = 1;
+		} else {
+			$cancelled = 1;
+		}
+	}
+	if($result == "Abandoned and split points") {
+		$points = 1;
+	} else if (strpos($result, 'Abandoned') !== false) {
+		$points = 0;
+	}
 	$report_link = "https://www.cricclubs.com/ColoradoCricket/viewScorecard.do?matchId=$cc_game_id";
 	if ($db->Exists("SELECT * FROM scorecard_game_details WHERE cricclubs_game_id = $cc_game_id")) {
 		$db->QueryRow("SELECT * FROM scorecard_game_details WHERE cricclubs_game_id = $cc_game_id");
 		$db->BagAndTag();
 
 		$ccl_game_id = $db->data['game_id'];
-		$db->Update("UPDATE scorecard_game_details SET league_id = '$ccl_league_id', season = '$ccl_season_id', week = '$week', awayteam = '$ccl_awayteam_id', hometeam = '$ccl_hometeam_id', toss_won_id = '$ccl_toss_team_id', batting_first_id = '$ccl_batting_first_id', batting_second_id = '$ccl_batting_second_id', ground_id = '$ccl_ground_id', game_date = '$ccl_game_date',result = '$result', result_won_id = '$result_won_id', maxovers = '$cc_total_overs', mom = '$ccl_mom', umpire1 = '$ccl_ump1_id', umpire2 = '$ccl_ump2_id', report = '$report_link', HOMETEAM_CAPTAIN = '$ccl_home_captain', HOMETEAM_VCAPTAIN = '$ccl_home_vcaptain', HOMETEAM_WK = '$ccl_home_wk', AWAYTEAM_CAPTAIN = '$ccl_away_captain', AWAYTEAM_VCAPTAIN = '$ccl_away_vcaptain', AWAYTEAM_WK = '$ccl_away_wk' WHERE game_id = $ccl_game_id");
+		$db->Update("UPDATE scorecard_game_details SET league_id = '$ccl_league_id', season = '$ccl_season_id', week = '$week', awayteam = '$ccl_awayteam_id', hometeam = '$ccl_hometeam_id', toss_won_id = '$ccl_toss_team_id', batting_first_id = '$ccl_batting_first_id', batting_second_id = '$ccl_batting_second_id', ground_id = '$ccl_ground_id', game_date = '$ccl_game_date',result = '$result', result_won_id = '$result_won_id', cancelled = '$cancelled', cancelledplay = '$cancelledplay', points = '$points', maxovers = '$cc_total_overs', mom = '$ccl_mom', umpire1 = '$ccl_ump1_id', umpire2 = '$ccl_ump2_id', report = '$report_link', HOMETEAM_CAPTAIN = '$ccl_home_captain', HOMETEAM_VCAPTAIN = '$ccl_home_vcaptain', HOMETEAM_WK = '$ccl_home_wk', AWAYTEAM_CAPTAIN = '$ccl_away_captain', AWAYTEAM_VCAPTAIN = '$ccl_away_vcaptain', AWAYTEAM_WK = '$ccl_away_wk' WHERE game_id = $ccl_game_id");
 		if ($db->a_rows != -1) {
 			$email_content .= "<p>The scorecard has been updated</p><br>";
 		} else {
 			$email_content .= "<p>The scorecard could not be updated at this time.</p><br>";
 		}
 	} else {
-		$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,hometeam,toss_won_id,batting_first_id, batting_second_id,ground_id,game_date,result,result_won_id,maxovers,mom,umpire1,umpire2,HOMETEAM_CAPTAIN, HOMETEAM_VCAPTAIN, HOMETEAM_WK, AWAYTEAM_CAPTAIN, AWAYTEAM_VCAPTAIN, AWAYTEAM_WK,isactive,cricclubs_game_id,report) VALUES ('$ccl_league_id','$ccl_season_id','$week','$ccl_awayteam_id','$ccl_hometeam_id','$ccl_toss_team_id','$ccl_batting_first_id','$ccl_batting_second_id','$ccl_ground_id','$ccl_game_date','$result','$result_won_id','$cc_total_overs','$ccl_mom','$ccl_ump1_id','$ccl_ump2_id', '$ccl_home_captain', '$ccl_home_vcaptain', '$ccl_home_wk', '$ccl_away_captain', '$ccl_away_vcaptain', '$ccl_away_wk',0,$cc_game_id,'$report_link')");
+		$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,hometeam,toss_won_id,batting_first_id, batting_second_id,ground_id,game_date,result,result_won_id,cancelled,cancelledplay,points,maxovers,mom,umpire1,umpire2,HOMETEAM_CAPTAIN, HOMETEAM_VCAPTAIN, HOMETEAM_WK, AWAYTEAM_CAPTAIN, AWAYTEAM_VCAPTAIN, AWAYTEAM_WK,isactive,cricclubs_game_id,report) VALUES ('$ccl_league_id','$ccl_season_id','$week','$ccl_awayteam_id','$ccl_hometeam_id','$ccl_toss_team_id','$ccl_batting_first_id','$ccl_batting_second_id','$ccl_ground_id','$ccl_game_date','$result','$result_won_id','$cancelled','$cancelledplay','$points','$cc_total_overs','$ccl_mom','$ccl_ump1_id','$ccl_ump2_id', '$ccl_home_captain', '$ccl_home_vcaptain', '$ccl_home_wk', '$ccl_away_captain', '$ccl_away_vcaptain', '$ccl_away_wk',0,$cc_game_id,'$report_link')");
 		if ($db->a_rows != -1) {
 			$email_content .= "<p>A new scorecard has been added</p><br>";
 		} else {
@@ -579,6 +603,10 @@ function update_batting_by_innings($ccl_game_id, $ccl_season_id, $ccl_batting_fi
 			$how_out = 17;
 			$bowler = $wicket_taker1;
 			$assist = $wicket_taker2;
+			break;
+		case "hdb"://handled ball
+			$how_out = 13;
+			$bowler = $wicket_taker1;
 			break;
 		default:
 			$how_out = 1;
@@ -745,15 +773,15 @@ function update_ladder_table($ccl_season_id) {
 			$nrr = 0;
 		}
 		$pl = $subdb->QueryItem("SELECT count(game_id) FROM
-               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid)");
+               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND (points = 1 OR points = \"\" OR points is NULL)");
         $wo = $subdb->QueryItem("SELECT count(game_id) FROM
                scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND cancelledplay=0 AND cancelled=0 AND result_won_id = $tid");
         $ti = $subdb->QueryItem("SELECT count(game_id) FROM
                scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND cancelledplay=0 AND cancelled=0 AND result_won_id=0");
 		$nr = $subdb->QueryItem("SELECT count(game_id) FROM
-               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND (cancelledplay=1 OR cancelled=1)");
+               scorecard_game_details WHERE season=$ccl_season_id AND (hometeam=$tid OR awayteam=$tid) AND (cancelledplay=1 OR cancelled=1) AND points = 1");
 		$lo = $pl - $wo - $ti - $nr;
-		$pt = $wo * 2;
+		$pt = ($wo * 2) + $ti + $nr;
 		$tp = $pt - $pe;
         $lad_rec = array ("TeamID" => $tid, "played" => $pl, "won" => $wo, "lost" => $lo, "tied" => $ti, "nr" => $nr, "point" => $pt, "penalty" => $pe, "totalpoint" => $tp, "nrr" => $nrr);
 		$lad_data[$x] = $lad_rec;

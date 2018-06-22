@@ -383,10 +383,10 @@ function show_full_players($db,$pr)
     echo "  <td align=\"center\" width=\"4%\"><b>Ct<b></td>\n";
     echo "  <td align=\"center\" width=\"4%\"><b>St<b></td>\n";
     echo "  <td align=\"center\" width=\"5%\"><b>RO<b></td>\n";
-    echo "  <td align=\"center\" width=\"5%\"><b>Six<b></td>\n";
-    echo "  <td align=\"center\" width=\"5%\"><b>Four<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>6s<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>4s<b></td>\n";
     echo "  <td align=\"center\" width=\"5%\"><b>MoM<b></td>\n";
-    echo "  <td align=\"center\" width=\"5%\"><b>Featured<b></td>\n";
+    echo "  <td align=\"center\" width=\"5%\"><b>POTW<b></td>\n";
     echo " </tr>\n";
     
     
@@ -651,7 +651,7 @@ function show_full_players($db,$pr)
 	    } else {
 	    
 	    echo " <tr class=\"trrow1\">\n";
-	    echo "  <td align=\"left\" width=\"100%\" colspan=\"10\">No statistics at this time.</td>\n";   
+	    echo "  <td align=\"left\" width=\"100%\" colspan=\"18\">No statistics at this time.</td>\n";   
 	    echo " </tr>\n";
 	    
 	    }
@@ -679,6 +679,7 @@ function show_full_players($db,$pr)
     echo "  <td align=\"center\" width=\"6%\"><b>AVE</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>SR</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>BBI</b></td>\n";
+    echo "  <td align=\"center\" width=\"6%\"><b>3w</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>4w</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>5w</b></td>\n";
     echo "  <td align=\"center\" width=\"6%\"><b>ECO</b></td>\n";
@@ -761,6 +762,16 @@ function show_full_players($db,$pr)
 	    }
 	    
 	        
+	    // Get League 3 Wickets
+	    
+	    if ($db->Exists("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 4")) {    
+	    $db->QueryRow("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 4");
+	    $db->BagAndTag();
+	    $scbth = $db->data['threewickets'];
+	    } else {
+	    $scbth = "0";
+	    }
+	
 	    // Get League 4 Wickets
 	    
 	    if ($db->Exists("SELECT COUNT(b.wickets) AS fourwickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 4")) {    
@@ -829,6 +840,7 @@ function show_full_players($db,$pr)
 			    echo "  <td align=\"center\" width=\"6%\"><b>$boavg</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$bosr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scbbw-$scbbr</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\"><b>$scbth</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scbfo</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$scbfi</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\"><b>$boeco</td>\n";  
@@ -845,6 +857,7 @@ function show_full_players($db,$pr)
 			    echo "  <td align=\"center\" width=\"6%\">$boavg</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$bosr</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scbbw-$scbbr</td>\n";
+			    echo "  <td align=\"center\" width=\"6%\">$scbth</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scbfo</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$scbfi</td>\n";
 			    echo "  <td align=\"center\" width=\"6%\">$boeco</td>\n";  
@@ -853,7 +866,7 @@ function show_full_players($db,$pr)
 	    } else {
 	    
 	    echo " <tr class=\"trrow1\">\n";
-	    echo "  <td align=\"left\" width=\"100%\" colspan=\"10\">No statistics at this time.</td>\n";   
+	    echo "  <td align=\"left\" width=\"100%\" colspan=\"12\">No statistics at this time.</td>\n";   
 	    echo " </tr>\n";
 	    
 	    }
