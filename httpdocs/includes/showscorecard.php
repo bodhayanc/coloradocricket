@@ -281,7 +281,7 @@ function show_schedule($db,$schedule)
             WHERE
               s.season=$schedule AND s.isactive=0 AND (s.league_id = 1 OR league_id = 4)
             ORDER BY
-              s.game_date, s.game_id
+              s.game_date DESC, s.game_id DESC
             ");
 
             for ($x=0; $x<$db->rows; $x++) {
@@ -494,7 +494,7 @@ function show_schedule_team($db,$schedule,$team)
             AND
               (s.awayteam=$team OR s.hometeam=$team)
             ORDER BY
-              s.week, s.game_date, s.game_id
+              s.week DESC, s.game_date DESC, s.game_id DESC
             ");
 
             for ($x=0; $x<$db->rows; $x++) {
@@ -707,7 +707,7 @@ function show_schedule_week($db,$schedule,$week)
             WHERE
               s.season=$schedule AND s.week=$week AND (s.league_id = 1 OR league_id = 4)
             ORDER BY
-              s.week, s.game_date, s.game_id
+              s.week DESC, s.game_date DESC, s.game_id DESC
             ");
 
             for ($x=0; $x<$db->rows; $x++) {

@@ -347,6 +347,18 @@ if(isset($_GET['action'])) {
 
 			  echo "<tr>\n";
 
+              if($action == "groupadmin") {
+              echo "  <td bgcolor=\"#dddddd\" height=\"20\">\n";
+              } else {
+              echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
+              }
+
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=groupadmin\" class=\"menu\">Group Admin</a>\n";
+              echo "  </td>\n";
+              echo "</tr>\n";
+
+			  echo "<tr>\n";
+
               if($action == "scorecardadmin") {
               echo "  <td bgcolor=\"#dddddd\" height=\"20\">\n";
               } else {

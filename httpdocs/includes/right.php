@@ -13,7 +13,7 @@ $yr = preg_split("/[\s,]+/", $snm)[0];
  <tr>
   <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Premier League</td>
   <td bgcolor="#D0C7C0" width="2px" height="23">&nbsp;</td>
-  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Twenty20</td>
+  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Twenty20 Round 1</td>
  </tr>
  <tr>
   <td width="50%" valign="top">
@@ -40,54 +40,38 @@ $yr = preg_split("/[\s,]+/", $snm)[0];
   <td width="50%" valign="top" class="main">
    <?php include("showminischedule.php"); ?>
   <td bgcolor="#D0C7C0" width="2px" height="23">&nbsp;</td>
-  <td width="50%" valign="top" class="main">
+  <td rowspan="4" width="50%" valign="top" class="main">
    <?php include("showminiscorecard.php"); ?>
+   <br>
+   <!-- Show Twitter Feed -->
+  <?php include("showtwitterfeed.php"); ?>
   </td>
   </td>
  </tr>
-</table>
-
-<br>
-
-
-<table width="95%" cellspacing="0" cellpadding="0" align="center">
+ <tr>
+  <td>&nbsp;</td>
+  <td></td>
+  <td></td>
+ </tr>
  <tr>
   <td width="50%" bgcolor="<?=$redbdr?>" class="whitemain" height="23">&nbsp;PLAYER OF THE WEEK</td>
   <td bgcolor="#D0C7C0" width="2px" height="23">&nbsp;</td>
-  <td rowspan="2" width="50%" valign="top" class="main">
-<!-- Show Twitter Feed -->
-	<?php include("showtwitterfeed.php"); ?>
+  <td width="50%" valign="top" class="main">
   </td>
  </tr>
- <tr>
+  <tr>
 <!-- Show Featured Player -->
   <td width="50%" valign="top" class="main">
    <?php include("showminifeaturedmember.php"); ?>
   </td>
-</table>
-
-<br>
-
-<!-- Show Mini Forum -->
-<!--
-<table width="95%" border="1" cellspacing="0" cellpadding="0" bordercolor="<?=$redbdr?>" align="center">
- <tr>
-  <td bgcolor="<?=$redbdr?>" class="whitemain" height="23">&nbsp;IN THE FORUM</td>
- </tr>
- <tr>
-  <td bgcolor="#FFFFFF" valign="top" bordercolor="#FFFFFF" class="main">
-    <?php include("showminibb.php"); ?>
-    <center>
-    <a href="/smf">
-    <img src="/images/smf-babylonking-mirco-2.gif" alt="Simple Machines Forum" border="0" >
-    </a>
-    </center>
+  <td bgcolor="#D0C7C0" width="2px" height="23">&nbsp;</td>
+  <td rowspan="2" width="50%" valign="top" class="main">
   </td>
  </tr>
 </table>
 
 <br>
--->
+
 
 <table width="95%" cellspacing="0" cellpadding="0" align="center">
  <tr>

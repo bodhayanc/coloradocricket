@@ -61,7 +61,7 @@ function show_mini_scorecard($db, $season)
 
         echo "<table width=\"100%\" border-right=\"1\" cellpadding=\"2\" cellspacing=\"1\" class=\"tablehead\" bordercolor=\"#025A43\">\n";
 
-        	for ($x = 0; $x < $db->rows; $x++) {
+        	for ($x = 0; $x < $db->rows && $x<6; $x++) {
                 $db->GetRow($x);
 
 		$t1 = $db->data['homeabbrev'];
@@ -108,6 +108,16 @@ function show_mini_scorecard($db, $season)
 	   
         echo "</tr>\n";
         }
+		if($x % 2) {
+		  echo "<tr class=\"trrow2\">\n";
+		} else {
+		  echo "<tr class=\"trrow1\">\n";
+		}
+
+				
+		echo "  <td align=\"left\" class=\"9px\">More Details: <a href=\"/scorecard.php?schedule=78&ccl_mode=1\">T20</a> | <a href=\"/scorecard.php?schedule=77&ccl_mode=1\">P40</a></td>\n";
+	   
+        echo "</tr>\n";
         echo "</table>\n";
         }
     }
