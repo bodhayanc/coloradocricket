@@ -47,7 +47,7 @@
 	  "ladder" => array("ladder.php?ladder=$sid&ccl_mode=1","League Standings"),
 	  "statistics" => array("statistics.php?statistics=$yr&ccl_mode=1","League Stats"),              
 	  "cricclubspremierscorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=46&clubId=5135","CricClubs Premier Scorecard"),
-	  "cricclubst20scorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=47&clubId=5135","CricClubs T20 Scorecard"),
+	  "cricclubst20scorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=49&clubId=5135","CricClubs T20 Scorecard"),
 	  "cricclubspracticescorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=45&clubId=5135","CricClubs Practice Scorecard"),
 
 	  "NewsAndDocuments" => array("","NEWS & DOCUMENTS"),

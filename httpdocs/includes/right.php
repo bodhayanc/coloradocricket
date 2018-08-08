@@ -13,7 +13,7 @@ $yr = preg_split("/[\s,]+/", $snm)[0];
  <tr>
   <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Premier League</td>
   <td bgcolor="#D0C7C0" width="2px" height="23">&nbsp;</td>
-  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Twenty20 Round 1</td>
+  <td width="50%" bgcolor="<?=$yellowbdr?>" class="whitemain" height="23">&nbsp;<?=$yr?> Twenty20 Round 2</td>
  </tr>
  <tr>
   <td width="50%" valign="top">

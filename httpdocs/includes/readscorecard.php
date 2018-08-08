@@ -71,8 +71,10 @@ function read_scorecard($db)
 			
 			//$cc_groundname = $matchDetail->item(0)->getAttribute('venue_name');
 			//$email_content .= "CricClub ground name: $cc_groundname<br>";
-			$cc_competition_name = $matchDetail->item(0)->getAttribute('competition_name');
-			$email_content .= "CricClub competition name: $cc_competition_name<br>";
+			$cc_competition_name_orig = $matchDetail->item(0)->getAttribute('competition_name');
+			$email_content .= "CricClub competition name: $cc_competition_name_orig<br>";
+			$cc_competition_name = str_replace("round 1", "", $cc_competition_name_orig);
+			$cc_competition_name = trim(str_replace("round 2", "", $cc_competition_name));
 			if ($db->Exists("SELECT * FROM seasons WHERE SeasonName = '$cc_competition_name'")) {
 				$db->QueryRow("SELECT * FROM seasons WHERE SeasonName = '$cc_competition_name'");
 				$db->BagAndTag();
@@ -191,8 +193,8 @@ function read_scorecard($db)
 			}
 			
 			$cc_mom = $matchDetail->item(0)->getAttribute('man_of_the_match');
-			$cc_ump1 = $matchDetail->item(0)->getAttribute('umpire1');
-			$cc_ump2 = $matchDetail->item(0)->getAttribute('umpire2');
+			$cc_ump1 = trim($matchDetail->item(0)->getAttribute('umpire1'));
+			$cc_ump2 = trim($matchDetail->item(0)->getAttribute('umpire2'));
 			$email_content .= "cc_mom: $cc_mom<br>";
 			$email_content .= "cc_ump1: $cc_ump1<br>";
 			$email_content .= "cc_ump2: $cc_ump2<br>";
@@ -949,6 +951,9 @@ function map_cc_to_ccl_ground($cc_venue_id) {
 		break;
 	case 10:
 		$ccl_ground_id = 22;
+		break;
+	case 11:
+		$ccl_ground_id = 24;
 		break;
 	default:
 		$ccl_ground_id = 0;
