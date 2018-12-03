@@ -92,7 +92,7 @@ function show_main_menu($db)
 			// setup variables
 
 
-			$tna = htmlentities(stripslashes($db->data['teamname']));
+			$tna = htmlentities(stripslashes($db->data['TeamName']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
                         // 6-Jan-2010
@@ -121,7 +121,7 @@ function show_main_menu($db)
 			echo "	<td width=24% align=\"left\">$tna2 ($tab2)</td>\n";
 			echo "	<td width=24% align=\"left\">$tna3 ($tab3)</td>\n";
 
-			echo "	<td align=\"right\" width=2%><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[ChampID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+			echo "	<td align=\"right\" width=2%><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['ChampID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -181,7 +181,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 		}
 	}
 
@@ -189,7 +189,7 @@ function add_category_form($db)
 
 // 6-Jan-2010
 	echo "<p>select the Runners-2nd team from the drop-down menu<br>\n";
-	echo "<select name=\"Runners(2nd)\">\n";
+	echo "<select name=\"ChampTeam2\">\n";
 	echo "	<option value=\"\">Select the 2nd team</option>\n";
 	echo "	<option value=\"\">--------------------------</option>\n";
 
@@ -199,7 +199,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 		}
 	}
 
@@ -207,7 +207,7 @@ function add_category_form($db)
 
 // 6-Jan-2010
 	echo "<p>select the 3rd team from the drop-down menu<br>\n";
-	echo "<select name=\"3rd Team\">\n";
+	echo "<select name=\"ChampTeam3\">\n";
 	echo "	<option value=\"\">Select the 3rd team</option>\n";
 	echo "	<option value=\"\">--------------------------</option>\n";
 
@@ -217,7 +217,7 @@ function add_category_form($db)
 //		$db->Query("SELECT * FROM teams ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['teamname'] . "</option>\n";
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
 		}
 	}
 
@@ -283,7 +283,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$teams[$db->data['TeamID']] = $db->data['teamname'];
+		$teams[$db->data['TeamID']] = $db->data['TeamName'];
 	}	
 
 	// query database
@@ -310,7 +310,7 @@ function edit_category_form($db,$id)
 	// setup variables
 
 	$se = htmlentities(stripslashes($db->data['SeasonName']));
-	$te = htmlentities(stripslashes($db->data['teamname']));
+	$te = htmlentities(stripslashes($db->data['TeamName']));
 
 // 6-Jan-2010
 $te2 = htmlentities(stripslashes($db->data['TeamName2']));
@@ -362,7 +362,7 @@ $te3 = htmlentities(stripslashes($db->data['TeamName3']));
 
 // 6-Jan-2010
 echo "<p>select the Runners-2nd team from the drop-down menu<br>\n";
-	echo "<select name=\"Runners\">\n";
+	echo "<select name=\"ChampTeam2\">\n";
 	echo "	<option value=\"\">Select 2nd team</option>\n";
 	echo "	<option value=\"\">--------------------------</option>\n";
 
@@ -374,7 +374,7 @@ echo "<p>select the Runners-2nd team from the drop-down menu<br>\n";
 
 // 6-Jan-2010
 echo "<p>select the 3rd team from the drop-down menu<br>\n";
-	echo "<select name=\"3rd\">\n";
+	echo "<select name=\"ChampTeam3\">\n";
 	echo "	<option value=\"\">Select 3rd team</option>\n";
 	echo "	<option value=\"\">--------------------------</option>\n";
 
@@ -430,21 +430,36 @@ if (!$USER['flags'][$f_champions_admin]) {
 
 echo "<p class=\"14px\"><b>Champions Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "sbyseason":
-    show_main_menu_season($db,$season);
+    show_main_menu_season($db,$_GET['season']);
     break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$ChampTeam,$ChampSeason,$ChampTeam2,$ChampTeam3);
+	else do_add_category($db,$_POST['ChampTeam'],$_POST['ChampSeason'],$_POST['ChampTeam2'],$_POST['ChampTeam3']);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$ChampTeam,$ChampSeason,$ChampTeam2,$ChampTeam3);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['ChampTeam'],$_POST['ChampSeason'],$_POST['ChampTeam2'],$_POST['ChampTeam3']);
 	break;
 default:
 	show_main_menu($db);

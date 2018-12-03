@@ -515,6 +515,7 @@ function show_ladder($db,$ladder,$round)
 					$ti = $lad_data[$i]['tied'];
 					$nr = $lad_data[$i]['nr'];
 					$pt = $lad_data[$i]['point'];
+					$pe = $lad_data[$i]['penalty'];
 					$tp = $lad_data[$i]['totalpoint'];
 					$nrr = $lad_data[$i]['nrr'];
 					$trf = $lad_data[$i]['trf'];
@@ -665,7 +666,7 @@ function show_ladder($db,$ladder,$round)
             $subdb->Query($sql);
             for ($s = 0; $s < $subdb->rows; $s++) {
                $subdb->GetRow($s);
-               $type = (!$subdb->data['result_won_id']) ? TIE:($subdb->data['result_won_id'] == $tid) ? WIN : LOSE;
+			   $type = ($subdb->data['result_won_id'] == "0") ? TIE:(($subdb->data['result_won_id'] == $tid) ? WIN : LOSE);
 
         // Get streak
                if ($winning !== null && $type !== $winning && $count) {

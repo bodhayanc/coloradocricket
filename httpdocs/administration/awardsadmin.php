@@ -168,16 +168,14 @@ function show_main_menu_season($db,$season,$sename)
 			$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 			$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
-			$tna = htmlentities(stripslashes($db->data['teamname']));
+			$tna = htmlentities(stripslashes($db->data['TeamName']));
 			$tab = htmlentities(stripslashes($db->data['TeamAbbrev']));
 
 			$det = htmlentities(stripslashes($db->data['AwardDetail']));
-			$tit = htmlentities(stripslashes($db->data[AwardTitle]));
-			$id = htmlentities(stripslashes($db->data[AwardID]));
+			$tit = htmlentities(stripslashes($db->data['AwardTitle']));
+			$id = htmlentities(stripslashes($db->data['AwardID']));
 			
 			$an = htmlentities(stripslashes($db->data['AwardName']));
-
-			$sn = htmlentities(stripslashes($db->data['SeasonName']));
 
 			if($x % 2) {
 			  echo "<tr class=\"trrow2\">\n";
@@ -190,7 +188,7 @@ function show_main_menu_season($db,$season,$sename)
 			echo "	<td align=\"left\">$an</td>\n";
 			echo "	<td align=\"left\">$pfn $pln</td>\n";
 			echo "	<td align=\"left\">$tab</td>\n";
-			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data[AwardID] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
+			echo "	<td align=\"right\"><a href=\"main.php?SID=$SID&action=$action&do=sedit&id=" . $db->data['AwardID'] . "\"><img src=\"/images/icons/icon_edit.gif\" border=\"0\" alt=\"Edit\"></a></td>\n";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
@@ -339,7 +337,7 @@ function edit_category_form($db,$id)
 	for ($p=0; $p<$db->rows; $p++) {
 		$db->GetRow($p);
         $db->BagAndTag();
-		$awards[$db->data[AwardID]] = $db->data['AwardName'];
+		$awards[$db->data['AwardID']] = $db->data['AwardName'];
 	}
 	// query database
 
@@ -347,9 +345,9 @@ function edit_category_form($db,$id)
 
 	// setup variables
 
-	$ti = htmlentities(stripslashes($db->data[AwardTitle]));
+	$ti = htmlentities(stripslashes($db->data['AwardTitle']));
 	$fd = htmlentities(stripslashes($db->data['AwardDetail']));
-	$fp = htmlentities(stripslashes($db->data[AwardPlayer]));
+	$fp = htmlentities(stripslashes($db->data['AwardPlayer']));
 	$pfn = htmlentities(stripslashes($db->data['PlayerFName']));
 	$pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
@@ -450,21 +448,36 @@ if (!$USER['flags'][$f_awards_admin]) {
 
 echo "<p class=\"14px\"><b>Awards Administration</b></p>\n";
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "sbyseason":
     show_main_menu_season($db, $_GET['season'], $_GET['sename']);
     break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$AwardPlayer,$AwardTitle,$AwardDetail,$_POST['season'], $_POST['sename']);
+	else do_add_category($db,$_POST['AwardPlayer'],$_POST['AwardTitle'],$_POST['AwardDetail'],$_POST['season']);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$AwardPlayer,$AwardTitle,$AwardDetail,$_POST['season'], $_POST['sename']);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['AwardPlayer'],$_POST['AwardTitle'],$_POST['AwardDetail'],$_POST['season']);
 	break;
 default:
 	show_main_menu($db);

@@ -161,7 +161,15 @@ function show_awards_season($db,$season,$sename)
     echo "<tr class=\"trrow1\">\n";
     echo "  <td align=\"left\">There are no player awards for this season.</td>\n";
     echo "</tr>\n";
-    
+    echo "</table>\n";
+
+    echo "  </td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
+
+    echo "</td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
     } else {
 	// $db->Query("SELECT pl.PlayerFName, pl.picture, pl.PlayerLName, te.TeamName, te.TeamAbbrev, fm.*, fm.AwardID AS plaward, at.* FROM awards fm INNER JOIN players pl ON fm.AwardPlayer = pl.PlayerID INNER JOIN teams te ON pl.PlayerTeam = te.TeamID INNER JOIN awardtypes at ON fm.AwardTitle = at.AwardID WHERE fm.season=$season ORDER BY at.AwardName ASC");
     $db->Query("SELECT pl.PlayerFName, pl.picture, pl.PlayerLName, te.TeamName, te.TeamAbbrev, fm.*, fm.AwardID AS plaward, at.* FROM awards fm INNER JOIN players pl ON fm.AwardPlayer = pl.PlayerID INNER JOIN teams te ON pl.PlayerTeam = te.TeamID INNER JOIN awardtypes at ON fm.AwardTitle = at.AwardID WHERE fm.season=$season ORDER BY at.rank_sort ASC");  // 23-Jan-2015 12:32am Change ORDER BY from at.AwardName to at.rank_sort

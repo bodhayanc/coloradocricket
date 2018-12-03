@@ -169,7 +169,11 @@ function read_scorecard($db)
 				$result_won_id = $ccl_awayteam_id;
 				$result_won_abbrev = $ccl_awayteam_abbrev;
 			} else if($cc_winner_id == "0") {
-				$ccl_result = "Abandoned and split points";
+				if(stripos($cc_result, 'tie') !== false) {
+					$ccl_result = "Match Tied";
+				} else {
+					$ccl_result = "Abandoned and split points";
+				}
 			} else if($cc_winner_id == "-1") {
 				$ccl_result = "Abandoned and no points";
 			} else if($cc_winner_id == "-2") {
@@ -483,6 +487,7 @@ function update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, 
 	global $email_content;
 	$cancelled = 0;
 	$cancelledplay = 0;
+	$tied = 0;
 	if (strpos($result, 'Abandoned') !== false) {
 		if(count($hometeamplayers) > 0) {
 			//If the players have been selected, then the game was started but then abandoned.
@@ -496,20 +501,23 @@ function update_game_details_table($cc_game_id, $ccl_league_id, $ccl_season_id, 
 	} else if (strpos($result, 'Abandoned') !== false) {
 		$points = 0;
 	}
+	if($result == "Match Tied") {
+		$tied = 1;
+	}
 	$report_link = "https://www.cricclubs.com/ColoradoCricket/viewScorecard.do?matchId=$cc_game_id";
 	if ($db->Exists("SELECT * FROM scorecard_game_details WHERE cricclubs_game_id = $cc_game_id")) {
 		$db->QueryRow("SELECT * FROM scorecard_game_details WHERE cricclubs_game_id = $cc_game_id");
 		$db->BagAndTag();
 
 		$ccl_game_id = $db->data['game_id'];
-		$db->Update("UPDATE scorecard_game_details SET league_id = '$ccl_league_id', season = '$ccl_season_id', week = '$week', awayteam = '$ccl_awayteam_id', hometeam = '$ccl_hometeam_id', toss_won_id = '$ccl_toss_team_id', batting_first_id = '$ccl_batting_first_id', batting_second_id = '$ccl_batting_second_id', ground_id = '$ccl_ground_id', game_date = '$ccl_game_date',result = '$result', result_won_id = '$result_won_id', cancelled = '$cancelled', cancelledplay = '$cancelledplay', points = '$points', maxovers = '$cc_total_overs', mom = '$ccl_mom', umpire1 = '$ccl_ump1_id', umpire2 = '$ccl_ump2_id', report = '$report_link', HOMETEAM_CAPTAIN = '$ccl_home_captain', HOMETEAM_VCAPTAIN = '$ccl_home_vcaptain', HOMETEAM_WK = '$ccl_home_wk', AWAYTEAM_CAPTAIN = '$ccl_away_captain', AWAYTEAM_VCAPTAIN = '$ccl_away_vcaptain', AWAYTEAM_WK = '$ccl_away_wk' WHERE game_id = $ccl_game_id");
+		$db->Update("UPDATE scorecard_game_details SET league_id = '$ccl_league_id', season = '$ccl_season_id', week = '$week', awayteam = '$ccl_awayteam_id', hometeam = '$ccl_hometeam_id', toss_won_id = '$ccl_toss_team_id', batting_first_id = '$ccl_batting_first_id', batting_second_id = '$ccl_batting_second_id', ground_id = '$ccl_ground_id', game_date = '$ccl_game_date',result = '$result', result_won_id = '$result_won_id', cancelled = '$cancelled', cancelledplay = '$cancelledplay', tied = '$tied', points = '$points', maxovers = '$cc_total_overs', mom = '$ccl_mom', umpire1 = '$ccl_ump1_id', umpire2 = '$ccl_ump2_id', report = '$report_link', HOMETEAM_CAPTAIN = '$ccl_home_captain', HOMETEAM_VCAPTAIN = '$ccl_home_vcaptain', HOMETEAM_WK = '$ccl_home_wk', AWAYTEAM_CAPTAIN = '$ccl_away_captain', AWAYTEAM_VCAPTAIN = '$ccl_away_vcaptain', AWAYTEAM_WK = '$ccl_away_wk' WHERE game_id = $ccl_game_id");
 		if ($db->a_rows != -1) {
 			$email_content .= "<p>The scorecard has been updated</p><br>";
 		} else {
 			$email_content .= "<p>The scorecard could not be updated at this time.</p><br>";
 		}
 	} else {
-		$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,hometeam,toss_won_id,batting_first_id, batting_second_id,ground_id,game_date,result,result_won_id,cancelled,cancelledplay,points,maxovers,mom,umpire1,umpire2,HOMETEAM_CAPTAIN, HOMETEAM_VCAPTAIN, HOMETEAM_WK, AWAYTEAM_CAPTAIN, AWAYTEAM_VCAPTAIN, AWAYTEAM_WK,isactive,cricclubs_game_id,report) VALUES ('$ccl_league_id','$ccl_season_id','$week','$ccl_awayteam_id','$ccl_hometeam_id','$ccl_toss_team_id','$ccl_batting_first_id','$ccl_batting_second_id','$ccl_ground_id','$ccl_game_date','$result','$result_won_id','$cancelled','$cancelledplay','$points','$cc_total_overs','$ccl_mom','$ccl_ump1_id','$ccl_ump2_id', '$ccl_home_captain', '$ccl_home_vcaptain', '$ccl_home_wk', '$ccl_away_captain', '$ccl_away_vcaptain', '$ccl_away_wk',0,$cc_game_id,'$report_link')");
+		$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,hometeam,toss_won_id,batting_first_id, batting_second_id,ground_id,game_date,result,result_won_id,cancelled,cancelledplay,tied,points,maxovers,mom,umpire1,umpire2,HOMETEAM_CAPTAIN, HOMETEAM_VCAPTAIN, HOMETEAM_WK, AWAYTEAM_CAPTAIN, AWAYTEAM_VCAPTAIN, AWAYTEAM_WK,isactive,cricclubs_game_id,report) VALUES ('$ccl_league_id','$ccl_season_id','$week','$ccl_awayteam_id','$ccl_hometeam_id','$ccl_toss_team_id','$ccl_batting_first_id','$ccl_batting_second_id','$ccl_ground_id','$ccl_game_date','$result','$result_won_id','$cancelled','$cancelledplay','$tied','$points','$cc_total_overs','$ccl_mom','$ccl_ump1_id','$ccl_ump2_id', '$ccl_home_captain', '$ccl_home_vcaptain', '$ccl_home_wk', '$ccl_away_captain', '$ccl_away_vcaptain', '$ccl_away_wk',0,$cc_game_id,'$report_link')");
 		if ($db->a_rows != -1) {
 			$email_content .= "<p>A new scorecard has been added</p><br>";
 		} else {
@@ -798,6 +806,7 @@ function update_ladder_table($ccl_season_id) {
 		$ti = $lad_data[$i]['tied'];
 		$nr = $lad_data[$i]['nr'];
 		$pt = $lad_data[$i]['point'];
+		$pe = $lad_data[$i]['penalty'];
 		$tp = $lad_data[$i]['totalpoint'];
 		$nrr = $lad_data[$i]['nrr'];
 		$rank = $i+1;
@@ -810,34 +819,34 @@ function update_fow_details_table($ccl_game_id, $firstFows, $secondFows) {
 	$db->Delete("DELETE FROM scorecard_fow_details WHERE game_id = $ccl_game_id");
 	$fow1 = $fow2 = $fow3 = $fow4 = $fow5 = $fow6 = $fow7 = $fow8 = $fow9 = $fow10 = '777';
 	foreach($firstFows as $firstFow) {
-		if($firstFow->getAttribute('order') == "1") {
+		if($firstFow->getAttribute('order') == "1" && $fow1 == '777') {
 			$fow1 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "2") {
+		if($firstFow->getAttribute('order') == "2" && $fow2 == '777') {
 			$fow2 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "3") {
+		if($firstFow->getAttribute('order') == "3" && $fow3 == '777') {
 			$fow3 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "4") {
+		if($firstFow->getAttribute('order') == "4" && $fow4 == '777') {
 			$fow4 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "5") {
+		if($firstFow->getAttribute('order') == "5" && $fow5 == '777') {
 			$fow5 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "6") {
+		if($firstFow->getAttribute('order') == "6" && $fow6 == '777') {
 			$fow6 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "7") {
+		if($firstFow->getAttribute('order') == "7" && $fow7 == '777') {
 			$fow7 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "8") {
+		if($firstFow->getAttribute('order') == "8" && $fow8 == '777') {
 			$fow8 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "9") {
+		if($firstFow->getAttribute('order') == "9" && $fow9 == '777') {
 			$fow9 = $firstFow->getAttribute('runs');
 		}
-		if($firstFow->getAttribute('order') == "10") {
+		if($firstFow->getAttribute('order') == "10" && $fow10 == '777') {
 			$fow10 = $firstFow->getAttribute('runs');
 		}
 	}
@@ -846,34 +855,34 @@ function update_fow_details_table($ccl_game_id, $firstFows, $secondFows) {
 	
 	$fow1 = $fow2 = $fow3 = $fow4 = $fow5 = $fow6 = $fow7 = $fow8 = $fow9 = $fow10 = '777';
 	foreach($secondFows as $secondFow) {
-		if($secondFow->getAttribute('order') == "1") {
+		if($secondFow->getAttribute('order') == "1" && $fow1 == '777') {
 			$fow1 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "2") {
+		if($secondFow->getAttribute('order') == "2" && $fow2 == '777') {
 			$fow2 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "3") {
+		if($secondFow->getAttribute('order') == "3" && $fow3 == '777') {
 			$fow3 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "4") {
+		if($secondFow->getAttribute('order') == "4" && $fow4 == '777') {
 			$fow4 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "5") {
+		if($secondFow->getAttribute('order') == "5" && $fow5 == '777') {
 			$fow5 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "6") {
+		if($secondFow->getAttribute('order') == "6" && $fow6 == '777') {
 			$fow6 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "7") {
+		if($secondFow->getAttribute('order') == "7" && $fow7 == '777') {
 			$fow7 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "8") {
+		if($secondFow->getAttribute('order') == "8" && $fow8 == '777') {
 			$fow8 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "9") {
+		if($secondFow->getAttribute('order') == "9" && $fow9 == '777') {
 			$fow9 = $secondFow->getAttribute('runs');
 		}
-		if($secondFow->getAttribute('order') == "10") {
+		if($secondFow->getAttribute('order') == "10" && $fow10 == '777') {
 			$fow10 = $secondFow->getAttribute('runs');
 		}
 	}

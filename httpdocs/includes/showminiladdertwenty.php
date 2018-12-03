@@ -4,7 +4,7 @@
 function show_miniladdertwenty($db)
 {
     global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
-    
+    $endOfSeasonLad = 1;
 	// instantiate new db class
 		$subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 		$subdb->SelectDB($dbcfg['db']);
@@ -30,7 +30,7 @@ function show_miniladdertwenty($db)
                   groups
                 WHERE
                   SeasonID=$sid
-        ")) {
+        ") || $endOfSeasonLad == 1) {
 		echo "  <table border-right=\"1\" width=\"100%\" cellspacing=\"1\" cellpadding=\"2\" class=\"tablehead\" bordercolor=\"#DE9C06\">\n";
 
 			echo "<tr class=\"colhead\">\n";
@@ -136,7 +136,7 @@ function show_miniladdertwenty($db)
 			} else {
 				echo "<tr class=\"trrow2\">\n";
 			}
-			echo "	<td align=\"center\" colspan=8 style=\"border: solid #DE9C06; border-top: none;\"><a href=\"/ladder.php?ladder=$sid&ccl_mode=1\" class=\"right\">More Details</a></td>\n";
+			echo "	<td align=\"center\" colspan=8 style=\"border: none;\"><a href=\"/ladder.php?ladder=$sid&ccl_mode=1\" class=\"right\">More Details</a></td>\n";
 			echo "</tr>\n";
 		}
                         echo "</table>\n";

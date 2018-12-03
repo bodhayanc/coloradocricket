@@ -64,9 +64,20 @@ function show_miniladder($db)
 				INNER JOIN
 				  teams tm ON lad.team = tm.TeamID
 				WHERE
+					season=$sid ORDER BY lad.rank_sort ASC
+			");
+/* This is when the season is active
+			$db->Query("
+					SELECT
+				  lad. * , tm.TeamAbbrev AS teamname, tm.TeamID as tid
+				FROM
+				  ladder lad
+				INNER JOIN
+				  teams tm ON lad.team = tm.TeamID
+				WHERE
 					season=$sid ORDER BY lad.totalpoints DESC, lad.rank_sort ASC
 			");
-
+*/
 
 			for ($x=0; $x<$db->rows; $x++) {
 				$db->GetRow($x);
