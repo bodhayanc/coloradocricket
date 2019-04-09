@@ -50,7 +50,7 @@ function show_miniladder($db)
 					season=$sid ORDER BY lad.rank_sort ASC
 		")) {
 			echo "<tr class=\"trrow2\">\n";
-			echo "  <td align=\"left\" colspan=\"4\"><p>No games recorded at this time.</p></td>\n";
+			echo "  <td align=\"left\" colspan=\"8\"><p>No games recorded at this time.</p></td>\n";
 			echo "</tr>\n";
 			echo "</table>\n";
 			echo "<table border=\"0\" width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">\n";

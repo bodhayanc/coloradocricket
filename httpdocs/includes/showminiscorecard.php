@@ -12,6 +12,13 @@ function show_mini_scorecard($db, $season)
 {
     $seasons = $teams = array();
 
+	$db->QueryRow("SELECT * FROM seasons WHERE SeasonName LIKE '%Twenty20%' ORDER BY SeasonID DESC LIMIT 1");
+	$db->BagAndTag();
+	$t20sid = $db->data['SeasonID'];
+    $db->QueryRow("SELECT * FROM seasons WHERE SeasonName LIKE '%Premier%' ORDER BY SeasonID DESC LIMIT 1");
+	$db->BagAndTag();
+	$p40sid = $db->data['SeasonID'];
+	
     if (!$db->Exists('SELECT id FROM schedule LIMIT 1')) {
         echo "<p>There are currently no scheduled games in the database.</p>\n";
         return;
@@ -30,8 +37,7 @@ function show_mini_scorecard($db, $season)
             $teams[$db->data['TeamID']] = $db->data['TeamAbbrev'];
         }
 
-        $db->Query("
-			SELECT
+		if ($db->Exists("SELECT
 			  s.*,
 			  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
 			  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
@@ -46,12 +52,55 @@ function show_mini_scorecard($db, $season)
 			  seasons ss ON ss.SeasonID = s.season
 			WHERE
 			  s.isactive=0 AND
-				s.game_date <= CURDATE() AND
-				DATEDIFF((SELECT s.game_date FROM scorecard_game_details s WHERE 
-				s.game_date <= CURDATE() ORDER BY s.game_date DESC, s.game_id DESC LIMIT 1), s.game_date) < 3
+				DATEDIFF(CURDATE(), s.game_date) < 14
 			ORDER BY
 			  s.game_date DESC, s.game_id DESC
-        ");
+        ")) {
+			$db->Query("
+				SELECT
+				  s.*,
+				  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+				  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
+				  ss.SeasonName as SeasonName
+				FROM
+				  scorecard_game_details s
+				INNER JOIN
+				  teams a ON s.awayteam = a.TeamID
+				INNER JOIN
+				  teams h ON s.hometeam = h.TeamID
+				INNER JOIN
+				  seasons ss ON ss.SeasonID = s.season
+				WHERE
+				  s.isactive=0 AND
+					s.game_date <= CURDATE() AND
+					DATEDIFF((SELECT s.game_date FROM scorecard_game_details s WHERE 
+					s.game_date <= CURDATE() ORDER BY s.game_date DESC, s.game_id DESC LIMIT 1), s.game_date) < 3
+				ORDER BY
+				  s.game_date DESC, s.game_id DESC
+			");
+		} else {
+			$db->Query("
+				SELECT
+				  s.*,
+				  a.TeamID AS 'awayid', a.TeamName AS AwayName, a.TeamAbbrev AS 'awayabbrev',
+				  h.TeamID AS 'homeid', h.TeamName AS HomeName, h.TeamAbbrev AS 'homeabbrev',
+				  ss.SeasonName as SeasonName
+				FROM
+				  scorecard_game_details s
+				INNER JOIN
+				  teams a ON s.awayteam = a.TeamID
+				INNER JOIN
+				  teams h ON s.hometeam = h.TeamID
+				INNER JOIN
+				  seasons ss ON ss.SeasonID = s.season
+				WHERE
+				  s.isactive=0 AND
+					s.result like '%FINAL%' AND s.result not like '%SEMI%' AND
+					DATEDIFF(CURDATE(), s.game_date) < 300
+				ORDER BY
+				  s.game_date DESC, s.game_id DESC
+			");
+		}
 
         if (!$db->rows) {
 
@@ -115,7 +164,7 @@ function show_mini_scorecard($db, $season)
 		}
 
 				
-		echo "  <td align=\"left\" class=\"9px\">More Details: <a href=\"/scorecard.php?schedule=78&ccl_mode=1\">T20</a> | <a href=\"/scorecard.php?schedule=77&ccl_mode=1\">P40</a></td>\n";
+		echo "  <td align=\"left\" class=\"9px\">More Details: <a href=\"/scorecard.php?schedule=$t20sid&ccl_mode=1\">T20</a> | <a href=\"/scorecard.php?schedule=$p40sid&ccl_mode=1\">P40</a></td>\n";
 	   
         echo "</tr>\n";
         echo "</table>\n";

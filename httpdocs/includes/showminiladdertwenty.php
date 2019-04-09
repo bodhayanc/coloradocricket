@@ -4,7 +4,8 @@
 function show_miniladdertwenty($db)
 {
     global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
-    $endOfSeasonLad = 1;
+    $endOfSeasonLad = 0;
+	$round = 1;
 	// instantiate new db class
 		$subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 		$subdb->SelectDB($dbcfg['db']);
@@ -57,7 +58,7 @@ function show_miniladdertwenty($db)
 					season=$sid ORDER BY lad.rank_sort ASC
 		")) {
 			echo "<tr class=\"trrow2\">\n";
-			echo "  <td align=\"left\" colspan=\"4\"><p>No games recorded at this time.</p></td>\n";
+			echo "  <td align=\"left\" colspan=\"8\"><p>No games recorded at this time.</p></td>\n";
 			echo "</tr>\n";
 			echo "</table>\n";
 			echo "<table border=\"0\" width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">\n";
@@ -192,9 +193,9 @@ function show_miniladdertwenty($db)
 			echo "<table border=\"0\" width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">\n";
 
 		} else {
-            $db->Query("SELECT hometeam as team FROM schedule s, groups g WHERE s.season=$sid AND g.SeasonID = s.season AND s.hometeam = g.TeamID AND g.GroupName = '$grpnm' AND g.Round = 2
+            $db->Query("SELECT hometeam as team FROM schedule s, groups g WHERE s.season=$sid AND g.SeasonID = s.season AND s.hometeam = g.TeamID AND g.GroupName = '$grpnm' AND g.Round = $round
 						union 
-						SELECT awayteam as team FROM schedule s, groups g WHERE s.season=$sid AND g.SeasonID = s.season AND s.awayteam = g.TeamID AND g.GroupName = '$grpnm' AND g.Round = 2");
+						SELECT awayteam as team FROM schedule s, groups g WHERE s.season=$sid AND g.SeasonID = s.season AND s.awayteam = g.TeamID AND g.GroupName = '$grpnm' AND g.Round = $round");
 			
                 for ($x=0; $x<$db->rows; $x++) {
 					$db->GetRow($x);
@@ -205,7 +206,7 @@ function show_miniladdertwenty($db)
 					} else {
 						$pe = 0;
 					}
-					$subdb->Query("SELECT * FROM groups where round = 2 and GroupName = (SELECT GroupName FROM groups where TeamID = $tid and round = 2 AND SeasonID = $sid) AND TeamID != $tid AND SeasonID = $sid");
+					$subdb->Query("SELECT * FROM groups where round = $round and GroupName = (SELECT GroupName FROM groups where TeamID = $tid and round = $round AND SeasonID = $sid) AND TeamID != $tid AND SeasonID = $sid");
 					$groupTeamsArr = array();
 					for ($r=0; $r<$subdb->rows; $r++) {
 						$subdb->GetRow($r);
@@ -292,7 +293,7 @@ function show_miniladdertwenty($db)
 
                 }
 				array_multisort (array_column($lad_data, 'totalpoint'), SORT_DESC, array_column($lad_data, 'nrr'), SORT_DESC, $lad_data);
-				for ($i = 0; $i < count($lad_data) && $i < 4; $i++) {
+				for ($i = 0; $i < count($lad_data) && $i < 5; $i++) {
 					$tid = $lad_data[$i]['TeamID'];
 					$te = $lad_data[$i]['TeamName'];
 					$pl = $lad_data[$i]['played'];
@@ -324,7 +325,7 @@ function show_miniladdertwenty($db)
             echo "  </tr>\n";
 			if($t == $subdb1->rows - 1) {
 				echo "<tr class=\"trrow1\">\n";
-				echo "	<td align=\"center\" colspan=8 style=\"border: solid #DE9C06; border-top: none;\"><a href=\"/ladder.php?ladder=$sid&round=2&ccl_mode=1\" class=\"right\">More Details</a></td>\n";
+				echo "	<td align=\"center\" colspan=8 style=\"border: solid #DE9C06; border-top: none;\"><a href=\"/ladder.php?ladder=$sid&round=$round&ccl_mode=1\" class=\"right\">More Details</a></td>\n";
 				echo "</tr>\n";
 			}
             echo "</table>\n";

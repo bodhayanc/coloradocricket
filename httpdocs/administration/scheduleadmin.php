@@ -214,25 +214,12 @@ function add_category_form($db)
 		echo "<p>enter the week number<br><input type=\"text\" name=\"week\" size=\"10\" maxlength=\"10\"></p>\n";
 		echo "<p>enter the game date <i>(yyyy-mm-dd)</i><br><input type=\"text\" name=\"date\" size=\"40\" maxlength=\"255\"></p>\n";
                                            echo "<p>enter the game time<i>(hh:mm - use 24 hour format 14:00 = 2pm)</i><br><input type=\"text\" name=\"time\" size=\"40\" maxlength=\"255\"></p>\n";
-		echo "<p>select away team<br><select name=\"awayteam\">\n";
-		echo "	<option value=\"\">Select Visiting Team</option>\n";
-		echo "	<option value=\"\">--------------------------</option>\n";
-
-	if ($db->Exists("SELECT * FROM teams")) {
-		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
-		for ($i=0; $i<$db->rows; $i++) {
-			$db->GetRow($i);
-			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
-		}
-	}
-
-		echo "</select></p>\n";
 		echo "<p>select home team<br><select name=\"hometeam\">\n";
 		echo "	<option value=\"\">Select Home Team</option>\n";
 		echo "	<option value=\"\">--------------------------</option>\n";
 
 	if ($db->Exists("SELECT * FROM teams")) {
-		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
+		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 AND TeamActive = 1 ORDER BY TeamName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
@@ -240,12 +227,25 @@ function add_category_form($db)
 	}
 		echo "</select></p>\n";
 
+		echo "<p>select away team<br><select name=\"awayteam\">\n";
+		echo "	<option value=\"\">Select Visiting Team</option>\n";
+		echo "	<option value=\"\">--------------------------</option>\n";
+
+	if ($db->Exists("SELECT * FROM teams")) {
+		$db->Query("SELECT * FROM teams WHERE LeagueID = 1 AND TeamActive = 1 ORDER BY TeamName");
+		for ($i=0; $i<$db->rows; $i++) {
+			$db->GetRow($i);
+			echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamName'] . "</option>\n";
+		}
+	}
+
+		echo "</select></p>\n";
 		echo "<p>select umpire1:<br>\n";
 		echo "  <select name=\"umpire1\">\n";
 		echo "	<option value=\"\">Umpire 1</option>\n";
 		echo "	<option value=\"\">---------------</option>\n";
 		if ($db->Exists("SELECT * FROM teams")) {
-			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
+			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 AND TeamActive = 1 ORDER BY TeamName");
 			for ($i=0; $i<$db->rows; $i++) {
 				$db->GetRow($i);
 				echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
@@ -259,7 +259,7 @@ function add_category_form($db)
 		echo "	<option value=\"\">Umpire 2</option>\n";
 		echo "	<option value=\"\">---------------</option>\n";
 		if ($db->Exists("SELECT * FROM teams")) {
-			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
+			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 AND TeamActive = 1 ORDER BY TeamName");
 			for ($i=0; $i<$db->rows; $i++) {
 				$db->GetRow($i);
 				echo "<option value=\"" . $db->data['TeamID'] . "\">" . $db->data['TeamAbbrev'] . "</option>\n";
@@ -454,10 +454,11 @@ function edit_category_form($db,$id)
                                            echo "<p>enter the game time <i>(hh:mm - use 24 hour format 14:00 = 2pm)</i><br><input type=\"text\" name=\"time\" size=\"40\" maxlength=\"255\" value=\"$ti\"></p>\n";
 
 
-		echo "<p>select away team:<br>\n";
-		echo "<select name=\"awayteam\">\n";
-		echo "	<option value=\"\">Select Visitor Team</option>\n";
-		echo "<option value=\"$t1\" selected>$t1n</option>\n";
+		echo "<p>select home team:<br>\n";
+		echo "<select name=\"hometeam\">\n";
+		echo "	<option value=\"\">Select Home Team</option>\n";
+		echo "	<option value=\"\">--------------------------</option>\n";
+		echo "<option value=\"$t2\" selected>$t2n</option>\n";
 	
 		if ($db->Exists("SELECT * FROM teams")) {
 			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");
@@ -469,11 +470,10 @@ function edit_category_form($db,$id)
 
 		echo "</select></p>\n";
 
-		echo "<p>select home team:<br>\n";
-		echo "<select name=\"hometeam\">\n";
-		echo "	<option value=\"\">Select Home Team</option>\n";
-		echo "	<option value=\"\">--------------------------</option>\n";
-		echo "<option value=\"$t2\" selected>$t2n</option>\n";
+		echo "<p>select away team:<br>\n";
+		echo "<select name=\"awayteam\">\n";
+		echo "	<option value=\"\">Select Visitor Team</option>\n";
+		echo "<option value=\"$t1\" selected>$t1n</option>\n";
 	
 		if ($db->Exists("SELECT * FROM teams")) {
 			$db->Query("SELECT * FROM teams WHERE LeagueID = 1 ORDER BY TeamName");

@@ -234,6 +234,8 @@ function show_full_players($db,$pr)
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
 
+	$ccid = $db->data['cricclubs_player_id'];
+
 	$tmpldfr = "";
 	if ($db->Exists("
     SELECT DISTINCT te.TeamID TeamID, te.TeamName TeamName
@@ -348,6 +350,7 @@ function show_full_players($db,$pr)
 
     echo "<p align=\"left\"><b>Statsguru</b> <a href=\"playerstats.php?players=$pr&ccl_mode=0\">Complete stats</a></p>";    
 
+    echo "<p align=\"left\"><b>CricClubs ID:</b> <a target=\"_blank\" href=\"https://www.cricclubs.com/ColoradoCricket/viewPlayer.do?playerId=$ccid&clubId=5135\">$ccid</a></p>";    
     echo "  </td>\n";
     echo "</tr>\n";
     echo "</table>\n";

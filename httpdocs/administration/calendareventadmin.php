@@ -41,6 +41,7 @@ function show_recent_main_menu($db)
 	echo "  <input type=\"hidden\" name=\"SID\" value=\"$SID\">\n";
 	echo "  <input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "  <input type=\"hidden\" name=\"do\" value=\"search\">\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
 	echo "  <br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 	echo "  </form>\n";
 
@@ -134,10 +135,10 @@ function show_recent_main_menu($db)
 
 	  $ti = htmlentities(stripslashes($db->data['title']));
 	  $id = htmlentities(stripslashes($db->data['id']));
-	  $da = sqldate_to_string($db->data[start_date]);
-	  $ci = htmlentities(stripslashes($db->data[cat_id]));
-	  $cn = htmlentities(stripslashes($db->data[cat_name]));
-	  $co = htmlentities(stripslashes($db->data[color]));
+	  $da = sqldate_to_string($db->data['start_date']);
+	  $ci = htmlentities(stripslashes($db->data['cat_id']));
+	  $cn = htmlentities(stripslashes($db->data['cat_name']));
+	  $co = htmlentities(stripslashes($db->data['color']));
 
 	//-------------------------------------------------
 	// output
@@ -193,6 +194,7 @@ function show_months_main_menu($db,$theyear,$themonth)
 	echo "  <input type=\"hidden\" name=\"SID\" value=\"$SID\">\n";
 	echo "  <input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "  <input type=\"hidden\" name=\"do\" value=\"search\">\n";
+	$search = isset($_GET['search']) ? $_GET['search'] : '';
 	echo "  <br><p>Enter keyword &nbsp;<input type=\"text\" name=\"search\" value=\"$search\" size=\"20\"> <input type=\"submit\" value=\"Search\"></form></p>\n";
 	echo "  </form>\n";
 
@@ -244,8 +246,8 @@ function show_months_main_menu($db,$theyear,$themonth)
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$mi = $db->data['themonth'];
-			$mn = $db->data[monthname];
-			$ma = $db->data[abbrev];
+			$mn = $db->data['monthname'];
+			$ma = $db->data['abbrev'];
 			echo "  <option value=\"$mn\">$ma</option>\n";
 		}
 	}
@@ -294,10 +296,10 @@ function show_months_main_menu($db,$theyear,$themonth)
 
 	  $ti = htmlentities(stripslashes($db->data['title']));
 	  $id = htmlentities(stripslashes($db->data['id']));
-	  $da = sqldate_to_string($db->data[start_date]);
-	  $ci = htmlentities(stripslashes($db->data[cat_id]));
-	  $cn = htmlentities(stripslashes($db->data[cat_name]));
-	  $co = htmlentities(stripslashes($db->data[color]));
+	  $da = sqldate_to_string($db->data['start_date']);
+	  $ci = htmlentities(stripslashes($db->data['cat_id']));
+	  $cn = htmlentities(stripslashes($db->data['cat_name']));
+	  $co = htmlentities(stripslashes($db->data['color']));
 
 
 	//-------------------------------------------------
@@ -324,7 +326,7 @@ function show_months_main_menu($db,$theyear,$themonth)
 // CALENDAR EVENT ADMIN - SEARCH RESULTS FORM
 //////////////////////////////////////////////////////////////////////////////////////////
 
-function show_search_main_menu($db,$search="",$theyear,$themonth)
+function show_search_main_menu($db,$search="")
 {
 	global $bluebdr, $action,$SID;
 
@@ -405,8 +407,8 @@ function show_search_main_menu($db,$search="",$theyear,$themonth)
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$mi = $db->data['themonth'];
-			$mn = $db->data[monthname];
-			$ma = $db->data[abbrev];
+			$mn = $db->data['monthname'];
+			$ma = $db->data['abbrev'];
 			echo "  <option value=\"$mn\">$ma</option>\n";
 		}
 	}
@@ -449,10 +451,10 @@ function show_search_main_menu($db,$search="",$theyear,$themonth)
 
 	  $ti = htmlentities(stripslashes($db->data['title']));
 	  $id = htmlentities(stripslashes($db->data['id']));
-	  $da = sqldate_to_string($db->data[start_date]);
-	  $ci = htmlentities(stripslashes($db->data[cat_id]));
-	  $cn = htmlentities(stripslashes($db->data[cat_name]));
-	  $co = htmlentities(stripslashes($db->data[color]));
+	  $da = sqldate_to_string($db->data['start_date']);
+	  $ci = htmlentities(stripslashes($db->data['cat_id']));
+	  $cn = htmlentities(stripslashes($db->data['cat_name']));
+	  $co = htmlentities(stripslashes($db->data['color']));
 
 	//-------------------------------------------------
 	// output
@@ -549,7 +551,7 @@ global $bluebdr, $action,$SID;
 		$db->Query("SELECT * FROM extcal_categories ORDER BY cat_name");
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
-			echo "  <option value=\"" . $db->data[cat_id] . "\">" . $db->data[cat_name] . "</option>\n";
+			echo "  <option value=\"" . $db->data['cat_id'] . "\">" . $db->data['cat_name'] . "</option>\n";
 		}
 	}
 	echo "  </select>\n";
@@ -616,9 +618,9 @@ global $bluebdr, $action,$SID;
 		for ($g=0; $g<$db->rows; $g++) {
 			$db->GetRow($g);
 			$mi = $db->data['themonth'];
-			$mn = $db->data[monthname];
-			$mu = $db->data[monthnum];
-			$ma = $db->data[abbrev];
+			$mn = $db->data['monthname'];
+			$mu = $db->data['monthnum'];
+			$ma = $db->data['abbrev'];
 			echo "  <option value=\"$mu\">$mn</option>\n";
 		}
 	}
@@ -854,7 +856,7 @@ function edit_category_form($db,$id)
 	$db->Query("SELECT * FROM extcal_categories ORDER BY cat_id");
 	for ($i=0; $i<$db->rows; $i++) {
 		$db->GetRow($i);
-		$category[$db->data[cat_id]] = $db->data[cat_name];
+		$category[$db->data['cat_id']] = $db->data['cat_name'];
 	}
 
 //----------------------------------------------------------------------------------------
@@ -869,14 +871,13 @@ function edit_category_form($db,$id)
 
 	$ti  = htmlentities(stripslashes($db->data['title']));
 	$de  = htmlentities(stripslashes($db->data['description']));
-	$ca  = htmlentities(stripslashes($db->data[cat]));
-	$co  = htmlentities(stripslashes($db->data[contact]));
-	$el  = htmlentities(stripslashes($db->data[email]));
+	$ca  = htmlentities(stripslashes($db->data['cat']));
+	$co  = htmlentities(stripslashes($db->data['contact']));
+	$el  = htmlentities(stripslashes($db->data['email']));
 	$ur  = htmlentities(stripslashes($db->data['url']));
-	$sm  = htmlentities(stripslashes($db->data[start_time_minute]));
-
-	$sd  = htmlentities(stripslashes($db->data[start_date]));
-	$ed  = htmlentities(stripslashes($db->data[end_date]));
+	
+	$sd  = htmlentities(stripslashes($db->data['start_date']));
+	$ed  = htmlentities(stripslashes($db->data['end_date']));
 
 	$sh = date("g",strtotime($sd));
 	$sm = date("i",strtotime($sd));
@@ -888,9 +889,9 @@ function edit_category_form($db,$id)
 
 	$duration_array = datestoduration ($sd,$ed);
 
-	$ed = $duration_array[days];
-	$eh = $duration_array[hours];
-	$em = $duration_array[minutes];
+	$ed = $duration_array['days'];
+	$eh = $duration_array['hours'];
+	$em = $duration_array['minutes'];
 
 //----------------------------------------------------------------------------------------
 // output
@@ -909,7 +910,6 @@ function edit_category_form($db,$id)
 	echo "<input type=\"hidden\" name=\"action\" value=\"$action\">\n";
 	echo "<input type=\"hidden\" name=\"do\" value=\"sedit\">\n";
 	echo "<input type=\"hidden\" name=\"doit\" value=\"1\">\n";
-	echo "<input type=\"hidden\" name=\"old\" value=\"$t\">\n";
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 
 	echo "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" border=\"1\" align=\"left\">\n";
@@ -1215,24 +1215,39 @@ echo "<p class=\"14px\">Calendar Event Administration</p>\n";
 // main program switch
 //----------------------------------------------------------------------------------------
 
+if (isset($_GET['do'])) {
+	$do = $_GET['do'];
+} else if(isset($_POST['do'])) {
+	$do = $_POST['do'];
+}
+else {
+	$do = '';
+}
+
+if(isset($_GET['doit'])) {
+	$doit = $_GET['doit'];
+} else if(isset($_POST['doit'])) {
+	$doit = $_POST['doit'];
+}
+
 switch($do) {
 case "months":
-	show_months_main_menu($db,$theyear,$themonth);
+	show_months_main_menu($db,$_GET['theyear'],$_GET['themonth']);
 	break;
 case "search":
-	show_search_main_menu($db,$search,$theyear,$themonth);
+	show_search_main_menu($db,$_GET['search']);
 	break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,$title,$description,$cat,$day,$month,$year,$contact,$email,$url,$start_time_hour,$start_time_minute,$start_time_ampm,$end_days,$end_hours,$end_minutes);
+	else do_add_category($db,$_POST['title'],$_POST['description'],$_POST['cat'],$_POST['day'],$_POST['month'],$_POST['year'],$_POST['contact'],$_POST['email'],$_POST['url'],$_POST['start_time_hour'],$_POST['start_time_minute'],$_POST['start_time_ampm'],$_POST['end_days'],$_POST['end_hours'],$_POST['end_minutes']);
 	break;
 case "sdel":
-	if (!isset($doit)) delete_category_check($db,$id);
-	else do_delete_category($db,$id,$doit);
+	if (!isset($doit)) delete_category_check($db,$_GET['id']);
+	else do_delete_category($db,$_GET['id'],$doit);
 	break;
 case "sedit":
-	if (!isset($doit)) edit_category_form($db,$id);
-	else do_update_category($db,$id,$title,$description,$cat,$day,$month,$year,$contact,$email,$url,$start_time_hour,$start_time_minute,$start_time_ampm,$end_days,$end_hours,$end_minutes);
+	if (!isset($doit)) edit_category_form($db,$_GET['id']);
+	else do_update_category($db,$_POST['id'],$_POST['title'],$_POST['description'],$_POST['cat'],$_POST['day'],$_POST['month'],$_POST['year'],$_POST['contact'],$_POST['email'],$_POST['url'],$_POST['start_time_hour'],$_POST['start_time_minute'],$_POST['start_time_ampm'],$_POST['end_days'],$_POST['end_hours'],$_POST['end_minutes']);
 	break;
 default:
 	show_recent_main_menu($db);

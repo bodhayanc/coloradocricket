@@ -17,7 +17,7 @@ function read_scorecard($db)
 	$dir = "/home/colorad2/public_ftp/incoming/scorecards/";
 	$processed_dir = "/home/colorad2/public_ftp/incoming/processed/";
 	$scorecardFiles = scandir($dir);
-	$season_start_date = "04/07/2018";
+	$season_start_date = "04/06/2019";
 	global $email_content;
 	global $email_subject;
 	for($x = 0; $x < count($scorecardFiles); $x++) {
@@ -355,7 +355,7 @@ function read_scorecard($db)
 function sync_cc_and_ccl_players($players, $ccl_club_id, $ccl_team_id) {
 	global $db;
 	global $email_content;
-	$parent_child_team_map = array(62 => 5, 70 => 5, 66 => 8, 73 => 8, 71 => 54, 72 => 54);
+	$parent_child_team_map = array(62 => 5, 70 => 5, 77 => 5, 66 => 8, 73 => 8, 78 => 8, 71 => 54, 72 => 54, 2 => 6, 74 => 6);
 	$ccl_parent_team_id = $ccl_team_id;
 	foreach ($parent_child_team_map as $child_team=>$parent_team) {
 		$email_content .= "parent team for $child_team is $parent_team<br>";
