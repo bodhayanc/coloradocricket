@@ -202,32 +202,8 @@ function read_scorecard($db)
 			$email_content .= "cc_mom: $cc_mom<br>";
 			$email_content .= "cc_ump1: $cc_ump1<br>";
 			$email_content .= "cc_ump2: $cc_ump2<br>";
-			$ump1_split =  explode(" ", $cc_ump1);
-			if(count($ump1_split) > 2) {
-				$cc_ump1_ln = $ump1_split[2];
-				$cc_ump1_fn = $ump1_split[0] . " " . $ump1_split[1];
-			} else if(count($ump1_split) > 1) {
-				$cc_ump1_ln = $ump1_split[1];
-				$cc_ump1_fn = $ump1_split[0];
-			} else {
-				$cc_ump1_ln = "";
-				$cc_ump1_fn = $ump1_split[0];
-			}
-			$ump2_split =  explode(" ", $cc_ump2);
-			if(count($ump2_split) > 2) {
-				$cc_ump2_ln = $ump2_split[2];
-				$cc_ump2_fn = $ump2_split[0] . " " . $ump2_split[1];
-			} else if(count($ump2_split) > 1) {
-				$cc_ump2_ln = $ump2_split[1];
-				$cc_ump2_fn = $ump2_split[0];
-			} else {
-				$cc_ump2_ln = "";
-				$cc_ump2_fn = $ump2_split[0];
-			}
-			$email_content .= "ump1 = $cc_ump1_fn $cc_ump1_ln<br>";
-			$email_content .= "ump2 = $cc_ump2_fn $cc_ump2_ln<br>";
-			$ccl_ump1_id = find_player_id_by_name($cc_ump1_fn, $cc_ump1_ln);
-			$ccl_ump2_id = find_player_id_by_name($cc_ump2_fn, $cc_ump2_ln);
+			$ccl_ump1_id = find_player_id_by_name($cc_ump1);
+			$ccl_ump2_id = find_player_id_by_name($cc_ump2);
 			//Parse the XML and get all batting, bowling, extras, etc. from both the innings.
 			unset($firstIBatsmen, $firstIBowlers, $firstFows, $secondIBatsmen, $secondIBowlers, $secondFows, $hometeamplayers, $awayteamplayers);
 			get_batting_bowling_info($xmlDoc->getElementsByTagName('Innings'), $firstIBatsmen, $firstIBowlers, $firstExtras, $firstFows, $firstTotal, $secondIBatsmen, $secondIBowlers, $secondExtras, $secondFows, $secondTotal, $cc_batting_first_id, $cc_batting_second_id);
@@ -578,7 +554,7 @@ function update_batting_by_innings($ccl_game_id, $ccl_season_id, $ccl_batting_fi
 				$assist = $wicket_taker2;
 			}
 			break;
-		case "hw"://Hit wicket
+		case "ht"://Hit wicket
 			$how_out = 6;
 			$bowler = $wicket_taker1;
 			break;
@@ -607,7 +583,6 @@ function update_batting_by_innings($ccl_game_id, $ccl_season_id, $ccl_batting_fi
 			break;
 		case "rto"://Retired Out
 			$how_out = 16;
-			$bowler = $wicket_taker1;
 			break;
 		case "ctw"://caught Behind
 			$how_out = 17;
@@ -617,6 +592,10 @@ function update_batting_by_innings($ccl_game_id, $ccl_season_id, $ccl_batting_fi
 		case "hdb"://handled ball
 			$how_out = 13;
 			$bowler = $wicket_taker1;
+			break;
+		case "mk"://mankading
+			$how_out = 18;
+			$assist = $wicket_taker1;
 			break;
 		default:
 			$how_out = 1;
@@ -914,12 +893,11 @@ function get_string_between($string, $start, $end){
     return substr($string, $ini, $len);
 }
 
-function find_player_id_by_name($fn, $ln) {
+function find_player_id_by_name($name) {
 	global $db;
 	global $email_content;
-	$email_content .= "fn = $fn ln = $ln<br>";
-	if ($db->Exists("SELECT * FROM players WHERE PlayerFName = '$fn' AND PlayerLName = '$ln'")) {
-		$db->QueryRow("SELECT * FROM players WHERE PlayerFName = '$fn' AND PlayerLName = '$ln'");
+	if ($db->Exists("SELECT * FROM players WHERE CONCAT(PlayerFName, ' ', PlayerLName) = '$name'")) {
+		$db->QueryRow("SELECT * FROM players WHERE CONCAT(PlayerFName, ' ', PlayerLName) = '$name'");
 		$db->BagAndTag();
 
 		return $db->data['PlayerID'];

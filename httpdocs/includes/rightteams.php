@@ -587,7 +587,6 @@
 	
 	$db->Query("
 		SELECT 
-		  g.season, n.SeasonName, 
 		  COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, 
 		  SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, 
 		  s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, p.picture 
@@ -654,7 +653,6 @@
 	
 	$db->Query("
 		SELECT 
-		  g.season, n.SeasonName, 
 		  COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, 
 		  SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, 
 		  s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev 
@@ -731,7 +729,6 @@
 
 	$db->Query("
 	SELECT 
-	  g.season, n.SeasonName, 
 	  b.player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, 
 	  p.PlayerID, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial, p.picture
 	FROM 
@@ -796,7 +793,6 @@
 	
 	$db->Query("
 	SELECT 
-	  g.season, n.SeasonName, 
 	  b.player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, 
 	  p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial
 	FROM 
@@ -887,7 +883,6 @@
 	
 	$db->Query("
 		SELECT 
-		  g.season, n.SeasonName, 
 		  COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, 
 		  SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, 
 		  s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev, p.picture 
@@ -953,7 +948,6 @@
 	
 	$db->Query("
 		SELECT 
-		  g.season, n.SeasonName, 
 		  COUNT( s.player_id ) AS Matches, SUM( s.runs ) AS Runs, 
 		  SUM( s.notout ) AS Notouts, COUNT( s.player_id ) - SUM( s.notout ) AS Innings, SUM( s.runs ) / (COUNT( s.player_id ) - SUM( s.notout )) AS Average, 
 		  s.player_id, p.PlayerID, LEFT(p.PlayerFName,1) AS PlayerInitial, p.PlayerFName, p.PlayerLName, p.PlayerLAbbrev 
@@ -1030,7 +1024,6 @@
 
 	$db->Query("
 	SELECT 
-	  g.season, n.SeasonName, 
 	  b.player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, 
 	  p.PlayerID, p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial, p.picture
 	FROM 
@@ -1095,7 +1088,6 @@
 	
 	$db->Query("
 	SELECT 
-	  g.season, n.SeasonName, 
 	  b.player_id, SUM(IF(INSTR(overs, '.'),((LEFT(overs, INSTR(overs, '.') - 1) * 6) + RIGHT(overs, INSTR(overs, '.') - 1)),(overs * 6))) AS Balls, SUM( b.maidens ) AS Maidens, SUM( b.runs ) AS BRuns, SUM( b.wickets ) AS Wickets, 
 	  p.PlayerLName, p.PlayerFName, p.PlayerLAbbrev, LEFT(p.PlayerFName,1) AS PlayerInitial
 	FROM 

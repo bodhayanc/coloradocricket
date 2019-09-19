@@ -13,7 +13,7 @@ function show_grounds_listing($db)
     global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 
     if ($db->Exists("SELECT * FROM grounds")) {
-    $db->QueryRow("SELECT * FROM grounds WHERE GroundActive=1 AND LeagueID = 1 ORDER BY GroundID");
+    $db->QueryRow("SELECT * FROM grounds WHERE GroundActive=1 AND LeagueID = 1 ORDER BY GroundName");
     $db->BagAndTag();
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";

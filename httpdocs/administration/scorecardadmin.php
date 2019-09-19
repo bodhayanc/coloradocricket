@@ -294,7 +294,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -314,7 +314,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -334,7 +334,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -373,7 +373,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -393,7 +393,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -413,7 +413,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -593,7 +593,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -613,7 +613,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -632,7 +632,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 // 11-Apr-2010
 //		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -651,7 +651,7 @@ function add_scorecard_step1($db)
 	if ($db->Exists("SELECT * FROM players")) {
 // 11-Apr-2010
 //		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] . " (" . $db->data['TeamAbbrev'] . ")</option>\n";
@@ -1498,7 +1498,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($ac == $db->data['PlayerID']) {
@@ -1523,7 +1523,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($avc == $db->data['PlayerID']) {
@@ -1548,7 +1548,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($awk == $db->data['PlayerID']) {
@@ -1597,7 +1597,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($hc == $db->data['PlayerID']) {
@@ -1622,7 +1622,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($hvc == $db->data['PlayerID']) {
@@ -1647,7 +1647,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($hwk == $db->data['PlayerID']) {
@@ -1887,7 +1887,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($mm == $db->data['PlayerID']) {
@@ -1912,7 +1912,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 	// 11-Apr-2010
 	//		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($mm2 == $db->data['PlayerID']) {
@@ -1936,7 +1936,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 // 11-Apr-2010
 //		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($u1 == $db->data['PlayerID']) {
@@ -1960,7 +1960,7 @@ function edit_scorecard_step1($db, $game_id)
 	if ($db->Exists("SELECT * FROM players")) {
 // 11-Apr-2010
 //		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) ORDER BY PlayerFName,PlayerLName");
-		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) and p.isactive = 0 ORDER BY PlayerFName,PlayerLName");
+		$db->Query("SELECT * FROM players as p,teams as t where (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY PlayerFName,PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			if($u2 == $db->data['PlayerID']) {
@@ -2565,7 +2565,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">1st Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2603,7 +2603,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2622,7 +2622,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2641,7 +2641,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2697,7 +2697,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">2nd Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2735,7 +2735,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2752,7 +2752,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2773,7 +2773,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2829,7 +2829,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">3rd Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2867,7 +2867,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2886,7 +2886,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2905,7 +2905,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2961,7 +2961,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">4th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -2999,7 +2999,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3018,7 +3018,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3037,7 +3037,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3093,7 +3093,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">5th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3131,7 +3131,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3150,7 +3150,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3169,7 +3169,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3225,7 +3225,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">6th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3263,7 +3263,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3282,7 +3282,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3301,7 +3301,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3357,7 +3357,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">7th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3395,7 +3395,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3414,7 +3414,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3433,7 +3433,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3489,7 +3489,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">8th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3527,7 +3527,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3546,7 +3546,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3565,7 +3565,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3621,7 +3621,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">9th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3659,7 +3659,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3678,7 +3678,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3697,7 +3697,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3753,7 +3753,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">10th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3791,7 +3791,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3810,7 +3810,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3829,7 +3829,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3885,7 +3885,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">11th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3923,7 +3923,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3942,7 +3942,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -3961,7 +3961,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4298,7 +4298,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">1st Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4358,7 +4358,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">2nd Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4424,7 +4424,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">3rd Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4491,7 +4491,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">4th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4558,7 +4558,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">5th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4625,7 +4625,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">6th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4692,7 +4692,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">7th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4759,7 +4759,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">8th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
@@ -4820,7 +4820,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">9th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4886,7 +4886,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">10th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -4953,7 +4953,7 @@ function edit_scorecard_step2($db,$game_id)
 	echo "	<option value=\"\">11th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5756,7 +5756,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">1st Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5794,7 +5794,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5813,7 +5813,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5832,7 +5832,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5888,7 +5888,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">2nd Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5926,7 +5926,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5945,7 +5945,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -5964,7 +5964,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6020,7 +6020,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">3rd Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6058,7 +6058,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6077,7 +6077,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6096,7 +6096,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6152,7 +6152,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">4th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6190,7 +6190,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6209,7 +6209,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6228,7 +6228,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6284,7 +6284,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">5th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6322,7 +6322,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6341,7 +6341,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6360,7 +6360,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6416,7 +6416,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">6th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6454,7 +6454,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6473,7 +6473,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6492,7 +6492,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6548,7 +6548,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">7th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6586,7 +6586,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6605,7 +6605,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6624,7 +6624,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6680,7 +6680,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">8th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6718,7 +6718,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6737,7 +6737,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6756,7 +6756,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6812,7 +6812,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">9th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6850,7 +6850,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6869,7 +6869,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6888,7 +6888,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6944,7 +6944,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">10th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -6982,7 +6982,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7001,7 +7001,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7020,7 +7020,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7076,7 +7076,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">11th Batsman</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat2ndid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7114,7 +7114,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7133,7 +7133,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Assist2</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7152,7 +7152,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7489,7 +7489,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">1st Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7549,7 +7549,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">2nd Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7615,7 +7615,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">3rd Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7682,7 +7682,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">4th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7749,7 +7749,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">5th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7816,7 +7816,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">6th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7883,7 +7883,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">7th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -7950,7 +7950,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">8th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			echo "<option $selected value=\"" . $db->data['PlayerID'] . "\">" . $db->data['PlayerFName'] . " " . $db->data['PlayerLName'] ."</option>\n";
@@ -8011,7 +8011,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">9th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -8077,7 +8077,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">10th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";
@@ -8144,7 +8144,7 @@ function edit_scorecard_step3($db,$game_id)
 	echo "	<option value=\"\">11th Bowler</option>\n";
 	echo "	<option value=\"\">---------------</option>\n";
 	if ($db->Exists("SELECT * FROM players")) {
-		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID) AND p.isactive = 0 ORDER BY p.PlayerFName,p.PlayerLName");
+		$db->Query("SELECT p.*,t.* FROM players p, teams t WHERE t.TeamID = $bat1stid AND (p.PlayerTeam = t.TeamID OR p.PlayerTeam2 = t.TeamID OR p.PlayerTeam = 0) ORDER BY p.PlayerFName,p.PlayerLName");
 		for ($i=0; $i<$db->rows; $i++) {
 			$db->GetRow($i);
 			$selected = "";

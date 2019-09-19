@@ -46,9 +46,9 @@
 //20140315           "crichq-scorecards" => array("/www.crichq.com/plugins/comp_mgmt/organisations/53?width=598&height=400&border=1","CricHQ Scorecards"),
 	  "ladder" => array("ladder.php?ladder=$sid&ccl_mode=1","League Standings"),
 	  "statistics" => array("statistics.php?statistics=$yr&ccl_mode=1","League Stats"),              
-	  "cricclubspremierscorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=46&clubId=5135","CricClubs Premier Scorecard"),
-	  "cricclubst20scorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=49&clubId=5135","CricClubs T20 Scorecard"),
-	  "cricclubspracticescorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=45&clubId=5135","CricClubs Practice Scorecard"),
+	  "cricclubspremierscorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=54&clubId=5135","CricClubs Premier Scorecard"),
+	  "cricclubst20scorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=57&clubId=5135","CricClubs T20 Scorecard"),
+	  "cricclubspracticescorecard" => array("/www.cricclubs.com/ColoradoCricket/listMatches.do?league=52&clubId=5135","CricClubs Practice Scorecard"),
 
 	  "NewsAndDocuments" => array("","NEWS & DOCUMENTS"),
 	  "news" => array("news.php","News Archives"),

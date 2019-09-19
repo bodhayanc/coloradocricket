@@ -5,7 +5,7 @@ function show_miniladdertwenty($db)
 {
     global $dbcfg, $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
     $endOfSeasonLad = 0;
-	$round = 1;
+	$round = 2;
 	// instantiate new db class
 		$subdb = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 		$subdb->SelectDB($dbcfg['db']);
@@ -155,7 +155,7 @@ function show_miniladdertwenty($db)
                 $grpnm = $subdb1->data['GroupName'];
 				echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$greenbdr\" align=\"center\">\n";
 				echo "  <tr>\n";
-				echo "    <td bgcolor=\"$greenbdr\" class=\"whitemain\" height=\"23\" style=\"border-left: solid #DE9C06; border-right: solid #DE9C06;\">&nbsp;GROUP $grpnm STANDINGS</td>\n";
+				echo "    <td bgcolor=\"$greenbdr\" class=\"whitemain\" height=\"23\" style=\"border-left: solid #DE9C06; border-right: solid #DE9C06;\">&nbsp;Round $round GROUP $grpnm STANDINGS</td>\n";
 				echo "  </tr>\n";
 				echo "  <tr>\n";
 				echo "  <td bgcolor=\"#FFFFFF\" valign=\"top\" bordercolor=\"#FFFFFF\" class=\"main\">\n";

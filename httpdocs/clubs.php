@@ -5,7 +5,7 @@
     require ("includes/general.functions.inc");
 
     $page = 'clubs';
-
+	define('ROOT_PATH', dirname(__FILE__));
 ?>
 
 <html>

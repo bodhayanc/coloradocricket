@@ -167,9 +167,9 @@ function show_full_teams($db,$pr)
     }
     
    
-    
-	if ($teamlogo != "" ) {
-		list($width, $height, $type, $attr) = getimagesize("http://coloradocricket.org/uploadphotos/teams/$teamlogo");
+    if ($teamlogo != "" ) {
+		$path = ROOT_PATH.'/uploadphotos/teams/'.$teamlogo;
+	    list($width) = getimagesize($path);
 		if($width >= 150) {
 	    	$width = "150";
 	    }

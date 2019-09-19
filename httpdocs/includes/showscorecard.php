@@ -208,7 +208,7 @@ function show_schedule($db,$schedule)
         // List by week for scorecard
 
             echo "<p class=\"10px\">Week: ";
-            $db->Query("SELECT * FROM scorecard_game_details WHERE season = $schedule AND (league_id = 1 OR league_id = 4) GROUP BY week");
+            $db->Query("SELECT week FROM scorecard_game_details WHERE season = $schedule AND (league_id = 1 OR league_id = 4) GROUP BY week");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
@@ -418,7 +418,7 @@ function show_schedule_team($db,$schedule,$team)
         // List by week for scorecard
 
             echo "<p class=\"10px\">Week: ";
-            $db->Query("SELECT * FROM scorecard_game_details WHERE season = $schedule AND (league_id = 1 OR league_id = 4) GROUP BY week");
+            $db->Query("SELECT week FROM scorecard_game_details WHERE season = $schedule AND (league_id = 1 OR league_id = 4) GROUP BY week");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
@@ -634,7 +634,7 @@ function show_schedule_week($db,$schedule,$week)
         // List by week for scorecard
 
             echo "<p class=\"10px\">Week: ";
-            $db->Query("SELECT * FROM scorecard_game_details WHERE season = $schedule AND (league_id = 1 OR league_id = 4) GROUP BY week");
+            $db->Query("SELECT week FROM scorecard_game_details WHERE season = $schedule AND (league_id = 1 OR league_id = 4) GROUP BY week");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
@@ -1122,14 +1122,30 @@ echo "<p><b>Result: </b> $re</p>\n";
     //}
 
     // show brackets around the runout effector
-	$linkAssist = "<a href=\"/players.php?players=$aid&ccl_mode=1\" class=\"scorecard\">";
-	$closeAssist = "</a>";
-    $linkAssist2 = "<a href=\"/players.php?players=$a2id&ccl_mode=1\" class=\"scorecard\">";
-	$closeAssist2 = "</a>";
+	if($aid != 2880) {
+		$linkAssist = "<a href=\"/players.php?players=$aid&ccl_mode=1\" class=\"scorecard\">";
+		$closeAssist = "</a>";
+	} else {
+		$linkAssist = "";
+		$closeAssist = "";
+	}
+
+	if($a2id != 2880) {
+		$linkAssist2 = "<a href=\"/players.php?players=$a2id&ccl_mode=1\" class=\"scorecard\">";
+		$closeAssist2 = "</a>";
+	} else {
+		$linkAssist2 = "";
+		$closeAssist2 = "";
+	}
+
     if($aln == "" && $afn == "") {
       echo "";
     } elseif($afn != "" && $aln != "" && $a2fn != "" && $a2ln != "") {
         echo "(".$linkAssist.$afn." ".$aln.$closeAssist."/".$linkAssist2.$a2fn." ".$a2ln.$closeAssist2.")";
+	} elseif($afn == "Substitute" && $a2fn != "" && $a2ln != "") {
+        echo "(".$linkAssist.$afn.$closeAssist."/".$linkAssist2.$a2fn." ".$a2ln.$closeAssist2.")";
+	} elseif($afn != "" && $aln != "" && $a2fn == "Substitute") {
+        echo "(".$linkAssist.$afn." ".$aln.$closeAssist."/".$linkAssist2.$a2fn.$closeAssist2.")";
 	} elseif($afn != "" && $aln != "") {
       if($oid == 9) {
         echo "(".$linkAssist.$afn." ".$aln.$closeAssist.")";
@@ -1143,7 +1159,7 @@ echo "<p><b>Result: </b> $re</p>\n";
       if($oid == 9) {
         echo "(".$linkAssist.$afn.$closeAssist.")";
       } else if($oid == 4 || $oid == 10 || $oid == 17) {
-        echo $linkAssist.$afn.$closeAssist;
+        echo $linkAssist.$afn.$closeAssist." ";
       } else {
         echo $linkAssist.$afn.$closeAssist;
       }
@@ -1677,10 +1693,22 @@ echo "<p><b>Result: </b> $re</p>\n";
 
     // show brackets around the runnout effector
 	
-    $linkAssist = "<a href=\"/players.php?players=$aid&ccl_mode=1\" class=\"scorecard\">";
-	$closeAssist = "</a>";
-    $linkAssist2 = "<a href=\"/players.php?players=$a2id&ccl_mode=1\" class=\"scorecard\">";
-	$closeAssist2 = "</a>";
+	if($aid != 2880) {
+		$linkAssist = "<a href=\"/players.php?players=$aid&ccl_mode=1\" class=\"scorecard\">";
+		$closeAssist = "</a>";
+	} else {
+		$linkAssist = "";
+		$closeAssist = "";
+	}
+
+	if($a2id != 2880) {
+		$linkAssist2 = "<a href=\"/players.php?players=$a2id&ccl_mode=1\" class=\"scorecard\">";
+		$closeAssist2 = "</a>";
+	} else {
+		$linkAssist2 = "";
+		$closeAssist2 = "";
+	}
+
     if($aln == "" && $afn == "") {
       echo "";
     } elseif($afn != "" && $aln != "" && $a2fn != "" && $a2ln != "") {
@@ -1698,7 +1726,7 @@ echo "<p><b>Result: </b> $re</p>\n";
       if($oid == 9) {
         echo "(".$linkAssist.$afn.$closeAssist.")";
       } else if($oid == 4 || $oid == 10 || $oid == 17) {
-        echo $linkAssist.$afn.$closeAssist;
+        echo $linkAssist.$afn.$closeAssist." ";
       } else {
         echo $linkAssist.$afn.$closeAssist;
       }

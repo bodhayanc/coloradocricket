@@ -363,7 +363,7 @@ function show_ladder($db,$ladder,$round)
             echo "</table><br>\n";
 		} else {
             $subdb1->Query("
-                SELECT *
+                SELECT GroupName
                 FROM
                   groups
                 WHERE
@@ -390,6 +390,7 @@ function show_ladder($db,$ladder,$round)
             echo "  <td align=\"left\" colspan=\"4\"><p>No games recorded in {$seasons[$ladder]}.</p></td>\n";
             echo "</tr>\n";
         } else {
+			$lad_data = null;
             $db->Query("SELECT hometeam as team FROM schedule s, groups g WHERE s.season=$ladder AND g.SeasonID = s.season AND s.hometeam = g.TeamID AND g.GroupName = '$grpnm' AND g.Round = $round
 						union 
 						SELECT awayteam as team FROM schedule s, groups g WHERE s.season=$ladder AND g.SeasonID = s.season AND s.awayteam = g.TeamID AND g.GroupName = '$grpnm' AND g.Round = $round");
@@ -409,7 +410,7 @@ function show_ladder($db,$ladder,$round)
                 echo "  <td align=\"center\"><b>Runs Against</b></td>\n";
                 //echo "    <td align=\"center\"><b>Avg</b></td>\n";
                 echo "</tr>\n";
-
+				
 				for ($x=0; $x<$db->rows; $x++) {
 					$db->GetRow($x);
 					$tid = $db->data['team'];
@@ -580,7 +581,7 @@ function show_ladder($db,$ladder,$round)
             echo "</table>\n";
             echo "<table border=\"0\" width=\"100%\" cellpadding=\"4\" cellspacing=\"0\">\n";
         } else {
-            $db->Query("SELECT te.TeamID, te.TeamAbbrev FROM teams te INNER JOIN scorecard_batting_details ba ON te.TeamID=ba.team WHERE ba.season=$ladder AND te.LeagueID = 1 GROUP BY TeamAbbrev");
+            $db->Query("SELECT te.TeamID, te.TeamAbbrev FROM teams te INNER JOIN scorecard_batting_details ba ON te.TeamID=ba.team WHERE ba.season=$ladder AND te.LeagueID = 1 GROUP BY TeamID, TeamAbbrev");
             $db->BagAndTag();
 
 

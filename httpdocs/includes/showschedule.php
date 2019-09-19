@@ -178,7 +178,7 @@ function show_schedule($db,$schedule)
         // List by week for schedule
         
         echo "<p class=\"10px\">Week: ";
-        $db->Query("SELECT * FROM schedule WHERE season = $schedule GROUP BY week");
+        $db->Query("SELECT week FROM schedule WHERE season = $schedule GROUP BY week");
 //	 $db->Query("SELECT * FROM schedule WHERE season = $schedule GROUP BY date, time");
         for ($x=0; $x<$db->rows; $x++) {
             $db->GetRow($x);
@@ -424,7 +424,7 @@ function show_schedule_team($db,$schedule,$team)
         // List by week for schedule
         
             echo "<p class=\"10px\">Week: ";
-            $db->Query("SELECT * FROM schedule WHERE season = $schedule GROUP BY week");
+            $db->Query("SELECT week FROM schedule WHERE season = $schedule GROUP BY week");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
@@ -687,7 +687,7 @@ function show_schedule_umpire($db,$schedule,$umpire)
         // List by week for schedule
         
             echo "<p class=\"10px\">Week: ";
-            $db->Query("SELECT * FROM schedule WHERE season = $schedule GROUP BY week");
+            $db->Query("SELECT week FROM schedule WHERE season = $schedule GROUP BY week");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();
@@ -958,7 +958,7 @@ function show_schedule_week($db,$schedule,$week)
         // List by week for schedule
         
             echo "<p class=\"10px\">Week: ";
-            $db->Query("SELECT * FROM schedule WHERE season = $schedule GROUP BY week");
+            $db->Query("SELECT week FROM schedule WHERE season = $schedule GROUP BY week");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
                 $db->BagAndTag();

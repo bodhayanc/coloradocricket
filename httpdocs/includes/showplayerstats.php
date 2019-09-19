@@ -477,8 +477,8 @@ function show_breakdown_year($db,$pr)
     
 	// Get League Runouts
 	
-    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND season=$sid")) {  
-    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND season=$sid");
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND season=$sid")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND season=$sid");
     $db->BagAndTag();
     $scro = $db->data['Runouts'];
     } else {
@@ -916,8 +916,6 @@ function show_breakdown_opponent($db,$pr)
     for ($i=0; $i<count($teams); $i++) {
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs
             FROM            
               scorecard_batting_details b   
@@ -934,8 +932,6 @@ function show_breakdown_opponent($db,$pr)
   
     $db->QueryRow("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM 
               scorecard_batting_details b   
@@ -1050,8 +1046,8 @@ function show_breakdown_opponent($db,$pr)
     
 	// Get League Runouts
 	
-    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND team=$teams[$i]")) {  
-    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND team=$teams[$i]");
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND team=$teams[$i]")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND team=$teams[$i]");
     $db->BagAndTag();
     $scro = $db->data['Runouts'];
     } else {
@@ -1476,8 +1472,6 @@ function show_breakdown_team($db,$pr)
     for ($i=0; $i<count($teams); $i++) {
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs
             FROM            
               scorecard_batting_details b   
@@ -1494,8 +1488,6 @@ function show_breakdown_team($db,$pr)
   
     $db->QueryRow("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM 
               scorecard_batting_details b   
@@ -1610,8 +1602,8 @@ function show_breakdown_team($db,$pr)
     
 	// Get League Runouts
 	
-    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND opponent=$teams[$i]")) {  
-    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND opponent=$teams[$i]");
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND opponent=$teams[$i]")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND opponent=$teams[$i]");
     $db->BagAndTag();
     $scro = $db->data['Runouts'];
     } else {
@@ -2040,8 +2032,7 @@ function show_breakdown_ground($db,$pr)
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
               g.GroundName,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate,
-              m.game_id, b.game_id
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM            
               scorecard_batting_details b   
             LEFT JOIN
@@ -2058,8 +2049,7 @@ function show_breakdown_ground($db,$pr)
     $db->QueryRow("SELECT   
               p.PlayerLName, p.PlayerFName,
               g.GroundName,
-              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate, 
-              m.game_id, b.game_id
+              COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM            
               scorecard_batting_details b   
             LEFT JOIN
@@ -2167,8 +2157,8 @@ function show_breakdown_ground($db,$pr)
     
 	// Get League Runouts
 	
-    if ($db->Exists("SELECT COUNT(b.how_out) AS Runouts FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id  WHERE (b.assist = $pr OR b.assist2 = $pr) AND b.how_out = 9 AND m.ground_id=$gid")) {  
-    $db->QueryRow("SELECT COUNT(b.how_out) AS Runouts FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id  WHERE (b.assist = $pr OR b.assist2 = $pr) AND b.how_out = 9 AND m.ground_id=$gid");
+    if ($db->Exists("SELECT COUNT(b.how_out) AS Runouts FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id  WHERE (b.assist = $pr OR b.assist2 = $pr) AND (b.how_out = 9  OR b.how_out = 18) AND m.ground_id=$gid")) {  
+    $db->QueryRow("SELECT COUNT(b.how_out) AS Runouts FROM scorecard_batting_details b LEFT JOIN scorecard_game_details m ON m.game_id = b.game_id  WHERE (b.assist = $pr OR b.assist2 = $pr) AND (b.how_out = 9  OR b.how_out = 18) AND m.ground_id=$gid");
     $db->BagAndTag();
     $scro = $db->data['Runouts'];
     } else {
@@ -2593,8 +2583,6 @@ function show_breakdown_batpos($db, $pr)
 
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, MAX( b.runs ) AS HS             
             FROM            
               scorecard_batting_details b   
@@ -2611,8 +2599,6 @@ function show_breakdown_batpos($db, $pr)
   
     $db->QueryRow("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM 
               scorecard_batting_details b   
@@ -3095,8 +3081,6 @@ function show_breakdown_innno($db,$pr)
 
     if ($db->Exists("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs
             FROM            
               scorecard_batting_details b   
@@ -3113,8 +3097,6 @@ function show_breakdown_innno($db,$pr)
   
     $db->QueryRow("SELECT   
               p.PlayerLName, p.PlayerFName,
-              t.TeamAbbrev,
-              o.TeamAbbrev,
               COUNT( b.player_id ) AS Matches, SUM( b.runs ) AS Runs, 
 			  COUNT( b.player_id ) - SUM( b.how_out=1 ) AS Innings, SUM( b.runs ) * 100 / SUM( b.balls) AS StrikeRate
             FROM 
@@ -3222,8 +3204,8 @@ function show_breakdown_innno($db,$pr)
     
 	// Get League Runouts
 	
-    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND innings_id=$i")) {  
-    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND how_out = 9 AND innings_id=$i");
+    if ($db->Exists("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND innings_id=$i")) {  
+    $db->QueryRow("SELECT COUNT(how_out) AS Runouts FROM scorecard_batting_details WHERE (assist = $pr OR assist2 = $pr) AND (how_out = 9  OR how_out = 18) AND innings_id=$i");
     $db->BagAndTag();
     $scro = $db->data['Runouts'];
     } else {
@@ -3981,6 +3963,16 @@ function show_breakdown_batprogress($db,$pr)
 		  echo "$bfn\n";
 		}
     } else if($oid == '5'){
+      if($bln == "" && $bfn == "") {
+		  echo "";
+		} elseif($bfn != "" && $bln != "" && $bla != "") {
+		  echo "$bin $bla";
+		} elseif($bfn != "" && $bln != "" && $bla == "") {
+		  echo "$bin $bln";   
+		} else {
+		  echo "$bfn\n";
+		}
+    } else if($oid == '18'){
       if($bln == "" && $bfn == "") {
 		  echo "";
 		} elseif($bfn != "" && $bln != "" && $bla != "") {

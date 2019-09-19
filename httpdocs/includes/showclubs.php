@@ -356,7 +356,8 @@ function show_full_clubs($db,$pr)
 	echo "<td width=\"25%\" valign=middle>";
 	
 	if ($clublogo != "" ) {
-		list($width, $height, $type, $attr) = getimagesize("http://coloradocricket.org/uploadphotos/teams/$clublogo");
+		$path = ROOT_PATH.'/uploadphotos/teams/'.$clublogo;
+		list($width) = getimagesize($path);
 		if($width >= 150) {
 	    	$width = "150";
 	    }
