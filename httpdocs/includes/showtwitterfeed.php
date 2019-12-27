@@ -1,13 +1,5 @@
 <?php
 
-echo "<script language=javascript charset=\"utf-8\" src=\"http://widgets.twimg.com/j/2/widget.js\"></script>";
-echo "<a class=\"twitter-timeline\" href=\"https://twitter.com/CoCricketLeague/clubs\" data-widget-id=\"346851042757050368\">
-Latest updates</a>
-<script>!function(d,s,id)
-{var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id))
-{js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}
-}(document,\"script\",\"twitter-wjs\");
-</script>";
+echo "<a class=\"twitter-timeline\" data-width=\"220\" data-height=\"350\" data-theme=\"light\" data-link-color=\"#2B7BB9\" href=\"https://twitter.com/CoCricketLeague/lists/clubs?ref_src=twsrc%5Etfw\">A Twitter List by CoCricketLeague</a> <script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>";
 
 ?>
-

@@ -675,6 +675,7 @@ function add_scorecard_step1($db)
 	echo "  </td>\n";
 	echo "  <td width=\"50%\" align=\"left\">CricClubs Game ID</td>\n";
 	echo " </tr>\n";	
+
 	echo " <tr>\n";
 	echo "  <td width=\"50%\" align=\"right\">";
 	echo "  <input type=\"text\" name=\"report\" size=\"20\" maxlength=\"255\">\n";
@@ -682,6 +683,27 @@ function add_scorecard_step1($db)
 	echo "  <td width=\"50%\" align=\"left\">Match Report Link</td>\n";
 	echo " </tr>\n";	
 
+	echo " <tr>\n";
+	echo "  <td width=\"50%\" align=\"right\">";
+	echo "  <input type=\"text\" name=\"match_videos\" size=\"20\" maxlength=\"255\">\n";
+	echo "  </td>\n";
+	echo "  <td width=\"50%\" align=\"left\">Match Video Link</td>\n";
+	echo " </tr>\n";	
+
+	echo " <tr>\n";
+	echo "  <td width=\"50%\" align=\"right\">";
+	echo "  <input type=\"text\" name=\"ext_scorecard_link\" size=\"20\" maxlength=\"128\">\n";
+	echo "  </td>\n";
+	echo "  <td width=\"50%\" align=\"left\">External Scorecard Link</td>\n";
+	echo " </tr>\n";	
+
+	echo " <tr>\n";
+	echo "  <td width=\"50%\" align=\"right\">";
+	echo "  <input type=\"checkbox\" name=\"isplayoff\" value=\"1\">\n";
+	echo "  </td>\n";
+	echo "  <td width=\"50%\" align=\"left\">Is it a playoff game?</td>\n";
+	echo " </tr>\n";
+	
 	//disabling captcha as it is part of admin pancel now
 /* 	echo " <tr>\n";
 	echo "  <td width=\"50%\" align=\"right\">";
@@ -722,7 +744,7 @@ function add_scorecard_step1($db)
 }
 
 function insert_scorecard_step1($db,$league_id,$season,$week,$awayteam, $awayteam_captain, $awayteam_vcaptain, $awayteam_wk, $hometeam, $hometeam_captain, $hometeam_vcaptain, $hometeam_wk ,$umpires,$toss_won_id,$result_won_id,$batting_first_id,$batting_second_id,$ground_id,
-$ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxovers,$cricclubs_game_id,$report)
+$ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxovers,$cricclubs_game_id,$report,$match_videos,$ext_scorecard_link,$plchk)
 {
 
 	global $PHP_SELF,$content,$action,$SID, $bluebdr, $greenbdr, $yellowbdr;
@@ -768,12 +790,14 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($hlvideo));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
 	// Insert into the scorecard_game_details table
 	
-	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,game_date,result_won_id,forfeit,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,isactive) VALUES  ('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$gd','$rw','$fo','$mm','$mm2','$u1','$u2','$mo','$cci','$mr',0)");
+	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,game_date,result_won_id,forfeit,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,match_videos,ext_scorecard_link,isplayoff,isactive) VALUES  ('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$gd','$rw','$fo','$mm','$mm2','$u1','$u2','$mo','$cci','$mr','$hlv','$esl','$plchk',0)");
 	$db->QueryRow("SELECT LAST_INSERT_ID() AS GAME_ID");
 	$game_id = $db->data['GAME_ID'];
 	
@@ -857,14 +881,16 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($hlvideo));
+	$esl = addslashes(trim($ext_scorecard_link));
 	$gi = addslashes(trim($ground_id));
 	
 	// all okay
 
 	// Insert into the game header table
 
-	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,umpires,result_won_id,ground_id,game_date,result,cancelled,cancelledplay,mom,mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,isactive) VALUES 
-('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$rw',$gi,'$gd','$re','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr',0)");
+	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,umpires,result_won_id,ground_id,game_date,result,cancelled,cancelledplay,mom,mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,match_videos,ext_scorecard_link,isplayoff,isactive) VALUES 
+('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$rw',$gi,'$gd','$re','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr','$hlv','$esl','$plchk',0)");
 	$db->QueryRow("SELECT LAST_INSERT_ID() AS GAME_ID");
 	$game_id = $db->data['GAME_ID'];
 	
@@ -943,13 +969,15 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($hlvideo));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
 	// Insert into the game header table
 	
 	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,umpires,toss_won_id,result_won_id,batting_first_id,batting_second_id,ground_id,game_date,result,tied,forfeit,
-cancelled,cancelledplay,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,isactive) VALUES ('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$tw','$rw','$bf','$bs','$gi','$gd','$re','$ti','$fo','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr',0)");
+cancelled,cancelledplay,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,match_videos,ext_scorecard_link,isplayoff,isactive) VALUES ('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$tw','$rw','$bf','$bs','$gi','$gd','$re','$ti','$fo','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr','$hlv','$esl','$plchk',0)");
 	$db->QueryRow("SELECT LAST_INSERT_ID() AS GAME_ID");
 	$game_id = $db->data['GAME_ID'];
 	
@@ -1028,13 +1056,15 @@ cancelled,cancelledplay,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,rep
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
-	
+	$hlv = addslashes(trim($hlvideo));
+	$esl = addslashes(trim($ext_scorecard_link));
+
 	// all okay
 
 	// Insert into the game header table
 	
 	$db->Insert("INSERT INTO scorecard_game_details (league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,umpires,toss_won_id,result_won_id,batting_first_id,batting_second_id,ground_id,game_date,result,tied,forfeit,
-cancelled,cancelledplay,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,isactive) VALUES ('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$tw','$rw','$bf','$bs','$gi','$gd','$re','$ti','$fo','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr',0)");
+cancelled,cancelledplay,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,match_videos,ext_scorecard_link,isplayoff,isactive) VALUES ('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$tw','$rw','$bf','$bs','$gi','$gd','$re','$ti','$fo','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr','$hlv','$esl','$plchk',0)");
 	$db->QueryRow("SELECT LAST_INSERT_ID() AS GAME_ID");
 	$game_id = $db->data['GAME_ID'];
 	
@@ -1115,6 +1145,8 @@ cancelled,cancelledplay,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,rep
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($hlvideo));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
@@ -1122,8 +1154,8 @@ cancelled,cancelledplay,mom, mom2,umpire1,umpire2,maxovers,cricclubs_game_id,rep
 	
 	$db->Insert("INSERT INTO scorecard_game_details 
 
-(league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,umpires,toss_won_id,result_won_id,batting_first_id,batting_second_id,ground_id,game_date,result,tied,forfeit,cancelled,cancelledplay,mom,mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,isactive) VALUES 
-('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$tw','$rw','$bf','$bs','$gi','$gd','$re','$ti','$fo','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr',0)");
+(league_id,season,week,awayteam,awayteam_captain,awayteam_vcaptain,awayteam_wk,hometeam,hometeam_captain,hometeam_vcaptain,hometeam_wk,umpires,toss_won_id,result_won_id,batting_first_id,batting_second_id,ground_id,game_date,result,tied,forfeit,cancelled,cancelledplay,mom,mom2,umpire1,umpire2,maxovers,cricclubs_game_id,report,match_videos,ext_scorecard_link,isplayoff,isactive) VALUES 
+('$li','$se','$we','$at','$at_c','$at_vc','$at_wk','$ht','$ht_c','$ht_vc','$ht_wk','$um','$tw','$rw','$bf','$bs','$gi','$gd','$re','$ti','$fo','$ca','$cg','$mm','$mm2','$u1','$u2','$mo','$cci','$mr','$hlv','$esl','$plchk',0)");
 	$db->QueryRow("SELECT LAST_INSERT_ID() AS GAME_ID");
 	$game_id = $db->data['GAME_ID'];
 	// Update the results table for the home team
@@ -1401,6 +1433,9 @@ function edit_scorecard_step1($db, $game_id)
     $bat2nd = $db->data['BatSecondAbbrev'];
     $bat2ndid = $db->data['BatSecondID'];
 	$mr = $db->data['report'];
+	$hlv = $db->data['match_videos'];
+	$esl = $db->data['ext_scorecard_link'];
+	$plof = $db->data['isplayoff'];
 	echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">\n";
 	
 	echo " <tr>\n";
@@ -1989,6 +2024,7 @@ function edit_scorecard_step1($db, $game_id)
 	echo "  </td>\n";
 	echo "  <td width=\"50%\" align=\"left\">CricClubs Game ID</td>\n";
 	echo " </tr>\n";	
+
 	echo " <tr>\n";
 	echo "  <td width=\"50%\" align=\"right\">";
 	echo "  <input type=\"text\" name=\"report\" size=\"20\" maxlength=\"255\" value=\"$mr\">\n";
@@ -1996,6 +2032,31 @@ function edit_scorecard_step1($db, $game_id)
 	echo "  <td width=\"50%\" align=\"left\">Match Report Link</td>\n";
 	echo " </tr>\n";	
 
+	echo " <tr>\n";
+	echo "  <td width=\"50%\" align=\"right\">";
+	echo "  <input type=\"text\" name=\"match_videos\" size=\"20\" maxlength=\"255\" value=\"$hlv\">\n";
+	echo "  </td>\n";
+	echo "  <td width=\"50%\" align=\"left\">Match Video Link</td>\n";
+	echo " </tr>\n";	
+
+	echo " <tr>\n";
+	echo "  <td width=\"50%\" align=\"right\">";
+	echo "  <input type=\"text\" name=\"ext_scorecard_link\" size=\"20\" maxlength=\"128\" value=\"$esl\">\n";
+	echo "  </td>\n";
+	echo "  <td width=\"50%\" align=\"left\">External Scorecard Link</td>\n";
+	echo " </tr>\n";	
+
+	$plchk = "";
+	if($plof == 1) {
+		$plchk = "checked";
+	}
+	echo " <tr>\n";
+	echo "  <td width=\"50%\" align=\"right\">";
+	echo "  <input type=\"checkbox\" name=\"isplayoff\" $plchk value=\"1\">\n";
+	echo "  </td>\n";
+	echo "  <td width=\"50%\" align=\"left\">Is it a playoff game?</td>\n";
+	echo " </tr>\n";
+	
 	//disabling captcha as it is part of admin panel now
 /* // ben added captcha 
 	echo " <tr>\n";
@@ -2037,7 +2098,7 @@ function edit_scorecard_step1($db, $game_id)
 }
 
 function update_scorecard_step1($db,$submit,$game_id,$league_id,$season,$week,$awayteam, $awayteam_captain, $awayteam_vcaptain, $awayteam_wk, $hometeam, $hometeam_captain, $hometeam_vcaptain, $hometeam_wk ,$umpires,$toss_won_id,$result_won_id,$batting_first_id,$batting_second_id,$ground_id,
-$ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxovers,$cricclubs_game_id,$report)
+$ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxovers,$cricclubs_game_id,$report,$match_videos,$ext_scorecard_link,$plchk)
 {
 
 	global $PHP_SELF,$content,$action,$SID, $bluebdr, $greenbdr, $yellowbdr;
@@ -2097,12 +2158,14 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($match_videos));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
 	// Update the scorecard_game_details table
 	
-	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr' WHERE game_id = $game_id");
+	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr', match_videos = '$hlv', ext_scorecard_link = '$esl', isplayoff = '$plchk' WHERE game_id = $game_id");
 	
 	header("Location: main.php?SID=$SID&action=$action&do=update6&game_id=$game_id");
 	ob_end_flush();
@@ -2151,12 +2214,14 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($match_videos));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
 	// Update the game header table
 
-	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr' WHERE game_id = $game_id");
+	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr', match_videos = '$hlv', ext_scorecard_link = '$esl', isplayoff = '$plchk'  WHERE game_id = $game_id");
 	
 	header("Location: main.php?SID=$SID&action=$action&do=update6&game_id=$game_id");
 	ob_end_flush();	
@@ -2207,12 +2272,14 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($match_videos));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
 	// Update the game header table
 	
-	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr' WHERE game_id = $game_id");
+	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr', match_videos = '$hlv', ext_scorecard_link = '$esl', isplayoff = '$plchk'  WHERE game_id = $game_id");
 	
 	header("Location: main.php?SID=$SID&action=$action&do=update2&game_id=$game_id");
 	ob_end_flush();
@@ -2263,12 +2330,14 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($match_videos));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
 	// Update the game header table
 	
-	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr' WHERE game_id = $game_id");
+	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr', match_videos = '$hlv', ext_scorecard_link = '$esl', isplayoff = '$plchk'  WHERE game_id = $game_id");
 
 	header("Location: main.php?SID=$SID&action=$action&do=update2&game_id=$game_id");
 	ob_end_flush();
@@ -2321,12 +2390,14 @@ $ground_name,$game_date,$result,$result_type,$mom, $mom2,$umpire1,$umpire2,$maxo
 	$mo = addslashes(trim($maxovers));
 	$cci = addslashes(trim($cricclubs_game_id));
 	$mr = addslashes(trim($report));
+	$hlv = addslashes(trim($match_videos));
+	$esl = addslashes(trim($ext_scorecard_link));
 	
 	// all okay
 
  	// Update the game header table
 	
-	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr' WHERE game_id = $game_id");
+	$db->Update("UPDATE scorecard_game_details set league_id = '$li', season = '$se', week = '$we',awayteam = '$at', awayteam_captain = '$at_c', awayteam_vcaptain = '$at_vc',awayteam_wk = '$at_wk', hometeam = '$ht', hometeam_captain = '$ht_c', hometeam_vcaptain = '$ht_vc', hometeam_wk = '$ht_wk', umpires = '$um', toss_won_id = '$tw', result_won_id = '$rw', batting_first_id = '$bf', batting_second_id = '$bs', ground_id = '$gi',game_date = '$gd', result = '$re', tied = '$ti', forfeit = '$fo', cancelled = '$ca', cancelledplay = '$cg', mom = '$mm', mom2 = '$mm2', umpire1 = '$u1', umpire2 = '$u2', maxovers = '$mo', cricclubs_game_id = '$cci', report = '$mr', match_videos = '$hlv', ext_scorecard_link = '$esl', isplayoff = '$plchk'  WHERE game_id = $game_id");
 
 	header("Location: main.php?SID=$SID&action=$action&do=update2&game_id=$game_id");
 	ob_end_flush();
@@ -8737,7 +8808,7 @@ case "sadd":
 	add_scorecard_step1($db);
 	break;
 case "insert":
-	insert_scorecard_step1($db, $_POST['league_id'], $_POST['season'], $_POST['week'], $_POST['awayteam'], $_POST['awayteam_captain'], $_POST['awayteam_vcaptain'], $_POST['awayteam_wk'],$_POST['hometeam'], $_POST['hometeam_captain'], $_POST['hometeam_vcaptain'], $_POST['hometeam_wk'],$_POST['umpires'],$_POST['toss_won_id'],$_POST['result_won_id'],$_POST['batting_first_id'],$_POST['batting_second_id'],$_POST['ground_id'], '',$_POST['game_date'],$_POST['result'], $_POST['result_type'],$_POST['mom'], $_POST['mom2'],$_POST['umpire1'],$_POST['umpire2'],$_POST['maxovers'],$_POST['cricclubs_game_id'],$_POST['report']);
+	insert_scorecard_step1($db, $_POST['league_id'], $_POST['season'], $_POST['week'], $_POST['awayteam'], $_POST['awayteam_captain'], $_POST['awayteam_vcaptain'], $_POST['awayteam_wk'],$_POST['hometeam'], $_POST['hometeam_captain'], $_POST['hometeam_vcaptain'], $_POST['hometeam_wk'],$_POST['umpires'],$_POST['toss_won_id'],$_POST['result_won_id'],$_POST['batting_first_id'],$_POST['batting_second_id'],$_POST['ground_id'], '',$_POST['game_date'],$_POST['result'], $_POST['result_type'],$_POST['mom'], $_POST['mom2'],$_POST['umpire1'],$_POST['umpire2'],$_POST['maxovers'],$_POST['cricclubs_game_id'],$_POST['report'],$_POST['match_videos'],$_POST['ext_scorecard_link'],$_POST['isplayoff']);
 	break;
 case "sdel":
 	delete_category_check($db,$_GET['game_id']);
@@ -8752,7 +8823,7 @@ case "sedit":
 	edit_scorecard_step1($db, $_GET['game_id']);
 	break;
 case "update":
-	update_scorecard_step1($db, $_POST['submit'], $_POST['game_id'], $_POST['league_id'], $_POST['season'], $_POST['week'], $_POST['awayteam'], $_POST['awayteam_captain'], $_POST['awayteam_vcaptain'], $_POST['awayteam_wk'],$_POST['hometeam'], $_POST['hometeam_captain'], $_POST['hometeam_vcaptain'], $_POST['hometeam_wk'],$_POST['umpires'],$_POST['toss_won_id'],$_POST['result_won_id'],$_POST['batting_first_id'],$_POST['batting_second_id'],$_POST['ground_id'], '',$_POST['game_date'],$_POST['result'],$_POST['result_type'],$_POST['mom'], $_POST['mom2'],$_POST['umpire1'],$_POST['umpire2'],$_POST['maxovers'],$_POST['cricclubs_game_id'],$_POST['report']);
+	update_scorecard_step1($db, $_POST['submit'], $_POST['game_id'], $_POST['league_id'], $_POST['season'], $_POST['week'], $_POST['awayteam'], $_POST['awayteam_captain'], $_POST['awayteam_vcaptain'], $_POST['awayteam_wk'],$_POST['hometeam'], $_POST['hometeam_captain'], $_POST['hometeam_vcaptain'], $_POST['hometeam_wk'],$_POST['umpires'],$_POST['toss_won_id'],$_POST['result_won_id'],$_POST['batting_first_id'],$_POST['batting_second_id'],$_POST['ground_id'], '',$_POST['game_date'],$_POST['result'],$_POST['result_type'],$_POST['mom'], $_POST['mom2'],$_POST['umpire1'],$_POST['umpire2'],$_POST['maxovers'],$_POST['cricclubs_game_id'],$_POST['report'],$_POST['match_videos'],$_POST['ext_scorecard_link'],$_POST['isplayoff']);
 	break;
 case "update2":
 	edit_scorecard_step2($db, $_GET['game_id']);

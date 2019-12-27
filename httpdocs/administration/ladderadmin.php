@@ -102,6 +102,7 @@ function show_main_menu_season($db,$season,$sename)
                 echo "  <td align=\"center\"><b class=\"white\">Pen</b></td>\n";
                 echo "  <td align=\"center\"><b class=\"white\">Total</b></td>\n";
                 echo "  <td align=\"center\"><b class=\"white\">Rank</b></td>\n";
+                echo "  <td align=\"center\"><b class=\"white\">Division</b></td>\n";
                 echo "  <td align=\"right\"><b class=\"white\">Modify</b></td>\n";
                 echo "</tr>\n";
             if (!$db->Exists("SELECT * FROM ladder")) {
@@ -138,6 +139,7 @@ function show_main_menu_season($db,$season,$sename)
                     $pe = htmlentities(stripslashes($db->data['penalty']));
                     $tp = htmlentities(stripslashes($db->data['totalpoints']));
                     $rs = htmlentities(stripslashes($db->data['rank_sort']));
+                    $di = htmlentities(stripslashes($db->data['division']));
 
 
                     if($x % 2) {
@@ -156,6 +158,7 @@ function show_main_menu_season($db,$season,$sename)
                     echo "  <td align=\"center\">$pe</td>\n";
                     echo "  <td align=\"center\">$tp</td>\n";
                     echo "  <td align=\"center\">$rs</td>\n";
+                    echo "  <td align=\"center\">$di</td>\n";
 
                     echo "  <td align=\"right\">";
                     echo "<a href=\"main.php?SID=$SID&action=ladderadmin&do=sedit&id=" . $db->data['id'] . "\"><img src=\"/images/icons/icon_edit.gif\" alt=\"Edit\" border=\"0\"></a>
@@ -223,6 +226,7 @@ function add_category_form($db)
         echo "<p>Penalty?<br><input type=\"text\" name=\"penalty\" size=\"40\" maxlength=\"255\"></p>\n";
         echo "<p>Total Points?<br><input type=\"text\" name=\"totalpoints\" size=\"40\" maxlength=\"255\"></p>\n";
         echo "<p>Rank ?<br><input type=\"text\" name=\"rank_sort\" size=\"40\" maxlength=\"255\"></p>\n";
+        echo "<p>Division ?<br><input type=\"text\" name=\"division\" size=\"40\" maxlength=\"1\"></p>\n";
 
 
         echo "<p><input type=\"submit\" value=\"add ladder\"> &nbsp; <input type=\"reset\" value=\"reset form\"></p>\n";
@@ -230,7 +234,7 @@ function add_category_form($db)
 }
 
 
-function do_add_category($db,$season,$team,$played,$won,$tied,$lost,$nrr,$points,$penalty,$totalpoints,$rank_sort)
+function do_add_category($db,$season,$team,$played,$won,$tied,$lost,$nrr,$points,$penalty,$totalpoints,$rank_sort,$division)
 {
     global $PHP_SELF,$content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -254,6 +258,7 @@ function do_add_category($db,$season,$team,$played,$won,$tied,$lost,$nrr,$points
     $pe = addslashes(trim($penalty));
     $tp = addslashes(trim($totalpoints));
     $rs = addslashes(trim($rank_sort));
+    $di = addslashes(trim($division));
 
 
     // check to see if it exists first
@@ -264,7 +269,7 @@ function do_add_category($db,$season,$team,$played,$won,$tied,$lost,$nrr,$points
         return;
     }
     // all okay
-    $db->Insert("INSERT INTO ladder (season, team, played, won, tied, lost, nrr, points, penalty, totalpoints, rank_sort) VALUES ('$se','$te','$pl','$wo','$ti','$lo','$nr','$pt','$pe','$tp', '$rs')");
+    $db->Insert("INSERT INTO ladder (season, team, played, won, tied, lost, nrr, points, penalty, totalpoints, rank_sort, division) VALUES ('$se','$te','$pl','$wo','$ti','$lo','$nr','$pt','$pe','$tp','$rs','$di')");
     if ($db->a_rows != -1) {
         echo "<p>You have now added a new game.</p>\n";
         echo "<p>&raquo; <a href=\"$PHP_SELF?SID=$SID&action=$action&do=sadd\">add another ladderd game</a></p>\n";
@@ -358,6 +363,7 @@ function edit_category_form($db,$id)
     $pe = htmlentities(stripslashes($db->data['penalty']));
     $tp = htmlentities(stripslashes($db->data['totalpoints']));
     $rs = htmlentities(stripslashes($db->data['rank_sort']));
+    $di = htmlentities(stripslashes($db->data['division']));
 
     echo "<p>Edit the ladderd game.</p>\n";
 
@@ -409,6 +415,7 @@ function edit_category_form($db,$id)
         echo "<p>Penalty?<br><input type=\"text\" name=\"penalty\" size=\"40\" maxlength=\"255\" value=\"$pe\"></p>\n";
         echo "<p>Total Points?<br><input type=\"text\" name=\"totalpoints\" size=\"40\" maxlength=\"255\" value=\"$tp\"></p>\n";
         echo "<p>Rank?<br><input type=\"text\" name=\"rank_sort\" size=\"40\" maxlength=\"255\" value=\"$rs\"></p>\n";
+        echo "<p>Division?<br><input type=\"text\" name=\"division\" size=\"40\" maxlength=\"1\" value=\"$di\"></p>\n";
 
 
         echo "<p><input type=\"submit\" value=\"edit ladder\"> &nbsp; <input type=\"reset\" value=\"reset form\"></p>\n";
@@ -417,7 +424,7 @@ function edit_category_form($db,$id)
 }
 
 
-function do_update_category($db,$id,$season,$team,$played,$won,$tied,$lost,$nrr,$points,$penalty,$totalpoints, $rank_sort)
+function do_update_category($db,$id,$season,$team,$played,$won,$tied,$lost,$nrr,$points,$penalty,$totalpoints,$rank_sort,$division)
 {
     global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -441,9 +448,10 @@ function do_update_category($db,$id,$season,$team,$played,$won,$tied,$lost,$nrr,
     $pe = addslashes(trim($penalty));
     $tp = addslashes(trim($totalpoints));
 	$rs = addslashes(trim($rank_sort));
+	$di = addslashes(trim($division));
 
     // do update
-    $db->Update("UPDATE ladder SET season='$se',team='$te',played='$pl',won='$wo',tied='$ti',lost='$lo',nrr='$nr',points='$pt',penalty='$pe',totalpoints='$tp', rank_sort='$rs' WHERE id=$id");
+    $db->Update("UPDATE ladder SET season='$se',team='$te',played='$pl',won='$wo',tied='$ti',lost='$lo',nrr='$nr',points='$pt',penalty='$pe',totalpoints='$tp',rank_sort='$rs',division='$di' WHERE id=$id");
     if ($db->a_rows != -1) {
         echo "<p>You have now updated that ladder.</p>\n";
         echo "<p>&laquo; <a href=\"main.php?SID=$SID&action=$action\">return to the ladder list</a></p>\n";
@@ -483,7 +491,7 @@ case "byseason":
         break;
 case "sadd":
     if (!isset($doit)) add_category_form($db);
-    else do_add_category($db,$_POST['season'],$_POST['team'],$_POST['played'],$_POST['won'],$_POST['tied'],$_POST['lost'],$_POST['nrr'],$_POST['points'],$_POST['penalty'],$_POST['totalpoints'],$_POST['rank_sort']);
+    else do_add_category($db,$_POST['season'],$_POST['team'],$_POST['played'],$_POST['won'],$_POST['tied'],$_POST['lost'],$_POST['nrr'],$_POST['points'],$_POST['penalty'],$_POST['totalpoints'],$_POST['rank_sort'],$_POST['division']);
     break;
 case "sdel":
     if (!isset($doit)) delete_category_check($db,$_GET['id']);
@@ -491,7 +499,7 @@ case "sdel":
     break;
 case "sedit":
     if (!isset($doit)) edit_category_form($db,$_GET['id']);
-    else do_update_category($db,$_POST['id'],$_POST['season'],$_POST['team'],$_POST['played'],$_POST['won'],$_POST['tied'],$_POST['lost'],$_POST['nrr'],$_POST['points'],$_POST['penalty'],$_POST['totalpoints'],$_POST['rank_sort']);
+    else do_update_category($db,$_POST['id'],$_POST['season'],$_POST['team'],$_POST['played'],$_POST['won'],$_POST['tied'],$_POST['lost'],$_POST['nrr'],$_POST['points'],$_POST['penalty'],$_POST['totalpoints'],$_POST['rank_sort'],$_POST['division']);
     break;
 default:
     show_main_menu($db);

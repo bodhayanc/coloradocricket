@@ -895,6 +895,9 @@ function show_schedule_game($db, $game_id)
     $gi = $db->data['GroundID'];
     $re = $db->data['result'];
     $po = $db->data['points'];
+	$rp = $db->data['report'];
+	$sl = $db->data['ext_scorecard_link'];
+	$vdo = $db->data['match_videos'];
 	$ttid = $db->data['WonTossID'];   // 8-June-2015 11:04pm
     $tt = $db->data['WonTossName'];
     $mm  = $db->data['mom'];
@@ -968,9 +971,50 @@ echo "    <td align=\"center\" valign=\"top\"><b><a href=\"/teamdetails.php?team
 //    echo "<p>Played at $gr, on $da</p>\n";
 echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"scorecard\">$gr</a></b>, on $da</p>";
 //echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"scorecard\">$gr</a></b>, on $da</p>\n";
-echo "<p><b>Result: </b> $re</p>\n";
+	$mhlvideo = '';
+	if($vdo != null && $vdo != '' && strpos( $vdo, "youtube" ) !== false) {
+		$videos = explode("|", $vdo);
+		if(count($videos) > 1) {
+			$mul_video_link = '';
+			for ($i=0; $i < count($videos); $i++) {
+				$trimmed_video = trim($videos[$i]);
+				if($trimmed_video != '') {
+					$j = $i + 1;
+					$mhlvideo .= "<a href=\"$trimmed_video\" valign='middle' target='_blank' class=\"scorecard\"><img valign='middle' src=\"/images/youtube.png\" border=0 width=18 alt=\"Watch Match Video $j\" title=\"Watch Match Video $j\"></a>&nbsp;";
+				}
+			}
+		} else {
+			$mhlvideo = "<a href=\"$vdo\" valign='middle' target='_blank' class=\"scorecard\"><img valign='middle' src=\"/images/youtube.png\" border=0 width=18 alt=\"Watch Match Video\" title=\"Watch Match Video\"></a>";
+		}
+    }
+    $ext_scorecard_link = '';
+	if($sl != null && $sl != '' && strpos( $sl, "cricclubs" ) !== false) {
+		$ext_scorecard_link = "<a href=\"$sl\" valign='middle' target='_blank' class=\"scorecard\"><img valign='middle' src=\"/images/cricclubs.png\" border=0 width=20 alt=\"Check CricClubs Scorecard\" title=\"Check CricClubs Scorecard\"></a>";
+    }
+	if($sl != null && $sl != '' && strpos( $sl, "chauka" ) !== false) {
+		$ext_scorecard_link = "<a href=\"$sl\" valign='middle' target='_blank' class=\"scorecard\"><img valign='middle' src=\"/images/chauka.png\" border=0 width=20 alt=\"Check Chauka Scorecard\" title=\"Check Chauka Scorecard\"></a>";
+    }
+	if($sl != null && $sl != '' && strpos( $sl, "crichq" ) !== false) {
+		$ext_scorecard_link = "<a href=\"$sl\" valign='middle' target='_blank' class=\"scorecard\"><img valign='middle' src=\"/images/crichq.svg\" border=0 width=35 alt=\"Check CricHQ Scorecard\" title=\"Check CricHQ Scorecard\"></a>";
+    }
+	$match_report_link = '';
+	if($rp != null && $rp != '' && strpos( $rp, "coloradocricket.org" ) !== false) {
+		$reports = explode("|", $rp);
+		if(count($reports) > 1) {
+			for ($i=0; $i < count($reports); $i++) {
+				$trimmed_report = trim($reports[$i]);
+				if($trimmed_report != '') {
+					$j = $i + 1;
+					$match_report_link .= "<a href=\"$trimmed_report\" valign='middle' target='_blank' class=\"scorecard\"><img valign='middle' src=\"/images/news-200.jpg\" border=0 width=18 alt=\"Read the Match report $j\" title=\"Read the Match report $j\"></a>&nbsp;";
+				}
+			}
+		} else {
+			$match_report_link = "<a href=\"$rp\" valign='middle' target='_blank' class=\"scorecard\"><img valign='middle' src=\"/images/news-200.jpg\" border=0 width=18 alt=\"Read the Match report\" title=\"Read the Match report\"></a>";
+		}
+    }
+    echo "<p><b>Result: </b> $re $ext_scorecard_link $match_report_link $mhlvideo</p>\n";
 
-    if($fo == "0" && $ca == "0") {
+	if($fo == "0" && $ca == "0") {
     
     	
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -2208,30 +2252,6 @@ echo "<p><b>Result: </b> $re</p>\n";
 			echo "</p>";
 		}
 	}
-    echo "<table width=\"95%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
-    echo " <tr height=\"25\" bgcolor=\"#cccccc\">\n";
-    echo "  <td class=\"scorecard\" width=\"1%\" align=\"left\">&nbsp;</td>\n";
-    echo "  <td class=\"scorecard\" width=\"99%\" align=\"left\"><b>General Information</b></td>\n";
-    //echo " </tr>\n";
-    //echo " <tr>\n";
-	echo " </tr>";
-    echo " <tr>";
-    echo "  <td class=\"scorecard\" width=\"1%\" align=\"left\">&nbsp;</td>";
-    echo "  <td class=\"scorecard\" width=\"9%\" align=\"left\">";
-
-	// 25-Oct-2014 12:57am commented these 3 fields - They seemed extra - They are clickable/linkable on top header
-//    echo "<br><p align=\"left\"><b>Season Homepage: </b> <a href=\"scorecard.php?schedule=$sc&ccl_mode=1\" class=\"scorecard\">$sn Season</a><br>\n";
-//    echo "<b>Team Pages: </b> <a href=\"/teamdetails.php?teams=$hi&ccl_mode=1\" class=\"scorecard\">$ht</a>, <a href=\"/teamdetails.php?teams=$ai&ccl_mode=1\" class=\"scorecard\">$at</a><br>\n";
-//    echo "<b>Ground Page: </b> <a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"scorecard\">$gr Cricket Ground</a><br/>\n";
-
-
-$db->QueryRow("SELECT report FROM scorecard_game_details WHERE game_id=$game_id");
-//echo "<b>Report:</b> <a href='".$db->data["report"]."'target='_blank' class=\"scorecard\">CricHQ Scorecard</a>";
-echo "<b>Report:</b> <a href='".$db->data["report"]."'target='_blank' class='scorecard'>".$db->data["report"]."</a>";
-    echo "</td>\n";
-    echo "</tr>\n";
-    echo "</table>\n";
-
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
