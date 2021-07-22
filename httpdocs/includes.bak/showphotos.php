@@ -157,7 +157,7 @@ function show_photos($db,$gallery,$id)
 
 		$p = htmlentities(stripslashes($db->data['picture']));
 		$t = htmlentities(stripslashes($db->data['title']));
-		$de = htmlentities(stripslashes($db->data['description']));
+		$de = htmlentities(stripslashes($db->data[description]));
 		$l = htmlentities(stripslashes($db->data[location]));
 		$da = htmlentities(stripslashes($db->data['date']));
 		$g = $db->data[gallery];

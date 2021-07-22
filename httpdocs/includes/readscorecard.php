@@ -17,8 +17,8 @@ function read_scorecard($db)
 	$dir = "/home/colorad2/public_ftp/incoming/scorecards/";
 	$processed_dir = "/home/colorad2/public_ftp/incoming/processed/";
 	$scorecardFiles = scandir($dir);
-	$season_start_date = "04/06/2019";
-	$playoff_start_date = "09/28/2019";
+	$season_start_date = "04/24/2021";
+	$playoff_start_date = "09/26/2021";
 	global $email_content;
 	global $email_subject;
 	for($x = 0; $x < count($scorecardFiles); $x++) {
@@ -74,8 +74,8 @@ function read_scorecard($db)
 			//$email_content .= "CricClub ground name: $cc_groundname<br>";
 			$cc_competition_name_orig = $matchDetail->item(0)->getAttribute('competition_name');
 			$email_content .= "CricClub competition name: $cc_competition_name_orig<br>";
-			$cc_competition_name = str_replace("round 1", "", $cc_competition_name_orig);
-			$cc_competition_name = trim(str_replace("round 2", "", $cc_competition_name));
+			$cc_competition_name = str_replace(" - 2021 Twenty20 Division 1", "", $cc_competition_name_orig);
+			$cc_competition_name = trim(str_replace(" - 2021 Twenty20 Division 2", "", $cc_competition_name));
 			if ($db->Exists("SELECT * FROM seasons WHERE SeasonName = '$cc_competition_name'")) {
 				$db->QueryRow("SELECT * FROM seasons WHERE SeasonName = '$cc_competition_name'");
 				$db->BagAndTag();
@@ -200,6 +200,9 @@ function read_scorecard($db)
 				} else {
 					$ccl_result = $result_won_abbrev . " won by " . $run_won . " run";
 				}
+			}
+			if(stripos($cc_result, '(D/L)') !== false) {
+				$ccl_result = $ccl_result . " (D/L method)";
 			}
 			
 			$cc_mom = $matchDetail->item(0)->getAttribute('man_of_the_match');
@@ -337,7 +340,7 @@ function read_scorecard($db)
 function sync_cc_and_ccl_players($players, $ccl_club_id, $ccl_team_id) {
 	global $db;
 	global $email_content;
-	$parent_child_team_map = array(62 => 5, 70 => 5, 77 => 5, 66 => 8, 73 => 8, 78 => 8, 71 => 54, 72 => 54, 2 => 6, 74 => 6);
+	$parent_child_team_map = array(62 => 5, 70 => 5, 77 => 5, 66 => 8, 73 => 8, 78 => 8, 71 => 54, 72 => 54, 2 => 6, 74 => 6, 81 => 42, 53 => 42);
 	$ccl_parent_team_id = $ccl_team_id;
 	foreach ($parent_child_team_map as $child_team=>$parent_team) {
 		$email_content .= "parent team for $child_team is $parent_team<br>";
@@ -376,9 +379,9 @@ function sync_cc_and_ccl_players($players, $ccl_club_id, $ccl_team_id) {
 				$email_content .= "ccl_parent_team_id: $ccl_parent_team_id<br>";
 				
 				if($ccl_parent_team_id == $ccl_team_id) {
-					$db->Update("UPDATE players SET PlayerTeam = '$ccl_parent_team_id' WHERE PlayerID = $ccl_player_id");
+					$db->Update("UPDATE players SET PlayerTeam = '$ccl_parent_team_id', PlayerClub = '$ccl_club_id' WHERE PlayerID = $ccl_player_id");
 				} else {
-					$db->Update("UPDATE players SET PlayerTeam = '$ccl_parent_team_id', PlayerTeam2 = '$ccl_team_id' WHERE PlayerID = $ccl_player_id");
+					$db->Update("UPDATE players SET PlayerTeam = '$ccl_parent_team_id', PlayerTeam2 = '$ccl_team_id', PlayerClub = '$ccl_club_id' WHERE PlayerID = $ccl_player_id");
 				}
 			}
 		} else {
@@ -590,6 +593,9 @@ function update_batting_by_innings($ccl_game_id, $ccl_season_id, $ccl_batting_fi
 		case "rto"://Retired Out
 			$how_out = 16;
 			break;
+		case "to"://Timed Out
+			$how_out = 16;
+			break;
 		case "ctw"://caught Behind
 			$how_out = 17;
 			$bowler = $wicket_taker1;
@@ -730,7 +736,7 @@ function update_total_details_table($ccl_game_id, $firstTotal, $secondTotal, $cc
 }
 function update_ladder_table($ccl_season_id) {
 	global $db, $dbcfg, $email_content;
-	$season_end_date = strtotime("2019-11-01");
+	$season_end_date = strtotime("2021-11-01");
 	$now = time();
 	$diff = ($now - $season_end_date) / 86400;
 	$email_content .= "Date diff: $diff";

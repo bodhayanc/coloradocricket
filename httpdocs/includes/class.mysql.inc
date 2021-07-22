@@ -274,29 +274,41 @@ class mysql_class{
 			if ($field=="") {
 				foreach($this->data as $key => $val) {
 					$val = htmlentities($val);
-					$val = preg_replace("[link=([^\\[]*)]","",$val);
+					$val = preg_replace('/'.preg_quote('[link=').'[\s\S]+?'.preg_quote(']').'/', '',$val);
 					$val = str_replace("[/link]","",$val);
-					$val = preg_replace("[img=([^\\[]*)]","",$val);
+					$val = preg_replace('/'.preg_quote('[img=').'[\s\S]+?'.preg_quote(']').'/', '',$val);
 					$val = str_replace("[/img]","",$val);					
 					$val = str_replace("[i]","",$val);
 					$val = str_replace("[/i]","",$val);
 					$val = str_replace("[b]","",$val);
 					$val = str_replace("[/b]","",$val);
 					$val = str_replace("[list]","",$val);
+					$val = str_replace("[table]","",$val);
+					$val = str_replace("[tr]","",$val);
+					$val = str_replace("[td]","",$val);
+					$val = str_replace("[/table]","",$val);
+					$val = str_replace("[/tr]","",$val);
+					$val = str_replace("[/td]","",$val);
 					$this->data[$key] = $val;
 				}
 			} else {
 				$val = htmlentities($this->data[$field]);
 				$val = htmlentities($val);
-				$val = preg_replace("[link=([^\\[]*)]","",$val);
+				$val = preg_replace('/'.preg_quote('[link=').'[\s\S]+?'.preg_quote(']').'/', '',$val);
 				$val = str_replace("[/link]","",$val);
-				$val = preg_replace("[img=([^\\[]*)]","",$val);
+				$val = preg_replace('/'.preg_quote('[img=').'[\s\S]+?'.preg_quote(']').'/', '',$val);
 				$val = str_replace("[/img]","",$val);				
 				$val = str_replace("[i]","",$val);
 				$val = str_replace("[/i]","",$val);
 				$val = str_replace("[b]","",$val);
 				$val = str_replace("[/b]","",$val);
 				$val = str_replace("[list]","",$val);
+				$val = str_replace("[table]","",$val);
+				$val = str_replace("[tr]","",$val);
+				$val = str_replace("[td]","",$val);
+				$val = str_replace("[/table]","",$val);
+				$val = str_replace("[/tr]","",$val);
+				$val = str_replace("[/td]","",$val);
 				$this->data[$field] = $val;
 			}
 		}	

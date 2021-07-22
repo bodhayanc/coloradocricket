@@ -175,10 +175,11 @@ function show_awards_season($db,$season,$sename)
     $db->Query("SELECT pl.PlayerFName, pl.picture, pl.PlayerLName, te.TeamName, te.TeamAbbrev, fm.*, fm.AwardID AS plaward, at.* FROM awards fm INNER JOIN players pl ON fm.AwardPlayer = pl.PlayerID INNER JOIN teams te ON pl.PlayerTeam = te.TeamID INNER JOIN awardtypes at ON fm.AwardTitle = at.AwardID WHERE fm.season=$season ORDER BY at.rank_sort ASC");  // 23-Jan-2015 12:32am Change ORDER BY from at.AwardName to at.rank_sort
     for ($x=0; $x<$db->rows; $x++) {
         $db->GetRow($x);
-
+		$db->BagAndTag();
+		
         // setup variables
 
-        $pfn = htmlentities(stripslashes($db->data['PlayerFName']));
+        $pfn = $db->data['PlayerFName'];
         $pln = htmlentities(stripslashes($db->data['PlayerLName']));
 
         $tna = htmlentities(stripslashes($db->data['TeamName']));
@@ -187,7 +188,7 @@ function show_awards_season($db,$season,$sename)
         $det = htmlentities(stripslashes($db->data['AwardDetail']));
         $awn = htmlentities(stripslashes($db->data['AwardName']));
         $id = htmlentities(stripslashes($db->data['plaward']));
-        $ad = htmlentities(stripslashes($db->data['AwardDetail']));
+        $ad = $db->data['AwardDetail'];
         $pc = htmlentities(stripslashes($db->data['picture']));
         $a = sqldate_to_string($db->data['added']);
 
@@ -201,7 +202,7 @@ function show_awards_season($db,$season,$sename)
 
         echo "  <td width=120  align=center valign=top><center><img alt='$pln, $pfn' align=center width=100 border=1 src=\"/uploadphotos/players/$pc\"><br>$awn<br>$pln, $pfn<br></center></td>\n";
         // echo "  <td valign=top><b>Team: $tab</b> <br>". $ad ." </td>\n";
-		echo "  <td valign=top><b></b> <br>". $ad ." </td>\n";  // 23-Jan-2015 12:55am
+		echo "  <td valign=top><b></b>$ad</td>\n";  // 23-Jan-2015 12:55am
         echo "</tr>\n";
             
     }

@@ -18,7 +18,7 @@ session_start();
 // if the person hasn't logged on yet
 $USER=$_SESSION['userdata'];
 
-if ($USER['email'] == "" || $SID == "") {
+if ($USER[email] == "" || $SID == "") {
     header("Location: http://$pathcfg[urlroot]/$pathcfg[adir]/index.php?again=3");
     exit;
 }
@@ -81,7 +81,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER['flags'][$f_user_admin]) ||  ($USER['flags'][$f_news_admin]) || ($USER['flags'][$f_history_admin])) {
+            if (($USER[flags][$f_user_admin]) ||  ($USER[flags][$f_news_admin]) || ($USER[flags][$f_history_admin])) {
 
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
@@ -97,7 +97,7 @@ $jscript = "";
 
             // User Administration
 
-            if ($USER['flags'][$f_user_admin]) {
+            if ($USER[flags][$f_user_admin]) {
 
               echo "<tr>\n";
 
@@ -119,7 +119,7 @@ $jscript = "";
 
             // News Administration
 
-            if ($USER['flags'][$f_news_admin]) {
+            if ($USER[flags][$f_news_admin]) {
 
               echo "<tr>\n";
 
@@ -141,7 +141,7 @@ $jscript = "";
 
             // Featured Article Administration
 
-            if ($USER['flags'][$f_news_admin]) {
+            if ($USER[flags][$f_news_admin]) {
 
               echo "<tr>\n";
 
@@ -163,7 +163,7 @@ $jscript = "";
 
             // History Administration
 
-            if ($USER['flags'][$f_history_admin]) {
+            if ($USER[flags][$f_history_admin]) {
 
               echo "<tr>\n";
 
@@ -185,7 +185,7 @@ $jscript = "";
 
             // CCL Documents Administration
 
-            if ($USER['flags'][$f_ccldocuments_admin]) {
+            if ($USER[flags][$f_ccldocuments_admin]) {
 
               echo "<tr>\n";
 
@@ -207,7 +207,7 @@ $jscript = "";
             
             // Sponsors Administration
 
-            if ($USER['flags'][$f_sponsors_admin]) {
+            if ($USER[flags][$f_sponsors_admin]) {
 
               echo "<tr>\n";
 
@@ -232,7 +232,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER['flags'][$f_clubs_admin]) ||  ($USER['flags'][$f_teams_admin]) || ($USER['flags'][$f_grounds_admin])) {
+            if (($USER[flags][$f_clubs_admin]) ||  ($USER[flags][$f_teams_admin]) || ($USER[flags][$f_grounds_admin])) {
 
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
@@ -248,7 +248,7 @@ $jscript = "";
 
             // Clubs Administration
 
-            if ($USER['flags'][$f_clubs_admin]) {
+            if ($USER[flags][$f_clubs_admin]) {
 
               echo "<tr>\n";
 
@@ -270,7 +270,7 @@ $jscript = "";
 
             // Teams Administration
 
-            if ($USER['flags'][$f_teams_admin]) {
+            if ($USER[flags][$f_teams_admin]) {
 
               echo "<tr>\n";
 
@@ -292,7 +292,7 @@ $jscript = "";
 
             // Grounds Administration
 
-            if ($USER['flags'][$f_grounds_admin]) {
+            if ($USER[flags][$f_grounds_admin]) {
 
               echo "<tr>\n";
 
@@ -315,7 +315,7 @@ $jscript = "";
 
             // Schedule Administration
 
-            if ($USER['flags'][$f_schedule_admin]) {
+            if ($USER[flags][$f_schedule_admin]) {
 
               echo "<tr>\n";
 
@@ -337,7 +337,7 @@ $jscript = "";
 
             // Points Table Administration
 
-            if ($USER['flags'][$f_ladder_admin]) {
+            if ($USER[flags][$f_ladder_admin]) {
 
               echo "<tr>\n";
 
@@ -359,7 +359,7 @@ $jscript = "";
             
             // Champions Administration
 
-            if ($USER['flags'][$f_champions_admin]) {
+            if ($USER[flags][$f_champions_admin]) {
 
               echo "<tr>\n";
 
@@ -384,7 +384,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER['flags'][$f_featuredmember_admin]) || ($USER['flags'][$f_player_admin])) {
+            if (($USER[flags][$f_featuredmember_admin]) || ($USER[flags][$f_player_admin])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;PLAYER SETTINGS\n";
@@ -399,7 +399,7 @@ $jscript = "";
 
             // Player Administration
 
-            if ($USER['flags'][$f_player_admin]) {
+            if ($USER[flags][$f_player_admin]) {
 
               echo "<tr>\n";
 
@@ -421,7 +421,7 @@ $jscript = "";
 
             // Featured Member Administration
 
-            if ($USER['flags'][$f_featuredmember_admin]) {
+            if ($USER[flags][$f_featuredmember_admin]) {
 
               echo "<tr>\n";
 
@@ -443,7 +443,7 @@ $jscript = "";
 
             // CCL Officers Administration
 
-            if ($USER['flags'][$f_cclofficers_admin]) {
+            if ($USER[flags][$f_cclofficers_admin]) {
 
               echo "<tr>\n";
 
@@ -465,7 +465,7 @@ $jscript = "";
 
             // Awards Administration
 
-            if ($USER['flags'][$f_awards_admin]) {
+            if ($USER[flags][$f_awards_admin]) {
 
               echo "<tr>\n";
 
@@ -490,7 +490,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER['flags'][$f_cougarsnews_admin]) || ($USER['flags'][$f_cougarsschedule_admin]) || ($USER['flags'][$f_cougarsplayers_admin])) {
+            if (($USER[flags][$f_cougarsnews_admin]) || ($USER[flags][$f_cougarsschedule_admin]) || ($USER[flags][$f_cougarsplayers_admin])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#025A43\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;COUGARS SETTINGS\n";
@@ -506,7 +506,7 @@ $jscript = "";
 
             // Cougars News Administration
 
-            if ($USER['flags'][$f_cougarsnews_admin]) {
+            if ($USER[flags][$f_cougarsnews_admin]) {
 
               echo "<tr>\n";
 
@@ -528,7 +528,7 @@ $jscript = "";
 
             // Cougars Schedule Administration
 
-            if ($USER['flags'][$f_cougarsschedule_admin]) {
+            if ($USER[flags][$f_cougarsschedule_admin]) {
 
               echo "<tr>\n";
 
@@ -550,7 +550,7 @@ $jscript = "";
             
             // Cougars Players Administration
 
-            if ($USER['flags'][$f_cougarsplayers_admin]) {
+            if ($USER[flags][$f_cougarsplayers_admin]) {
 
               echo "<tr>\n";
 
@@ -572,7 +572,7 @@ $jscript = "";
 
             // Cougars Clubs Administration
 
-            if ($USER['flags'][$f_cougarsclubs_admin]) {
+            if ($USER[flags][$f_cougarsclubs_admin]) {
 
               echo "<tr>\n";
 
@@ -594,7 +594,7 @@ $jscript = "";
 
             // Cougars Teams Administration
 
-            if ($USER['flags'][$f_cougarsteams_admin]) {
+            if ($USER[flags][$f_cougarsteams_admin]) {
 
               echo "<tr>\n";
 
@@ -616,7 +616,7 @@ $jscript = "";
             
             // Cougars Grounds Administration
 
-            if ($USER['flags'][$f_cougarsgrounds_admin]) {
+            if ($USER[flags][$f_cougarsgrounds_admin]) {
 
               echo "<tr>\n";
 
@@ -642,7 +642,7 @@ $jscript = "";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            if (($USER['flags'][$f_tennisdocuments_admin]) || ($USER['flags'][$f_tennisnews_admin]) || ($USER['flags'][$f_tennisschedule_admin]) || ($USER['flags'][$f_tennisplayers_admin]) || ($USER['flags'][$f_tennisteams_admin])) {
+            if (($USER[flags][$f_tennisdocuments_admin]) || ($USER[flags][$f_tennisnews_admin]) || ($USER[flags][$f_tennisschedule_admin]) || ($USER[flags][$f_tennisplayers_admin]) || ($USER[flags][$f_tennisteams_admin])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#DE9C06\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;TENNIS SETTINGS\n";
@@ -658,7 +658,7 @@ $jscript = "";
 
             // Tennis News Administration
 
-            if ($USER['flags'][$f_tennisnews_admin]) {
+            if ($USER[flags][$f_tennisnews_admin]) {
 
               echo "<tr>\n";
 
@@ -680,7 +680,7 @@ $jscript = "";
 
             // Tennis Documents Administration
 
-            if ($USER['flags'][$f_tennisdocuments_admin]) {
+            if ($USER[flags][$f_tennisdocuments_admin]) {
 
               echo "<tr>\n";
 
@@ -703,7 +703,7 @@ $jscript = "";
 
             // Tennis Schedule Administration
 
-            if ($USER['flags'][$f_tennisschedule_admin]) {
+            if ($USER[flags][$f_tennisschedule_admin]) {
 
               echo "<tr>\n";
 
@@ -725,7 +725,7 @@ $jscript = "";
             
             // Tennis Players Administration
 
-            if ($USER['flags'][$f_tennisplayers_admin]) {
+            if ($USER[flags][$f_tennisplayers_admin]) {
 
               echo "<tr>\n";
 
@@ -747,7 +747,7 @@ $jscript = "";
 
             // Tennis Clubs Administration
 
-            if ($USER['flags'][$f_tennisclubs_admin]) {
+            if ($USER[flags][$f_tennisclubs_admin]) {
 
               echo "<tr>\n";
 
@@ -769,7 +769,7 @@ $jscript = "";
             
             // Tennis Teams Administration
 
-            if ($USER['flags'][$f_tennisteams_admin]) {
+            if ($USER[flags][$f_tennisteams_admin]) {
 
               echo "<tr>\n";
 
@@ -791,7 +791,7 @@ $jscript = "";
             
             // Tennis Points Table Administration
 
-            if ($USER['flags'][$f_tennisladder_admin]) {
+            if ($USER[flags][$f_tennisladder_admin]) {
 
               echo "<tr>\n";
 
@@ -815,7 +815,7 @@ $jscript = "";
             
             // Tennis Groups Administration
 
-            if ($USER['flags'][$f_tennisgroups_admin]) {
+            if ($USER[flags][$f_tennisgroups_admin]) {
 
               echo "<tr>\n";
 
@@ -841,7 +841,7 @@ $jscript = "";
 
 
 
-            if ($USER['flags'][$f_seasons_admin]) {
+            if ($USER[flags][$f_seasons_admin]) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;MISCELLANOUS SETTINGS\n";
@@ -856,7 +856,7 @@ $jscript = "";
 
             // Seasons Administration
 
-            if (($USER['flags'][$f_seasons_admin]) || ($USER['flags'][$f_leagues_admin])) {
+            if (($USER[flags][$f_seasons_admin]) || ($USER[flags][$f_leagues_admin])) {
 
               echo "<tr>\n";
 
@@ -878,7 +878,7 @@ $jscript = "";
 
             // League Management Administration
 
-            if ($USER['flags'][$f_leagues_admin]) {
+            if ($USER[flags][$f_leagues_admin]) {
 
               echo "<tr>\n";
 
@@ -904,7 +904,7 @@ $jscript = "";
 
 
 
-            if ($USER['flags'][$f_cal_event_admin]) {
+            if ($USER[flags][$f_cal_event_admin]) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;CALENDAR SETTINGS\n";
@@ -919,7 +919,7 @@ $jscript = "";
 
             // Category Administration
 
-            if ($USER['flags'][$f_cal_cat_admin]) {
+            if ($USER[flags][$f_cal_cat_admin]) {
 
               echo "<tr>\n";
 
@@ -941,7 +941,7 @@ $jscript = "";
 
             // Event Administration
 
-            if ($USER['flags'][$f_cal_event_admin]) {
+            if ($USER[flags][$f_cal_event_admin]) {
 
               echo "<tr>\n";
 
@@ -967,7 +967,7 @@ $jscript = "";
 
 /*
 
-            if (($USER['flags'][$f_image_gallery]) || ($USER['flags'][$f_image_photos])) {
+            if (($USER[flags][$f_image_gallery]) || ($USER[flags][$f_image_photos])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;PHOTO GALLERIES\n";
@@ -982,7 +982,7 @@ $jscript = "";
 
             // Gallery Administration
 
-            if ($USER['flags'][$f_image_gallery]) {
+            if ($USER[flags][$f_image_gallery]) {
 
               echo "<tr>\n";
 
@@ -1004,7 +1004,7 @@ $jscript = "";
 
             // Photo Administration
 
-            if ($USER['flags'][$f_image_photos]) {
+            if ($USER[flags][$f_image_photos]) {
 
               echo "<tr>\n";
 
@@ -1032,7 +1032,7 @@ $jscript = "";
 
 /*
 
-            if (($USER['flags'][$f_ml_lists]) || ($USER['flags'][$f_ml_emails]) || ($USER['flags'][$f_ml_archive]) || ($USER['flags'][$f_ml_send])) {
+            if (($USER[flags][$f_ml_lists]) || ($USER[flags][$f_ml_emails]) || ($USER[flags][$f_ml_archive]) || ($USER[flags][$f_ml_send])) {
               echo "<tr>\n";
               echo "  <td bgcolor=\"#9E3228\" height=\"20\" class=\"whitemain\">\n";
               echo "  &nbsp;MAILING LIST\n";
@@ -1047,7 +1047,7 @@ $jscript = "";
 
             // Mailing Lists Administration
 
-            if ($USER['flags'][$f_ml_lists]) {
+            if ($USER[flags][$f_ml_lists]) {
 
               echo "<tr>\n";
 
@@ -1069,7 +1069,7 @@ $jscript = "";
 
             // Mailing Emails Administration
 
-            if ($USER['flags'][$f_ml_emails]) {
+            if ($USER[flags][$f_ml_emails]) {
 
               echo "<tr>\n";
 
@@ -1092,7 +1092,7 @@ $jscript = "";
 
             // Mailing Send Administration
 
-            if ($USER['flags'][$f_ml_send]) {
+            if ($USER[flags][$f_ml_send]) {
 
               echo "<tr>\n";
 
@@ -1114,7 +1114,7 @@ $jscript = "";
 
             // Mailing Archives Administration
 
-            if ($USER['flags'][$f_ml_archive]) {
+            if ($USER[flags][$f_ml_archive]) {
 
               echo "<tr>\n";
 
@@ -1219,7 +1219,7 @@ $jscript = "";
 
           if (!isset($action) || $action == "") {
 
-            echo "<p>Logged in as: <b>" . $USER['email'] . "</b>.<br>\n";
+            echo "<p>Logged in as: <b>" . $USER[email] . "</b>.<br>\n";
             echo "Last logged in at: <b>" . $USER[laston] . "</b>.</p>\n";
 
             echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" bordercolor=\"$bluebdr\" align=\"center\">\n";

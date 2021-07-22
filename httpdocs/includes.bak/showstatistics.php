@@ -1283,7 +1283,7 @@ $db->Query("SELECT la.season, se.SeasonName FROM scorecard_batting_details la IN
 		$db_roo_min->BagAndTag();
 		$j = 0;
 		$db_roo_min->GetRow($j);
-		$min_date = $db_roo_min->data['min_date'];
+		$min_date = $db_roo_min->data[min_date];
 			if(substr($min_date,0,4) == $season_year) {
 				if($final_players == '') {
 					$final_players = $playerid_all;
@@ -2150,7 +2150,7 @@ function show_statistics_bowling_rookies($db,$statistics,$sort,$direction,$optio
 		$db_roo_min->BagAndTag();
 		$j = 0;
 		$db_roo_min->GetRow($j);
-		$min_date = $db_roo_min->data['min_date'];
+		$min_date = $db_roo_min->data[min_date];
 			if(substr($min_date,0,4) == $season_year) {
 				if($final_players == '') {
 					$final_players = $playerid_all;

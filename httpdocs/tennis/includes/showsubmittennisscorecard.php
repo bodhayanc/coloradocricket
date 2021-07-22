@@ -2287,8 +2287,8 @@ function add_scorecard_step3($db,$game_id,$season)
 	$gsc = $db->data['season'];
 
 	$b1  = $db->data[batting_first_id];
-	$at  = $db->data['awayteam'];
-	$ht  = $db->data['hometeam'];
+	$at  = $db->data[awayteam];
+	$ht  = $db->data[hometeam];
 
 	$ght = $db->data['homeabbrev'];
 	$ghi = $db->data['homeid'];

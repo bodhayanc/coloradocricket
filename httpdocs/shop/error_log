@@ -1,6 +1,0 @@
-[23-Feb-2005 16:26:48] PHP Warning:  main(includes/visits.inc): failed to open stream: No such file or directory in /home/colora12/public_html/shop/index.php on line 47
-[23-Feb-2005 16:26:48] PHP Warning:  main(includes/visits.inc): failed to open stream: No such file or directory in /home/colora12/public_html/shop/index.php on line 47
-[23-Feb-2005 16:26:48] PHP Warning:  main(): Failed opening 'includes/visits.inc' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/colora12/public_html/shop/index.php on line 47
-[23-Feb-2005 16:27:56] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/colora12/public_html/shop/index.php:14) in /home/colora12/public_html/shop/index.php on line 15
-[23-Feb-2005 16:28:22] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/colora12/public_html/shop/index.php:14) in /home/colora12/public_html/shop/index.php on line 15
-[23-Feb-2005 16:28:40] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/colora12/public_html/shop/index.php:14) in /home/colora12/public_html/shop/index.php on line 16

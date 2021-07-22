@@ -49,8 +49,8 @@ function show_clubs_listing($db,$s,$id,$pr)
         $id = htmlentities(stripslashes($db->data['ClubID']));
         $na = htmlentities(stripslashes($db->data['ClubName']));
         $di = htmlentities(stripslashes($db->data[ClubDirections]));
-        $cs = htmlentities(stripslashes($db->data['ClubActive']));
-        $clublogo =  htmlentities(stripslashes($db->data['clublogo']));
+        $cs = htmlentities(stripslashes($db->data[ClubActive]));
+        $clublogo =  htmlentities(stripslashes($db->data[clublogo]));
        
 	if($cs == "1"){
         // output article
@@ -93,8 +93,8 @@ function show_clubs_listing($db,$s,$id,$pr)
         $id = htmlentities(stripslashes($db->data['ClubID']));
         $na = htmlentities(stripslashes($db->data['ClubName']));
         $di = htmlentities(stripslashes($db->data[ClubDirections]));
-        $cs = htmlentities(stripslashes($db->data['ClubActive']));
-        $clublogo =  htmlentities(stripslashes($db->data['clublogo']));
+        $cs = htmlentities(stripslashes($db->data[ClubActive]));
+        $clublogo =  htmlentities(stripslashes($db->data[clublogo]));
         if($cs == "0"){
         // output article
 		
@@ -143,9 +143,9 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
-    $cab = $db->data['ClubAbbrev'];
-    $cur = $db->data['ClubURL'];
-    $cco = $db->data['ClubColour'];
+    $cab = $db->data[ClubAbbrev];
+    $cur = $db->data[ClubURL];
+    $cco = $db->data[ClubColour];
 
     $tid = $db->data['TeamID'];
     $tna = $db->data['TeamName'];
@@ -158,7 +158,7 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $gri = $db->data['GroundID'];
     $grn = $db->data['GroundName'];
-    $clublogo = $db->data['clublogo'];
+    $clublogo = $db->data[clublogo];
 
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
@@ -405,8 +405,8 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
-    $cur = $db->data['ClubURL'];
-    $cco = $db->data['ClubColour'];
+    $cur = $db->data[ClubURL];
+    $cco = $db->data[ClubColour];
 
     $tid = $db->data['TeamID'];
     $tna = $db->data['TeamName'];
@@ -444,9 +444,9 @@ function show_full_clubs($db,$s,$id,$pr,$tid)
 
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
-    $cab = $db->data['ClubAbbrev'];
-    $cur = $db->data['ClubURL'];
-    $cco = $db->data['ClubColour'];
+    $cab = $db->data[ClubAbbrev];
+    $cur = $db->data[ClubURL];
+    $cco = $db->data[ClubColour];
 
     $tid = $db->data['TeamID'];
     $tna = $db->data['TeamName'];

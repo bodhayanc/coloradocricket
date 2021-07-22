@@ -219,9 +219,9 @@ function show_schedule($db,$schedule,$id,$pr,$team,$week)
             $db->Query("SELECT sch.*,grn.GroundName as ground FROM schedule sch inner join grounds grn on sch.venue = grn.GroundID WHERE season=$schedule ORDER BY id");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
-                $t1 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
-                $t2 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
-                $um = htmlentities(stripslashes($teams[$db->data['umpires']]));
+                $t1 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
+                $t2 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
+                $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
                 $t = htmlentities(stripslashes($db->data['TeamName']));
                 $d = sqldate_to_string($db->data['date']);
                 $v = htmlentities(stripslashes($db->data['ground']));
@@ -358,9 +358,9 @@ function show_schedule_team($db,$schedule,$id,$pr,$team,$week)
             $db->Query("SELECT sch.*,grn.GroundName as ground FROM schedule sch inner join grounds grn on sch.venue = grn.GroundID WHERE season=$schedule AND (awayteam=$team OR hometeam=$team) ORDER BY id");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
-                $t1 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
-                $t2 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
-                $um = htmlentities(stripslashes($teams[$db->data['umpires']]));
+                $t1 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
+                $t2 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
+                $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
                 $t = htmlentities(stripslashes($db->data['TeamName']));
                 $d = sqldate_to_string($db->data['date']);
                 $v = htmlentities(stripslashes($db->data['ground']));
@@ -473,9 +473,9 @@ function show_schedule_week($db,$schedule,$id,$pr,$team,$week)
             $db->Query("SELECT sch.*,grn.GroundName as ground FROM schedule sch inner join grounds grn on sch.venue = grn.GroundID WHERE season=$schedule and week=$week ORDER BY id");
             for ($x=0; $x<$db->rows; $x++) {
                 $db->GetRow($x);
-                $t1 = htmlentities(stripslashes($teams[$db->data['hometeam']]));
-                $t2 = htmlentities(stripslashes($teams[$db->data['awayteam']]));
-                $um = htmlentities(stripslashes($teams[$db->data['umpires']]));
+                $t1 = htmlentities(stripslashes($teams[$db->data[hometeam]]));
+                $t2 = htmlentities(stripslashes($teams[$db->data[awayteam]]));
+                $um = htmlentities(stripslashes($teams[$db->data[umpires]]));
                 $t = htmlentities(stripslashes($db->data['TeamName']));
                 $d = sqldate_to_string($db->data['date']);
                 $v = htmlentities(stripslashes($db->data['ground']));

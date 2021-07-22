@@ -103,9 +103,9 @@ function show_top20_news_listing($db,$s,$id,$pr)
 
         for ($y=0; $y<$db->rows; $y++) {
             $db->GetRow($y);
-            $ty = $db->data['theyear'];
-            $tm = $db->data['themonth'];
-            $mi = $db->data['monthid'];
+            $ty = $db->data[theyear];
+            $tm = $db->data[themonth];
+            $mi = $db->data[monthid];
 
             echo "$ty&nbsp;&nbsp;";
 
@@ -237,9 +237,9 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
 
         for ($y=0; $y<$db->rows; $y++) {
             $db->GetRow($y);
-            $ty = $db->data['theyear'];
-            $tm = $db->data['themonth'];
-            $mi = $db->data['monthid'];
+            $ty = $db->data[theyear];
+            $tm = $db->data[themonth];
+            $mi = $db->data[monthid];
 
             echo "$ty&nbsp;&nbsp;";
 
@@ -334,9 +334,9 @@ function show_monthly_news_listing($db,$s,$id,$pr,$theyear,$themonth,$monthname)
 
         for ($y=0; $y<$db->rows; $y++) {
             $db->GetRow($y);
-            $ty = $db->data['theyear'];
-            $tm = $db->data['themonth'];
-            $mi = $db->data['monthid'];
+            $ty = $db->data[theyear];
+            $tm = $db->data[themonth];
+            $mi = $db->data[monthid];
 
             echo "$ty&nbsp;&nbsp;";
 
@@ -473,7 +473,7 @@ function show_full_news($db,$s,$id,$pr)
     $a = sqldate_to_string($db->data['added']);
     $t = $db->data['title'];
     $di = $db->data['DiscussID'];
-    $pd = $db->data['picdesc'];
+    $pd = $db->data[picdesc];
     $vw = $db->data['views'];
 
     $db->Update("UPDATE news SET views=$vw+1 WHERE id=$pr");
@@ -707,9 +707,9 @@ function search_news($db,$search="")
 
         for ($y=0; $y<$db->rows; $y++) {
             $db->GetRow($y);
-            $ty = $db->data['theyear'];
-            $tm = $db->data['themonth'];
-            $mi = $db->data['monthid'];
+            $ty = $db->data[theyear];
+            $tm = $db->data[themonth];
+            $mi = $db->data[monthid];
 
             echo "$ty&nbsp;&nbsp;";
 

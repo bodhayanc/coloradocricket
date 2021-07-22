@@ -88,15 +88,15 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
         $sn = $db->data['SeasonName'];
         $tid = $db->data['TeamID'];
         
-		$tna2 = $db->data['TeamName2'];  // 8-Oct-2015 10:30pm
-        $tab2 = $db->data['TeamAbbrev2'];
-        $sn2 = $db->data['SeasonName2'];
-        $tid2 = $db->data['TeamID2'];
+		$tna2 = $db->data[TeamName2];  // 8-Oct-2015 10:30pm
+        $tab2 = $db->data[TeamAbbrev2];
+        $sn2 = $db->data[SeasonName2];
+        $tid2 = $db->data[TeamID2];
 		
-		$tna3 = $db->data['TeamName3']; // 8-Oct-2015 10:30pm
-        $tab3 = $db->data['TeamAbbrev3'];
-        $sn3 = $db->data['SeasonName3'];
-        $tid3 = $db->data['TeamID3'];
+		$tna3 = $db->data[TeamName3]; // 8-Oct-2015 10:30pm
+        $tab3 = $db->data[TeamAbbrev3];
+        $sn3 = $db->data[SeasonName3];
+        $tid3 = $db->data[TeamID3];
 		
         echo '<tr class="trrow', ($x % 2 ? '1' : '2'), '">';
 // 1-Mar-2010  - removed the words  League Champions.           
@@ -170,15 +170,15 @@ function show_champ($db,$s,$id,$aw,$season,$sename)
         $sn = $db->data['SeasonName'];
         $tid = $db->data['TeamID'];
         
-		$tna2 = $db->data['TeamName2'];  // 8-Oct-2015 10:30pm
-        $tab2 = $db->data['TeamAbbrev2'];
-        $sn2 = $db->data['SeasonName2'];
-        $tid2 = $db->data['TeamID2'];
+		$tna2 = $db->data[TeamName2];  // 8-Oct-2015 10:30pm
+        $tab2 = $db->data[TeamAbbrev2];
+        $sn2 = $db->data[SeasonName2];
+        $tid2 = $db->data[TeamID2];
 		
-		$tna3 = $db->data['TeamName3']; // 8-Oct-2015 10:30pm
-        $tab3 = $db->data['TeamAbbrev3'];
-        $sn3 = $db->data['SeasonName3'];
-        $tid3 = $db->data['TeamID3'];
+		$tna3 = $db->data[TeamName3]; // 8-Oct-2015 10:30pm
+        $tab3 = $db->data[TeamAbbrev3];
+        $sn3 = $db->data[SeasonName3];
+        $tid3 = $db->data[TeamID3];
 		
         echo '<tr class="trrow', ($x % 2 ? '1' : '2'), '">';
 // 1-Mar-2010  - removed the words  League Champions.         

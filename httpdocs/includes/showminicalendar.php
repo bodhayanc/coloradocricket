@@ -55,7 +55,7 @@ global $PHP_SELF;
        // echo "    <td class=\"9px\" width=\"70%\"><a href='Javascript: //' onClick=\"MM_openBrWindow('/calendar/cal_popup.php?
       // mode=view&id=$id','eventview','toolbar=no,status=no,resizable=no,scrollbars=yes',550,300,false)\">$t</td>\n";
 
-      echo "  <td align=\"left\"><a href=\"calendar.php?&id=$id&ccl_mode=1\" target=\"_new\">$t</a><span class=\"9px\"></td>\n";
+      echo "  <td align=\"left\"><a href=\"/calendar.php?&id=$id&ccl_mode=1\">$t</a><span class=\"9px\"></td>\n";
 
 //echo "    <td class=\"9px\" width=\"70%\"><a href='Javascript: //' onClick=\"MM_openBrWindow('/calendar.php?&id=$id&ccl_mode=1' , 'eventview', //'toolbar=no,status=no,resizable=no,scrollbars=yes',550,300,false)\">$t</td>\n";
 

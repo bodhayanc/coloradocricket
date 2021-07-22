@@ -119,7 +119,7 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
             $iid = $db->data['id'];
             $itit = $db->data['title'];
             $ipic = $db->data['picture'];
-            $idet = $db->data['description'];
+            $idet = $db->data[description];
 
             $ina = $db->data[contact];
             $iurl= $db->data['url'];

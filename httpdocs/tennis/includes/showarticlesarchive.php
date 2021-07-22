@@ -218,7 +218,7 @@ function show_full_articles($db,$s,$id,$pr)
     $a = sqldate_to_string($db->data['added']);
     $t = $db->data['title'];
     $di = $db->data['DiscussID'];
-    $pd = $db->data['picdesc'];
+    $pd = $db->data[picdesc];
 
     echo "<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";

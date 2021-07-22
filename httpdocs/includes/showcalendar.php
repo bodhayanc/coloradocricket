@@ -121,13 +121,13 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
             $ipic = $db->data['picture'];
             $idet = $db->data['description'];
 
-            $ina = $db->data[contact];
+            $ina = $db->data['contact'];
             $iurl= $db->data['url'];
-            $iem = $db->data[email];
+            $iem = $db->data['email'];
             $isd = $db->data['start_date'];
-	    $ied = $db->data[end_date];
+	    $ied = $db->data['end_date'];
 
-            $iap = $db->data[approved];
+            $iap = $db->data['approved'];
 
            // output article
 
@@ -165,13 +165,13 @@ global $PHP_SELF, $bluebdr, $greenbdr, $yellowbdr;
 $db = new mysql_class($dbcfg['login'],$dbcfg['pword'],$dbcfg['server']);
 $db->SelectDB($dbcfg['db']);
 
-if(isset($ccl_mode)) {
-	switch($ccl_mode) {
+if(isset($_GET['ccl_mode'])) {
+	switch($_GET['ccl_mode']) {
 	case 0:
 		show_calendar_listing($db);
 		break;
 	case 1:
-		show_calendar_items($db,$id);
+		show_calendar_items($db,$_GET['id']);
 		break;
 	default:
 		show_calendar_listing($db);

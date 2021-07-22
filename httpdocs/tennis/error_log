@@ -1,0 +1,31 @@
+[20-Jul-2021 12:54:08 America/Chicago] PHP Parse error:  syntax error, unexpected 'new' (T_NEW) in /home/colorad2/public_html/tennis/includes/showstatistics.php on line 432
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(../cougars/includes/header.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 21
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/header.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 21
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(../cougars/includes/links.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 22
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/links.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 22
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(../cougars/includes/showsearchsite.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 27
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/showsearchsite.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 27
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(../cougars/includes/right.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 33
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/right.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 33
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(../cougars/includes/footer.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 39
+[20-Jul-2021 12:54:10 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/footer.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 39
+[20-Jul-2021 13:03:38 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function import_request_variables() in /home/colorad2/public_html/tennis/includes/general.config.inc:212
+Stack trace:
+#0 /home/colorad2/public_html/tennis/teamdetails.php(2): require()
+#1 {main}
+  thrown in /home/colorad2/public_html/tennis/includes/general.config.inc on line 212
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(../cougars/includes/header.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 21
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/header.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 21
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(../cougars/includes/links.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 22
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/links.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 22
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(../cougars/includes/showsearchsite.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 27
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/showsearchsite.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 27
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(../cougars/includes/right.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 33
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/right.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 33
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(../cougars/includes/footer.php): failed to open stream: No such file or directory in /home/colorad2/public_html/tennis/search.php on line 39
+[20-Jul-2021 13:03:42 America/Chicago] PHP Warning:  include(): Failed opening '../cougars/includes/footer.php' for inclusion (include_path='.:/opt/alt/php70/usr/share/pear:D:\Inetpub\vhosts\coloradocricket.org\httpdocs\includes') in /home/colorad2/public_html/tennis/search.php on line 39
+[20-Jul-2021 13:12:44 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function import_request_variables() in /home/colorad2/public_html/tennis/includes/general.config.inc:212
+Stack trace:
+#0 /home/colorad2/public_html/tennis/teamdetails.php(2): require()
+#1 {main}
+  thrown in /home/colorad2/public_html/tennis/includes/general.config.inc on line 212

@@ -972,7 +972,7 @@ echo "    <td align=\"center\" valign=\"top\"><b><a href=\"/teamdetails.php?team
 echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"scorecard\">$gr</a></b>, on $da</p>";
 //echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"scorecard\">$gr</a></b>, on $da</p>\n";
 	$mhlvideo = '';
-	if($vdo != null && $vdo != '' && strpos( $vdo, "youtube" ) !== false) {
+	if($vdo != null && $vdo != '' && (strpos( $vdo, "youtube" ) !== false || strpos( $vdo, "youtu.be" ) !== false)) {
 		$videos = explode("|", $vdo);
 		if(count($videos) > 1) {
 			$mul_video_link = '';
@@ -1288,7 +1288,7 @@ echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"sc
 
     $db->Query("
     SELECT
-      wickets, total, overs
+      wickets, total, overs, dl_total
     FROM
       scorecard_total_details
     WHERE
@@ -1300,6 +1300,7 @@ echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"sc
 
     $wi = $db->data['wickets'];
     $to = $db->data['total'];
+    $dl = $db->data['dl_total'];
     $ov = $db->data['overs'];
     $rr = Round(($to/$ov),3);    // 11-Oct-2014 10:55pm
 //    $rs = "(". $rr. " runs per over)";     // 11-Oct-2014 10:55pm
@@ -1322,7 +1323,26 @@ echo "<p>Played at <b><a href=\"/grounds.php?grounds=$gi&ccl_mode=1\" class=\"sc
 
     echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">&nbsp;</td>\n";
     echo " </tr>\n";
+    if ($dl > 0) {
+		echo " <tr>\n";
+		echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">&nbsp;</td>\n";
+		echo "  <td class=\"scorecard\" width=\"26%\" align=\"left\">&nbsp;&nbsp;<b>DL Total: </b></td>\n";
+		echo "  <td class=\"scorecard\" width=\"39%\" align=\"left\" colspan=\"3\">$dl</td>\n";
 
+		echo "  <td class=\"scorecard\" width=\"4%\" align=\"right\"><b></b></td>\n";
+	//    echo "  <td class=\"scorecard\" width=\"20%\" align=\"right\" colspan=\"4\"><b>$to</b> $rs</td>\n";     // 11-Oct-2014 10:55pm Added colspan=6 and 20%
+
+		echo "  <td class=\"scorecard\" width=\"24%\" align=\"right\" colspan=\"4\"></td>\n";     // 11-Oct-2014 11:36pm
+
+	//    echo "  <td class=\"scorecard\" width=\"24%\" align=\"right\" colspan=\"6\"><b>$to</b> $rs</td>\n";     // 11-Oct-2014 11:15pm Added colspan=2 and 20%
+
+	//    echo "  <td class=\"scorecard\" width=\"20%\" align=\"right\" colspan=\"4\">&nbsp;</td>\n";
+		echo "  <td class=\"scorecard\" width=\"4%\" align=\"right\" colspan=\"3\">&nbsp;</td>\n";   // 11-Oct-2014 10:55pm
+
+		echo "  <td class=\"scorecard\" width=\"1%\" align=\"right\">&nbsp;</td>\n";
+		echo " </tr>\n";
+	
+	}
     }
 
     // get Did not Bat details
