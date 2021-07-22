@@ -13,7 +13,6 @@ require "../includes/class.mysql.inc";
 require "../includes/general.functions.inc";
 ?>
 
-
 <html>
 <head>
 <title>Colorado Cricket League - Administration</title>
