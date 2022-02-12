@@ -801,8 +801,10 @@ function add_category_form($db)
 	}
 	echo "</select></p>\n";
 
-	echo "<p>enter the players email address<br><input type=\"text\" name=\"PlayerEmail\" size=\"40\" maxlength=\"255\"></p>\n";
+	echo "<p>enter the player's email address<br><input type=\"text\" name=\"PlayerEmail\" size=\"40\" maxlength=\"255\"></p>\n";
 	echo "<p>enter the CricClubs player id<br><input type=\"text\" name=\"CCPlayerID\" size=\"40\" maxlength=\"255\" value=\"$ccid\"></p>\n";
+	echo "<p>enter the player's USA Cricket id<br><input type=\"text\" name=\"USACID\" size=\"40\" maxlength=\"255\" value=\"$usacid\"></p>\n";
+	echo "<input type=\"checkbox\" name=\"IsUSACID_Paid\" value=\"1\">Paid for USA Cricket for the current season?<br>\n";
 	echo "<p>enter a <b>short</b> profile <i>(300 characters or less)</i><br><textarea name=\"shortprofile\" cols=\"70\" rows=\"15\" wrap=\"virtual\"></textarea></p>\n";
 
 	echo "<input type=\"checkbox\" name=\"IsUmpire\" value=\"1\">Umpire?<br>\n";
@@ -840,7 +842,7 @@ function add_category_form($db)
 }
 
 
-function do_add_category($db,$PlayerLName,$PlayerFName,$CCPlayerID,$PlayerClub,$PlayerTeam,$PlayerTeam2,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$picture,$picture1)
+function do_add_category($db,$PlayerLName,$PlayerFName,$CCPlayerID,$USACID,$IsUSACID_Paid,$PlayerClub,$PlayerTeam,$PlayerTeam2,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$picture,$picture1)
 {
 	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -848,7 +850,9 @@ function do_add_category($db,$PlayerLName,$PlayerFName,$CCPlayerID,$PlayerClub,$
 
 	$pln = addslashes(trim($PlayerLName));
 	$pfn = addslashes(trim($PlayerFName));
-	$ccid = addslashes(trim($CCPlayerID));
+	$ccid = addslashes(trim($USACID));
+	$usacid = addslashes(trim($CCPlayerID));
+	$paid = addslashes(trim($IsUSACID_Paid));
 	$pcl = addslashes(trim($PlayerClub));
 	$pte = addslashes(trim($PlayerTeam));
 	$pte2 = addslashes(trim($PlayerTeam2));
@@ -870,7 +874,7 @@ function do_add_category($db,$PlayerLName,$PlayerFName,$CCPlayerID,$PlayerClub,$
 
 	// all okay
 
-	$db->Insert("INSERT INTO players (PlayerLName,PlayerFName,cricclubs_player_id,PlayerClub,PlayerTeam,PlayerTeam2,PlayerEmail,shortprofile,IsUmpire,IsL1Umpire,IsPresident,IsVicePresident,IsSecretary,IsTreasurer,IsCaptain,IsViceCaptain,Born,BattingStyle,BowlingStyle,picture,picture1) VALUES ('$pln','$pfn','$ccid','$pcl','$pte','$pte2','$pem','$spr','$ump','$l1ump','$pre','$vpr','$sec','$tre','$cap','$vca','$bor','$bat','$bow','$picture','$picture1')");
+	$db->Insert("INSERT INTO players (PlayerLName,PlayerFName,cricclubs_player_id, USACID,USACID_Paid,PlayerClub,PlayerTeam,PlayerTeam2,PlayerEmail,shortprofile,IsUmpire,IsL1Umpire,IsPresident,IsVicePresident,IsSecretary,IsTreasurer,IsCaptain,IsViceCaptain,Born,BattingStyle,BowlingStyle,picture,picture1) VALUES ('$pln','$pfn','$ccid','$usacid','$paid','$pcl','$pte','$pte2','$pem','$spr','$ump','$l1ump','$pre','$vpr','$sec','$tre','$cap','$vca','$bor','$bat','$bow','$picture','$picture1')");
 	if ($db->a_rows != -1) {
 		echo "<p>You have now added a new player</p>\n";
 		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sadd\">add another player</a></p>\n";
@@ -935,7 +939,9 @@ function edit_category_form($db,$id)
 	$pem = htmlentities(stripslashes($db->data['PlayerEmail']));
 	$spr = htmlentities(stripslashes($db->data['shortprofile']));
 	$ccid = htmlentities(stripslashes($db->data['cricclubs_player_id']));
-
+	
+	$usacid = $db->data['USACID'];	
+	$paid = $db->data['USACID_Paid'];
 	$ump = $db->data['IsUmpire'];
 	$l1ump = $db->data['IsL1Umpire'];
 	$pre = $db->data['IsPresident'];
@@ -1066,8 +1072,10 @@ function edit_category_form($db,$id)
 
 	echo "<p>enter the players email<br><input type=\"text\" name=\"PlayerEmail\" size=\"40\" maxlength=\"255\" value=\"$pem\"></p>\n";
 	echo "<p>enter the CricClubs player id<br><input type=\"text\" name=\"CCPlayerID\" size=\"40\" maxlength=\"255\" value=\"$ccid\"></p>\n";
+	echo "<p>enter the player's USA Cricket id<br><input type=\"text\" name=\"USACID\" size=\"40\" maxlength=\"255\" value=\"$usacid\"></p>\n";
+	echo "<input type=\"checkbox\" name=\"IsUSACID_Paid\" value=\"1\"" . ($paid==1?" checked":"") . ">Paid for USA Cricket for the current season?<br>\n";
 	echo "<p>enter a <b>short</b> profile <i>(300 characters or less)</i><br><textarea name=\"shortprofile\" cols=\"70\" rows=\"15\" wrap=\"virtual\">$spr</textarea></p>\n";
-
+	
 	echo "<input type=\"checkbox\" name=\"IsUmpire\" value=\"1\"" . ($ump==1?" checked":"") . "> Is this player an umpire?<br>\n";
 	echo "<input type=\"checkbox\" name=\"IsL1Umpire\" value=\"1\"" . ($l1ump==1?" checked":"") . "> Is this player a level one umpire?<br>\n";
 	echo "<input type=\"checkbox\" name=\"IsPresident\" value=\"1\"" . ($pre==1?" checked":"") . "> Is this player president?<br>\n";
@@ -1114,7 +1122,7 @@ function edit_category_form($db,$id)
 }
 
 
-function do_update_category($db,$id,$PlayerLName,$PlayerFName,$CCPlayerID,$PlayerClub,$PlayerTeam,$PlayerTeam2,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$isactive,$setpic,$setpic1)
+function do_update_category($db,$id,$PlayerLName,$PlayerFName,$CCPlayerID,$USACID,$USACID_Paid,$PlayerClub,$PlayerTeam,$PlayerTeam2,$PlayerEmail,$shortprofile,$IsUmpire,$IsL1Umpire,$IsPresident,$IsVicePresident,$IsSecretary,$IsTreasurer,$IsCaptain,$IsViceCaptain,$Born,$BattingStyle,$BowlingStyle,$isactive,$setpic,$setpic1)
 {
 	global $content,$action,$SID,$bluebdr,$greenbdr,$yellowbdr;
 
@@ -1123,6 +1131,8 @@ function do_update_category($db,$id,$PlayerLName,$PlayerFName,$CCPlayerID,$Playe
 	$pln = addslashes(trim($PlayerLName));
 	$pfn = addslashes(trim($PlayerFName));
 	$ccid = addslashes(trim($CCPlayerID));
+	$usacid = addslashes(trim($USACID));
+	$paid = addslashes(trim($USACID_Paid));
 	$pcl = addslashes(trim($PlayerClub));
 	$pte = addslashes(trim($PlayerTeam));
 	$pte2 = addslashes(trim($PlayerTeam2));
@@ -1146,7 +1156,7 @@ function do_update_category($db,$id,$PlayerLName,$PlayerFName,$CCPlayerID,$Playe
 
 	// query database
 
-	$db->Update("UPDATE players SET PlayerLName='$pln',PlayerFName='$pfn',cricclubs_player_id='$ccid',PlayerClub='$pcl',PlayerTeam='$pte',PlayerTeam2='$pte2',PlayerEmail='$pem',shortprofile='$spr',IsUmpire='$ump',IsL1Umpire='$l1ump',IsPresident='$pre',IsVicePresident='$vpr',IsSecretary='$sec',IsTreasurer='$tre',IsCaptain='$cap',IsViceCaptain='$vca',Born='$bor',BattingStyle='$bat',BowlingStyle='$bow',isactive='$ip'$setpic$setpic1 WHERE PlayerID=$id");
+	$db->Update("UPDATE players SET PlayerLName='$pln',PlayerFName='$pfn',cricclubs_player_id='$ccid',USACID='$usacid',USACID_Paid='$paid',PlayerClub='$pcl',PlayerTeam='$pte',PlayerTeam2='$pte2',PlayerEmail='$pem',shortprofile='$spr',IsUmpire='$ump',IsL1Umpire='$l1ump',IsPresident='$pre',IsVicePresident='$vpr',IsSecretary='$sec',IsTreasurer='$tre',IsCaptain='$cap',IsViceCaptain='$vca',Born='$bor',BattingStyle='$bat',BowlingStyle='$bow',isactive='$ip'$setpic$setpic1 WHERE PlayerID=$id");
 		echo "<p>You have now updated that player.</p>\n";
 		echo "<p>&laquo; <a href=\"main.php?SID=$SID&action=$action\">return to the players listing</a></p>\n";
 		echo "<p>&raquo; <a href=\"main.php?SID=$SID&action=$action&do=sedit&id=$id\">update $pfn $pln some more</a></p>\n";
@@ -1227,7 +1237,7 @@ case "byletter":
 	break;
 case "sadd":
 	if (!isset($doit)) add_category_form($db);
-	else do_add_category($db,isset($_POST['PlayerLName']) ? $_POST['PlayerLName'] : '',isset($_POST['PlayerFName']) ? $_POST['PlayerFName']: '',isset($_POST['CCPlayerID']) ? $_POST['CCPlayerID']: '',isset($_POST['PlayerClub']) ? $_POST['PlayerClub'] : 0,isset($_POST['PlayerTeam']) ? $_POST['PlayerTeam'] : 0,isset($_POST['PlayerTeam2']) ? $_POST['PlayerTeam2'] : 0,isset($_POST['PlayerEmail']) ? $_POST['PlayerEmail'] : '',isset($_POST['shortprofile']) ? $_POST['shortprofile'] : '',isset($_POST['IsUmpire']) ? $_POST['IsUmpire'] : 0,isset($_POST['IsL1Umpire']) ? $_POST['IsL1Umpire'] : 0,isset($_POST['IsPresident']) ? $_POST['IsPresident'] : 0,isset($_POST['IsVicePresident']) ? $_POST['IsVicePresident'] : 0,isset($_POST['IsSecretary']) ? $_POST['IsSecretary'] : 0,isset($_POST['IsTreasurer']) ? $_POST['IsTreasurer'] : 0,isset($_POST['IsCaptain']) ? $_POST['IsCaptain'] : 0,isset($_POST['IsViceCaptain']) ? $_POST['IsViceCaptain'] : 0,isset($_POST['Born']) ? $_POST['Born'] : '',isset($_POST['BattingStyle']) ? $_POST['BattingStyle'] : '',isset($_POST['BowlingStyle']) ? $_POST['BowlingStyle'] : '',$picture,$picture1);
+	else do_add_category($db,isset($_POST['PlayerLName']) ? $_POST['PlayerLName'] : '',isset($_POST['PlayerFName']) ? $_POST['PlayerFName']: '',isset($_POST['CCPlayerID']) ? $_POST['CCPlayerID']: '',isset($_POST['USACID']) ? $_POST['USACID']: '',isset($_POST['IsUSACID_Paid']) ? $_POST['IsUSACID_Paid']: '',isset($_POST['PlayerClub']) ? $_POST['PlayerClub'] : 0,isset($_POST['PlayerTeam']) ? $_POST['PlayerTeam'] : 0,isset($_POST['PlayerTeam2']) ? $_POST['PlayerTeam2'] : 0,isset($_POST['PlayerEmail']) ? $_POST['PlayerEmail'] : '',isset($_POST['shortprofile']) ? $_POST['shortprofile'] : '',isset($_POST['IsUmpire']) ? $_POST['IsUmpire'] : 0,isset($_POST['IsL1Umpire']) ? $_POST['IsL1Umpire'] : 0,isset($_POST['IsPresident']) ? $_POST['IsPresident'] : 0,isset($_POST['IsVicePresident']) ? $_POST['IsVicePresident'] : 0,isset($_POST['IsSecretary']) ? $_POST['IsSecretary'] : 0,isset($_POST['IsTreasurer']) ? $_POST['IsTreasurer'] : 0,isset($_POST['IsCaptain']) ? $_POST['IsCaptain'] : 0,isset($_POST['IsViceCaptain']) ? $_POST['IsViceCaptain'] : 0,isset($_POST['Born']) ? $_POST['Born'] : '',isset($_POST['BattingStyle']) ? $_POST['BattingStyle'] : '',isset($_POST['BowlingStyle']) ? $_POST['BowlingStyle'] : '',$picture,$picture1);
 	break;
 case "sdel":
 	if (!isset($doit)) delete_category_check($db,$_GET['id']);
@@ -1235,7 +1245,7 @@ case "sdel":
 	break;
 case "sedit":
 	if (!isset($doit)) edit_category_form($db,$_GET['id']);
-	else do_update_category($db,$_POST['id'],isset($_POST['PlayerLName']) ? $_POST['PlayerLName'] : '',isset($_POST['PlayerFName']) ? $_POST['PlayerFName']: '',isset($_POST['CCPlayerID']) ? $_POST['CCPlayerID']: '',isset($_POST['PlayerClub']) ? $_POST['PlayerClub'] : 0,isset($_POST['PlayerTeam']) ? $_POST['PlayerTeam'] : 0,isset($_POST['PlayerTeam2']) ? $_POST['PlayerTeam2'] : 0,isset($_POST['PlayerEmail']) ? $_POST['PlayerEmail'] : '',isset($_POST['shortprofile']) ? $_POST['shortprofile'] : '',isset($_POST['IsUmpire']) ? $_POST['IsUmpire'] : 0,isset($_POST['IsL1Umpire']) ? $_POST['IsL1Umpire'] : 0,isset($_POST['IsPresident']) ? $_POST['IsPresident'] : 0,isset($_POST['IsVicePresident']) ? $_POST['IsVicePresident'] : 0,isset($_POST['IsSecretary']) ? $_POST['IsSecretary'] : 0,isset($_POST['IsTreasurer']) ? $_POST['IsTreasurer'] : 0,isset($_POST['IsCaptain']) ? $_POST['IsCaptain'] : 0,isset($_POST['IsViceCaptain']) ? $_POST['IsViceCaptain'] : 0,isset($_POST['Born']) ? $_POST['Born'] : '',isset($_POST['BattingStyle']) ? $_POST['BattingStyle'] : '',isset($_POST['BowlingStyle']) ? $_POST['BowlingStyle'] : '',$_POST['isactive'],$setpic,$setpic1);
+	else do_update_category($db,$_POST['id'],isset($_POST['PlayerLName']) ? $_POST['PlayerLName'] : '',isset($_POST['PlayerFName']) ? $_POST['PlayerFName']: '',isset($_POST['CCPlayerID']) ? $_POST['CCPlayerID']: '',isset($_POST['USACID']) ? $_POST['USACID']: '',isset($_POST['IsUSACID_Paid']) ? $_POST['IsUSACID_Paid']: '',isset($_POST['PlayerClub']) ? $_POST['PlayerClub'] : 0,isset($_POST['PlayerTeam']) ? $_POST['PlayerTeam'] : 0,isset($_POST['PlayerTeam2']) ? $_POST['PlayerTeam2'] : 0,isset($_POST['PlayerEmail']) ? $_POST['PlayerEmail'] : '',isset($_POST['shortprofile']) ? $_POST['shortprofile'] : '',isset($_POST['IsUmpire']) ? $_POST['IsUmpire'] : 0,isset($_POST['IsL1Umpire']) ? $_POST['IsL1Umpire'] : 0,isset($_POST['IsPresident']) ? $_POST['IsPresident'] : 0,isset($_POST['IsVicePresident']) ? $_POST['IsVicePresident'] : 0,isset($_POST['IsSecretary']) ? $_POST['IsSecretary'] : 0,isset($_POST['IsTreasurer']) ? $_POST['IsTreasurer'] : 0,isset($_POST['IsCaptain']) ? $_POST['IsCaptain'] : 0,isset($_POST['IsViceCaptain']) ? $_POST['IsViceCaptain'] : 0,isset($_POST['Born']) ? $_POST['Born'] : '',isset($_POST['BattingStyle']) ? $_POST['BattingStyle'] : '',isset($_POST['BowlingStyle']) ? $_POST['BowlingStyle'] : '',$_POST['isactive'],$setpic,$setpic1);
 	break;
 default:
 	show_main_menu($db);

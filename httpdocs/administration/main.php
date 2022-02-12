@@ -458,6 +458,29 @@ if(isset($_GET['action'])) {
 
             }
 
+
+            // USA Cricket Administration
+
+            if ($USER['flags'][$f_player_admin]) {
+
+              echo "<tr>\n";
+
+              if($action == "usacricketadmin") {
+              echo "  <td bgcolor=\"#dddddd\" height=\"20\">\n";
+              } else {
+              echo "  <td bgcolor=\"#f5f5f5\" height=\"20\">\n";
+              }
+
+              echo "  &nbsp;- <a href=\"$PHP_SELF?SID=".$SID."&action=usacricketadmin\" class=\"menu\">USA Cricket Admin</a>\n";
+              echo "  </td>\n";
+              echo "</tr>\n";
+
+            } else {
+
+              echo "";
+
+            }
+
             // Featured Member Administration
 
             if ($USER['flags'][$f_featuredmember_admin]) {

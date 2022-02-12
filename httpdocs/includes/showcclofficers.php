@@ -131,7 +131,7 @@ function show_cclofficers_detail($db,$id,$offid)
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
     echo "  <td align=\"left\" valign=\"top\">\n";
-    echo "  <font class=\"10px\">You are here:</font> <a href=\"/index.php\">Home</a> &raquo; <a href=\"$PHP_SELF\">CCL Officers</a> &raquo; <font class=\"10px\">Positions</font></p>\n";
+    echo "  <font class=\"10px\">You are here:</font> <a href=\"/index.php\">Home</a> &raquo; <a href=\"$PHP_SELF?ccl_mode=0\">CCL Officers</a> &raquo; <font class=\"10px\">Positions</font></p>\n";
     echo "  </td>\n";
     //echo "  <td align=\"right\" valign=\"top\">\n";
     //require ("navtop.php");
@@ -178,7 +178,7 @@ function show_cclofficers_detail($db,$id,$offid)
     echo "</tr>\n";
     echo "</table><br>\n";
     
-    echo "<p>&laquo; <a href=\"$PHP_SELF\">return to ccl officer list</a></p>\n";
+    echo "<p>&laquo; <a href=\"$PHP_SELF?ccl_mode=0\">return to ccl officer list</a></p>\n";
 
     }
 
@@ -209,7 +209,7 @@ function show_cclofficers_views($db,$id,$offid)
     echo "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
     echo "<tr>\n";
     echo "  <td align=\"left\" valign=\"top\">\n";
-    echo "  <font class=\"10px\">You are here:</font> <a href=\"/index.php\">Home</a> &raquo; <a href=\"$PHP_SELF\">CCL Officers</a> &raquo; <font class=\"10px\">Views</font></p>\n";
+    echo "  <font class=\"10px\">You are here:</font> <a href=\"/index.php\">Home</a> &raquo; <a href=\"$PHP_SELF?ccl_mode=0\">CCL Officers</a> &raquo; <font class=\"10px\">Views</font></p>\n";
     echo "  </td>\n";
     //echo "  <td align=\"right\" valign=\"top\">\n";
     //require ("navtop.php");
@@ -276,7 +276,7 @@ function show_cclofficers_views($db,$id,$offid)
     echo "</tr>\n";
     echo "</table><br>\n";
 
-    echo "<p>&laquo; <a href=\"$PHP_SELF\">return to ccl officer list</a></p>\n";
+    echo "<p>&laquo; <a href=\"$PHP_SELF?ccl_mode=0\">return to ccl officer list</a></p>\n";
 
 
     }
@@ -305,10 +305,10 @@ if (isset($_GET['ccl_mode'])) {
 		show_cclofficers_listing($db);
 		break;
 	case 1:
-		show_cclofficers_detail($db,$id,$offid);
+		show_cclofficers_detail($db,$_GET['id'],$_GET['offid']);
 		break;
 	case 2:
-		show_cclofficers_views($db,$id,$offid);
+		show_cclofficers_views($db,$_GET['id'],$_GET['offid']);
 		break;
 	default:
 		show_cclofficers_listing($db);

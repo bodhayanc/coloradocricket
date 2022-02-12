@@ -66,6 +66,7 @@
 	  
 	  "PlayersAndOfficers" => array("","PLAYERS & OFFICERS"),
 	  "players" => array("players.php","Players"),
+	  "usacricketmembers" => array("usacricketmembers.php","USA Cricket Members"),
 //	  "featuredplayers" => array("featuredmember.php?season=57&sename=2014&ccl_mode=2","Featured Players"),
 	  "featuredplayers" => array("featuredmember.php?season=$sid&sename=$snm&ccl_mode=2","Player Of The Week"),
 	  "awardplayers" => array("awards.php?season=$sid&sename=$snm&ccl_mode=2","Player Awards"),

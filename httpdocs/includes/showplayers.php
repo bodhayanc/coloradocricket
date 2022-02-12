@@ -234,7 +234,9 @@ function show_full_players($db,$pr)
     $cid = $db->data['ClubID'];
     $cna = $db->data['ClubName'];
 
-	$ccid = $db->data['cricclubs_player_id'];
+    $ccid = $db->data['cricclubs_player_id'];
+
+    $usacid = $db->data['USACID'];
 
 	$tmpldfr = "";
 	if ($db->Exists("
@@ -351,6 +353,8 @@ function show_full_players($db,$pr)
     echo "<p align=\"left\"><b>Statsguru</b> <a href=\"playerstats.php?players=$pr&ccl_mode=0\">Complete stats</a></p>";    
 
     echo "<p align=\"left\"><b>CricClubs ID:</b> <a target=\"_blank\" href=\"https://www.cricclubs.com/ColoradoCricket/viewPlayer.do?playerId=$ccid&clubId=5135\">$ccid</a></p>";    
+
+    echo "<p align=\"left\"><b>USA Cricket ID:</b> <a target=\"_blank\" href=\"https://my.usacricket.org/\">$usacid</a></p>";    
     echo "  </td>\n";
     echo "</tr>\n";
     echo "</table>\n";
@@ -767,8 +771,8 @@ function show_full_players($db,$pr)
 	        
 	    // Get League 3 Wickets
 	    
-	    if ($db->Exists("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 4")) {    
-	    $db->QueryRow("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 4");
+	    if ($db->Exists("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 3")) {    
+	    $db->QueryRow("SELECT COUNT(b.wickets) AS threewickets FROM scorecard_bowling_details b INNER JOIN scorecard_game_details g ON b.game_id = g.game_id WHERE b.player_id = $pr AND $str_league AND b.wickets = 3");
 	    $db->BagAndTag();
 	    $scbth = $db->data['threewickets'];
 	    } else {

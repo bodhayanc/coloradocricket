@@ -1,3 +1,26 @@
+#ErrorDocument 403 Default
+#Deny from All
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
 ErrorDocument 404 /404.shtml
-PHP_FLAG output_buffering on
-php_flag register_globals on
+#PHP_FLAG output_buffering on
+#php_flag register_globals on
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} ^Baiduspider.* [NC]
+RewriteRule .* - [F]
+
+RewriteCond %{HTTP_USER_AGENT} ^$
+RewriteRule ^(.*)$ - [F,L]
+deny from 45.146.166.165
